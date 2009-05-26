@@ -14,6 +14,7 @@ do_gems_version = '0.9.12'
 dm_gems_version = '0.9.11'
 dependency 'data_objects', do_gems_version
 dependency 'dm-core', dm_gems_version
+dependency 'dm-types', dm_gems_version
 dependency 'merb_datamapper', merb_gems_version
 
 # Github
