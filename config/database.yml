@@ -1,0 +1,22 @@
+---
+development: &defaults
+  repositories:
+    default:
+      adapter:  tokyo_cabinet
+      database: tc/development
+      path: .
+
+test:
+  <<: *defaults
+  repositories:
+    default:
+      database: tc/test
+
+production:
+  <<: *defaults
+  repositories:
+    default:
+      database: tc/production
+
+rake:
+  <<: *defaults
