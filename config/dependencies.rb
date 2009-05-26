@@ -26,3 +26,4 @@ dependency 'merb_datamapper', merb_gems_version
 # TODO: Dunno what it is but the ruby bindings have a lot of trouble finding the shared TC libs.
 # I ended up symlinking /usr/lib/libtokyocabinet.so.8 to /usr/local/lib/tokyocabinet.so.8
 dependency 'shanna-dm-tokyo-cabinet-adapter', '0.1.6', :require_as => 'dm-tokyo-cabinet-adapter'
+dependency 'pauldix-feedzirra', '0.0.12', :require_as => 'feedzirra'
