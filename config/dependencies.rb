@@ -1,3 +1,4 @@
+# bin/merb -V to get a better error messages.
 merb_gems_version = '1.0.11'
 dependency 'merb-core', merb_gems_version
 dependency 'merb-assets', merb_gems_version
@@ -18,4 +19,10 @@ dependency 'dm-core', dm_gems_version
 dependency 'merb_datamapper', merb_gems_version
 
 # Github
+
+# Requires tokyocabinet.
+# http://transact.dl.sourceforge.net/sourceforge/tokyocabinet/tokyocabinet-1.4.23.tar.gz
+# http://transact.dl.sourceforge.net/sourceforge/tokyocabinet/tokyocabinet-ruby-1.25.tar.gz
+# TODO: Dunno what it is but the ruby bindings have a lot of trouble finding the shared TC libs.
+# I ended up symlinking /usr/lib/libtokyocabinet.so.8 to /usr/local/lib/tokyocabinet.so.8
 dependency 'shanna-dm-tokyo-cabinet-adapter', '0.1.6', :require_as => 'dm-tokyo-cabinet-adapter'
