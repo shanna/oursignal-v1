@@ -1,5 +1,5 @@
-merb_gems_version = '1.0.7.1'
-dependency 'merb-core', merb_gems_version 
+merb_gems_version = '1.0.11'
+dependency 'merb-core', merb_gems_version
 dependency 'merb-assets', merb_gems_version
 dependency('merb-cache', merb_gems_version) do
   Merb::Cache.setup do
