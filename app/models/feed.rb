@@ -8,6 +8,8 @@ class Feed
   property :etag, String
   property :published, DateTime
   property :updated, DateTime
-  has n, :items
+
+  has n, :users, :through => UserFeed
+  has n, :items, :through => FeedItem
 end # Feed
 

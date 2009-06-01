@@ -2,6 +2,10 @@
 
 Description goes here.
 
+== Structure
+
+users - users_feeds - feeds - feeds_items - items
+
 == Copyright
 
 Copyright (c) 2009 "Shane Hanna". See LICENSE for details.

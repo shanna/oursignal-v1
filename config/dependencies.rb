@@ -2,9 +2,6 @@ merb_gems_version = '1.0.11'
 do_gems_version   = '0.9.13'
 dm_gems_version   = '0.10.0'
 
-Merb::DO_VERSION = do_gems_version
-Merb::DM_VERSION = dm_gems_version
-
 # bin/merb -V to get a better error messages.
 dependency 'merb-core', merb_gems_version
 dependency 'merb-assets', merb_gems_version
