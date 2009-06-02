@@ -17,6 +17,8 @@ dependency 'data_objects', do_gems_version
 dependency 'dm-core', dm_gems_version
 dependency 'dm-validations', dm_gems_version
 
+dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
+
 # Github
 
 # http://transact.dl.sourceforge.net/sourceforge/tokyocabinet/tokyocabinet-1.4.23.tar.gz
