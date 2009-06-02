@@ -12,14 +12,16 @@ dependency('merb-cache', merb_gems_version) do
 end
 dependency 'merb-helpers', merb_gems_version
 dependency 'merb-exceptions', merb_gems_version
+dependency 'merb-slices', merb_gems_version
+dependency 'merb-auth-core', merb_gems_version
+dependency 'merb-auth-more', merb_gems_version
+dependency 'merb-auth-slice-password', merb_gems_version
+dependency 'merb-param-protection', merb_gems_version
+dependency 'merb-exceptions', merb_gems_version
 
 dependency 'data_objects', do_gems_version
 dependency 'dm-core', dm_gems_version
 dependency 'dm-validations', dm_gems_version
-
-dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
-
-# Github
 
 # http://transact.dl.sourceforge.net/sourceforge/tokyocabinet/tokyocabinet-1.4.23.tar.gz
 dependency 'shanna-dm-tokyo-adapter', '0.2.1', :require_as => 'dm-tokyo-adapter' do
