@@ -15,6 +15,7 @@ dependency 'merb-exceptions', merb_gems_version
 
 dependency 'data_objects', do_gems_version
 dependency 'dm-core', dm_gems_version
+dependency 'dm-validations', dm_gems_version
 
 # Github
 
@@ -29,4 +30,7 @@ dependency 'shanna-dm-tokyo-adapter', '0.2.1', :require_as => 'dm-tokyo-adapter'
 end
 
 # Thor/other libs.
-dependency 'pauldix-feedzirra', '0.0.12', :require_as => nil
+# TODO: :require_as => nil once I move all this code out of the Feed model.
+dependency 'nokogiri', '1.2.3'
+dependency 'pauldix-feedzirra', '0.0.12', :require_as => 'feedzirra'
+dependency 'jnunemaker-columbus', '0.1.2', :require_as => 'columbus'

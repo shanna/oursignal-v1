@@ -1,4 +1,4 @@
-class Item
+class Entry
   include DataMapper::Resource
   property :id, Serial
   property :link, String, :nullable => false
@@ -6,6 +6,6 @@ class Item
   property :description, Text, :lazy => false
   property :published, DateTime
 
-  has n, :feeds, :through => FeedItem
-end # Item
+  has n, :feeds, :through => FeedEntry
+end # Entry
 
