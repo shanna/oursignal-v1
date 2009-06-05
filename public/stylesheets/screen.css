@@ -1,0 +1,45 @@
+
+/* global */
+body {
+  font-family: georgia, tahoma, sans-serif;
+  background-color: #222;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* head */
+#head {
+  color: #FFF;
+  padding: 10px;
+}
+
+#head h1 {
+
+}
+
+/* navigation */
+ul#navigation {
+  list-style-type: disc;
+  float: right;
+}
+
+ul#navigation li {
+  display: block;
+  float: left;
+}
+
+ul#navigation li::before {
+  content: " · ";
+  white-space: pre;
+}
+
+ul#navigation li:first-child::before {
+  content: "";
+}
+
+ul#navigation a {
+  color: #DDD;
+  border-bottom: 1px dotted #DDD;
+}

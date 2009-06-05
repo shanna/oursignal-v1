@@ -1,0 +1,6 @@
+<% if session.user %>
+  <li><%= link_to(user.name, user) %></li>
+  <li><%= link_to('logout', :logout) %></li>
+<% else %>
+  <li>login</li>
+<% end %>

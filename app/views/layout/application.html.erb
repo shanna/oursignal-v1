@@ -7,23 +7,20 @@
     <%= partial 'layout/js' %>
   </head>
   <body>
-    <div id="main"><h1>oursignal</h1></div>
-
-    <div id="linkbar">
-      <div id="navcontainer">
-        <ul id="navlist">
-          <% unless session.user %>
-            <li><a href="#login">login</a></li>
-          <% else %>
-            <li><a href="/openid/logout">logout</a></li>
-          <% end %>
+    <div id="shell">
+      <div id="head">
+        <ul id="navigation">
+          <%= partial 'layout/user' %>
+          <li><a href="http://twitter.com/oursignal">twitter bot</a></li>
+          <li><a href="/about/">about</a></li>
+          <li><a href="http://oursignal.uservoice.com/">suggestions</a></li>
         </ul>
+        <h1>oursignal</h1>
       </div>
-    </div>
-
-    <div id="main_content">
-      <%= message[:notice] %>
-      <%= catch_content :for_layout %>
+      <div id="body">
+        <%= message[:notice] %>
+        <%= catch_content :for_layout %>
+      </div>
     </div>
   </body>
 </html>
