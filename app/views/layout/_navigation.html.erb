@@ -1,0 +1,11 @@
+<ul id="navigation">
+  <% if session.user -%>
+    <li><%= link_to(session.user.name, session.user) %></li>
+    <li><%= link_to('logout', url(:logout)) %></li>
+  <% else -%>
+    <li><%= link_to('preferences', url(:openid)) %></li>
+  <% end -%>
+  <li><a href="http://twitter.com/oursignal">twitter bot</a></li>
+  <li><a href="/about/">about</a></li>
+  <li><a href="http://oursignal.uservoice.com/">suggestions</a></li>
+</ul>

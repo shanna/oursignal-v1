@@ -21,8 +21,12 @@ a {
 
 /* navigation */
 ul#navigation {
-  list-style-type: disc;
   float: right;
+}
+
+ul#navigation {
+  float: right;
+  list-style-type: disc;
 }
 
 ul#navigation li {
