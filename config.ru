@@ -4,9 +4,13 @@
 # This file provides support for Phusion Passenger
 # More info: http://wiki.merbivore.com/deployment/passenger
 
-if ::File.join(::File.dirname(__FILE__), 'bin', 'common.rb'))
-  require ::File.join(::File.dirname(__FILE__), 'bin', 'common')
-end
+require 'rubygems'
+
+gems_dir = File.expand_path(File.join(File.dirname(__FILE__), 'gems'))
+Gem.clear_paths
+$BUNDLE = true
+Gem.path.unshift(gems_dir)
+
 require 'merb-core'
 
 Merb::Config.setup(

@@ -1,5 +1,4 @@
 class Exceptions < Merb::Controller
-  
   # handle NotFound exceptions (404)
   def not_found
     render :format => :html
@@ -10,4 +9,7 @@ class Exceptions < Merb::Controller
     render :format => :html
   end
 
+  def unauthenticated
+    render :format => :html
+  end
 end
