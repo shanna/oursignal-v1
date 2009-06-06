@@ -13,7 +13,9 @@
         <h1>oursignal</h1>
       </div>
       <div id="body">
-        <%= message[:notice] %>
+        <% if message[:notice] -%>
+          <div id="notice"><%= message[:notice] %></div>
+        <% end -%>
         <%= catch_content :for_layout %>
       </div>
     </div>
