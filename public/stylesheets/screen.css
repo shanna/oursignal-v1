@@ -50,3 +50,28 @@ div#navigation ul a {
   border-bottom: 1px dotted #DDD;
 }
 
+/* users */
+#feeds {}
+
+#feeds li {
+  border: 1px solid red;
+}
+
+#feeds .control {
+  float: right;
+  height: 16px;
+}
+
+#feeds .control .ui-slider {
+  background-color: #333;
+  width: 200px;
+  height: 16px;
+  position: relative;
+}
+
+#feeds .control .ui-slider-handle {
+  position: absolute;
+  background-color: #DDD;
+  width: 6px;
+  height: 16px;
+}

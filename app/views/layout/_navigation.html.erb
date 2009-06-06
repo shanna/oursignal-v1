@@ -4,7 +4,7 @@
   <% end -%>
   <ul id="navigation">
     <% if session.user -%>
-      <li><%= link_to('preferences', session.user) %></li>
+      <li><%= link_to('preferences', url(:edit_user, session.user.id)) %></li>
       <li><%= link_to('logout', url(:logout)) %></li>
     <% else -%>
       <li><%= link_to('preferences', url(:openid)) %></li>

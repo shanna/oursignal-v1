@@ -1,1 +1,10 @@
-<h1>Users controller, edit action</h1>
+<% require_js 'users' -%>
+<div id="feeds">
+  <form id="feed" method="post" action="">
+    <label for="feed_url">feed url:</label>
+    <input id="feed_url" name="feed[url]" value="" type="text" />
+    <input id="feed_add" name="feed[add]" value="add" type="button" />
+  </form>
+
+  <ul id="scores" />
+</div>
