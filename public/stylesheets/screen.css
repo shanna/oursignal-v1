@@ -15,35 +15,38 @@ a {
   padding: 10px;
 }
 
-#head h1 {
-
-}
+#head h1 {}
 
 /* navigation */
-ul#navigation {
+div#navigation {
   float: right;
 }
 
-ul#navigation {
+div#navigation ul {
+  float: right;
+}
+
+div#navigation ul {
   float: right;
   list-style-type: disc;
 }
 
-ul#navigation li {
+div#navigation ul li {
   display: block;
   float: left;
 }
 
-ul#navigation li::before {
+div#navigation ul li::before {
   content: " · ";
   white-space: pre;
 }
 
-ul#navigation li:first-child::before {
-  content: "";
+div#navigation ul li:first-child::before {
+  content: " ";
 }
 
-ul#navigation a {
+div#navigation ul a {
   color: #DDD;
   border-bottom: 1px dotted #DDD;
 }
+
