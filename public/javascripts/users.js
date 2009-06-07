@@ -9,34 +9,35 @@
       $('#feed_url').focus();
       $('#feed_add').click(add);
       $('#feed').submit(add);
+      $.getJSON('/feeds', function (json) {json.map(score)});
     }
   });
 
   function add() {
     // TODO: Post #feed_url return {:url => 'http://...', :score => '50'}
     var url = $('#feed_url');
-    score({score: 50, url: url.attr('value')});
+    $.post('/feeds', {url: url.attr('value')}, score, 'json');
     url.attr('value', '').focus();
     return false;
   }
 
   function score(json) {
-    var li = $('<li />').append(control(json.score), feed(json.url)).hide();
+    var li = $('<li />').append(control(json), feed(json)).hide();
     $('#scores').prepend(li);
     li.slideDown('slow');
   }
 
-  function feed(url) {
-    return url;
+  function feed(json) {
+    return json.feed.url;
   }
 
-  function control(score) {
-    return $('<div class="control" />').append(slider(score));
+  function control(json) {
+    return $('<div class="control" />').append(slider(json));
   }
 
-  function slider(score) {
-    return $('<div class="score" />').slider({value: score, stop: function (e, ui) {
-      // TODO: Post user_id, feed_url and feed_score.
+  function slider(json) {
+    return $('<div class="score" />').slider({value: json.score, stop: function (e, ui) {
+      $.post('/feeds/' + json.feed_id, {score: ui.value, _method: 'put'}, 'json');
     }});
   }
 

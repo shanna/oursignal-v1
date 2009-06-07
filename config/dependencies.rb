@@ -21,6 +21,7 @@ dependency 'merb-exceptions', merb_gems_version
 dependency 'data_objects', do_gems_version
 dependency 'dm-core', dm_gems_version
 dependency 'dm-validations', dm_gems_version
+dependency 'dm-serializer', dm_gems_version
 
 dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
 
