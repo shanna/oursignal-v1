@@ -25,4 +25,14 @@ class Users < Application
   def destroy
     # TODO: ...
   end
+
+  def login
+    # if the user is logged in, then redirect them to their profile
+    redirect url(:edit_user, session.user.id), :message => { :notice => 'You are now logged in' }
+  end
+
+  def logout
+    session.abandon!
+    redirect '/', :message => { :notice => 'You are not logged out' }
+  end
 end

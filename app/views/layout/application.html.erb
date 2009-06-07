@@ -13,9 +13,8 @@
         <h1>oursignal</h1>
       </div>
       <div id="body">
-        <% if message[:notice] -%>
-          <div id="notice"><%= message[:notice] %></div>
-        <% end -%>
+        <%= messages_for request.session.authentication %>
+        <%= messages %>
         <%= catch_content :for_layout %>
       </div>
     </div>
