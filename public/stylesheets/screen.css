@@ -2,6 +2,7 @@
 /* global */
 body {
   font-family: georgia, tahoma, sans-serif;
+  color: #FFF;
   background-color: #222;
 }
 
@@ -11,7 +12,6 @@ a {
 
 /* head */
 #head {
-  color: #FFF;
   padding: 10px;
 }
 
