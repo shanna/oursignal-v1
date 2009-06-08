@@ -6,6 +6,7 @@ class Entry
   property :description, Text, :lazy => false
   property :published, DateTime
 
-  has n, :feeds, :through => FeedEntry
+  has n, :feed_entries
+  has n, :feeds, :through => :feed_entries
 end # Entry
 

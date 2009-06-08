@@ -26,7 +26,7 @@ dependency 'dm-serializer', dm_gems_version
 dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
 
 # http://transact.dl.sourceforge.net/sourceforge/tokyocabinet/tokyocabinet-1.4.23.tar.gz
-dependency 'shanna-dm-tokyo-adapter', '0.2.1', :require_as => 'dm-tokyo-adapter' do
+dependency 'shanna-dm-tokyo-adapter', '0.3.0', :require_as => 'dm-tokyo-adapter' do
   # TODO: Replace with merb_datamapper once Merb 1.1 and DM 0.10.0 is released.
   DataMapper.setup(:default,
     :adapter  => 'tokyo_cabinet',
