@@ -37,7 +37,7 @@
 
   function slider(json) {
     return $('<div class="score" />').slider({value: json.score, stop: function (e, ui) {
-      $.post('/feeds/' + json.feed_id, {score: ui.value, _method: 'put'}, 'json');
+      $.post('/feeds/' + json.feed_id, {score: ui.value, _method: 'put'}, null, 'json');
     }});
   }
 
