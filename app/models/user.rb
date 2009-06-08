@@ -6,7 +6,7 @@ class User
   property :identity_url, String, :nullable => false, :unique => true
 
   has n, :user_feeds
-  has n, :feeds, :through => :user_feeds
+  # has n, :feeds, :through => :user_feeds
 
   validates_format :email, :as => :email_address
   def password_required?; false end

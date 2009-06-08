@@ -32,13 +32,20 @@
   }
 
   function control(json) {
-    return $('<div class="control" />').append(slider(json));
+    return $('<div class="control" />').append(slider(json), button(json));
   }
 
   function slider(json) {
     return $('<div class="score" />').slider({value: json.score, stop: function (e, ui) {
       $.post('/feeds/' + json.feed_id, {score: ui.value, _method: 'put'}, null, 'json');
     }});
+  }
+
+  function button(json) {
+    return $('<input class="delete" value="delete" type="button" />').click(function () {
+      $.post('/feeds/' + json.feed_id, {_method: 'delete'}, null, 'json');
+      $(this).parent().parent().remove(); // TODO: Yuck!
+    });
   }
 
   $(document).ready(function () {

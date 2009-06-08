@@ -10,10 +10,10 @@ class Feed
   property :updated, DateTime
 
   has n, :user_feeds
-  has n, :users, :through => :user_feeds
+  # has n, :users, :through => :user_feeds
 
   has n, :feed_entries
-  has n, :entries, :through => :feed_entries
+  # has n, :entries, :through => :feed_entries
 
   validates_present :url
   validates_with_method :url, :method => :check_feed

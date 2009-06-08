@@ -16,15 +16,17 @@ class Feeds < Application
     display @user_feed
   end
 
-  def edit
-  end
-
   def update
-    # TODO: Undefined method target_model in UserFeed.
-    # @user_feed = session.user.feeds.first(:feed_id => params[:id].to_i)
     if @user_feed = UserFeed.first(:user => session.user, :feed_id => params[:id].to_i)
       @user_feed.update(params.only(:score))
     end
     display @user_feed
+  end
+
+  def destroy
+    if @user_feed = UserFeed.first(:user => session.user, :feed_id => params[:id].to_i)
+      @user_feed.destroy
+    end
+    display @success = true
   end
 end

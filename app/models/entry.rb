@@ -7,6 +7,6 @@ class Entry
   property :published, DateTime
 
   has n, :feed_entries
-  has n, :feeds, :through => :feed_entries
+  # has n, :feeds, :through => :feed_entries
 end # Entry
 
