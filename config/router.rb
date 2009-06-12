@@ -10,6 +10,6 @@ Merb::Router.prepare do
   match('/openid/logout').to(:controller => :users, :action => 'logout').name(:logout)
   match('/openid/signup').to(:controller => :open_id, :action => 'signup').name(:signup)
 
-
   match('/').to(:controller => :themes, :action => 'index')
+  default_routes
 end

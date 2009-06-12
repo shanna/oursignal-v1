@@ -6,7 +6,7 @@
 
 require 'rubygems'
 
-gems_dir = File.expand_path(File.join(File.dirname(__FILE__), 'gems'))
+gems_dir = ::File.expand_path(::File.join(::File.dirname(__FILE__), 'gems'))
 Gem.clear_paths
 $BUNDLE = true
 Gem.path.unshift(gems_dir)

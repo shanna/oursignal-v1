@@ -13,7 +13,7 @@ class Users < Application
   end
 
   def edit
-    @user = session.user.reload
+    @user = session.user
     raise NotFound unless @user
     display @user
   end
@@ -27,7 +27,7 @@ class Users < Application
   end
 
   def login
-    # if the user is logged in, then redirect them to their profile
+    # if the user is logged in, then redirect them to their profile.
     redirect url(:edit_user, session.user.id), :message => { :notice => 'You are now logged in' }
   end
 

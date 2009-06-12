@@ -1,6 +1,6 @@
 class User < MongoRecord::Base
   collection_name :users
-  fields :identity_url, :username, :email
+  fields :openid, :email, :fullname, :username, :feeds
 
   def password_required?; false end
 end

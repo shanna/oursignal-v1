@@ -2,17 +2,19 @@ class OpenId < Merb::Controller
   before :ensure_openid_url
 
   def signup
-    attributes = {
-      :name         => session['openid.nickname'],
-      :email        => session['openid.email'],
-      :identity_url => session['openid.url'],
-    }
-    user = Merb::Authentication.user_class.first_or_create(
-      attributes.only(:identity_url),
-      attributes.only(:name, :email)
+    # TODO: Thats one ugly interface.
+    # TODO: The openid basic strategy needs work. It doesn't pass openid.fullname via the session like it should.
+    user = Merb::Authentication.user_class.find_or_create_by_openid(
+      {:'openid.identifier' => session['openid.url']},
+      {
+        :openid   => {:identifier => session['openid.url']},
+        :email    => session['openid.email'],
+        :fullname => session['openid.fullname'],
+        :username => session['openid.nickname']
+      }
     )
 
-    if user.update(attributes)
+    if user
       session.user = user
       redirect url(:user, session.user.id), :message => {:notice => 'Signup was successful'}
     else

@@ -3,17 +3,35 @@ class Feeds < Application
   before :ensure_authenticated
 
   def index
-    @feeds = UserFeed.all(:user => session.user)
-    display @feeds
+    user  = session.user
+    feeds = user.feeds || user.feeds = [] # TODO: Defaults in User.
+    user.save
+    $stderr.puts feeds.inspect
+    display feeds
   end
 
   def show
   end
 
   def create
-    feed       = Feed.first(params.only(:url)) || Feed.create!(params.only(:url))
-    @user_feed = UserFeed.create(:user => session.user, :feed => feed)
-    display @user_feed
+    # TODO: Feed url normalization.
+    # TODO: Check feed exists with columbus.
+    # if feed = Feed.find_or_create_by_url(
+    #   params.only(:url),
+    #   params.only(:url)
+    # )
+    #   feed.selfupdate
+    # end
+
+    # TODO: Build this into User.
+    user  = session.user
+    feeds = user.feeds || user.feeds = [] # TODO: Defaults in User.
+    unless feeds.find{|feed| feed[:url] == params[:url]}
+      feeds << feed = params.only(:url).update(:score => 50)
+      user.save
+    end
+
+    display feed
   end
 
   def update

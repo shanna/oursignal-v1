@@ -28,7 +28,7 @@
   }
 
   function feed(json) {
-    return json.feed.url;
+    return json.url;
   }
 
   function control(json) {
@@ -37,13 +37,13 @@
 
   function slider(json) {
     return $('<div class="score" />').slider({value: json.score, stop: function (e, ui) {
-      $.post('/feeds/' + json.feed_id, {score: ui.value, _method: 'put'}, null, 'json');
+      $.post('/feeds', {url: json.url, score: ui.value, _method: 'put'}, null, 'json');
     }});
   }
 
   function button(json) {
     return $('<input class="delete" value="delete" type="button" />').click(function () {
-      $.post('/feeds/' + json.feed_id, {_method: 'delete'}, null, 'json');
+      $.post('/feeds', {url: json.url, _method: 'delete'}, null, 'json');
       $(this).parent().parent().remove(); // TODO: Yuck!
     });
   }
