@@ -1,24 +1,6 @@
-class Feed
-  include DataMapper::Resource
-  property :id, Serial
-  property :title, String
-  property :site, String
-  property :url, String
-  # property :language, String, :length => 20 # TODO: http://www.ietf.org/rfc/rfc1766.txt type?
-  property :etag, String
-  property :published, DateTime
-  property :updated, DateTime
-
-  has n, :user_feeds
-  # has n, :users, :through => :user_feeds
-
-  has n, :feed_entries
-  # has n, :entries, :through => :feed_entries
-
-  validates_present :url
-  validates_with_method :url, :method => :check_feed
-
-  # TODO: before(:destroy) remove all UserFeed and FeedItem rows refering to this feed.
+class Feed < MongoRecord::Base
+  collection_name :feeds
+  fields :title, :site, :url, :etag, :last_modified
 
   USER_AGENT = 'oursignal-rss/2 +oursignal.com'
 
@@ -28,21 +10,21 @@ class Feed
       :on_success => self.class.method(:update)
       # :on_failure
     }
-    opts[:if_modified_since] = published unless published.blank?
-    opts[:if_none_match] = etag unless etag.blank?
+    opts[:if_modified_since] = last_modified unless last_modified.blank?
+    opts[:if_none_match]     = etag unless etag.blank?
 
     # TODO: 302 handling and such.
     Feedzirra::Feed.fetch_and_parse(url, opts)
   end
 
   def self.update(url, remote_feed)
-    feed = Feed.first!(:url => url)
-    feed.attributes = {
-      :title     => remote_feed.title,
-      :etag      => remote_feed.etag,
-      :published => remote_feed.last_modified,
-    }
-    feed.save if feed.dirty?
+    feed = self.collection.repsert(
+      :title         => remote_feed.title,
+      :site          => remote_feed.url,
+      :url           => remote_feed.feed_url,
+      :etag          => remote_feed.etag,
+      :last_modified => remote_feed.last_modified
+    )
 
     # TODO: Items.update(feed, remote_feed.entries)
   end
@@ -54,14 +36,6 @@ class Feed
       true
     rescue
       false
-    end
-
-    def check_feed
-      if discover_feed
-        true
-      else
-        [false, "Feed url must contain a valid RSS or Atom feed"]
-      end
     end
 end # Feed
 
