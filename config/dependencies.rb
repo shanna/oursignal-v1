@@ -1,6 +1,4 @@
-merb_gems_version = '1.0.11'
-do_gems_version   = '0.9.13'
-dm_gems_version   = '0.10.0'
+merb_gems_version = '1.1'
 
 # bin/merb -V to get a better error messages.
 dependency 'merb-core', merb_gems_version
@@ -18,25 +16,11 @@ dependency 'merb-auth-more', merb_gems_version
 dependency 'merb-param-protection', merb_gems_version
 dependency 'merb-exceptions', merb_gems_version
 
-dependency 'data_objects', do_gems_version
-dependency 'dm-core', dm_gems_version
-dependency 'dm-validations', dm_gems_version
-dependency 'dm-serializer', dm_gems_version
-
 dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
-
-# http://transact.dl.sourceforge.net/sourceforge/tokyocabinet/tokyocabinet-1.4.23.tar.gz
-dependency 'shanna-dm-tokyo-adapter', '0.3.0', :require_as => 'dm-tokyo-adapter' do
-  # TODO: Replace with merb_datamapper once Merb 1.1 and DM 0.10.0 is released.
-  DataMapper.setup(:default,
-    :adapter  => 'tokyo_cabinet',
-    :database => 'tc',
-    :path     => Merb.root
-  )
-end
-
-# Thor/other libs.
-# TODO: :require_as => nil once I move all this code out of the Feed model.
 dependency 'nokogiri', '1.2.3'
+
+# github
+dependency 'mongodb-mongo', '0.8', :require_as => 'mongo'
+dependency 'mongodb-mongo_record', '0.3', :require_as => 'mongo_record'
 dependency 'pauldix-feedzirra', '0.0.12', :require_as => 'feedzirra'
 dependency 'jnunemaker-columbus', '0.1.2', :require_as => 'columbus'
