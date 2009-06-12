@@ -19,6 +19,7 @@ dependency 'merb-exceptions', merb_gems_version
 
 dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
 dependency 'nokogiri', '1.2.3'
+dependency 'hpricot', '0.8.1'
 
 # github
 dependency 'mongodb-mongo', '0.8', :require_as => 'mongo'

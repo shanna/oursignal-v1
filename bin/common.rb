@@ -1,7 +1,8 @@
 # This was added via Merb's bundler
 
 require "rubygems"
-require "rubygems/source_index"
+# TODO: Removed. It loads shit in the wrong order if you leave it in.
+# require "rubygems/source_index"
 
 module Gem
   BUNDLED_SPECS = File.join(Dir.pwd, "gems", "specifications")
