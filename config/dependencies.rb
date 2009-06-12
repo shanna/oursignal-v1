@@ -8,6 +8,7 @@ dependency('merb-cache', merb_gems_version) do
     register(Merb::Cache::FileStore) unless Merb.cache
   end
 end
+dependency 'merb-actionorm', merb_gems_version # only required for helpers :(
 dependency 'merb-helpers', merb_gems_version
 dependency 'merb-exceptions', merb_gems_version
 dependency 'merb-slices', merb_gems_version
