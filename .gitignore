@@ -19,6 +19,7 @@ tc/*
 .svn/*
 *.swp
 *._*
+*\.dbshell
 gems/gems
 gems/specifications
 
