@@ -1,29 +1,22 @@
 class Users < Application
-  # provides :xml, :yaml, :js
-  before :ensure_authenticated
+  before :ensure_authenticated, :exclude => :index
 
   def index
-    # redirect url(:edit_user, session.user)
+    provides :rss, :js
+    # TODO: Feed for oursignal.
     render
   end
 
   def show
-    @user  = session.user
-    display @user
+    provides :rss, :js
+    # TODO: Feed for params[:nickname]
+    render
   end
 
   def edit
     @user = session.user
     raise NotFound unless @user
     display @user
-  end
-
-  def update
-    # TODO: ...
-  end
-
-  def destroy
-    # TODO: ...
   end
 
   def login

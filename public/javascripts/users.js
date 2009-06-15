@@ -9,14 +9,14 @@
       $('#feed_url').focus();
       $('#feed_add').click(add);
       $('#feed').submit(add);
-      $.getJSON('/feeds', function (json) {json.map(score)});
+      $.getJSON('feeds', function (json) {json.map(score)});
     }
   });
 
   function add() {
     // TODO: Post #feed_url return {:url => 'http://...', :score => '50'}
     var url = $('#feed_url');
-    $.post('/feeds', {url: url.attr('value')}, score, 'json');
+    $.post('feeds', {url: url.attr('value')}, score, 'json');
     url.attr('value', '').focus();
     return false;
   }
@@ -37,13 +37,13 @@
 
   function slider(json) {
     return $('<div class="score" />').slider({value: json.score, stop: function (e, ui) {
-      $.post('/feeds', {url: json.url, score: ui.value, _method: 'put'}, null, 'json');
+      $.post('feeds', {url: json.url, score: ui.value, _method: 'put'}, null, 'json');
     }});
   }
 
   function button(json) {
     return $('<input class="delete" value="delete" type="button" />').click(function () {
-      $.post('/feeds', {url: json.url, _method: 'delete'}, null, 'json');
+      $.post('feeds', {url: json.url, _method: 'delete'}, null, 'json');
       $(this).parent().parent().remove(); // TODO: Yuck!
     });
   }

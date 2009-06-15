@@ -16,7 +16,7 @@ class OpenId < Merb::Controller
 
     if user
       session.user = user
-      redirect url(:user, session.user.id), :message => {:notice => 'Signup was successful'}
+      redirect url(:users, session.user.username), :message => {:notice => 'Signup was successful'}
     else
       message[:error] = 'There was an error while creating your user account'
       redirect(url(:openid))
