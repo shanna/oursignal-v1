@@ -4,13 +4,13 @@
   <% end -%>
   <ul id="navigation">
     <% if session.user -%>
-      <li><%= link_to('preferences', url(:users, session.user.username, :action => :edit)) %></li>
       <li><%= link_to('logout', url(:logout, session.user.username)) %></li>
+      <li><%= link_to('customize', url(:users, session.user.username, :action => :edit)) %></li>
     <% else -%>
-      <li><%= link_to('preferences', url(:openid)) %></li>
+      <li><%= link_to('customize', url(:openid)) %></li>
     <% end -%>
-    <li><a href="http://twitter.com/oursignal">twitter bot</a></li>
-    <li><a href="/about/">about</a></li>
-    <li><a href="http://oursignal.uservoice.com/">suggestions</a></li>
+    <li><a href="#TODO" onclick="javascript:alert('TODO');">directory</a></li>
+    <li><a href="#TODO" onclick="javascript:alert('TODO');">developers</a></li>
+    <li><a href="#TDOD" onclick="javascript:alert('TODO');">about</a></li>
   </ul>
 </div>
