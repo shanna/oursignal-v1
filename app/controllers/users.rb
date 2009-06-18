@@ -21,7 +21,7 @@ class Users < Application
 
   def login
     # if the user is logged in, then redirect them to their profile.
-    redirect url(:edit_user, session.user.id), :message => { :notice => 'You are now logged in' }
+    redirect url(:users, session.user[:username]), :message => { :notice => 'You are now logged in' }
   end
 
   def logout

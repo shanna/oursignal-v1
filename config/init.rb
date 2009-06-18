@@ -14,8 +14,8 @@ Merb::Config.use do |c|
 end
 
 Merb::BootLoader.before_app_loads do
-  db = Merb.environment == 'test' ? 'oursignal-test' : 'oursignal'
-  MongoRecord::Base.connection = XGen::Mongo::Driver::Mongo.new.db(db)
+  require Merb.root / 'lib' / 'mongo_record'
+  Mongo.setup(Merb.environment == 'test' ? 'oursignal-test' : 'oursignal')
 end
 
 Merb::BootLoader.after_app_loads do

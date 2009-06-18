@@ -1,11 +1,11 @@
 <div id="navigation">
   <% if session.user -%>
-    <span id="user_name"><%= session.user.username %></span> &raquo;
+    <span id="user_name"><%= session.user[:username] %></span> &raquo;
   <% end -%>
   <ul id="navigation">
     <% if session.user -%>
-      <li><%= link_to('logout', url(:logout, session.user.username)) %></li>
-      <li><%= link_to('customize', url(:users, session.user.username, :action => :edit)) %></li>
+      <li><%= link_to('logout', url(:logout, session.user[:username])) %></li>
+      <li><%= link_to('customize', url(:users, session.user[:username], :action => :edit)) %></li>
     <% else -%>
       <li><%= link_to('customize', url(:openid)) %></li>
     <% end -%>

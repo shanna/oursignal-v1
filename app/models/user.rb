@@ -1,16 +1,8 @@
-class User < MongoRecord::Base
-  collection_name :users
-  fields :openid, :email, :fullname, :username, :feeds
+class User
+  include Mongo::Resource
 
-  def feeds
-    @feeds = [] if @feeds.nil? || @feeds.empty?
-    @feeds
+  def self.feed(user, url)
+    user[:feeds].find{|feed| feed[:url] == url}
   end
-
-  def feed(url)
-    feeds.find{|feed| feed['url'] = url}
-  end
-
-  def password_required?; false end
 end
 

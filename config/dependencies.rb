@@ -25,5 +25,4 @@ dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
 # github
 dependency 'jnunemaker-columbus', '0.1.2', :require_as => 'columbus'
 dependency 'mongodb-mongo', '0.8', :require_as => 'mongo'
-dependency 'mongodb-mongo_record', '0.3', :require_as => 'mongo_record'
 dependency 'pauldix-feedzirra', '0.0.12', :require_as => 'feedzirra'

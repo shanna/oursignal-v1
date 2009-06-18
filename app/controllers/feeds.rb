@@ -3,7 +3,7 @@ class Feeds < Application
   before :ensure_authenticated
 
   def index
-    display session.user.feeds
+    display session.user[:feeds] || []
   end
 
   def show
@@ -12,42 +12,35 @@ class Feeds < Application
 
   def create
     user = session.user
+    feed = Feed.repsert(params.only(:url).to_mongo, params.only(:url).to_mongo)
 
-    # TODO: Feed url normalization.
-    # TODO: Check feed exists with columbus.
-    # if feed = Feed.find_or_create_by_url(
-    #   params.only(:url),
-    #   params.only(:url)
-    # )
-    #   feed.selfupdate
-    # end
-
-    unless feed = user.feed(params[:url])
-      user.feeds << feed = params.only(:url).update(:score => 50).to_mash
-      $stderr.puts user.inspect
-      user.save
+    # users.feeds
+    unless user_feed = User.feed(user, params[:url])
+      # TODO: I'm sure there is an easy way to repsert to a subobject.
+      user[:feeds] << user_feed = params.only(:url).update(:score => 50, :feed => feed.to_mongo(:feed)).to_mongo
+      User.save(user.to_mongo)
     end
 
-    display feed
+    display user_feed
   end
 
   def update
     user = session.user
-    feed = user.feed(params[:url])
+    feed = User.feed(user, params[:url])
     raise NotFound unless feed
 
-    feed.update(params.only(:score).to_mash)
-    user.save
-    display @feed
+    feed[:score] = params[:score]
+    User.save(user)
+    display feed
   end
 
   def destroy
     user = session.user
-    feed = user.feed(params[:url])
+    feed = User.feed(user, params[:url])
     raise NotFound unless feed
 
-    user.feeds.delete(feed)
-    user.save
+    user[:feeds].delete(feed)
+    User.save(user)
     display @success = true
   end
 end
