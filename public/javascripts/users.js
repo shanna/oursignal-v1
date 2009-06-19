@@ -7,45 +7,50 @@
   $.extend($.fn, {
     feed: function () {
       $('#feed_url').focus();
-      $('#feed_add').click(add);
-      $('#feed').submit(add);
-      $.getJSON('feeds', function (json) {json.map(score)});
+      $('#feed_add').click(create);
+      $('#feed').submit(create);
+      $.getJSON('feeds', index);
     }
   });
 
-  function add() {
-    // TODO: Post #feed_url return {:url => 'http://...', :score => '50'}
-    var url = $('#feed_url');
-    $.post('feeds', {url: url.attr('value')}, score, 'json');
-    url.attr('value', '').focus();
+  function index(json) {
+    if (!($.isArray(json) && json.length)) return;
+    var scores = $('#scores');
+    json.map(function (feed) {scores.prepend(control(feed))});
+  }
+
+  function create() {
+    var data = {url: $('#feed_url').attr('value')};
+    $.ajax({type: 'POST', url: 'feeds', data: data, dataType: 'json', error: exception, success: show});
     return false;
   }
 
-  function score(json) {
-    var li = $('<li />').append(control(json), feed(json)).hide();
+  function show(json) {
+    var li = control(json).hide();
     $('#scores').prepend(li);
     li.slideDown('slow');
+    $('#feed_url').attr('value', '').focus();
   }
 
-  function feed(json) {
-    return json.url;
+  function exception(request, status, error) {
+    // TODO: Growl style notification system?
+    console.warn([request, status, error]);
   }
 
   function control(json) {
-    return $('<div class="control" />').append(slider(json), button(json));
-  }
+    var destroy = $('<input class="delete" value="delete" type="button" />').click(function () {
+      $.post('feeds', {url: json.url, _method: 'delete'}, null, 'json');
+      $(this).closest('li').remove();
+    });
 
-  function slider(json) {
-    return $('<div class="score" />').slider({value: json.score, stop: function (e, ui) {
+    var score = $('<div class="score" />').slider({value: json.score, stop: function (e, ui) {
       $.post('feeds', {url: json.url, score: ui.value, _method: 'put'}, null, 'json');
     }});
-  }
 
-  function button(json) {
-    return $('<input class="delete" value="delete" type="button" />').click(function () {
-      $.post('feeds', {url: json.url, _method: 'delete'}, null, 'json');
-      $(this).parent().parent().remove(); // TODO: Yuck!
-    });
+    return $('<li />').append(
+      $('<div class="control" />').append(score, destroy),
+      json.url
+    );
   }
 
   $(document).ready(function () {
