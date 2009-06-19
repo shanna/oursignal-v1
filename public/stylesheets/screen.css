@@ -1,6 +1,7 @@
 
 /* global */
 body {
+  padding: 10px;
   font-family: georgia, tahoma, sans-serif;
   color: #FFF;
   background-color: #222;
@@ -10,24 +11,35 @@ a {
   text-decoration: none;
 }
 
-/* head */
-#head {
-  padding: 10px;
+.break {
+  clear: both;
 }
 
-#head h1 {}
+/* body */
+div#body {
+  padding: 10px 0px;
+}
+
+/* head */
+#head {
+  height: 20px;
+}
+
+#head h1 {
+  float: left;
+}
 
 /* navigation */
 div#navigation {
   float: right;
 }
 
-div#navigation ul {
-  float: right;
+div#navigation div.user {
+  float: left;
 }
 
-div#navigation ul {
-  float: right;
+div#navigation ul.options {
+  float: left;
   list-style-type: disc;
 }
 
