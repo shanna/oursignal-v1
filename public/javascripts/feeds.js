@@ -32,9 +32,19 @@
     $('#feed_url').attr('value', '').focus();
   }
 
+  // TODO: Unified exceptions, growl style?
   function exception(request, status, error) {
-    // TODO: Growl style notification system?
-    console.warn([request, status, error]);
+    var json = eval(request.responseText);
+    if (json) {
+      json.map(function (message) {
+        var ex = $('<div class="exception" />').append(message);
+        $('#feeds').prepend(ex);
+        ex.animate({opacity: 100}, 2500).slideUp('slow', ex.remove);
+      });
+    }
+    else {
+      // TODO: Unknown exception.
+    }
   }
 
   function control(json) {

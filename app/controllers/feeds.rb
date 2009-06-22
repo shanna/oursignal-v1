@@ -12,7 +12,11 @@ class Feeds < Application
 
   def create
     user = session.user
-    feed = Feed.repsert(params.only(:url).to_mongo, params.only(:url).to_mongo)
+    begin
+      feed = Feed.discover(params[:url])
+    rescue => e
+      raise BadRequest, e.message
+    end
 
     # users.feeds
     unless user_feed = User.feed(user, params[:url])
