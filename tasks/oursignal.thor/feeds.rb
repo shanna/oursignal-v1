@@ -7,7 +7,7 @@ module Oursignal
 
     desc 'update', 'Update feeds/items'
     def update
-      Feed.all(:updated.lte => Time.now - 60 * 30).each(&:selfupdate)
+      Feed.find('updated_at' => {'$lte' => Time.now - 60 * 30}).each(&:selfupdate)
     end
   end # Feeds
 end # Oursignal
