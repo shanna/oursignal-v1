@@ -20,6 +20,7 @@ class Feed
     remote_feed.sanitize_entries!
     entries = remote_feed.entries.map do |entry|
       {
+        :guid      => entry.id,
         :title     => entry.title,
         :url       => entry.url,
         :published => entry.published
