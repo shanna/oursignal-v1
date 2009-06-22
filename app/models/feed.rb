@@ -4,11 +4,10 @@ class Feed
 
   USER_AGENT = 'oursignal-rss/2 +oursignal.com'
   def self.selfupdate(url)
-    feed = find_first({:url => url}.to_mongo) || return
+    feed = find_first({:url => url}.to_mongo) || raise(NotFound, "Can't find feed by url '#{url}'")
     opts = {
       :user_agent => USER_AGENT,
-      :on_success => method(:update)
-      # :on_failure
+      :on_success => method(:update),
     }
     opts[:if_modified_since] = feed[:last_modified] unless feed[:last_modified].blank?
     opts[:if_none_match]     = feed[:etag] unless feed[:etag].blank?
@@ -18,21 +17,26 @@ class Feed
   end
 
   def self.update(url, remote_feed)
-    url = {:url => url}.to_mongo
-    begin
-      # TODO: Map feeds.
-      feed = repsert(url,
-        {
-          :title         => remote_feed.title,
-          :site          => remote_feed.url,
-          :etag          => remote_feed.etag,
-          :last_modified => remote_feed.last_modified,
-          :updated_at    => Time.now
-        }.to_mongo
-      )
-    rescue => e
-      modify(url, :updated_at => Time.now)
+    remote_feed.sanitize_entries!
+    entries = remote_feed.entries.map do |entry|
+      {
+        :title     => entry.title,
+        :url       => entry.url,
+        :published => entry.published
+      }.to_mongo
     end
+
+    repsert({:url => url}.to_mongo,
+      r = {
+        :title         => remote_feed.title,
+        :site          => remote_feed.url,
+        :etag          => remote_feed.etag,
+        :last_modified => remote_feed.last_modified,
+        :entries       => entries,
+        :updated_at    => Time.now
+      }.to_mongo
+    )
+    $stderr.puts 'HERE' + r.inspect
   end
 
   def self.discover(url)
