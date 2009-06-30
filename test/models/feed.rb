@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), 'helper')
 class FeedTest < ModelTest
   context Feed do
     setup do
-      Feed.clear
+      Link.destroy_all
     end
 
     should 'discover feed' do

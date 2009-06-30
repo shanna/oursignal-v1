@@ -1,8 +1,13 @@
 class User
-  include Mongo::Resource
+  include MongoMapper::Document
+  key :username, String
+  key :fullname, String
+  key :email,    String
+  key :openid,   String
+  many :feeds
 
-  def self.feed(user, url)
-    user[:feeds].find{|feed| feed[:url] == url}
+  def feed(url)
+    feeds.find{|feed| feed[:url] == url}
   end
 end
 

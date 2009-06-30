@@ -4,20 +4,18 @@ class OpenId < Merb::Controller
   def signup
     # TODO: Thats one ugly interface.
     # TODO: The openid basic strategy needs work. It doesn't pass openid.fullname via the session like it should.
-    user = Merb::Authentication.user_class.repsert(
-      {:'openid.identifier' => session['openid.url']}.to_mongo,
-      {
-        :openid   => {:identifier => session['openid.url']},
+    user = unless Merb::Authentication.user_class.first(:openid => session['openid.url'])
+      User.create(
+        :openid   => session['openid.url'],
         :email    => session['openid.email'],
-        :fullname => session['openid.fullname'],
         :username => session['openid.nickname'],
-        :feeds    => []
-      }.to_mongo
-    )
+        :fullname => session['openid.fullname']
+      )
+    end
 
     if user
       session.user = user
-      redirect url(:users, session.user[:username]), :message => {:notice => 'Signup was successful'}
+      redirect url(:users, session.user.username), :message => {:notice => 'Signup was successful'}
     else
       message[:error] = 'There was an error while creating your user account'
       redirect(url(:openid))

@@ -14,8 +14,9 @@ Merb::Config.use do |c|
 end
 
 Merb::BootLoader.before_app_loads do
-  require Merb.root / 'lib' / 'mongo_record'
-  Mongo.setup(Merb.environment == 'test' ? 'oursignal-test' : 'oursignal')
+  MongoMapper.connection = XGen::Mongo::Driver::Mongo.new
+  MongoMapper.database   = (Merb.environment == 'test' ? 'oursignal-test' : 'oursignal')
+  Merb.logger.info("MongoMapper localhost/#{MongoMapper.database.name}")
 end
 
 Merb::BootLoader.after_app_loads do
