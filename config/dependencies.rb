@@ -23,7 +23,7 @@ dependency 'nokogiri', '1.2.3'
 dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
 
 # github
+dependency 'jnunemaker-mongomapper', '0.1.1', :require_as => 'mongomapper'
 dependency 'thoughtbot-shoulda', '2.10.1', :require_as => nil
 dependency 'jnunemaker-columbus', '0.1.2', :require_as => 'columbus'
-dependency 'mongodb-mongo', '0.8', :require_as => 'mongo'
 dependency 'pauldix-feedzirra', '0.0.12', :require_as => 'feedzirra'
