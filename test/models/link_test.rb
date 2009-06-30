@@ -6,8 +6,21 @@ class LinkTest < ModelTest
       Link.destroy_all
     end
 
-    should 'discover feed' do
-      assert feed = Link.discover(feed_url)
+    context '#discover url' do
+      should 'raise error on non http url' do
+        assert_raises(MongoMapper::DocumentNotValid){ Link.discover('asdf')}
+        assert_raises(MongoMapper::DocumentNotValid){ Link.discover('ftp://blah')}
+      end
+
+      should 'create new feed link' do
+        assert link = Link.discover(feed_url)
+        assert_kind_of MongoMapper::Document, link
+      end
+
+      should 'return existing feed link if it exists already' do
+        link = Link.discover(feed_url)
+        assert_equal link, Link.discover(link.url)
+      end
     end
   end
 

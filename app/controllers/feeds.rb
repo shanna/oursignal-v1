@@ -3,7 +3,7 @@ class Feeds < Application
   before :ensure_authenticated
 
   def index
-    display session.user[:feeds] || []
+    display session.user.feeds
   end
 
   def show
@@ -13,9 +13,9 @@ class Feeds < Application
   def create
     user = session.user
     begin
-      feed = Feed.discover(params[:url])
-    rescue => e
-      raise BadRequest, e.message
+      feed = Link.discover(params[:url])
+    rescue MongoMapper::DocumentNotValid => e
+      raise BadRequest
     end
 
     # users.feeds

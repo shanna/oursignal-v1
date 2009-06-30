@@ -21,6 +21,17 @@ class Link
   key :feed,      ::Feed, :default => Feed.new
   many :scores
 
+  # TODO: URL Type.
+  def url=(url)
+    @urk = URI.parse(Addressable::URI.heuristic_parse(url, {:scheme => 'http'}).normalize!).to_s
+  end
+
+  validates_true_for(
+    :url,
+    :message => %q{You didn't enter a valid HTTP URL.},
+    :logic   => lambda { URI.parse(url).is_a?(URI::HTTP)}
+  )
+
   USER_AGENT = 'oursignal-rss/2 +oursignal.com'
   def selfupdate
     opts = {
@@ -59,18 +70,20 @@ class Link
     Merb.logger.error("Feed Error (#{url}): #{e.message}")
   end
 
-  def self.discover(url)
-    uri = URI.parse(Addressable::URI.heuristic_parse(url, {:scheme => 'http'}).normalize!)
-    raise MongoMapper::DocumentNotValid.new("That's no URI: '#{uri}'") unless uri.is_a?(URI::HTTP)
+  def self.discover(url, deep = true)
+    feed = new(:url => url)
+    feed.validate_only('true_for/url') # TODO: Group.
+    raise MongoMapper::DocumentNotValid.new(feed) unless feed.errors.empty?
 
-    uri     = uri.to_s
-    primary = Columbus.new(uri).primary
-    url     = {:url => primary.nil? ? uri : primary.url.to_s}
-    unless first(url)
-      feed = create(url)
-      feed.selfupdate
-      feed
+    link = first(:url => feed.url, :feed => {:'$ne' => nil})
+    return link if link
+
+    if deep && primary = Columbus.new(feed.url).primary
+      return discover(primary.url.to_s, false)
     end
+
+    feed.save && feed.selfupdate
+    feed
   end
 end # Link
 
