@@ -1,13 +1,13 @@
 require File.join(File.dirname(__FILE__), 'helper')
 
-class FeedTest < ModelTest
-  context Feed do
+class LinkTest < ModelTest
+  context Link do
     setup do
       Link.destroy_all
     end
 
     should 'discover feed' do
-      assert feed = Feed.discover(feed_url)
+      assert feed = Link.discover(feed_url)
     end
   end
 
