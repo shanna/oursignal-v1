@@ -39,7 +39,8 @@
       json.map(function (message) {
         var ex = $('<div class="exception" />').append(message);
         $('#feeds').prepend(ex);
-        ex.animate({opacity: 100}, 2500).slideUp('slow', ex.remove);
+        // TODO: ex.remove causes errors in jquery.
+        ex.animate({opacity: 100}, 2500).slideUp('slow'); // , ex.remove);
       });
     }
     else {
@@ -53,7 +54,7 @@
       $(this).closest('li').remove();
     });
 
-    var score = $('<div class="score" />').slider({value: json.score, stop: function (e, ui) {
+    var score = $('<div class="score" />').slider({value: json.score, min: 0, max: 1, step: 0.01, stop: function (e, ui) {
       $.post('feeds', {url: json.url, score: ui.value, _method: 'put'}, null, 'json');
     }});
 

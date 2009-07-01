@@ -1,4 +1,8 @@
 # encoding: utf-8
+# Stupid fucking people requiring the entire active_support when they don't even need the json bullshit in there.
+# The monkey patching conflicts with the monkey patching in json.
+Merb.disable :json
+
 require 'config/dependencies.rb'
 
 use_test :test_unit

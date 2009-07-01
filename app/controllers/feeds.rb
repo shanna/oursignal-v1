@@ -3,7 +3,7 @@ class Feeds < Application
   before :ensure_authenticated
 
   def index
-    display session.user.feeds
+    display session.user.user_feeds
   end
 
   def show
@@ -13,38 +13,36 @@ class Feeds < Application
   def create
     user = session.user
     begin
-      feed = Link.discover(params[:url])
+      link = Link.discover(params[:url])
     rescue MongoMapper::DocumentNotValid => e
-      raise BadRequest
+      raise BadRequest, e.message
     end
 
-    # users.feeds
-    unless user_feed = User.feed(user, params[:url])
-      # TODO: I'm sure there is an easy way to repsert to a subobject.
-      user[:feeds] << user_feed = params.only(:url).update(:score => 50, :feed => feed.to_mongo(:feed)).to_mongo
-      User.save(user.to_mongo)
+    unless feed = user.feed(params[:url])
+      user.user_feeds << feed = UserFeed.new(:url => link.url, :score => 0.5)
+      user.save
     end
 
-    display user_feed
+    display feed
   end
 
   def update
     user = session.user
-    feed = User.feed(user, params[:url])
+    feed = user.feed(params[:url])
     raise NotFound unless feed
 
-    feed[:score] = params[:score]
-    User.save(user)
+    feed.score = params[:score]
+    user.save
     display feed
   end
 
   def destroy
     user = session.user
-    feed = User.feed(user, params[:url])
+    feed = user.feed(params[:url])
     raise NotFound unless feed
 
-    user[:feeds].delete(feed)
-    User.save(user)
+    user.user_feeds.delete(feed)
+    user.save
     display @success = true
   end
 end

@@ -2,18 +2,23 @@ class Exceptions < Merb::Controller
   provides :json
 
   def bad_request
-    display request.exceptions
+    display messages
   end
 
   def not_found
-    display request.exceptions
+    display messages
   end
 
   def not_acceptable
-    display request.exceptions
+    display messages
   end
 
   def unauthenticated
-    display request.exceptions
+    display messages
   end
+
+  private
+    def messages
+      request.exceptions.map(&:message)
+    end
 end

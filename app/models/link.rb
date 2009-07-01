@@ -1,7 +1,7 @@
 class Score
   include MongoMapper::EmbeddedDocument
   key :source, String # DBRef later?
-  key :score,  Integer
+  key :score,  Float
 end # Score
 
 class Feed
@@ -17,7 +17,7 @@ class Link
   key :title,     String
   # key :icon, Binary
   key :referrers, Array # DBRefs
-  key :score,     Integer
+  key :score,     Float
   key :feed,      ::Feed, :default => Feed.new
   many :scores
 
