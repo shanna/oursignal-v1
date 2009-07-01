@@ -5,7 +5,7 @@ module Oursignal
       super
     end
 
-    desc 'update', 'Update feeds/items'
+    desc 'update', 'Update links from RSS feeds.'
     def update
       Link.all(
         :updated_at => {:'$lt' => Time.now - 60 * 30},
