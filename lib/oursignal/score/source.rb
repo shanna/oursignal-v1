@@ -22,8 +22,26 @@ module Oursignal
         end
       end
 
+      def name
+        self.class.to_s.downcase.gsub(/[^:]+::/, '')
+      end
+
       def pending
-        raise NotImplementedError
+        # TODO: Probably going to have to be build/update an index.
+        Link.all(:conditions => {
+          :'$where' => %{
+            if (!this.scores) return true;
+            score = null;
+            for (i = 0; i < this.scores.length; i++) {
+              if (this.scores[i].source === #{name.to_json}) score = this.scores[i];
+            }
+            if (score) {
+              if (!score.updated_at) return true;
+              if (score.updated_at >= new Date(#{(Time.now - 60 * 30).to_json})) return false;
+            }
+            return true;
+          }.gsub(/\s*\n\s*/, '')
+        })
       end
 
       def score(urls = [])

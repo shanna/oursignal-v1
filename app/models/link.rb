@@ -1,7 +1,8 @@
 class Score
   include MongoMapper::EmbeddedDocument
-  key :source, String # DBRef later?
-  key :score,  Float
+  key :source,    String # DBRef later?
+  key :score,     Float
+  key :updated_at, Time
 end # Score
 
 class Feed
@@ -56,7 +57,7 @@ class Link
     link.referrers << link.url
     link.save
 
-    urls = Link.all(:url => {:'$in' => remote_feed.entries.map(&:url)}).map(&:url)
+    urls = Link.all(:conditions => {:url => {:'$in' => remote_feed.entries.map(&:url)}}).map(&:url)
     remote_feed.entries.map do |entry|
       next if urls.include?(entry.url)
       create(
