@@ -16,5 +16,9 @@ module Merb
       end.join
     end
 
+    def links_for(user = session.user)
+      user ||= User.first(:conditions => {:username => 'oursignal'})
+      user ? user.links : []
+    end
   end
 end

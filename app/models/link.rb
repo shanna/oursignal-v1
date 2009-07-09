@@ -37,6 +37,11 @@ class Link
     :logic   => lambda { URI.parse(url).is_a?(URI::HTTP)}
   )
 
+  def to_json(options = {})
+    defaults = {:only => [:url, :title, :score]}.update(options)
+    super defaults
+  end
+
   USER_AGENT = 'oursignal-rss/2 +oursignal.com'
   def selfupdate
     opts = {
@@ -74,9 +79,6 @@ class Link
       # TODO: Dig links out of content as well.
     end
   rescue => e
-    require 'pp'
-    pp e
-    pp e.backtrace
     Merb.logger.error("Feed Error (#{url}): #{e.message}")
   end
 
@@ -85,7 +87,7 @@ class Link
     feed.validate_only('true_for/url') # TODO: Group.
     raise MongoMapper::DocumentNotValid.new(feed) unless feed.errors.empty?
 
-    link = first(:conditions => {:url => feed.url, :feed => {:'$ne' => nil}})
+    link = first(:conditions => {:url => feed.url, :feed => {:'$ne' => {}}})
     return link if link
 
     if deep && primary = Columbus.new(feed.url).primary

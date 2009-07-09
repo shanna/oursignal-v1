@@ -4,7 +4,7 @@ class OpenId < Merb::Controller
   def signup
     # TODO: Thats one ugly interface.
     # TODO: The openid basic strategy needs work. It doesn't pass openid.fullname via the session like it should.
-    user = unless Merb::Authentication.user_class.first(:openid => session['openid.url'])
+    user = unless Merb::Authentication.user_class.first(:conditions => {:openid => session['openid.url']})
       User.create(
         :openid   => session['openid.url'],
         :email    => session['openid.email'],

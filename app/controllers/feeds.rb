@@ -18,7 +18,7 @@ class Feeds < Application
       raise BadRequest, e.message
     end
 
-    unless feed = user.feed(params[:url])
+    unless feed = user.feed(link.url)
       user.user_feeds << feed = UserFeed.new(:url => link.url, :score => 0.5)
       user.save
     end

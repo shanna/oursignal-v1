@@ -1,6 +1,7 @@
 // Global JS.
 
 (function ($) {
+  // TODO: Replace with growl type notifications plugin.
   $.extend($.fn, {
     notice: function (options) {
       var defaults = {delay: 5000};
