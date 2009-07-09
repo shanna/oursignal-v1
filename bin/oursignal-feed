@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+# vim: syntax=ruby
+
+require File.join(File.dirname(__FILE__), '..', 'lib', 'oursignal')
+Oursignal.merb_env
+
+require 'oursignal/feed'
+Oursignal::Feed::Master.run
+

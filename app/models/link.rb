@@ -50,6 +50,9 @@ class Link
     link = first(:url => url) || return
     remote_feed.sanitize_entries!
 
+    return if feed.entries.empty?
+    Merb.logger.info("Feed Update: #{link.url}")
+
     link.title              = remote_feed.title
     link.feed.url           = remote_feed.url
     link.feed.etag          = remote_feed.etag
