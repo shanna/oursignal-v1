@@ -21,6 +21,12 @@ class LinkTest < ModelTest
         link = Link.discover(feed_url)
         assert_equal link, Link.discover(link.url)
       end
+
+      should 'return new feed link if other links exist already' do
+        first  = Link.discover(feed_url)
+        second = Link.discover(feed_url('http://rss.slashdot.org/Slashdot/slashdot'))
+        assert_not_equal first, second
+      end
     end
   end
 

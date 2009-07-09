@@ -1,3 +1,5 @@
+require 'uri/redirect'
+
 class Score
   include MongoMapper::EmbeddedDocument
   key :source,    String # DBRef later?
@@ -24,7 +26,9 @@ class Link
 
   # TODO: URL Type.
   def url=(url)
-    @urk = URI.parse(Addressable::URI.heuristic_parse(url, {:scheme => 'http'}).normalize!).to_s
+    uri = URI.parse(url)
+    uri.extend(URI::Redirect)
+    @url = uri.resolve!.to_s
   end
 
   validates_true_for(
@@ -39,18 +43,18 @@ class Link
       :user_agent => USER_AGENT,
       :on_success => self.class.method(:feed_update),
     }
-    opts[:if_modified_since] = feed[:last_modified] unless feed.last_modified.blank?
-    opts[:if_none_match]     = feed[:etag] unless feed.etag.blank?
+    opts[:if_modified_since] = feed.last_modified unless feed.last_modified.blank?
+    opts[:if_none_match]     = feed.etag unless feed.etag.blank?
 
     # TODO: 302 handling and such.
     Feedzirra::Feed.fetch_and_parse(url, opts)
   end
 
   def self.feed_update(url, remote_feed)
-    link = first(:url => url) || return
+    link = first(:conditions => {:url => url}) || return
     remote_feed.sanitize_entries!
 
-    return if feed.entries.empty?
+    return if remote_feed.entries.empty?
     Merb.logger.info("Feed Update: #{link.url}")
 
     link.title              = remote_feed.title
@@ -60,9 +64,8 @@ class Link
     link.referrers << link.url
     link.save
 
-    urls = Link.all(:conditions => {:url => {:'$in' => remote_feed.entries.map(&:url)}}).map(&:url)
     remote_feed.entries.map do |entry|
-      next if urls.include?(entry.url)
+      next if first(:conditions => {:url => entry.url})
       create(
         :title     => entry.title,
         :url       => entry.url,
@@ -71,6 +74,9 @@ class Link
       # TODO: Dig links out of content as well.
     end
   rescue => e
+    require 'pp'
+    pp e
+    pp e.backtrace
     Merb.logger.error("Feed Error (#{url}): #{e.message}")
   end
 
@@ -79,7 +85,7 @@ class Link
     feed.validate_only('true_for/url') # TODO: Group.
     raise MongoMapper::DocumentNotValid.new(feed) unless feed.errors.empty?
 
-    link = first(:url => feed.url, :feed => {:'$ne' => nil})
+    link = first(:conditions => {:url => feed.url, :feed => {:'$ne' => nil}})
     return link if link
 
     if deep && primary = Columbus.new(feed.url).primary
