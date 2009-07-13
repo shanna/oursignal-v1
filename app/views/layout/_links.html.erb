@@ -1,7 +1,11 @@
-<%# TODO: Themes -%>
-<%# require_js 'themes/treemap' %>
+<%# TODO: Visualizations. -%>
+<% require_css 'visualize/treemap' %>
+<% require_js 'vendor/jquery-textfill' %>
+<% require_js 'vendor/jquery-treemap' %>
+<% require_js 'visualize/treemap' %>
 <script type="text/javascript">
 //<![CDATA[
   var links = <%= links_for.to_json %>;
 //]]>
 </script>
+<div id="links"></div>
