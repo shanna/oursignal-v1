@@ -14,8 +14,11 @@ module Oursignal
           ).freeze
         end
 
-        def work(c = '')
-          $stderr.puts 'DIGG WORK: ' + c.inspect
+        def work(data = '')
+          xml = Nokogiri::XML.parse(data)
+          xml.xpath('//story').each do |story|
+            score(story.at('./@link').text, story.at('./@diggs').text)
+          end
         end
       end # Digg
     end # Cache

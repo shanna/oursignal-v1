@@ -7,19 +7,25 @@ module Oursignal
 
     class Cache < Job
       def poll
-        begin
-          timeout(10){ content = http_read(http_uri)}
-        rescue Timeout::Error => e
-          content = nil
-          # TODO: Error message.
-        end
-        content
+        Merb.logger.info("#{self.class}: Updating score cache...")
+        http_read(http_uri)
       end
 
       def uri(address, params = nil)
         uri = Addressable::URI.parse(address)
         uri.query_values = params if params && uri
         uri
+      end
+
+      def self.score(url)
+        ::Score.first(:conditions => {:url => url, :source => name}).score rescue 0.0
+      end
+
+      def score(url, score)
+        options     = {:url => url, :source => name}
+        cache       = ::Score.first(:conditions => options) || ::Score.new(options)
+        cache.score = score
+        cache.save
       end
 
       protected

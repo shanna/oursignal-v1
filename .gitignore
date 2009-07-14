@@ -13,6 +13,7 @@ schema/*.db
 *.sqlite3
 *.db
 src/*
+log/*
 tc/*
 .hgignore
 .hg/*
