@@ -1,51 +1,22 @@
+require 'oursignal/job'
+
 module Oursignal
   module Score
+    class Source < Job
+      self.poll_time = 5
 
-    class Source
-      include EM::Deferrable
-
-      cattr_accessor :sources
-      def self.inherited(klass)
-        (self.sources ||= []) << klass
+      def poll
+        links = Link.all(:conditions => {:score => nil})
+        links + Link.all(:conditions => {:updated_at => {:'$lt' => Time.now - 60 * 15}})
       end
 
-      def self.run
-        score = new
-        score.callback{ EM.add_timer(5, method(:run))}
-        Thread.new do
-          begin
-            pending = score.pending
-            score.score(pending) if (pending.is_a?(Array) && !pending.empty?)
-          ensure
-            score.succeed
-          end
+      def work(links)
+        $stderr.puts 'SOURCE WORK ' + links.map(&:url).inspect
+        links.each do |link|
+          # scores = self.class.subclasses.each{|s| s.new.score}
+          link.score = 0.5 # TODO: scores ...
+          link.save
         end
-      end
-
-      def name
-        self.class.to_s.downcase.gsub(/[^:]+::/, '')
-      end
-
-      def pending
-        # TODO: Probably going to have to be build/update an index.
-        Link.all(:conditions => {
-          :'$where' => %{
-            if (!this.scores) return true;
-            score = null;
-            for (i = 0; i < this.scores.length; i++) {
-              if (this.scores[i].source === #{name.to_json}) score = this.scores[i];
-            }
-            if (score) {
-              if (!score.updated_at) return true;
-              if (score.updated_at >= new Date(#{(Time.now - 60 * 30).to_json})) return false;
-            }
-            return true;
-          }.gsub(/\s*\n\s*/, '')
-        })
-      end
-
-      def score(urls = [])
-        raise NotImplementedError
       end
     end # Source
   end # Score

@@ -6,5 +6,5 @@ require File.join(File.dirname(__FILE__), '..', 'lib', 'oursignal')
 Oursignal.merb_env
 
 require 'oursignal/feed'
-Oursignal::Feed::Master.run
+Oursignal::Feed.run
 

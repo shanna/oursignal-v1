@@ -26,4 +26,4 @@ dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
 dependency 'jnunemaker-mongomapper', '0.2.0', :require_as => 'mongomapper'
 dependency 'thoughtbot-shoulda', '2.10.1', :require_as => nil
 dependency 'jnunemaker-columbus', '0.1.2', :require_as => 'columbus'
-dependency 'pauldix-feedzirra', '0.0.12', :require_as => 'feedzirra'
+dependency 'pauldix-feedzirra', '0.0.15', :require_as => 'feedzirra'

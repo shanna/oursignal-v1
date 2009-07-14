@@ -6,5 +6,5 @@ require File.join(File.dirname(__FILE__), '..', 'lib', 'oursignal')
 Oursignal.merb_env
 
 require 'oursignal/score'
-Oursignal::Score::Master.run
+Oursignal::Score.run
 

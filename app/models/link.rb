@@ -1,12 +1,5 @@
 require 'uri/redirect'
 
-class Score
-  include MongoMapper::EmbeddedDocument
-  key :source,    String # DBRef later?
-  key :score,     Float
-  key :updated_at, Time
-end # Score
-
 class Feed
   include MongoMapper::EmbeddedDocument
   key :url,           String
@@ -22,7 +15,6 @@ class Link
   key :referrers, Array # DBRefs
   key :score,     Float
   key :feed,      ::Feed, :default => Feed.new
-  many :scores
 
   # TODO: URL Type.
   def url=(url)
@@ -57,7 +49,8 @@ class Link
 
   def self.feed_update(url, remote_feed)
     link = first(:conditions => {:url => url}) || return
-    remote_feed.sanitize_entries!
+    # TODO: Drama! Some of these feeds are being treated as US-ASCII when they are clearly UTF-8
+    # remote_feed.sanitize_entries!
 
     return if remote_feed.entries.empty?
     Merb.logger.info("Feed Update: #{link.url}")
@@ -79,7 +72,9 @@ class Link
       # TODO: Dig links out of content as well.
     end
   rescue => e
-    Merb.logger.error("Feed Error (#{url}): #{e.message}")
+    Merb.logger.error("Feed Error (#{url}): #{e.message}\n#{e.backtrace}")
+    link.updated_at = Time.now
+    link.save
   end
 
   def self.discover(url, deep = true)

@@ -1,24 +1,19 @@
+require 'oursignal/job'
+
 module Oursignal
   module Feed
+    class Update < Job
+      self.poll_time = 15
 
-    class Update
-      include EM::Deferrable
+      def poll
+        Link.all(:conditions => {
+          :updated_at => {:'$lt' => Time.now - 60 * 30},
+          :feed       => {:'$ne' => {}}
+        })
+      end
 
-      def self.run
-        update = new
-        update.callback{ EM.add_timer(30, method(:run))}
-        Thread.new do
-          begin
-            Link.all(:conditions => {
-              :updated_at => {:'$lt' => Time.now - 60 * 30},
-              :feed       => {:'$ne' => nil}
-            }).each(&:selfupdate)
-          rescue => error
-            Merb.logger.error("#{self}: Error #{error.message}")
-          ensure
-            update.succeed
-          end
-        end
+      def work(links = [])
+        links.each(&:selfupdate)
       end
     end # Update
   end # Feed
