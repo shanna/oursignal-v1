@@ -2,7 +2,7 @@ require 'oursignal/job'
 
 module Oursignal
   module Score
-    class Source < Job
+    class Tally < Job
       self.poll_time = 5
 
       def poll
@@ -11,10 +11,11 @@ module Oursignal
       end
 
       def work(links)
-        $stderr.puts 'SOURCE WORK ' + links.map(&:url).inspect
         links.each do |link|
           # scores = self.class.subclasses.each{|s| s.new.score}
-          link.score = 0.5 # TODO: scores ...
+          score         = 0.5 # TODO: Bayesian average over scores.
+          link.velocity = score - (link.score || 0)
+          link.score    = score
           link.save
         end
       end

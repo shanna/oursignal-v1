@@ -19,7 +19,7 @@ module Oursignal
       Thread.new do
         begin
           res = job.poll
-          job.work(res) if res && !res.nil?
+          job.work(res) if res && !res.nil? && (res.respond_to?(:empty?) ? !res.empty? : true)
         ensure
           job.succeed
         end

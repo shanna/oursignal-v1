@@ -14,6 +14,7 @@ class Link
   # key :icon, Binary
   key :referrers, Array # DBRefs
   key :score,     Float
+  key :velocity,  Float
   key :feed,      ::Feed, :default => Feed.new
 
   # TODO: URL Type.
