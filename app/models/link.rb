@@ -13,7 +13,8 @@ class Link
   key :title,     String
   # key :icon, Binary
   key :referrers, Array # DBRefs
-  key :score,     Float
+  key :score,     Float, :default => 0
+  key :scored_at, Time
   key :velocity,  Float
   key :feed,      ::Feed, :default => Feed.new
 

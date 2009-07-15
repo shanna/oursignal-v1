@@ -7,8 +7,10 @@ module Oursignal
 
       def poll
         # These should be exclusive unless soemthing has gone wrong.
-        links = Link.all(:conditions => {:score => nil})
-        links + Link.all(:conditions => {:updated_at => {:'$lt' => Time.now - 60 * 15}})
+        links = Link.all(:conditions => {:'$where' => %{
+          if (this.scores && this.scored_at && (this.scored_at >= new Date(#{(Time.now - 60 * 15).to_json}))) return false;
+          return true;
+        }.gsub(/\s*\n\s*/, '')})
 
         Merb.logger.info("#{self.class}: Tally for #{links.size} links.") unless links.empty?
         links
@@ -17,9 +19,10 @@ module Oursignal
       def work(links)
         links.each do |link|
           if scores = ::Score.all(:conditions => {:url => link.url})
-            score = scores.map(&:score).inject(0){|acc, score| acc += score}
-            link.velocity = score - (link.score || 0)
-            link.score    = score
+            score          = scores.map(&:score).inject(0){|acc, score| acc += score}
+            link.velocity  = score - (link.score || 0)
+            link.score     = score
+            link.scored_at = Time.now
             link.save
           end
         end

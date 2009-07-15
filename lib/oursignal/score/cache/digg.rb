@@ -17,7 +17,9 @@ module Oursignal
         def work(data = '')
           xml = Nokogiri::XML.parse(data)
           xml.xpath('//story').each do |story|
-            score(story.at('./@link').text, story.at('./@diggs').text)
+            diggs = story.at('./@diggs').text
+            score(story.at('./@link').text, diggs)
+            score(story.at('./@href').text, diggs)
           end
         end
       end # Digg
