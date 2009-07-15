@@ -8,7 +8,7 @@ module Oursignal
       def poll
         # These should be exclusive unless soemthing has gone wrong.
         links = Link.all(:conditions => {:'$where' => %{
-          if (this.scores && this.scored_at && (this.scored_at >= new Date(#{(Time.now - 60 * 15).to_json}))) return false;
+          if (this.score && this.scored_at && (this.scored_at >= new Date(#{(Time.now - 60 * 15).to_json}))) return false;
           return true;
         }.gsub(/\s*\n\s*/, '')})
 
