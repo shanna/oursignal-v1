@@ -17,12 +17,8 @@ module Oursignal
         uri
       end
 
-      def self.score(url)
-        ::Score.first(:conditions => {:url => url, :source => name}).score rescue 0.0
-      end
-
       def score(url, score)
-        options     = {:url => url, :source => name}
+        options     = {:url => URI.sanatize(url), :source => name}
         cache       = ::Score.first(:conditions => options) || ::Score.new(options)
         cache.score = score
         cache.save

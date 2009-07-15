@@ -1,4 +1,4 @@
-require 'uri/redirect'
+require 'uri/sanatize'
 
 class Feed
   include MongoMapper::EmbeddedDocument
@@ -17,13 +17,6 @@ class Link
   key :scored_at, Time
   key :velocity,  Float
   key :feed,      ::Feed, :default => Feed.new
-
-  # TODO: URL Type.
-  def url=(url)
-    uri = URI.parse(url)
-    uri.extend(URI::Redirect)
-    @url = uri.resolve!.to_s
-  end
 
   validates_true_for(
     :url,
@@ -58,7 +51,7 @@ class Link
     Merb.logger.info("Feed Update: #{link.url}")
 
     link.title              = remote_feed.title
-    link.feed.url           = remote_feed.url
+    link.feed.url           = URI.sanatize(remote_feed.url)
     link.feed.etag          = remote_feed.etag
     link.feed.last_modified = remote_feed.last_modified
     link.referrers << link.url
@@ -68,7 +61,7 @@ class Link
       next if first(:conditions => {:url => entry.url})
       create(
         :title     => entry.title,
-        :url       => entry.url,
+        :url       => URI.sanatize(entry.url),
         :referrers => [link.url]
       )
       # TODO: Dig links out of content as well.
@@ -80,7 +73,7 @@ class Link
   end
 
   def self.discover(url, deep = true)
-    feed = new(:url => url)
+    feed = new(:url => URI.sanatize(url))
     feed.validate_only('true_for/url') # TODO: Group.
     raise MongoMapper::DocumentNotValid.new(feed) unless feed.errors.empty?
 
