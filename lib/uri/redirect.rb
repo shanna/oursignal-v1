@@ -17,7 +17,7 @@ module URI
       raise 'Too many redirects' if limit == 0
 
       # Normalize the URI while we are here.
-      uri = URI.parse(Addressable::URI.heuristic_parse(url.to_s, {:scheme => 'http'}).normalize!).to_s
+      uri = URI.parse(Addressable::URI.heuristic_parse(url.to_s, {:scheme => 'http'}).normalize!)
 
       host             = Net::HTTP.new(uri.host, uri.port)
       host.use_ssl     = uri.scheme == 'https'
@@ -25,9 +25,10 @@ module URI
 
       case response = host.get(uri.request_uri)
         when Net::HTTPSuccess     then uri
-        when Net::HTTPRedirection then follow(uri['location'], limit - 1)
+        when Net::HTTPRedirection then follow(response['location'], limit - 1)
         else response.error!
       end
     end
   end
 end
+
