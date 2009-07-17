@@ -15,11 +15,10 @@ module Oursignal
         end
 
         def work(data = '')
+          # TODO: ./@link is Real URL.
           xml = Nokogiri::XML.parse(data)
           xml.xpath('//story').each do |story|
-            diggs = story.at('./@diggs').text
-            score(story.at('./@link').text, diggs)
-            score(story.at('./@href').text, diggs)
+            score(story.at('./@href').text, story.at('./@diggs').text.to_i)
           end
         end
       end # Digg

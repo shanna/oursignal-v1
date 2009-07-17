@@ -6,10 +6,7 @@ module Oursignal
       self.poll_time = 15
 
       def poll
-        Link.all(:conditions => {
-          :updated_at => {:'$lt' => Time.now - 60 * 30},
-          :feed       => {:'$ne' => {}}
-        })
+        Link.all(:conditions => {:'feed.updated_at' => {:'$lt' => Time.now - 60 * 30}})
       end
 
       def work(links = [])

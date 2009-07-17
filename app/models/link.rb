@@ -5,6 +5,7 @@ class Feed
   key :url,           String
   key :etag,          String
   key :last_modified, Time
+  key :updated_at,    Time
 end # Feed
 
 class Link
@@ -12,9 +13,9 @@ class Link
   key :url,       String
   key :title,     String
   # key :icon, Binary
-  key :referrers, Array # DBRefs
+  key :referrers, Array
   key :score,     Float, :default => 0
-  key :scored_at, Time
+  key :scored_at, Time # {:score => 0, :updated_at => 0}
   key :velocity,  Float
   key :feed,      ::Feed, :default => Feed.new
 
@@ -47,28 +48,30 @@ class Link
     # TODO: Drama! Some of these feeds are being treated as US-ASCII when they are clearly UTF-8
     # remote_feed.sanitize_entries!
 
-    return if remote_feed.entries.empty?
-    Merb.logger.info("Feed Update: #{link.url}")
+    unless remote_feed.entries.empty?
+      Merb.logger.info("Feed Update: #{link.url}")
 
-    link.title              = remote_feed.title
-    link.feed.url           = URI.sanatize(remote_feed.url)
-    link.feed.etag          = remote_feed.etag
-    link.feed.last_modified = remote_feed.last_modified
-    link.referrers << link.url
-    link.save
+      link.title              = remote_feed.title
+      link.feed.url           = URI.sanatize(remote_feed.url)
+      link.feed.etag          = remote_feed.etag
+      link.feed.last_modified = remote_feed.last_modified
+      link.referrers << link.url
+      link.save
 
-    remote_feed.entries.map do |entry|
-      next if first(:conditions => {:url => entry.url})
-      create(
-        :title     => entry.title,
-        :url       => URI.sanatize(entry.url),
-        :referrers => [link.url]
-      )
-      # TODO: Dig links out of content as well.
+      remote_feed.entries.map do |entry|
+        entry_url = URI.sanatize(entry.url)
+        next if first(:conditions => {:url => entry_url})
+        create(
+          :title     => entry.title,
+          :url       => entry_url,
+          :referrers => [link.url]
+        )
+        # TODO: Dig links out of content as well.
+      end
     end
   rescue => e
     Merb.logger.error("Feed Error (#{url}): #{e.message}\n#{e.backtrace}")
-    link.updated_at = Time.now
+    link.feed.updated_at = Time.now
     link.save
   end
 
