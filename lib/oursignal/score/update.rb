@@ -2,7 +2,7 @@ require 'oursignal/job'
 
 module Oursignal
   module Score
-    class Tally < Job
+    class Update < Job
       self.poll_time = 5
 
       def initialize(*args)
@@ -17,7 +17,7 @@ module Oursignal
         links << Link.all(:conditions => {:scored_at => {:'$lt' => Time.now - 60 * 15}})
         links = links.flatten.uniq
 
-        Merb.logger.info("#{self.class}: Tally for #{links.size} links.") unless links.empty?
+        Merb.logger.info("#{self.class}: Updating scores for #{links.size} links...") unless links.empty?
         links
       end
 
@@ -62,7 +62,7 @@ module Oursignal
           @buckets[source]
         end
 
-    end # Tally
+    end # Update
   end # Score
 end # Oursignal
 

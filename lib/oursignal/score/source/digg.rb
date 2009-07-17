@@ -1,10 +1,10 @@
-require 'oursignal/score/cache'
+require 'oursignal/score/source'
 require 'nokogiri'
 
 module Oursignal
   module Score
-    class Cache
-      class Digg < Cache
+    class Source
+      class Digg < Source
         self.poll_time = 60 * 15
 
         def http_uri
@@ -22,6 +22,6 @@ module Oursignal
           end
         end
       end # Digg
-    end # Cache
+    end # Source
   end # Score
 end # Oursignal

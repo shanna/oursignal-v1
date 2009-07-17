@@ -1,11 +1,12 @@
 require 'oursignal/job'
+require 'uri/sanatize'
 require 'open-uri'
 require 'zlib'
 
 module Oursignal
   module Score
 
-    class Cache < Job
+    class Source < Job
       def poll
         Merb.logger.info("#{self.class}: Updating score cache...")
         http_read(http_uri)
@@ -54,7 +55,7 @@ module Oursignal
         def http_uri
           raise NotImplementedError
         end
-    end # Cache
+    end # Source
   end # Score
 end # Oursignal
 
