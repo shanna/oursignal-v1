@@ -11,10 +11,9 @@ module Oursignal
       end
 
       def poll
-        # Fucked if I know whats going on here but I can't + these together even if I .to_a
-        links = Link.all(:conditions => {:score => nil})
-        links << Link.all(:conditions => {:scored_at => nil})
-        links << Link.all(:conditions => {:scored_at => {:'$lt' => Time.now - 60 * 15}})
+        # TODO: Fucked if I know whats going on here but I can't + these together even if I .to_a
+        links =  Link.all(:conditions => {:'score.updated_at' => nil})
+        links << Link.all(:conditions => {:'score.updated_at' => {:'$lt' => Time.now - 60 * 5}})
         links = links.flatten.uniq
 
         Merb.logger.info("#{self.class}: Updating scores for #{links.size} links...") unless links.empty?
@@ -24,13 +23,14 @@ module Oursignal
       def work(links)
         links.each do |link|
           begin
-            score         = score(link.url)
-            link.velocity = score - (link.score || 0)
-            link.score    = score
+            score               = score(link.url)
+            link.score.velocity = score - (link.score.score || 0)
+            link.score.score    = score
           ensure
-            link.scored_at = Time.now
+            link.score.updated_at = Time.now
             link.save
           end
+          Merb.logger.debug("#{self.class}: #{link.score.score} - #{link.url}")
         end
       end
 

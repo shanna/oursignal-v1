@@ -1,7 +1,7 @@
 require File.join(File.dirname(__FILE__), 'helper')
 
 class LinkTest < ModelTest
-  context Link do
+  context 'Link' do
     setup do
       Link.destroy_all
     end
@@ -9,7 +9,7 @@ class LinkTest < ModelTest
     context '#discover url' do
       should 'raise error on non http url' do
         assert_raises(MongoMapper::DocumentNotValid){ Link.discover('asdf')}
-        assert_raises(MongoMapper::DocumentNotValid){ Link.discover('ftp://blah')}
+        assert_raises(MongoMapper::DocumentNotValid){ Link.discover('ftp://localhost')}
       end
 
       should 'create new feed link' do
@@ -26,6 +26,54 @@ class LinkTest < ModelTest
         first  = Link.discover(feed_url)
         second = Link.discover(feed_url('http://rss.slashdot.org/Slashdot/slashdot'))
         assert_not_equal first, second
+      end
+    end
+
+    context '.selfupdate' do
+      setup do
+        @feed ||= Link.discover(feed_url)
+      end
+
+      should 'not raise errors' do
+        assert_nothing_raised do
+          @feed.selfupdate
+        end
+      end
+
+      should 'populate links' do
+        @feed.selfupdate
+        assert Link.all(:conditions => {:referrers => [@feed.url]}).size > 1
+      end
+
+      should 'return only feed' do
+        @feed.selfupdate
+        sleep 5
+
+        links = Link.all(:conditions => {:feed => {:'$ne' => {}}})
+        assert_equal 1, links.size
+      end
+
+      should 'return only feed after multiple updates' do
+        @feed.selfupdate
+        sleep 5
+
+        @feed.selfupdate
+        sleep 5
+
+        links = Link.all(:conditions => {:feed => {:'$ne' => {}}})
+        assert_equal 1, links.size
+      end
+    end
+
+    context '.feed' do
+      should 'return new feed object' do
+        assert_kind_of Link::Feed, Link.new.feed
+      end
+    end
+
+    context '.score' do
+      should 'return new score object' do
+        assert_kind_of Link::Score, Link.new.score
       end
     end
   end

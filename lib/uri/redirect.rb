@@ -24,7 +24,10 @@ module URI
       host.use_ssl     = uri.scheme == 'https'
       host.verify_mode = OpenSSL::SSL::VERIFY_NONE # Who cares!
 
-      case response = host.request_head(URI.parse(uri.to_s).request_uri)
+      request_uri = URI.parse(uri.to_s).request_uri rescue nil
+      return uri unless request_uri
+
+      case response = host.request_head(request_uri)
         when Net::HTTPSuccess
           uri
         when Net::HTTPRedirection

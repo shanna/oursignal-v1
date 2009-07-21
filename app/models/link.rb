@@ -1,33 +1,36 @@
 require 'uri/sanatize'
 
-class Feed
-  include MongoMapper::EmbeddedDocument
-  key :url,           String
-  key :etag,          String
-  key :last_modified, Time
-  key :updated_at,    Time
-end # Feed
-
 class Link
+  class Score
+    include MongoMapper::EmbeddedDocument
+    key :score,      Float, :default => 0
+    key :velocity,   Float, :default => 0
+    key :updated_at, Time
+  end # Score
+
+  class Feed
+    include MongoMapper::EmbeddedDocument
+    key :url,           String
+    key :etag,          String
+    key :last_modified, Time
+    key :updated_at,    Time
+  end # Feed
+
   include MongoMapper::Document
   key :url,       String
   key :title,     String
-  # key :icon, Binary
   key :referrers, Array
-  key :score,     Float, :default => 0
-  key :scored_at, Time # {:score => 0, :updated_at => 0}
-  key :velocity,  Float
-  key :feed,      ::Feed, :default => Feed.new
+  key :score,     Link::Score, :default => lambda { Link::Score.new}
+  key :feed,      Link::Feed,  :default => lambda { Link::Feed.new}
 
   validates_true_for(
     :url,
     :message => %q{You didn't enter a valid HTTP URL.},
-    :logic   => lambda { URI.parse(url).is_a?(URI::HTTP)}
+    :logic   => lambda { URI.parse(url).is_a?(URI::HTTP) rescue false}
   )
 
   def to_json(options = {})
-    defaults = {:only => [:url, :title, :score]}.update(options)
-    super defaults
+    {:url => url, :title => title, :score => score.score}.to_json
   end
 
   USER_AGENT = 'oursignal-rss/2 +oursignal.com'
@@ -45,6 +48,7 @@ class Link
 
   def self.feed_update(url, remote_feed)
     link = first(:conditions => {:url => url}) || return
+
     # TODO: Drama! Some of these feeds are being treated as US-ASCII when they are clearly UTF-8
     # remote_feed.sanitize_entries!
 
@@ -52,25 +56,28 @@ class Link
       Merb.logger.info("Feed Update: #{link.url}")
 
       link.title              = remote_feed.title
-      link.feed.url           = URI.sanatize(remote_feed.url)
+      link.feed.url           = remote_feed.url
       link.feed.etag          = remote_feed.etag
       link.feed.last_modified = remote_feed.last_modified
-      link.referrers << link.url
-      link.save
+
+      unless link.referrers.find{|url| url == link.url}
+        link.referrers << link.url
+      end
 
       remote_feed.entries.map do |entry|
-        entry_url = URI.sanatize(entry.url)
-        next if first(:conditions => {:url => entry_url})
+        next if first(:conditions => {:url => entry.url})
+        next if first(:conditions => {:url => sanatized_url = URI.sanatize(entry.url)})
         create(
           :title     => entry.title,
-          :url       => entry_url,
+          :url       => sanatized_url,
           :referrers => [link.url]
         )
         # TODO: Dig links out of content as well.
       end
     end
   rescue => e
-    Merb.logger.error("Feed Error (#{url}): #{e.message}\n#{e.backtrace}")
+    Merb.logger.error("Feed Error (#{url}): #{e.message}")
+  ensure
     link.feed.updated_at = Time.now
     link.save
   end

@@ -20,7 +20,7 @@
     var data = [];
     $(links).each(function (index, link) {
       var anchor = $('<a />').attr({href: link.url}).append(link.title);
-      data.push([$('<span />').append(anchor), 70.0]); // parseFloat(link.score)]);
+      data.push([$('<span />').append(anchor), parseFloat(link.score) * 100]);
     });
     return data;
   }
