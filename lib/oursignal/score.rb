@@ -1,6 +1,7 @@
 require 'eventmachine'
 require 'oursignal/score/source'
 require 'oursignal/score/source/digg'
+require 'oursignal/score/source/reddit'
 require 'oursignal/score/update'
 
 module Oursignal

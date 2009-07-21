@@ -1,9 +1,9 @@
 require File.join(File.dirname(__FILE__), 'helper')
 
-class ScoreCacheDiggTest < ScoreCacheTest
-  context 'Oursignal::Score::Cache::Digg' do
+class ScoreSourceDiggTest < ScoreSourceTest
+  context 'Oursignal::Score::Source::Digg' do
     setup do
-      @digg = Oursignal::Score::Cache::Digg.new
+      @digg = Oursignal::Score::Source::Digg.new
     end
 
     context '.poll' do
