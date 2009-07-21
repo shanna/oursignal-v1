@@ -14,7 +14,9 @@ module Oursignal
         def work(data = '')
           Nokogiri::HTML.parse(data).css('td.title a').each do |entry|
             points = entry.xpath('../../following-sibling::tr[1]/td/span').text.to_i
-            score(entry.attribute('href').text, points) if points > 0
+            url    = entry.attribute('href').text
+            url    = 'http://news.ycombinator.com/' + url unless url =~ %r{://}
+            score(url, points) if points > 0
           end
         end
       end # Ycombinator

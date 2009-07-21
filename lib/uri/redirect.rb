@@ -37,7 +37,8 @@ module URI
           else
             response.error!
         end
-      rescue OpenSSL::SSL::SSLError => error
+      rescue => error
+        $stderr.puts  "#{self.class} Error: #{uri}, #{error.message}"
         uri
       end
     end
