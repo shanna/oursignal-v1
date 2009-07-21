@@ -19,8 +19,7 @@ module Oursignal
       end
 
       def score(url, score)
-        options     = {:url => URI.sanatize(url), :source => name}
-        cache       = ::Score.first(:conditions => options) || ::Score.new(options)
+        cache       = ::Score.first_or_new_by_url(url, name)
         cache.score = score
         cache.save
       end

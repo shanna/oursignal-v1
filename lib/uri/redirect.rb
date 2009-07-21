@@ -27,14 +27,18 @@ module URI
       request_uri = URI.parse(uri.to_s).request_uri rescue nil
       return uri unless request_uri
 
-      case response = host.request_head(request_uri)
-        when Net::HTTPSuccess
-          uri
-        when Net::HTTPRedirection
-          redirect = Addressable::URI.heuristic_parse(response['location'], {:scheme => 'http'}).normalize!
-          follow(uri.join(redirect), limit - 1)
-        else
-          response.error!
+      begin
+        case response = host.request_head(request_uri)
+          when Net::HTTPSuccess
+            uri
+          when Net::HTTPRedirection
+            redirect = Addressable::URI.heuristic_parse(response['location'], {:scheme => 'http'}).normalize!
+            follow(uri.join(redirect), limit - 1)
+          else
+            response.error!
+        end
+      rescue OpenSSL::SSL::SSLError => error
+        uri
       end
     end
   end
