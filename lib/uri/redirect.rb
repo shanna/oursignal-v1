@@ -1,5 +1,4 @@
 require 'curb'
-require 'addressable/uri'
 
 module URI
   module Redirect
