@@ -1,46 +1,23 @@
-require 'net/http'
+require 'curb'
 require 'addressable/uri'
 
 module URI
   module Redirect
-    # --
-    # TODO: This has side effects. It'll sanatize your URL even if it didn't follow a redirect at the moment.
-    def follow!(*args)
-      final = follow(*args)
+    def follow!(*args, &block)
+      final = follow(*args, &block)
       self.host = final.host
       self.path = final.path
       self
     end
 
-    # --
-    # TODO: Check for circular redirects and throw a better error?
-    def follow(url = self, limit = 10)
-      raise 'Too many redirects' if limit == 0
+    def follow(url = self, options = {})
+      curl    = Curl::Easy.new(url.to_s)
+      default = {:follow_location => true, :head => true}
+      default.update(options)
+      default.each{|k, v| curl.send("#{k}=", v)}
 
-      # Normalize the URI while we are here.
-      uri = Addressable::URI.heuristic_parse(url.to_s, {:scheme => 'http'}).normalize!
-
-      host             = Net::HTTP.new(uri.host, uri.port)
-      host.use_ssl     = uri.scheme == 'https'
-      host.verify_mode = OpenSSL::SSL::VERIFY_NONE # Who cares!
-
-      request_uri = URI.parse(uri.to_s).request_uri rescue nil
-      return uri unless request_uri
-
-      begin
-        case response = host.request_head(request_uri)
-          when Net::HTTPSuccess
-            uri
-          when Net::HTTPRedirection
-            redirect = Addressable::URI.heuristic_parse(response['location'], {:scheme => 'http'}).normalize!
-            follow(uri.join(redirect), limit - 1)
-          else
-            response.error!
-        end
-      rescue => error
-        $stderr.puts  "#{self.class} Error: #{uri}, #{error.message}"
-        uri
-      end
+      curl.perform
+      URI.parse(curl.last_effective_url)
     end
   end
 
