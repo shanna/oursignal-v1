@@ -17,6 +17,7 @@ dependency 'merb-auth-more', merb_gems_version
 dependency 'merb-param-protection', merb_gems_version
 dependency 'merb-exceptions', merb_gems_version
 
+dependency 'moneta', '0.6.0'
 dependency 'addressable', '2.1.0', :require_as => 'addressable/uri'
 dependency 'hpricot', '0.8.1'
 dependency 'nokogiri', '1.2.3'

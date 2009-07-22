@@ -1,5 +1,6 @@
 require File.join(File.dirname(__FILE__), 'helper')
 require 'uri/redirect'
+require 'moneta/mongodb'
 
 class URIRedirectTest < MerbTest
   context 'URI' do
@@ -32,6 +33,18 @@ class URIRedirectTest < MerbTest
     should 'return same url on 404' do
       url = uri('http://www.google.com/asdf')
       assert_equal url.to_s, url.follow.to_s
+    end
+
+    should 'use mongo cache' do
+      db         = MongoMapper.database
+      collection = db.collection('uri_redirect_cache')
+      collection.drop
+
+      URI::Redirect::Cache.moneta = Moneta::MongoDB.new(:db => db.name, :collection => collection.name)
+      assert_equal 0, collection.count
+
+      uri.follow
+      assert_equal 1, collection.count
     end
   end
 

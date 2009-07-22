@@ -1,4 +1,6 @@
 require 'curb'
+require 'moneta'
+require 'moneta/memory'
 
 module URI
   module Redirect
@@ -10,13 +12,34 @@ module URI
     end
 
     def follow(url = self, options = {})
-      curl    = Curl::Easy.new(url.to_s)
-      default = {:follow_location => true, :head => true}
-      default.update(options)
-      default.each{|k, v| curl.send("#{k}=", v)}
+      unless effective_url = Cache.get(url.to_s)
+        curl    = Curl::Easy.new(url.to_s)
+        default = {:follow_location => true, :head => true}
+        default.update(options)
+        default.each{|k, v| curl.send("#{k}=", v)}
 
-      curl.perform
-      URI.parse(curl.last_effective_url)
+        curl.perform
+        effective_url = curl.last_effective_url
+      end
+
+      Cache.store(url.to_s, effective_url)
+      URI.parse(effective_url)
+    end
+
+    class Cache
+      cattr_accessor :moneta, :expires_in
+      self.moneta     = Moneta::Memory.new
+      self.expires_in = 86_400 # 24 hours
+
+      class << self
+        def store(key, url)
+          moneta.store(key, url, :expires_in => expires_in)
+        end
+
+        def get(key)
+          moneta[key]
+        end
+      end
     end
   end
 
