@@ -22,6 +22,14 @@ Merb::BootLoader.before_app_loads do
   MongoMapper.database   = (Merb.environment == 'test' ? 'oursignal-test' : 'oursignal')
   Merb.logger.info("MongoMapper localhost/#{MongoMapper.database.name}")
 
+  # Cache with Mongo.
+  require 'uri/redirect'
+  require 'moneta/mongodb'
+  URI::Redirect::Cache.moneta = Moneta::MongoDB.new(
+    :db         => MongoMapper.database.name,
+    :collection => 'uri_redirect'
+  )
+
   require 'ext/string'
   require 'ext/mongo'
 end

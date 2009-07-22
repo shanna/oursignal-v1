@@ -64,9 +64,16 @@ class Link
         link.referrers << link.url
       end
 
+      Merb.logger.debug("Feed Update: #{link.url} processing #{remote_feed.entries.size} entries...")
       remote_feed.entries.map do |entry|
+        Merb.logger.debug("Feed Update: #{link.url} find #{entry.url}.")
         next if first(:conditions => {:url => entry.url})
+
+        sanatized_url = URI.sanatize(entry.url)
+        Merb.logger.debug("Feed Update: #{link.url} sanatized find #{sanatized_url}.")
         next if first(:conditions => {:url => sanatized_url = URI.sanatize(entry.url)})
+
+        Merb.logger.debug("Feed Update: #{link.url} adding entry link #{sanatized_url}.")
         create(
           :title     => entry.title,
           :url       => sanatized_url,

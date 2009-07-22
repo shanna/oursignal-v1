@@ -14,7 +14,17 @@ module URI
     def follow(url = self, options = {})
       unless effective_url = Cache.get(url.to_s)
         curl    = Curl::Easy.new(url.to_s)
-        default = {:follow_location => true, :head => true}
+        default = {
+          # Fake a real browser!
+          :headers           => {
+            'User-Agent'      => 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9.0.11) Gecko/2009060214 Firefox/3.0.11',
+            'Accept'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          },
+          :follow_location   => true,
+          :head              => true,
+          :max_redirects     => 20,
+          :timeout           => 10
+        }
         default.update(options)
         default.each{|k, v| curl.send("#{k}=", v)}
 
