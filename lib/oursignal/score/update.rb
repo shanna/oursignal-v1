@@ -35,8 +35,8 @@ module Oursignal
       end
 
       protected
-        def score(url)
-          sources = ::Score.all(:conditions => {:url => url}).map{|score| [score.source, score.score]}.to_mash
+        def score(link)
+          sources = ::Score.all(:conditions => {:url => link.url}).map{|score| [score.source, score.score]}.to_mash
           return 0.to_f if sources.empty?
 
           scores  = sources.map do |source, score|
@@ -46,7 +46,10 @@ module Oursignal
           end
 
           # TODO: Simple average for now but change it to bayesian average using number of scores.
-          scores.inject(&:+).to_f / scores.size
+          score = (scores.inject(&:+).to_f / scores.size)
+
+          # Degrade score over 24 hours to nothing.
+          score * (1.to_f / ((Time.now - link.created_at).to_i / 3_600))
         end
 
         #--
