@@ -30,7 +30,7 @@ class Link
   )
 
   def to_json(options = {})
-    {:url => url, :title => title, :score => score.score}.to_json
+    {:url => url, :title => title, :score => score.score, :velocity => score.velocity}.to_json
   end
 
   USER_AGENT = 'oursignal-rss/2 +oursignal.com'
@@ -103,7 +103,7 @@ class Link
           else
             Merb.logger.debug("update\t#{sanatized_url} create")
             create(
-              :title     => content.text,
+              :title     => entry.title,
               :url       => sanatized_url,
               :referrers => [link.url]
             )
