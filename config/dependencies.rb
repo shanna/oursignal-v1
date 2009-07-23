@@ -25,6 +25,7 @@ dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
 
 # github
 dependency 'taf2-curb', '0.4.8.0', :require_as => nil
+dependency 'mongodb-mongo', '0.9', :require_as => 'mongo'
 dependency 'jnunemaker-mongomapper', '0.2.0', :require_as => 'mongomapper'
 dependency 'thoughtbot-shoulda', '2.10.1', :require_as => nil
 dependency 'jnunemaker-columbus', '0.1.2', :require_as => 'columbus'
