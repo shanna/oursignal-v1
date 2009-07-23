@@ -20,6 +20,8 @@ module Oursignal
         begin
           res = job.poll
           job.work(res) if res && !res.nil? && (res.respond_to?(:empty?) ? !res.empty? : true)
+        rescue Exception => error
+          Merb.logger.error("job\t#{error.class.to_s.downcase}\n#{error.message}\n#{error.backtrace.join($/)}")
         ensure
           job.succeed
         end

@@ -57,7 +57,7 @@ class Link
     # remote_feed.sanitize_entries!
 
     unless remote_feed.entries.empty?
-      Merb.logger.info("Feed Update: #{link.url}")
+      Merb.logger.info("update\t#{link.url}")
 
       link.title              = remote_feed.title
       link.feed.url           = remote_feed.url
@@ -68,16 +68,17 @@ class Link
         link.referrers << link.url
       end
 
-      Merb.logger.debug("Feed Update: #{link.url} processing #{remote_feed.entries.size} entries...")
+      Merb.logger.debug("update\t#{remote_feed.entries.size} entries")
       remote_feed.entries.map do |entry|
         sanatized_url = URI.sanatize(entry.url) rescue next
         if entry_link = first(:conditions => {:url => sanatized_url})
           unless entry_link.referrers.find{|url| url == link.url}
+            Merb.logger.debug("update\t#{sanatized_url} add referrer #{link.url}")
             entry_link.referrers << link.url
             entry_link.save
           end
         else
-          Merb.logger.debug("Feed Update: #{link.url} adding entry link #{sanatized_url}.")
+          Merb.logger.debug("update\t#{sanatized_url} create")
           create(
             :title     => entry.title,
             :url       => sanatized_url,
@@ -85,19 +86,22 @@ class Link
           )
         end
 
-        xml = Nokogiri::XML.parse("<r>#{entry.summary}</r>")
-        Merb.logger.debug("Feed Update: #{sanatized_url} processing content.")
-        xml.xpath('//a').each do |content|
+        xml     = Nokogiri::XML.parse("<r>#{entry.summary}</r>") rescue next
+        anchors = xml.xpath('//a')
+        Merb.logger.debug("update\t#{sanatized_url} #{anchors.size} content anchors")
+
+        anchors.each do |content|
           sanatized_url = URI.sanatize(content.attribute('href').text) rescue next
           next unless content.text.strip =~ /\w+/
 
           if content_link = first(:conditions => {:url => sanatized_url})
             unless content_link.referrers.find{|url| url == link.url}
+              Merb.logger.debug("update\t#{sanatized_url} add referrer #{link.url}")
               content_link.referrers << link.url
               content_link.save
             end
           else
-            Merb.logger.debug("Feed Update: #{link.url} adding content link #{sanatized_url}.")
+            Merb.logger.debug("update\t#{sanatized_url} create")
             create(
               :title     => content.text,
               :url       => sanatized_url,
@@ -107,8 +111,8 @@ class Link
         end
       end
     end
-  rescue => e
-    Merb.logger.error("Feed Error (#{url}): #{e.message}")
+  rescue => error
+    Merb.logger.error("update\terror #{url}\n#{error.message}\n#{error.backtrace.join($/)}")
   ensure
     link.feed.updated_at = Time.now
     link.save

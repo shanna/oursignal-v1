@@ -2,16 +2,14 @@ class Score
   include MongoMapper::Document
   key :source, String
   key :url,    String
-  key :score,  Float, :default => 0
+  key :score,  Integer, :default => 0
 
-  def self.first_or_new_by_url(url, source = nil)
-    options = {:url => URI.sanatize(url, false)}
-    options[:source] = source if source
+  validates_presence_of :source
+  validates_presence_of :url
+  validates_numericality_of :score
 
-    score = first(:conditions => options)
-    return score if score
-
-    options[:url] = URI.sanatize(url)
-    first(:conditions => options) || new(options)
+  def self.first_or_new_by_url(url, source)
+    options = {:url => URI.sanatize(url), :source => source}
+    ::Score.first(:conditions => options) || ::Score.new(options)
   end
 end

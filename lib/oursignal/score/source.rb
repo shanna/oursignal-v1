@@ -8,7 +8,7 @@ module Oursignal
 
     class Source < Job
       def poll
-        Merb.logger.info("#{self.class}: Updating score cache...")
+        Merb.logger.info("#{name}\tupdating cache")
         http_read(http_uri)
       end
 
@@ -19,9 +19,11 @@ module Oursignal
       end
 
       def score(url, score)
-        cache       = ::Score.first_or_new_by_url(url, name)
+        cache       = ::Score.first_or_new_by_url(url, self.class.name)
         cache.score = score
-        cache.save
+        result      = cache.save
+        Merb.logger.debug("%s\t%d\t%s" % [cache.source, cache.score, cache.url])
+        result
       end
 
       protected
