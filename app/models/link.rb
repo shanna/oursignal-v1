@@ -44,8 +44,12 @@ class Link
 
     # TODO: 302 handling and such.
     Feedzirra::Feed.fetch_and_parse(url, opts)
+    true
   end
 
+  #--
+  # TODO: Golf this mess. Entries and links are treated the same pretty much. Just pull all the links and feed them
+  # to a single repsert() method.
   def self.feed_update(url, remote_feed)
     link = first(:conditions => {:url => url}) || return
 
@@ -66,20 +70,41 @@ class Link
 
       Merb.logger.debug("Feed Update: #{link.url} processing #{remote_feed.entries.size} entries...")
       remote_feed.entries.map do |entry|
-        Merb.logger.debug("Feed Update: #{link.url} find #{entry.url}.")
-        next if first(:conditions => {:url => entry.url})
+        sanatized_url = URI.sanatize(entry.url) rescue next
+        if entry_link = first(:conditions => {:url => sanatized_url})
+          unless entry_link.referrers.find{|url| url == link.url}
+            entry_link.referrers << link.url
+            entry_link.save
+          end
+        else
+          Merb.logger.debug("Feed Update: #{link.url} adding entry link #{sanatized_url}.")
+          create(
+            :title     => entry.title,
+            :url       => sanatized_url,
+            :referrers => [link.url]
+          )
+        end
 
-        sanatized_url = URI.sanatize(entry.url)
-        Merb.logger.debug("Feed Update: #{link.url} sanatized find #{sanatized_url}.")
-        next if first(:conditions => {:url => sanatized_url = URI.sanatize(entry.url)})
+        xml = Nokogiri::XML.parse("<r>#{entry.summary}</r>")
+        Merb.logger.debug("Feed Update: #{sanatized_url} processing content.")
+        xml.xpath('//a').each do |content|
+          sanatized_url = URI.sanatize(content.attribute('href').text) rescue next
+          next unless content.text.strip =~ /\w+/
 
-        Merb.logger.debug("Feed Update: #{link.url} adding entry link #{sanatized_url}.")
-        create(
-          :title     => entry.title,
-          :url       => sanatized_url,
-          :referrers => [link.url]
-        )
-        # TODO: Dig links out of content as well.
+          if content_link = first(:conditions => {:url => sanatized_url})
+            unless content_link.referrers.find{|url| url == link.url}
+              content_link.referrers << link.url
+              content_link.save
+            end
+          else
+            Merb.logger.debug("Feed Update: #{link.url} adding content link #{sanatized_url}.")
+            create(
+              :title     => content.text,
+              :url       => sanatized_url,
+              :referrers => [link.url]
+            )
+          end
+        end
       end
     end
   rescue => e
@@ -90,7 +115,7 @@ class Link
   end
 
   def self.discover(url, deep = true)
-    feed = new(:url => URI.sanatize(url))
+    feed = new(:url => (URI.sanatize(url) rescue url))
     feed.validate_only('true_for/url') # TODO: Group.
     raise MongoMapper::DocumentNotValid.new(feed) unless feed.errors.empty?
 
