@@ -23,9 +23,9 @@ module Oursignal
       def work(links)
         links.each do |link|
           begin
-            score               = score(link)
-            link.score.velocity = score - (link.score.score || 0)
-            link.score.score    = score
+            new_score           = score(link)
+            link.score.velocity = (new_score - (link.score.score || 0)) if new_score != link.score.score
+            link.score.score    = new_score
           rescue => error
             Merb.logger.error("score\terror\n#{error.message}\n#{error.backtrace.join($/)}")
           ensure
