@@ -17,6 +17,7 @@ dependency 'merb-auth-core', merb_gems_version
 dependency 'merb-auth-more', merb_gems_version
 dependency 'merb-param-protection', merb_gems_version
 
+dependency 'eventmachine', '0.12.8'
 dependency 'mailfactory', '1.4.0'
 dependency 'moneta', '0.6.0'
 dependency 'addressable', '2.1.0', :require_as => 'addressable/uri'
@@ -25,9 +26,9 @@ dependency 'nokogiri', '1.2.3'
 dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
 
 # github
-dependency 'taf2-curb', '0.4.8.0', :require_as => nil
+dependency 'taf2-curb', '0.4.8.0', :require_as => 'curb'
 dependency 'mongodb-mongo', '0.9', :require_as => 'mongo'
 dependency 'jnunemaker-mongomapper', '0.2.0', :require_as => 'mongomapper'
-dependency 'thoughtbot-shoulda', '2.10.1', :require_as => nil
+dependency 'thoughtbot-shoulda', '2.10.1', :require_as => 'shoulda'
 dependency 'jnunemaker-columbus', '0.1.2', :require_as => 'columbus'
 dependency 'pauldix-feedzirra', '0.0.15', :require_as => 'feedzirra'
