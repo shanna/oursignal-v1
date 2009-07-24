@@ -9,14 +9,15 @@ dependency('merb-cache', merb_gems_version) do
   end
 end
 dependency 'merb-actionorm', merb_gems_version # only required for helpers :(
+dependency 'merb-mailer', merb_gems_version
 dependency 'merb-helpers', merb_gems_version
 dependency 'merb-exceptions', merb_gems_version
 dependency 'merb-slices', merb_gems_version
 dependency 'merb-auth-core', merb_gems_version
 dependency 'merb-auth-more', merb_gems_version
 dependency 'merb-param-protection', merb_gems_version
-dependency 'merb-exceptions', merb_gems_version
 
+dependency 'mailfactory', '1.4.0'
 dependency 'moneta', '0.6.0'
 dependency 'addressable', '2.1.0', :require_as => 'addressable/uri'
 dependency 'hpricot', '0.8.1'
