@@ -19,6 +19,8 @@
   });
 
   $(document).ready(function () {
+    $.include('/visualize/treemap/jquery-treemap.js');
+    $.include('/visualize/treemap/jquery-textfill.js');
     $('#links').visualize();
   });
 
