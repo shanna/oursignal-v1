@@ -11,9 +11,10 @@ module URI
       self
     end
 
-    def follow(url = self, options = {})
-      unless effective_url = Cache.get(url.to_s)
-        curl    = Curl::Easy.new(url.to_s)
+    def follow(url = nil, options = {})
+      url = to_s if url.nil?
+      unless effective_url = Cache.get(url)
+        curl    = Curl::Easy.new(url)
         default = {
           # Fake a real browser!
           :headers           => {
@@ -32,7 +33,7 @@ module URI
         effective_url = curl.last_effective_url
       end
 
-      Cache.store(url.to_s, effective_url)
+      Cache.store(url, effective_url)
       URI.parse(effective_url)
     end
 

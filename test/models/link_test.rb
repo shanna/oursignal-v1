@@ -67,13 +67,13 @@ class LinkTest < ModelTest
 
     context '.feed' do
       should 'return new feed object' do
-        assert_kind_of Link::Feed, Link.new.feed
+        assert_kind_of LinkFeed, Link.new.feed
       end
     end
 
     context '.score' do
       should 'return new score object' do
-        assert_kind_of Link::Score, Link.new.score
+        assert_kind_of LinkScore, Link.new.score
       end
     end
   end

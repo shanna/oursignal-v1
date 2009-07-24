@@ -1,27 +1,27 @@
 require 'uri/sanatize'
 
+class LinkScore
+  include MongoMapper::EmbeddedDocument
+  key :score,      Float, :default => 0
+  key :velocity,   Float, :default => 0
+  key :updated_at, Time
+end # LinkScore
+
+class LinkFeed
+  include MongoMapper::EmbeddedDocument
+  key :url,           String
+  key :etag,          String
+  key :last_modified, Time
+  key :updated_at,    Time
+end # LinkFeed
+
 class Link
-  class Score
-    include MongoMapper::EmbeddedDocument
-    key :score,      Float, :default => 0
-    key :velocity,   Float, :default => 0
-    key :updated_at, Time
-  end # Score
-
-  class Feed
-    include MongoMapper::EmbeddedDocument
-    key :url,           String
-    key :etag,          String
-    key :last_modified, Time
-    key :updated_at,    Time
-  end # Feed
-
   include MongoMapper::Document
   key :url,       String
   key :title,     String
   key :referrers, Array
-  key :score,     Link::Score, :default => lambda { Link::Score.new}
-  key :feed,      Link::Feed,  :default => lambda { Link::Feed.new}
+  key :score,     LinkScore, :default => lambda { LinkScore.new}
+  key :feed,      LinkFeed,  :default => lambda { LinkFeed.new}
 
   validates_true_for(
     :url,
