@@ -19,11 +19,17 @@ module Oursignal
       end
 
       def score(url, score)
-        cache       = ::Score.first_or_new_by_url(url, self.class.name)
-        cache.score = score
-        result      = cache.save
-        Merb.logger.debug("%s\t%d\t%s" % [cache.source, cache.score, cache.url])
-        result
+        begin
+          cache       = ::Score.first_or_new_by_url(url, self.class.name)
+          cache.score = score
+          result      = cache.save
+          Merb.logger.debug("%s\t%d\t%s" % [cache.source, cache.score, cache.url])
+          result
+        rescue Exception => error
+          Merb.logger.error(
+            "%s\terror\t%s\n%s\n%s" % [self.class.name, error.class.to_s.downcase, error.message, error.backtrace.join($/)]
+          )
+        end
       end
 
       protected

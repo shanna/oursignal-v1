@@ -51,8 +51,8 @@ module Oursignal
           average = (scores.inject(&:+).to_f / scores.size)
           final   = average unless average.infinite?
 
-          # Degrade score over 24 hours to nothing.
-          age   = (1.to_f / ((Time.now - link.created_at).to_i / 3_600))
+          # Degrade over time.
+          age   = (1.to_f / ((Time.now - link.created_at).to_i / 21_600))
           final = final * age unless age.infinite?
 
           final

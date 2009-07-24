@@ -76,9 +76,11 @@ class Link
             Merb.logger.debug("update\t#{sanatized_url} add referrer #{link.url}")
             entry_link.referrers << link.url
             entry_link.save
+          else
+            Merb.logger.debug("update\t#{sanatized_url} exists and has referrer #{link.url}")
           end
         else
-          Merb.logger.debug("update\t#{sanatized_url} create")
+          Merb.logger.debug("update\t#{sanatized_url} entry create")
           create(
             :title     => entry.title,
             :url       => sanatized_url,
@@ -99,9 +101,11 @@ class Link
               Merb.logger.debug("update\t#{sanatized_url} add referrer #{link.url}")
               content_link.referrers << link.url
               content_link.save
+            else
+              Merb.logger.debug("update\t#{sanatized_url} exists and has referrer #{link.url}")
             end
           else
-            Merb.logger.debug("update\t#{sanatized_url} create")
+            Merb.logger.debug("update\t#{sanatized_url} content create")
             create(
               :title     => entry.title,
               :url       => sanatized_url,
