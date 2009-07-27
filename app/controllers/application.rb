@@ -8,8 +8,6 @@ class Application < Merb::Controller
 
   protected
     def ensure_authorized
-      $stderr.puts session.user.username
-      $stderr.puts params['username']
       raise Forbidden unless session.user.username == params['username']
     end
 end
