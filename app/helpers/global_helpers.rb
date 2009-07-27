@@ -15,10 +15,5 @@ module Merb
         tag('div', tag('ul', tag('li', v)), {:id => k})
       end.join
     end
-
-    def links_for(user = session.user)
-      user ||= User.first(:conditions => {:username => 'oursignal'})
-      user ? user.links : []
-    end
   end
 end

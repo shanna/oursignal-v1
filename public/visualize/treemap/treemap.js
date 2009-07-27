@@ -21,21 +21,23 @@
   $(document).ready(function () {
     $.include('/visualize/treemap/jquery-treemap.js');
     $.include('/visualize/treemap/jquery-textfill.js');
-    $('#links').visualize();
+    $('#links').visualize(); // TODO: Check if WIP already.
   });
 
   $(window).resize(function () {
-    $('#links').visualize();
+    $('#links').visualize(); // TODO: Check if WIP already.
   });
 
   function data() {
     var data = [];
-    $(links).each(function (index, link) {
-      var velocity = $('<div class="velocity">').append(link.velocity);
-      var meta     = $('<div class="meta" style="display: none;" />').append(velocity);
-      var anchor   = $('<a />').attr({href: link.url}).append(link.title);
-      data.push([$('<span />').append(meta, anchor), parseFloat(link.score) * 100]);
-    });
+    $.ajax({type: 'GET', url: '/', dataType: 'json', async: false, success: function (json) {
+      $(json).each(function (index, link) {
+        var velocity = $('<div class="velocity">').append(link.velocity);
+        var meta     = $('<div class="meta" style="display: none;" />').append(velocity);
+        var anchor   = $('<a />').attr({href: link.url}).append(link.title);
+        data.push([$('<span />').append(meta, anchor), 50]); // parseFloat(link.score) * 100]);
+      });
+    }});
     return data;
   }
 })(jQuery);

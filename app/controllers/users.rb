@@ -3,8 +3,8 @@ class Users < Application
   before :ensure_authorized,    :exclude => [:index, :new, :create, :login]
 
   def index
-    provides :rss, :js
-    render
+    provides :rss, :json
+    display (session.user || User.first(:conditions => {:username => 'oursignal'})).links
   end
 
   def new
