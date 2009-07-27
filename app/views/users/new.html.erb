@@ -1,1 +1,25 @@
-<h1>Users controller, new action</h1>
+<%= error_messages_for @user %>
+
+<%= form_for @user, :action => '/signup' do %>
+  <fieldset class="vcard">
+    <legend>New User</legend>
+
+    <%= text_field :fullname, :label => 'Full name', :class => 'vcard-fn' %>
+    <%= text_field :username, :label => 'Username', :class => 'vcard-nickname' %>
+    <%= password_field :password, :label => 'Password' %>
+    <%= text_field :email, :label => 'Email', :class => 'vcard-email' %>
+
+    <%# TODO: Oursignal keys. This is my noodledish one %>
+    <script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6Lc1hwcAAAAAAHpTxf1O3AP7QAoEVYF4gl0Blf1q"></script>
+    <noscript>
+      <iframe src="http://api.recaptcha.net/noscript?k=6Lc1hwcAAAAAAHpTxf1O3AP7QAoEVYF4gl0Blf1q" height="300" width="500" frameborder="0">
+      </iframe><br />
+      <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+      </textarea>
+      <input type="hidden" name="recaptcha_response_field" value="manual_challenge">
+    </noscript>
+
+
+    <%= submit :create %>
+  </fieldset>
+<% end =%>

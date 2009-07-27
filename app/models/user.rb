@@ -1,17 +1,33 @@
+require 'digest/sha1'
+
 class UserFeed
   include MongoMapper::EmbeddedDocument
   key :url,   String
   key :score, Float
-  # key :link,  ::Link
 end
 
 class User
   include MongoMapper::Document
-  key :username, String
   key :fullname, String
+  key :username, String
+  key :password, String
   key :email,    String
   key :openid,   String
   many :user_feeds
+
+  def initialize(attrs = {})
+    super
+    self.password = attrs.fetch(:password) if attrs.include?(:password)
+  end
+
+  def password=(password)
+    write_attribute('password', digest_password(password))
+  end
+
+  def self.authenticate(username, password)
+    user = User.new(:username => username, :password => password)
+    first(:conditions => {:username => user.username, :password => user.password})
+  end
 
   def links(limit = 50)
     results   = {}
@@ -34,5 +50,10 @@ class User
   def feed(url)
     user_feeds.find{|feed| feed.url == url}
   end
+
+  private
+    def digest_password(password)
+      Digest::SHA1.hexdigest('some salt' + password.to_s)
+    end
 end
 

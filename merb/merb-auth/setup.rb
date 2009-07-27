@@ -1,3 +1,6 @@
+Merb::Plugins.config[:'merb-auth'][:login_param]    = :username
+Merb::Plugins.config[:'merb-auth'][:password_param] = :password
+
 begin
   Merb::Authentication.user_class = User
 

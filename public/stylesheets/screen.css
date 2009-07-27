@@ -15,6 +15,11 @@ a {
   clear: both;
 }
 
+/* forms */
+input {
+  display: block;
+}
+
 /* body */
 div#body {
   padding: 10px 0px;

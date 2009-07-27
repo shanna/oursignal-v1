@@ -10,7 +10,7 @@
       <li><%= link_to('logout', url(:logout, session.user.username)) %></li>
       <li><%= link_to('customize', url(:users, session.user.username, :action => :edit)) %></li>
     <% else -%>
-      <li><%= link_to('customize', url(:openid)) %></li>
+      <li><%= link_to('customize', url(:login)) %></li>
     <% end -%>
     <li><a href="#TODO" onclick="javascript:alert('TODO');">directory</a></li>
     <li><a href="#TODO" onclick="javascript:alert('TODO');">developers</a></li>
