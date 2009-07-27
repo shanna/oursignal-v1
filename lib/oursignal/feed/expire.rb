@@ -6,7 +6,7 @@ module Oursignal
       self.poll_time = 600 # Ten minutes.
 
       def poll
-        links = Link.all(:conditions => {:created_at => {:'$lt' => Time.now - 86_400}})
+        links = Link.all(:conditions => {:'feed.url' => nil, :created_at => {:'$lt' => Time.now - 86_400}})
         Merb.logger.info("expire\tdeleting #{links.size} links") unless links.empty?
         links
       end
