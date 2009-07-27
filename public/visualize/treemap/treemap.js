@@ -35,7 +35,7 @@
         var velocity = $('<div class="velocity">').append(link.velocity);
         var meta     = $('<div class="meta" style="display: none;" />').append(velocity);
         var anchor   = $('<a />').attr({href: link.url}).append(link.title);
-        data.push([$('<span />').append(meta, anchor), 50]); // parseFloat(link.score) * 100]);
+        data.push([$('<span />').append(meta, anchor), parseFloat(link.score) * 100]);
       });
     }});
     return data;
