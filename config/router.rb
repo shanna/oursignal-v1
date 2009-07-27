@@ -4,7 +4,7 @@ Merb::Router.prepare do
   match('/signup', :method => :post).to(:controller => :users, :action => 'create')
   match('/login').to(:controller => :users, :action => 'login').name(:openid).name(:login)
 
-  match('/:username(.:format)', :username => /^[a-z0-9\-\.]+$/) do
+  match('/:username(.:format)', :username => /^[a-z0-9][a-z0-9\-\.]+$/) do
     match('/feeds', :method => :get).to(:controller => :feeds, :action => :index)
     match('/feeds', :method => :post).to(:controller => :feeds, :action => :create)
     match('/feeds', :method => :put).to(:controller => :feeds, :action => :update)
@@ -16,5 +16,5 @@ Merb::Router.prepare do
     match('/(:action)').to(:controller => :users).name(:users)
   end
 
-  match('/').to(:controller => :users, :action => 'index')
+  match('/(.:format)').to(:controller => :users, :action => 'index')
 end
