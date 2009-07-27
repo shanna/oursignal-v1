@@ -1,13 +1,10 @@
 class Feeds < Application
   only_provides :json
   before :ensure_authenticated
+  before :ensure_authorized
 
   def index
     display session.user.user_feeds
-  end
-
-  def show
-    # Nothing for a single feed yet.
   end
 
   def create

@@ -1,9 +1,9 @@
 class Users < Application
   before :ensure_authenticated, :exclude => [:index, :new, :create]
+  before :ensure_authorized,    :exclude => [:index, :new, :create, :login]
 
   def index
     provides :rss, :js
-    # TODO: Feed for oursignal.
     render
   end
 
@@ -22,12 +22,6 @@ class Users < Application
     end
   end
 
-  def show
-    provides :rss, :js
-    # TODO: Feed for params[:nickname]
-    render
-  end
-
   def edit
     @user = session.user
     raise NotFound unless @user
@@ -40,6 +34,6 @@ class Users < Application
 
   def logout
     session.abandon!
-    redirect '/', :message => { :notice => 'You are not logged out' }
+    redirect '/', :message => { :notice => 'You are now logged out' }
   end
 end

@@ -5,4 +5,11 @@ class Application < Merb::Controller
       params[:openid_url] = OpenID.normalize_url(uri.normalize)
     end
   end
+
+  protected
+    def ensure_authorized
+      $stderr.puts session.user.username
+      $stderr.puts params['username']
+      raise Forbidden unless session.user.username == params['username']
+    end
 end
