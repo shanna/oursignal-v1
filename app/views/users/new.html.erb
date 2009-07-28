@@ -1,4 +1,5 @@
 <%= error_messages_for @user %>
+<%= error_messages_for @captcha %>
 
 <%= form_for @user, :action => '/signup' do %>
   <fieldset class="vcard">
@@ -6,7 +7,7 @@
 
     <%= text_field :fullname, :label => 'Full name', :class => 'vcard-fn' %>
     <%= text_field :username, :label => 'Username', :class => 'vcard-nickname' %>
-    <%= password_field :password, :label => 'Password' %>
+    <%= password_field :password, :label => 'Password', :value => '' %>
     <%= text_field :email, :label => 'Email', :class => 'vcard-email' %>
 
     <%# TODO: Oursignal keys. This is my noodledish one %>

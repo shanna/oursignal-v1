@@ -6,7 +6,7 @@
   </fieldset>
 </form>
 
-<form class="auth-user" method="post" action="/login">
+<form class="auth-password" method="post" action="/login">
   <fieldset>
     <legend>Login</legend>
     <%= text_field :name => :username, :label => 'Username' %>
@@ -15,3 +15,4 @@
   </fieldset>
 </form>
 
+<%= link_to 'signup', url(:signup) %>

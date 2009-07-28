@@ -25,8 +25,7 @@ module URI
           :head              => true,
           :max_redirects     => 20,
           :timeout           => 10
-        }
-        default.update(options)
+        }.update(options)
         default.each{|k, v| curl.send("#{k}=", v)}
 
         curl.perform
