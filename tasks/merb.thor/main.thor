@@ -128,7 +128,8 @@ module Merb
       installed_gems  = Dir[gem_dir / "*"].map!  {|n| File.basename(n)}
       
       list = full_list.map {|x| x.full_name}.compact
-      
+      $stderr.puts list.inspect
+      $stderr.puts installed_gems.inspect
       (installed_gems - list).each do |g|
         /^(.*)\-(.*)$/ =~ g
         name, version = $1, $2
