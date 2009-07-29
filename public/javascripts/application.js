@@ -13,6 +13,21 @@
     }
   });
 
+  // Fetch links for a feed.
+  $.extend($, {
+    links: function (options) {
+      var defaults = {cache: true};
+      options      = $.extend(defaults, options);
+
+      if (!(options.cache && $.links.data)) {
+        $.ajax({type: 'GET', url: '/', dataType: 'json', async: false, success: function (json) {
+          $.links.data = json;
+        }});
+      }
+      return $.links.data;
+    }
+  });
+
   $(document).ready(function () {
     $('#notice').notice();
   });

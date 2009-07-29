@@ -10,18 +10,17 @@
  * Licensed under the MIT:
  * http://www.opensource.org/licenses/mit-license.php
  *
- * Copyright (c) 2008 Stateless Systems (http://statelesssystems.com)
+ * Copyright (c) 2009 Stateless Systems (http://statelesssystems.com)
  *
  * @author   Shane Hanna (shane.hanna -at- gmail -dawt- com)
- * @requires jQuery v1.2 or later
+ * @requires jQuery v1.3 or later
  * @version  0.1
  */
-
 (function ($) {
   $.extend($.fn, {
     textfill: function (options) {
       var defaults = {max: 50};
-      options = $.extend(defaults, options);
+      options      = $.extend(defaults, options);
 
       return this.each(function () {
         var el     = $(this);

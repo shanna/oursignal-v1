@@ -1,10 +1,20 @@
 (function ($) {
+  $.require([
+    '/visualize/treemap/jquery-treemap.js',
+    '/visualize/treemap/jquery-textfill.js'
+  ]);
+
   $.extend($.fn, {
-    visualize: function () {
-      this.children().remove();
-      this.treemap($(window).width(), $(window).height() - 100, {getData: data});
-      this.find('div.treemapCell span').textfill({max: 50}).velocity();
-      return this;
+    visualize: function (options) {
+      return this.each(function () {
+        var links    = $(this);
+        var defaults = {cache: true};
+        options      = $.extend(defaults, options);
+
+        links.children().remove();
+        links.treemap($(window).width(), $(window).height() - 100, {getData: data(options)});
+        links.find('div.treemapCell span').textfill({max: 50}).velocity();
+      });
     },
 
     velocity: function () {
@@ -19,25 +29,25 @@
   });
 
   $(document).ready(function () {
-    $.include('/visualize/treemap/jquery-treemap.js');
-    $.include('/visualize/treemap/jquery-textfill.js');
-    $('#links').visualize(); // TODO: Check if WIP already.
+    $('#links').visualize();
+    $(window).resize(function () {
+      $('#links').visualize();
+    });
   });
 
-  $(window).resize(function () {
-    $('#links').visualize(); // TODO: Check if WIP already.
-  });
-
-  function data() {
-    var data = [];
-    $.ajax({type: 'GET', url: '/', dataType: 'json', async: false, success: function (json) {
-      $(json).each(function (index, link) {
-        var velocity = $('<div class="velocity">').append(link.velocity);
-        var meta     = $('<div class="meta" style="display: none;" />').append(velocity);
-        var anchor   = $('<a />').attr({href: link.url}).append(link.title);
-        data.push([$('<span />').append(meta, anchor), parseFloat(link.score) * 100]);
-      });
-    }});
-    return data;
+  function data (options) {
+    return function () {
+      if (!(options.cache && $.fn.visualize.links)) {
+        // No need to cache $.links since we are caching the link html.
+        $.fn.visualize.links = $.links({cache: false}).map(function (link) {
+          var velocity = $('<div class="velocity">').append(link.velocity);
+          var meta     = $('<div class="meta" style="display: none;" />').append(velocity);
+          var anchor   = $('<a />').attr({href: link.url}).append(link.title);
+          return [$('<span />').append(meta, anchor), parseFloat(link.score) * 100];
+        });
+      }
+      return $.fn.visualize.links;
+    };
   }
 })(jQuery);
+
