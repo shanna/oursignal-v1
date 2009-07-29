@@ -7,6 +7,10 @@ class Application < Merb::Controller
   end
 
   protected
+    def user
+      session.user || (@default_user ||= User.first(:conditions => {:username => 'oursignal'}))
+    end
+
     def ensure_authorized
       raise Forbidden unless session.user.username == params['username']
     end

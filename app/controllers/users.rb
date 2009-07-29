@@ -6,7 +6,7 @@ class Users < Application
 
   def index
     provides :rss, :json
-    display (session.user || User.first(:conditions => {:username => 'oursignal'})).links
+    display user.links
   end
 
   def new
@@ -21,7 +21,8 @@ class Users < Application
       params[:recaptcha_response_field]
     )
 
-    @user = User.new(params[:user])
+    @user            = User.new(params[:user])
+    @user.user_feeds = user.user_feeds # oursignal feeds by default.
     if @user.save && @captcha.success
       session.user = @user
       redirect url(:users, @user.username)
@@ -37,7 +38,7 @@ class Users < Application
   end
 
   def login
-    redirect url(:users, session.user.username) if session.user
+    redirect url(:users, user.username) if session.user
   end
 
   def logout
