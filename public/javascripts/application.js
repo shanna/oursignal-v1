@@ -20,7 +20,9 @@
       options      = $.extend(defaults, options);
 
       if (!(options.cache && $.links.data)) {
-        $.ajax({type: 'GET', url: '/', dataType: 'json', async: false, success: function (json) {
+        // TODO: Basename the location.
+        var url = document.location + '.json';
+        $.ajax({type: 'GET', url: url, dataType: 'json', async: false, success: function (json) {
           $.links.data = json;
         }});
       }
