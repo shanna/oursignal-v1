@@ -55,7 +55,9 @@
     });
 
     var score = $('<div class="score" />').slider({value: json.score, min: 0, max: 1, step: 0.01, stop: function (e, ui) {
-      $.post('feeds', {url: json.url, score: ui.value, _method: 'put'}, null, 'json');
+      $.post('feeds', {url: json.url, score: ui.value, _method: 'put'}, function () {
+        $('#links').visualize({cache: false});
+      }, 'json');
     }});
 
     return $('<li />').append(
