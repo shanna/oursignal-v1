@@ -2,10 +2,6 @@ require File.join(File.dirname(__FILE__), 'helper')
 
 class LinkTest < ModelTest
   context 'Link' do
-    setup do
-      Link.destroy_all
-    end
-
     context '#discover url' do
       should 'raise error on non http url' do
         assert_raises(MongoMapper::DocumentNotValid){ Link.discover('asdf')}

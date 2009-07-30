@@ -15,6 +15,6 @@ test:
   repositories:
     default:
       adapter:  mysql
-      database: oursignal-test
+      database: oursignal_test
       username: root
       host:     localhost

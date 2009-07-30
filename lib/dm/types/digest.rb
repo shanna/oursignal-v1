@@ -33,6 +33,7 @@ module DataMapper
 
       def self.inherited(target)
         target.instance_variable_set("@primitive", self.primitive)
+        target.instance_variable_set("@length", self.length)
       end
 
       def self.digest_map
@@ -67,17 +68,19 @@ module DataMapper
 
       class SHA1 < Digest
         primitive String
+        length 40
 
         def self.digest(value, property)
-          Digest::SHA1.hexdigest(value.to_s)
+          ::Digest::SHA1.hexdigest(value.to_s)
         end
       end
 
       class MD5 < Digest
         primitive String
+        length 32
 
         def self.digest(value, property)
-          Digest::MD5.hexdigest(value.to_s)
+          ::Digest::MD5.hexdigest(value.to_s)
         end
       end
     end # Digest

@@ -1,8 +1,10 @@
+require 'uri/sanatize'
 require 'dm/types/digest'
 
 class Feed
   include DataMapper::Resource
   property :id,            DataMapper::Types::Digest::SHA1.new(:url), :key => true, :nullable => false
+  property :title,         String, :length => 255
   property :url,           URI, :length => 255, :nullable => false
   property :etag,          String, :length => 255
   property :last_modified, DateTime
@@ -10,5 +12,46 @@ class Feed
   property :updated_at,    DateTime
 
   has n, :links, :through => Resource
+
+  # TODO: Move all the update code to a mixin.
+
+  USER_AGENT = 'oursignal-rss/2 +oursignal.com'
+  def selfupdate
+    options = {
+      :user_agent => USER_AGENT,
+      :on_success => self.class.method(:update)
+    }
+    options[:if_modified_since] = last_modified unless last_modified.blank?
+    options[:if_none_match]     = etag unless etag.blank?
+
+    # TODO: 302 handling and such.
+    Feedzirra::Feed.fetch_and_parse(url, options)
+    true
+  end
+
+  def self.update(url, remote_feed)
+    feed               = first(:url => url) || return
+    feed.title         = remote_feed.title
+    feed.etag          = remote_feed.etag
+    feed.last_modified = remote_feed.last_modified
+    feed.save && Link.update(feed, remote_feed)
+  end
+
+  #--
+  # TODO: Errors.
+  def self.discover(url, content = true)
+    url  = URI.sanatize(url) rescue return
+    feed = first_or_new(:url => url)
+    return feed unless feed.new?
+
+    # TODO: Should be a feed validation.
+    return unless URI.parse(feed.url.to_s).is_a?(URI::HTTP)
+
+    primary = Columbus.new(feed.url).primary rescue nil
+    return discover(primary.url.to_s, false) if content && primary
+
+    feed.save && feed.selfupdate
+    feed
+  end
 end
 

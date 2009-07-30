@@ -33,6 +33,7 @@ dependency 'merb_datamapper', merb_gems_version
 
 dependency 'eventmachine', '0.12.8'
 dependency 'mailfactory', '1.4.0'
+dependency 'memcache-client', '1.7.4', :require_as => 'memcache'
 dependency 'moneta', '0.6.0'
 # dependency 'addressable', '2.1.0', :require_as => 'addressable/uri'
 dependency 'hpricot', '0.8.1'

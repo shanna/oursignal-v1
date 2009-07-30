@@ -19,16 +19,15 @@ Merb::Config.use do |c|
 end
 
 Merb::BootLoader.before_app_loads do
-  # Cache with Mongo.
-  require 'dm'
   require 'uri/redirect'
-  # URI::Redirect::Cache.moneta = Moneta::MongoDB.new(
-  #   :db         => MongoMapper.database.name,
-  #   :collection => 'uri_redirect'
-  # )
+  require 'moneta/memcache'
+  URI::Redirect::Cache.moneta = Moneta::Memcache.new(
+    :server    => 'localhost:11211',
+    :namespace => 'uri_redirect'
+  )
 
+  require 'dm'
   require 'ext/string'
-  # require 'ext/mongo'
 end
 
 Merb::BootLoader.after_app_loads do

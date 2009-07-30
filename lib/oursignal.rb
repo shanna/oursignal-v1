@@ -7,6 +7,6 @@ module Oursignal
 
     require 'merb-core'
     ::Merb.start({:environment => (ENV['MERB_ENV'] || 'development')}.update(options))
-    Dir.chdir(File.join(File.dirname(__FILE__), '..', '..'))
+    Dir.chdir(File.join(File.dirname(__FILE__), '..'))
   end
 end
