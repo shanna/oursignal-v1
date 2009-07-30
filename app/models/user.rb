@@ -1,33 +1,28 @@
 require 'digest/sha1'
 
-class UserFeed
-  include MongoMapper::EmbeddedDocument
-  key :url,   String
-  key :score, Float
-end
-
 class User
-  include MongoMapper::Document
-  key :fullname, String
-  key :username, String
-  key :password, String
-  key :email,    String
-  key :openid,   String
-  many :user_feeds
+  include DataMapper::Resource
+  property :id,       Serial
+  property :fullname, String
+  property :username, String
+  property :password, String
+  property :email,    String
+  property :openid,   String
+  has n, :user_feeds, ::User::Feed
 
-  validates_presence_of   :fullname
-  validates_presence_of   :email
-  validates_presence_of   :username
-  validates_format_of     :username, :with => /^[a-z0-9][a-z0-9\-]+$/i
-  validates_uniqueness_of :username
+  # validates_presence_of   :fullname
+  # validates_presence_of   :email
+  # validates_presence_of   :username
+  # validates_format_of     :username, :with => /^[a-z0-9][a-z0-9\-]+$/i
+  # validates_uniqueness_of :username
 
-  def initialize(attrs = {})
-    super
-    self.password = attrs.fetch(:password) if attrs.include?(:password)
-  end
+  # def initialize(attrs = {})
+  #   super
+  #   self.password = attrs.fetch(:password) if attrs.include?(:password)
+  # end
 
   def password=(password)
-    write_attribute('password', digest_password(password))
+    attribute_set(:password, digest_password(password))
   end
 
   def self.authenticate(username, password)

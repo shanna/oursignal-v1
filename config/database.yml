@@ -1,0 +1,20 @@
+---
+development:
+  repositories:
+    default:
+      adapter:  mysql
+      database: oursignal
+
+rake:
+  repositories:
+    default:
+      adapter:  mysql
+      database: oursignal
+
+test:
+  repositories:
+    default:
+      adapter:  mysql
+      database: oursignal-test
+      username: root
+      host:     localhost

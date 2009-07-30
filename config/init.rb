@@ -6,6 +6,7 @@ Merb.disable :json
 require 'config/dependencies.rb'
 
 use_test :test_unit
+use_orm :datamapper
 use_template_engine :erb
 
 Merb::Config.use do |c|
@@ -18,20 +19,16 @@ Merb::Config.use do |c|
 end
 
 Merb::BootLoader.before_app_loads do
-  MongoMapper.connection = XGen::Mongo::Driver::Mongo.new
-  MongoMapper.database   = (Merb.environment == 'test' ? 'oursignal-test' : 'oursignal')
-  Merb.logger.info("MongoMapper localhost/#{MongoMapper.database.name}")
-
   # Cache with Mongo.
+  require 'dm'
   require 'uri/redirect'
-  require 'moneta/mongodb'
-  URI::Redirect::Cache.moneta = Moneta::MongoDB.new(
-    :db         => MongoMapper.database.name,
-    :collection => 'uri_redirect'
-  )
+  # URI::Redirect::Cache.moneta = Moneta::MongoDB.new(
+  #   :db         => MongoMapper.database.name,
+  #   :collection => 'uri_redirect'
+  # )
 
   require 'ext/string'
-  require 'ext/mongo'
+  # require 'ext/mongo'
 end
 
 Merb::BootLoader.after_app_loads do
