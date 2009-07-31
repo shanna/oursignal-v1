@@ -5,9 +5,9 @@ class Link
   property :id,         DataMapper::Types::Digest::SHA1.new(:url), :key => true, :nullable => false
   property :url,        URI, :length => 255, :nullable => false
   property :title,      String, :length => 255
-  property :score,      Float
+  property :score,      Float, :precision => 10, :scale => 9
   property :score_at,   DateTime
-  property :velocity,   Float
+  property :velocity,   Float, :precision => 10, :scale => 9
   property :created_at, DateTime
   property :updated_at, DateTime
 
@@ -27,6 +27,14 @@ class Link
         next unless title =~ /\w+/
         links[anchor.attribute('href').text] = title
       end
+    end
+
+    def score=(f)
+      set_attribute(:score, f.round(9))
+    end
+
+    def velocity=(f)
+      set_attribute(:velocity, f.round(9))
     end
 
     # TODO: Use curl-multi to speed up the URI sanatization.

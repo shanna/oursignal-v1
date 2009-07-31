@@ -6,7 +6,7 @@ module Oursignal
       self.poll_time = 30
 
       def poll
-        ::Feed.all(:updated_at.lt => Time.now - 60 * 15)
+        ::Feed.all(:updated_at.lt => (Time.now - 30.minutes).to_datetime)
       end
 
       def work(links = [])

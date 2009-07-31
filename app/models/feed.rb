@@ -23,7 +23,7 @@ class Feed
       :user_agent => USER_AGENT,
       :on_success => self.class.method(:update)
     }
-    options[:if_modified_since] = last_modified unless last_modified.blank?
+    options[:if_modified_since] = last_modified.to_time unless last_modified.blank?
     options[:if_none_match]     = etag unless etag.blank?
 
     # TODO: 302 handling and such.
@@ -35,7 +35,7 @@ class Feed
     feed               = first(:url => url) || return
     feed.title         = remote_feed.title
     feed.etag          = remote_feed.etag
-    feed.last_modified = remote_feed.last_modified
+    feed.last_modified = remote_feed.last_modified.to_datetime
     feed.save && Link.update(feed, remote_feed)
   end
 

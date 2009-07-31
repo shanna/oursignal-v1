@@ -26,8 +26,9 @@ Merb::BootLoader.before_app_loads do
     :namespace => 'uri_redirect'
   )
 
-  require 'dm'
+  require 'dm/types'
   require 'ext/string'
+  require 'ext/float'
 end
 
 Merb::BootLoader.after_app_loads do

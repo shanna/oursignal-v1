@@ -11,7 +11,8 @@ module Oursignal
       end
 
       def poll
-        Link.all(:updated_at.lt => Time.now - 60 * 5)
+        links = Link.all(:score_at.lt => (Time.now - 5.minutes).to_datetime)
+        links + Link.all(:score_at => nil)
       end
 
       def work(links)
@@ -24,10 +25,12 @@ module Oursignal
           rescue => error
             Merb.logger.error("score\terror\n#{error.message}\n#{error.backtrace.join($/)}")
           ensure
-            link.score_at = Time.now
-            link.save
+            link.score_at = DateTime.now
+            unless link.save
+              Merb.logger.error("score\terror\nfailed to update link\n#{link.errors.full_messages}")
+            end
           end
-          Merb.logger.debug("score\t%.2f\t%.2f\t%s" % [link.score.score, link.score.velocity, link.url])
+          Merb.logger.debug("score\t%.5f\t%.5f\t%s" % [link.score, link.velocity, link.url])
         end
       end
 
@@ -47,7 +50,7 @@ module Oursignal
           final   = average unless average.infinite?
 
           # Degrade over time.
-          age   = (1.to_f / ((Time.now - link.created_at).to_i / 21_600))
+          age   = (1.to_f / ((Time.now - link.created_at.to_time).to_i / 6.hours))
           final = final * age unless age.infinite?
 
           final
