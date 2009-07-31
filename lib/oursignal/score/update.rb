@@ -11,25 +11,20 @@ module Oursignal
       end
 
       def poll
-        # TODO: Fucked if I know whats going on here but I can't + these together even if I .to_a
-        links =  Link.all(:conditions => {:'score.updated_at' => nil})
-        links << Link.all(:conditions => {:'score.updated_at' => {:'$lt' => Time.now - 60 * 5}})
-        links = links.flatten.uniq
-
-        Merb.logger.info("score\tupdating scores for #{links.size} links") unless links.empty?
-        links
+        Link.all(:updated_at.lt => Time.now - 60 * 5)
       end
 
       def work(links)
+        Merb.logger.info("score\tupdating scores for #{links.size} links") unless links.empty?
         links.each do |link|
           begin
-            new_score           = score(link)
-            link.score.velocity = (new_score - (link.score.score || 0)) if new_score != link.score.score
-            link.score.score    = new_score
+            new_score     = score(link)
+            link.velocity = (new_score - (link.score || 0)) if new_score != link.score
+            link.score    = new_score
           rescue => error
             Merb.logger.error("score\terror\n#{error.message}\n#{error.backtrace.join($/)}")
           ensure
-            link.score.updated_at = Time.now
+            link.score_at = Time.now
             link.save
           end
           Merb.logger.debug("score\t%.2f\t%.2f\t%s" % [link.score.score, link.score.velocity, link.url])
@@ -38,7 +33,7 @@ module Oursignal
 
       protected
         def score(link)
-          sources = ::Score.all(:conditions => {:url => link.url}).map{|score| [score.source, score.score]}.to_mash
+          sources = ::Score.all(:url => link.url).map{|score| [score.source, score.score]}.to_mash
           return 0.to_f if sources.empty?
 
           scores = sources.map do |source, score|
@@ -64,7 +59,7 @@ module Oursignal
           return @buckets[source] if @buckets[source]
 
           partition        = 100 # TODO: Remove magic number.
-          scores           = ::Score.all(:conditions => {:source => source}, :order => 'score asc').map(&:score)
+          scores           = ::Score.all(:source => source, :order => [:score.asc]).map(&:score)
           @buckets[source] = (1 .. partition).to_a.map! do |r|
             scores.at((scores.size * (r.to_f / partition)).to_i) || scores.last
           end

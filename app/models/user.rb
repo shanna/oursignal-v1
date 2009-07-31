@@ -2,26 +2,19 @@ require 'digest/sha1'
 
 class User
   include DataMapper::Resource
-  property :id,       Serial
-  property :fullname, String
-  property :username, String
-  property :password, String
-  property :email,    String
-  property :openid,   String
+  property :id,         Serial
+  property :fullname,   String, :nullable => false
+  property :username,   String, :nullable => false, :length => (2..20), :format => /^[a-z0-9][a-z0-9\-]+$/i
+  property :password,   String, :length => 40
+  property :email,      String, :nullable => false, :length => 255, :format => :email_address
+  property :openid,     String, :length => 255
+  property :created_at, DateTime
+  property :updated_at, DateTime
 
   has n, :user_feeds, UserFeed
   has n, :feeds, :through => :user_feeds, :model => 'Feed'
 
-  # validates_presence_of   :fullname
-  # validates_presence_of   :email
-  # validates_presence_of   :username
-  # validates_format_of     :username, :with => /^[a-z0-9][a-z0-9\-]+$/i
-  # validates_uniqueness_of :username
-
-  # def initialize(attrs = {})
-  #   super
-  #   self.password = attrs.fetch(:password) if attrs.include?(:password)
-  # end
+  validates_is_unique :username
 
   def password=(password)
     attribute_set(:password, digest_password(password))

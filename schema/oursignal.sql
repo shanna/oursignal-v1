@@ -23,10 +23,10 @@ DROP TABLE IF EXISTS `feed_links`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `feed_links` (
-  `feed_id` varchar(40) NOT NULL,
   `link_id` varchar(40) NOT NULL,
-  PRIMARY KEY  (`feed_id`,`link_id`),
-  KEY `feed_links_link_fk` (`link_id`),
+  `feed_id` varchar(40) NOT NULL,
+  PRIMARY KEY  (`link_id`,`feed_id`),
+  KEY `feed_links_feed_fk` (`feed_id`),
   CONSTRAINT `feed_links_feed_fk` FOREIGN KEY (`feed_id`) REFERENCES `feeds` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `feed_links_link_fk` FOREIGN KEY (`link_id`) REFERENCES `links` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -93,12 +93,13 @@ DROP TABLE IF EXISTS `user_feeds`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `user_feeds` (
-  `id` int(11) NOT NULL auto_increment,
-  `url` varchar(255) default NULL,
+  `user_id` int(11) NOT NULL,
+  `feed_id` varchar(40) NOT NULL,
   `score` float default '0',
-  `user_id` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `index_user_feeds_user` (`user_id`)
+  PRIMARY KEY  (`user_id`,`feed_id`),
+  KEY `user_feeds_feed_fk` (`feed_id`),
+  CONSTRAINT `user_feeds_feed_fk` FOREIGN KEY (`feed_id`) REFERENCES `feeds` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `user_feeds_user_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -117,7 +118,7 @@ CREATE TABLE `users` (
   `email` varchar(50) default NULL,
   `openid` varchar(50) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -129,4 +130,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-07-30  7:43:47
+-- Dump completed on 2009-07-31  0:53:13

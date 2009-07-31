@@ -2,12 +2,14 @@ require 'uri/sanatize'
 
 class Link
   include DataMapper::Resource
-  property :id,       DataMapper::Types::Digest::SHA1.new(:url), :key => true, :nullable => false
-  property :url,      URI, :length => 255, :nullable => false
-  property :title,    String, :length => 255
-  property :score,    Float
-  property :score_at, DateTime
-  property :velocity, Float
+  property :id,         DataMapper::Types::Digest::SHA1.new(:url), :key => true, :nullable => false
+  property :url,        URI, :length => 255, :nullable => false
+  property :title,      String, :length => 255
+  property :score,      Float
+  property :score_at,   DateTime
+  property :velocity,   Float
+  property :created_at, DateTime
+  property :updated_at, DateTime
 
   has n, :feeds, :through => Resource
 

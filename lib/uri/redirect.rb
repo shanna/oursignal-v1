@@ -4,6 +4,8 @@ require 'moneta/memory'
 
 module URI
   module Redirect
+    class RedirectError < RuntimeError; end
+
     def follow!(*args, &block)
       final = follow(*args, &block)
       self.host = final.host
@@ -12,7 +14,7 @@ module URI
     end
 
     def follow(url = nil, options = {})
-      url = to_s if url.nil?
+      url = to_s if url.respond_to?(:to_s)
       unless effective_url = Cache.get(url)
         curl    = Curl::Easy.new(url)
         default = {
@@ -23,13 +25,17 @@ module URI
           },
           :follow_location   => true,
           :head              => true,
-          :max_redirects     => 20,
+          :max_redirects     => 10,
           :timeout           => 10
         }.update(options)
         default.each{|k, v| curl.send("#{k}=", v)}
 
-        curl.perform
-        effective_url = curl.last_effective_url
+        begin
+          curl.perform
+          effective_url = curl.last_effective_url
+        rescue => error
+          raise RedirectError, "#{url}, #{error.message}"
+        end
       end
 
       Cache.store(url, effective_url)

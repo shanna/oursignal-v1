@@ -20,8 +20,9 @@ module Oursignal
 
       def score(url, score)
         begin
+          # TODO: REPLACE INTO:
           options = {:url => URI.sanatize(url), :source => self.class.name}
-          ::Score.collection.repsert(options, options.update(:score => score))
+          ::Score.first_or_create(options, options.update(:score => score))
           Merb.logger.debug("%s\t%d\t%s" % [self.class.name, score, url])
         rescue Exception => error
           Merb.logger.error(
@@ -53,7 +54,7 @@ module Oursignal
 
         # Options that will be passed to open() when requesting the data.
         def http_read_options
-          {'User-Agent' => Link::USER_AGENT, 'Accept-Encoding' => 'gzip'}
+          {'User-Agent' => Feed::USER_AGENT, 'Accept-Encoding' => 'gzip'}
         end
 
         # Generate a URI, Addressable::URI or just a string URI to read from.
