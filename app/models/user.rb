@@ -8,7 +8,9 @@ class User
   property :password, String
   property :email,    String
   property :openid,   String
-  has n, :user_feeds, 'User::Feed'
+
+  has n, :user_feeds, UserFeed
+  has n, :feeds, :through => :user_feeds, :model => 'Feed'
 
   # validates_presence_of   :fullname
   # validates_presence_of   :email

@@ -11,6 +11,8 @@ class Feed
   property :created_at,    DateTime
   property :updated_at,    DateTime
 
+  has n, :user_feeds
+  has n, :users, :through => :user_feeds, :model => 'User'
   has n, :links, :through => Resource
 
   # TODO: Move all the update code to a mixin.
