@@ -5,6 +5,7 @@ TAGS
 *~
 .#*
 schema/schema.rb
+schema/oursignal.sql
 schema/*_structure.sql
 schema/*.sqlite3
 schema/*.sqlite

@@ -20,6 +20,13 @@ class ScoreSourceDiggTest < ScoreSourceTest
           @digg.work(@digg.poll)
         end
       end
+
+      should 'run twice without errors' do # duplicate key error
+        assert_nothing_raised do
+          @digg.work(@digg.poll)
+          @digg.work(@digg.poll)
+        end
+      end
     end
   end
 end

@@ -22,7 +22,7 @@ module Oursignal
         begin
           # TODO: REPLACE INTO:
           options = {:url => URI.sanatize(url), :source => self.class.name}
-          ::Score.first_or_create(options, options.update(:score => score))
+          ::Score.first_or_create(options, :score => score)
           Merb.logger.debug("%s\t%d\t%s" % [self.class.name, score, url])
         rescue Exception => error
           Merb.logger.error(
