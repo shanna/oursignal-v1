@@ -27,7 +27,7 @@ module Oursignal
           ensure
             link.score_at = DateTime.now
             unless link.save
-              Merb.logger.error("score\terror\nfailed to update link\n#{link.errors.full_messages}")
+              Merb.logger.error("score\terror\nfailed to update link\n#{link.errors.full_messages.join($/)}")
             end
           end
           Merb.logger.debug("score\t%.5f\t%.5f\t%s" % [link.score, link.velocity, link.url])

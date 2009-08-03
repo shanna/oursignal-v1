@@ -5,9 +5,9 @@ class Link
   property :id,         DataMapper::Types::Digest::SHA1.new(:url), :key => true, :nullable => false
   property :url,        URI, :length => 255, :nullable => false
   property :title,      String, :length => 255
-  property :score,      Float, :precision => 10, :scale => 9
+  property :score,      Float
   property :score_at,   DateTime
-  property :velocity,   Float, :precision => 10, :scale => 9
+  property :velocity,   Float
   property :created_at, DateTime
   property :updated_at, DateTime
 
@@ -15,6 +15,14 @@ class Link
 
   def to_json(options = {})
     {:url => url, :title => title, :score => score, :velocity => velocity}.to_json
+  end
+
+  def score=(f)
+    attribute_set(:score, f.round(5))
+  end
+
+  def velocity=(f)
+    attribute_set(:velocity, f.round(5))
   end
 
   def self.update(feed, remote_feed)
@@ -27,14 +35,6 @@ class Link
         next unless title =~ /\w+/
         links[anchor.attribute('href').text] = title
       end
-    end
-
-    def score=(f)
-      set_attribute(:score, f.round(9))
-    end
-
-    def velocity=(f)
-      set_attribute(:velocity, f.round(9))
     end
 
     # TODO: Use curl-multi to speed up the URI sanatization.
