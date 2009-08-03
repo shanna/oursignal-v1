@@ -6,7 +6,7 @@ module Oursignal
       self.poll_time = 600 # Ten minutes.
 
       def poll
-        Link.all(:created_at.lt => (Time.now - 1.day).to_datetime)
+        Link.all(:created_at.lt => (Time.now - 2.day).to_datetime)
       end
 
       def work(links)

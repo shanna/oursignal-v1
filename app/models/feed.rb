@@ -13,7 +13,7 @@ class Feed
 
   has n, :user_feeds
   has n, :users, :through => :user_feeds, :model => 'User'
-  has n, :links, :through => Resource
+  has n, :links, :through => Resource, :constraint => :destroy!
 
   # TODO: Move all the update code to a mixin.
 

@@ -11,7 +11,7 @@ class Link
   property :created_at, DateTime
   property :updated_at, DateTime
 
-  has n, :feeds, :through => Resource
+  has n, :feeds, :through => Resource, :constraint => :destroy!
 
   def to_json(options = {})
     {:url => url, :title => title, :score => score, :velocity => velocity}.to_json

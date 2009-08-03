@@ -12,7 +12,7 @@ class User
   property :updated_at, DateTime
 
   has n, :user_feeds, UserFeed
-  has n, :feeds, :through => :user_feeds, :model => 'Feed'
+  has n, :feeds, :through => :user_feeds, :model => 'Feed', :constraint => :destroy!
 
   validates_is_unique :username
 
