@@ -33,7 +33,7 @@ class Link
       xml.xpath('//a').each do |anchor|
         title = anchor.text.strip
         next unless title =~ /\w+/
-        links[anchor.attribute('href').text] = title
+        links[anchor.attribute('href').text] = entry.title
       end
     end
 

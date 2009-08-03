@@ -27,19 +27,25 @@ class User
 
   def links(limit = 50)
     results   = {}
-    referrers = user_feeds.map{|feed| [feed.url, feed.score]}.to_hash
+    referrers = user_feeds.map{|feed| [feed.feed_id, feed.score]}.to_hash
 
-    # Find.
-    Link.all(
-      :conditions => {:referrers => referrers.keys, :feed => {}},
-      :order      => 'score desc, created_at asc'
-    ).each do |link|
-      link.score.score = referrers.values_at(*link.referrers).compact.first * link.score.score
-      results[link.url] = link.freeze # Make uniq by URL.
+    sql = %q{
+      select
+        feed_links.feed_id as feed_id,
+        links.*
+      from links
+      inner join feed_links on links.id = feed_links.link_id
+      where feed_links.feed_id in ?
+    }
+    repository.adapter.query(sql, referrers.keys).each do |link|
+      link.score = referrers[link.feed_id] * link.score
+      if !results[link.id] || result[link.id].score > link.score
+        results[link.id] = Link.new(link.attributes.except(:feed_id)).freeze
+      end
     end
 
     # Sort & Limit
-    results = results.values.sort{|a, b| b.score.score <=> a.score.score}
+    results = results.values.sort{|a, b| b.score <=> a.score}
     results = results.slice(0, limit)
   end
 
