@@ -28,7 +28,7 @@ class Merb::Authentication::Strategies::Basic::OpenID
   end
 
   def find_user_by_identity_url(url)
-    user_class.first(:conditions => {:openid => url})
+    user_class.first(:openid => url)
   end
 end # Merb::Authentication::Strategies::Basic::OpenID
 

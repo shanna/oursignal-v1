@@ -21,9 +21,13 @@ class Users < Application
       params[:recaptcha_response_field]
     )
 
-    @user            = User.new(params[:user])
-    @user.user_feeds = user.user_feeds # oursignal feeds by default.
+    @user = User.new(params[:user])
     if @user.save && @captcha.success
+      # Oursignal feeds by default.
+      # TODO: I'm sure there is a nicer way to copy a list of joins.
+      user.user_feeds.each do |user_feed|
+        @user.user_feeds.create(:feed_id => user_feed.feed_id, :score => user_feed.score)
+      end
       session.user = @user
       redirect url(:users, @user.username)
     else

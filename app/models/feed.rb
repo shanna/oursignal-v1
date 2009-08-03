@@ -28,15 +28,21 @@ class Feed
 
     # TODO: 302 handling and such.
     Feedzirra::Feed.fetch_and_parse(url, options)
-    true
+    updated_at = DateTime.now
+    save
   end
 
   def self.update(url, remote_feed)
-    feed               = first(:url => url) || return
-    feed.title         = remote_feed.title
-    feed.etag          = remote_feed.etag
-    feed.last_modified = remote_feed.last_modified.to_datetime
-    feed.save && Link.update(feed, remote_feed)
+    feed = first(:url => url) || return
+    begin
+      DataMapper.logger.info("feed\tupdate\t#{feed.url}")
+      feed.title         = remote_feed.title
+      feed.etag          = remote_feed.etag
+      feed.last_modified = remote_feed.last_modified.to_datetime
+    ensure
+      feed.updated_at = DateTime.now
+      feed.save && Link.update(feed, remote_feed)
+    end
   end
 
   #--

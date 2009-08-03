@@ -41,7 +41,7 @@ dependency 'nokogiri', '1.2.3'
 dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
 
 # github
-dependency 'taf2-curb', '0.4.8.0', :require_as => 'curb'
+dependency 'taf2-curb', '0.5', :require_as => 'curb'
 dependency 'thoughtbot-shoulda', '2.10.1', :require_as => 'shoulda'
 dependency 'jnunemaker-columbus', '0.1.2', :require_as => 'columbus'
 dependency 'pauldix-feedzirra', '0.0.15', :require_as => 'feedzirra'
