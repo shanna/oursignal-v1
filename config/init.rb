@@ -29,6 +29,7 @@ Merb::BootLoader.before_app_loads do
   require 'dm/types'
   require 'ext/string'
   require 'ext/float'
+  require 'ext/struct'
 end
 
 Merb::BootLoader.after_app_loads do

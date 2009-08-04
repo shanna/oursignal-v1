@@ -49,10 +49,6 @@ class User
     results = results.slice(0, limit)
   end
 
-  def feed(url)
-    user_feeds.find{|feed| feed.url == url}
-  end
-
   private
     def digest_password(password)
       Digest::SHA1.hexdigest('some salt' + password.to_s)

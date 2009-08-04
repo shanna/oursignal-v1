@@ -4,7 +4,17 @@ class Feeds < Application
   before :ensure_authorized
 
   def index
-    display session.user.user_feeds
+    sql = %q{
+      select
+        user_feeds.score,
+        feeds.id as feed_id,
+        feeds.title,
+        feeds.url
+      from feeds
+      inner join user_feeds on feeds.id = user_feeds.feed_id
+      where user_feeds.user_id = ?
+    }
+    display repository(:default).adapter.query(sql, session.user.id)
   end
 
   def create
@@ -24,22 +34,19 @@ class Feeds < Application
   end
 
   def update
-    user = session.user
-    feed = user.feed(params[:url])
-    raise NotFound unless feed
+    user      = session.user
+    user_feed = user.user_feeds.first(:feed_id => params[:feed_id])
+    raise NotFound unless user_feed
 
-    feed.score = params[:score]
-    user.save
-    display feed
+    user_feed.score = params[:score]
+    user_feed.save
+    display user_feed
   end
 
   def destroy
-    user = session.user
-    feed = user.feed(params[:url])
-    raise NotFound unless feed
-
-    user.user_feeds.delete(feed)
-    user.save
-    display @success = true
+    user      = session.user
+    user_feed = user.user_feeds.first(:feed_id => params[:feed_id])
+    raise NotFound unless user_feed
+    display user_feed.destroy
   end
 end

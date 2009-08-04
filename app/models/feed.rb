@@ -5,7 +5,7 @@ class Feed
   include DataMapper::Resource
   property :id,            DataMapper::Types::Digest::SHA1.new(:url), :key => true, :nullable => false
   property :title,         String, :length => 255
-  property :url,           URI, :length => 255, :nullable => false
+  property :url,           URI, :length => 255, :nullable => false, :unique_index => true
   property :etag,          String, :length => 255
   property :last_modified, DateTime
   property :created_at,    DateTime
