@@ -1,10 +1,16 @@
 <%=
   js_include_tag(
-    'vendor/jquery-1.3.2.min',
-    'vendor/jquery-ui-1.7.2.min',
+    'vendor/jquery',
+    'vendor/jquery-ui',
+    'vendor/jquery-modularize',
     'vendor/jquery-require',
     'application',
     :bundle => 'bundle'
   )
 %>
 <%= include_required_js %>
+<script type="text/javascript">
+  //<![CDATA[
+    $.os.user = <%= user.to_json(:only => [:id, :username]) %>;
+  //]]>
+</script>

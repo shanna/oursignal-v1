@@ -1,6 +1,6 @@
-// Global JS.
-
 (function ($) {
+  $.os = {};
+
   // TODO: Replace with growl type notifications plugin.
   $.extend($.fn, {
     notice: function (options) {
@@ -20,9 +20,7 @@
       options      = $.extend(defaults, options);
 
       if (!(options.cache && $.links.data)) {
-        // TODO: Basename the location.
-        var url = document.location + '.json';
-        $.ajax({type: 'GET', url: url, dataType: 'json', async: false, success: function (json) {
+        $.ajax({type: 'GET', url: '/' + $.os.user.username, dataType: 'json', async: false, success: function (json) {
           $.links.data = json;
         }});
       }

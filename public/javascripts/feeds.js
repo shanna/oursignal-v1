@@ -1,9 +1,5 @@
-/*
-  TODO: I really I have no idea what good jquery looks like or how people lay it out.
-  TODO: Modularize as fn.site.controller?
-*/
+// TODO: Cleanup this mess.
 (function ($) {
-  // TODO: fn.oursignal.users ?
   $.extend($.fn, {
     feed: function () {
       $('#feed_url').focus();
