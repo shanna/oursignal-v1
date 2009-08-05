@@ -3,17 +3,20 @@ require 'dm/types/digest'
 
 class Feed
   include DataMapper::Resource
-  property :id,            DataMapper::Types::Digest::SHA1.new(:url), :key => true, :nullable => false
-  property :title,         String, :length => 255
-  property :url,           URI, :length => 255, :nullable => false, :unique_index => true
-  property :etag,          String, :length => 255
-  property :last_modified, DateTime
-  property :created_at,    DateTime
-  property :updated_at,    DateTime
+  property :id,             DataMapper::Types::Digest::SHA1.new(:url), :key => true, :nullable => false
+  property :title,          String, :length => 255
+  property :url,            URI, :length => 255, :nullable => false, :unique_index => true
+  property :etag,           String, :length => 255
+  property :last_modified,  DateTime
+  property :total_links,    Integer, :default => 0
+  property :daily_links,    Float, :default => 0
+  property :created_at,     DateTime
+  property :updated_at,     DateTime
 
   has n, :user_feeds
   has n, :users, :through => :user_feeds, :model => 'User'
-  has n, :links, :through => Resource, :constraint => :destroy!
+  has n, :feed_links
+  has n, :links, :through => :feed_links, :constraint => :destroy!
 
   # TODO: Move all the update code to a mixin.
 
@@ -35,13 +38,19 @@ class Feed
   def self.update(url, remote_feed)
     feed = first(:url => url) || return
     begin
+      Link.update(feed, remote_feed)
+
       DataMapper.logger.info("feed\tupdate\t#{feed.url}")
       feed.title         = remote_feed.title
       feed.etag          = remote_feed.etag
       feed.last_modified = remote_feed.last_modified.to_datetime
+      feed.total_links   = feed.links.size
+      feed.daily_links   = (feed.total_links.to_f / ((feed.updated_at.to_time - feed.created_at.to_time).to_f / 1.day)).round(2)
+    rescue => error
+      DataMapper.logger.error("feed\terror\n#{error.message}\n#{error.backtrace}")
     ensure
       feed.updated_at = DateTime.now
-      feed.save && Link.update(feed, remote_feed)
+      feed.save
     end
   end
 

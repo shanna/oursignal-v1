@@ -31,6 +31,7 @@ class Link
       links[entry.url] = entry.title
       xml              = Nokogiri::XML.parse("<r>#{entry.summary}</r>") rescue next
       xml.xpath('//a').each do |anchor|
+        # TODO: Next if the domain (minus subdomains) is the same as the feed.
         title = anchor.text.strip
         next unless title =~ /\w+/
         links[anchor.attribute('href').text] = entry.title
@@ -42,11 +43,11 @@ class Link
     #   url.last_effective_url
     #   links[url.to_s] # title
     # end
-    links.each do |url, title|
-      url = URI.sanatize(url) rescue next
-      feed.links << first_or_create(:url => url, :title => title)
+    links.map do |url, title|
+      url  = URI.sanatize(url) rescue next
+      link = first_or_create(:url => url, :title => title) rescue next
+      feed.feed_links.first_or_create(:link => link)
     end
-    feed.save
   end
 end # Link
 
