@@ -1,4 +1,5 @@
 require 'uri/sanatize'
+require 'uri/domain'
 
 class Link
   include DataMapper::Resource
@@ -31,10 +32,10 @@ class Link
       links[entry.url] = entry.title
       xml              = Nokogiri::XML.parse("<r>#{entry.summary}</r>") rescue next
       xml.xpath('//a').each do |anchor|
-        # TODO: Next if the domain (minus subdomains) is the same as the feed.
-        title = anchor.text.strip
-        next unless title =~ /\w+/
-        links[anchor.attribute('href').text] = entry.title
+        title, url = anchor.text.strip, URI.parse(anchor.attribute('href').text)
+        next unless title =~ /\w+/ && url.is_a?(URI::HTTP)
+        next if feed.url.domain == url.domain
+        links[url.to_s] = entry.title
       end
     end
 
