@@ -43,9 +43,11 @@ class Feed
       DataMapper.logger.info("feed\tupdate\t#{feed.url}")
       feed.title         = remote_feed.title
       feed.etag          = remote_feed.etag
-      feed.last_modified = remote_feed.last_modified.to_datetime
+      feed.last_modified = remote_feed.last_modified.to_datetime unless remote_feed.last_modified.blank?
       feed.total_links   = feed.links.size
-      feed.daily_links   = (feed.total_links.to_f / ((feed.updated_at.to_time - feed.created_at.to_time).to_f / 1.day)).round(2)
+
+      age                = ((feed.updated_at.to_time - feed.created_at.to_time).to_f / 1.day).to_i
+      feed.daily_links   = age >= 1 ? (feed.total_links.to_f / age).round(2) : feed.total_links
     rescue => error
       DataMapper.logger.error("feed\terror\n#{error.message}\n#{error.backtrace}")
     ensure
