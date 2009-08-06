@@ -1,5 +1,3 @@
-require 'tld'
-
 module URI
   module Domain
 
