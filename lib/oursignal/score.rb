@@ -4,6 +4,7 @@ require 'oursignal/score/source/digg'
 require 'oursignal/score/source/reddit'
 require 'oursignal/score/source/delicious'
 require 'oursignal/score/source/ycombinator'
+require 'oursignal/score/source/freshness'
 require 'oursignal/score/update'
 require 'oursignal/score/expire'
 
@@ -16,6 +17,7 @@ module Oursignal
         Oursignal::Score::Source.subclasses.each(&:run)
         Oursignal::Score::Update.run
         Oursignal::Score::Expire.run
+        Oursignal::Score::Source::Freshness.run
       end
     end
   end # Score

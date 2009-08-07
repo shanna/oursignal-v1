@@ -22,6 +22,7 @@ dm_gems_version = '0.10.0'
 dependency 'data_objects', do_gems_version
 dependency 'do_mysql', do_gems_version
 dependency 'dm-core', dm_gems_version
+dependency 'dm-aggregates', dm_gems_version
 dependency 'dm-constraints', dm_gems_version
 dependency 'dm-migrations', dm_gems_version
 dependency 'dm-serializer', dm_gems_version

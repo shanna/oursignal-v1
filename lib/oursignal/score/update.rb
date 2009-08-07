@@ -11,6 +11,7 @@ module Oursignal
       end
 
       def poll
+        # TODO: I can build an 'OR' with DM::Query even if the class finders can't do it yet.
         links = Link.all(:score_at.lt => (Time.now - 5.minutes).to_datetime)
         links + Link.all(:score_at => nil)
       end
@@ -36,7 +37,7 @@ module Oursignal
 
       protected
         def score(link)
-          sources = ::Score.all(:url => link.url).map{|score| [score.source, score.score]}.to_mash
+          sources = link.scores.map{|score| [score.source, score.score]}.to_mash
           return 0.to_f if sources.empty?
 
           scores = sources.map do |source, score|
@@ -45,15 +46,16 @@ module Oursignal
             (buckets(source).index(find).to_f + 1) / buckets(source).size
           end
 
-          # TODO: Simple average for now but change it to bayesian average using number of scores.
+          # TODO: The score is a simple average across the sources for now.
+          # It'd probably be better with some more fancy maths.
           average = (scores.inject(&:+).to_f / scores.size)
           final   = average unless average.infinite?
-
-          # Degrade over time.
-          age   = (1.to_f / ((Time.now - link.created_at.to_time).to_i / 6.hours))
-          final = final * age unless age.infinite?
-
           final
+
+          # TODO: Use the number of sources for this link divided by the total possible sources to adjust the final score
+          # back towards the average score. Less sources equals something closer to the average while more sources is
+          # closer to the current final score.
+          # http://www.thebroth.com/blog/118/bayesian-rating
         end
 
         #--

@@ -24,6 +24,8 @@ module Oursignal
           options = {:url => URI.sanatize(url), :source => self.class.name}
           ::Score.first_or_create(options, :score => score)
           Merb.logger.debug("%s\t%d\t%s" % [self.class.name, score, url])
+        rescue URI::Error => error
+          # Ignore.
         rescue Exception => error
           Merb.logger.error(
             "%s\terror\t%s\n%s\n%s" % [self.class.name, error.class.to_s.downcase, error.message, error.backtrace.join($/)]

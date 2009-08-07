@@ -6,14 +6,16 @@ class Link
   property :id,          DataMapper::Types::Digest::SHA1.new(:url), :key => true, :nullable => false
   property :url,         URI, :length => 255, :nullable => false, :unique_index => true
   property :title,       String, :length => 255
-  property :score,       Float
+  property :score,       Float, :default => 0
   property :score_at,    DateTime
-  property :velocity,    Float
+  property :velocity,    Float, :default => 0
   property :referred_at, DateTime
   property :created_at,  DateTime
   property :updated_at,  DateTime
 
-  has n, :feeds, :through => Resource, :constraint => :destroy!
+  # has n, :feeds, :through => Resource, :constraint => :destroy!
+  has n, :feed_links
+  has n, :feeds, :through => :feed_links, :constraint => :destroy!
 
   def to_json(options = {})
     {:url => url, :title => title, :score => score, :velocity => velocity}.to_json
@@ -39,7 +41,8 @@ class Link
       links[entry.url] = entry.title
       xml              = Nokogiri::XML.parse("<r>#{entry.summary}</r>") rescue next
       xml.xpath('//a').each do |anchor|
-        title, url = anchor.text.strip, URI.parse(anchor.attribute('href').text)
+        url   = URI.parse(anchor.attribute('href').text) rescue next
+        title = anchor.text.strip
         next unless title =~ /\w+/ && url.is_a?(URI::HTTP)
         next if feed.url.domain == url.domain
         links[url.to_s] = entry.title
