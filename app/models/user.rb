@@ -16,6 +16,19 @@ class User
 
   validates_is_unique :username
 
+  after :create do
+    # Default feeds.
+    {
+      'http://feeds.digg.com/digg/popular.rss'    => 1,
+      'http://www.reddit.com/.rss'                => 0.7,
+      'http://feeds.delicious.com/v2/rss/popular' => 0.6,
+      'http://news.ycombinator.com/rss'           => 0.3,
+    }.map do |url, score|
+      feed = Feed.discover(url) || next
+      user_feeds.first_or_create({:feed => feed}, :score => score)
+    end
+  end
+
   def password=(password)
     attribute_set(:password, digest_password(password))
   end
