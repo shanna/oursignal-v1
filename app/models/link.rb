@@ -20,11 +20,11 @@ class Link
   end
 
   def score=(f)
-    attribute_set(:score, f.round(5))
+    attribute_set(:score, (f ? f.round(5) : 0))
   end
 
   def velocity=(f)
-    attribute_set(:velocity, f.round(5))
+    attribute_set(:velocity, (f ? f.round(5) : 0))
   end
 
   #--

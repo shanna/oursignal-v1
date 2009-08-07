@@ -38,8 +38,8 @@ class User
       where feed_links.feed_id in ?
     }
     repository.adapter.query(sql, referrers.keys).each do |link|
-      link.score = referrers[link.feed_id] * link.score
-      if !results[link.id] || result[link.id].score > link.score
+      link.score = referrers[link.feed_id] * (link.score || 0)
+      if !results[link.id] || results[link.id].score > link.score
         results[link.id] = Link.new(link.attributes.except(:feed_id)).freeze
       end
     end
