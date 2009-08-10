@@ -68,7 +68,15 @@ div#navigation ul a {
 }
 
 /* users */
-#feeds {}
+#users {
+  float: left;
+  width: 38%;
+}
+
+#feeds {
+  float: right;
+  width: 62%;
+}
 
 #feeds li {
   border: 1px solid red;

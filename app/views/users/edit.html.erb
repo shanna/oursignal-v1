@@ -1,4 +1,20 @@
 <% require_js 'feeds' -%>
+
+<div id="users">
+  <%= form_for @user, :action => url(:users, @user.username) do -%>
+    <fieldset class="vcard">
+      <legend>About your news page:</legend>
+
+      <%= text_field :fullname, :label => 'Full name', :class => 'vcard-fn' %>
+      <%= text_field :username, :label => 'Username', :class => 'vcard-nickname' %>
+      <%= password_field :password, :label => 'Password', :value => '' %>
+      <%= text_field :email, :label => 'Email', :class => 'vcard-email' %>
+
+      <%= submit 'save' %>
+    </fieldset>
+  <% end =%>
+</div>
+
 <div id="feeds">
   <form id="feed" method="post" action="">
     <label for="feed_url">feed url:</label>
@@ -8,4 +24,6 @@
 
   <ul id="scores" />
 </div>
+
+<br class="break" />
 <%= partial 'layout/links' %>
