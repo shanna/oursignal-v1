@@ -9,4 +9,8 @@ class Score
 
   validates_present :source
   validates_present :url
+
+  def score=(f)
+    attribute_set(:score, (f ? f.to_f.round(5) : 0))
+  end
 end

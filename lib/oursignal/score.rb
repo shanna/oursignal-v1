@@ -11,13 +11,12 @@ require 'oursignal/score/expire'
 module Oursignal
   module Score
     def self.run
-      DataMapper.logger.level = Merb::Logger::Levels[:error]
+      DataMapper.logger.level = Merb::Logger::Levels[:info]
       Signal.trap('INT'){ puts '' && EM.stop}
       EM.run do
         Oursignal::Score::Source.subclasses.each(&:run)
         Oursignal::Score::Update.run
         Oursignal::Score::Expire.run
-        Oursignal::Score::Source::Freshness.run
       end
     end
   end # Score

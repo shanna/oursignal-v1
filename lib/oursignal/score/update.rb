@@ -1,9 +1,11 @@
 require 'oursignal/job'
+require 'oursignal/score/source'
 
 module Oursignal
   module Score
     class Update < Job
       self.poll_time = 5
+      MAX_SOURCES    = Oursignal::Score::Source.subclasses.size
 
       def initialize(*args)
         super
@@ -46,16 +48,16 @@ module Oursignal
             (buckets(source).index(find).to_f + 1) / buckets(source).size
           end
 
-          # TODO: The score is a simple average across the sources for now.
-          # It'd probably be better with some more fancy maths.
+          # The score is a simple average across the sources for now.
           average = (scores.inject(&:+).to_f / scores.size)
           final   = average unless average.infinite?
-          final
 
-          # TODO: Use the number of sources for this link divided by the total possible sources to adjust the final score
-          # back towards the average score. Less sources equals something closer to the average while more sources is
-          # closer to the current final score.
-          # http://www.thebroth.com/blog/118/bayesian-rating
+          # Adjust the score by the number of score sources. John says the aggressiveness of this algorithm may need
+          # to be tweaked to our tastes but you'll have to ask him for more black magic since this goes beyond my high
+          # school maths :)
+          final = (Math.log(scores.size + 1) / Math.log(MAX_SOURCES + 1)) if scores.size >= 1
+
+          final
         end
 
         #--
