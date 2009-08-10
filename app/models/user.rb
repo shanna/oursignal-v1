@@ -53,13 +53,21 @@ class User
     repository.adapter.query(sql, referrers.keys).each do |link|
       link.score = referrers[link.feed_id] * (link.score || 0)
       if !results[link.id] || results[link.id].score > link.score
-        results[link.id] = Link.new(link.attributes.except(:feed_id)).freeze
+        results[link.id] = Link.new(link.attributes.except(:feed_id))
       end
     end
 
     # Sort & Limit
     results = results.values.sort{|a, b| b.score <=> a.score}
     results = results.slice(0, limit)
+
+    # Re-scale scores within this context.
+    max, min = results.first.score, results.last.score
+    scale    = 1.to_f / (max - min)
+    results.map do |link|
+      link.score = (link.score - min) * scale
+      link.freeze
+    end
   end
 
   private
