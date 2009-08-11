@@ -9,7 +9,7 @@ God.watch do |w|
   w.group    = 'os'
   w.interval = 30.seconds
 
-  w.start         = "cd #{root} && memcached -d -m 64 -P #{root}/log/memcached.pid"
+  w.start         = "cd #{root} && memcached -d -m 64 -p 11211 -P #{root}/log/memcached.pid"
   w.start_grace   = 10.seconds
   w.stop          = "ps aux | awk '/memcached/ && !/awk/ {print $2}' | xargs -r kill"
   w.stop_grace    = 10.seconds
