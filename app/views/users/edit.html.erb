@@ -1,7 +1,7 @@
 <% require_js 'feeds' -%>
 
 <div id="users">
-  <%= form_for @user, :action => url(:users, @user.username) do -%>
+  <%= form_for @user, :action => url(:users, @user.username, :action => :update) do -%>
     <fieldset class="vcard">
       <legend>About your news page:</legend>
 
@@ -14,7 +14,7 @@
         :collection   => Theme.all,
         :text_method  => :name,
         :value_method => :id,
-        :selected     => @user.theme.id
+        :selected     => @user.theme.to_s
       %>
 
       <%= submit 'save' %>

@@ -24,7 +24,7 @@ class Users < Application
     @user = User.new(params[:user])
     if @user.save && @captcha.success
       session.user = @user
-      redirect url(:users, @user.username)
+      redirect url(:users, @user.username, :action => :edit)
     else
       render :new, :status => 422, :message => {:error => 'There was an error creating your user account'}
     end
@@ -36,8 +36,22 @@ class Users < Application
     display @user
   end
 
+  def update
+    @user = session.user
+    raise NotFound unless @user
+
+    # TODO: Must be a nicer way to do these.
+    params[:user][:theme] = Theme.get(params[:user][:theme]) unless params[:user][:theme].blank?
+
+    if @user.update(params[:user])
+      redirect url(:users, @user.username), :message => {:notice => 'Your user account was updated'}
+    else
+      display @user, :edit, :status => 422, :message => {:error => 'There was an error updating your user account'}
+    end
+  end
+
   def login
-    redirect url(:users, user.username) if session.user
+    redirect url(:users, user.username, :action => :edit) if session.user
   end
 
   def logout
