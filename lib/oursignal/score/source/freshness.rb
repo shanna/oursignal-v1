@@ -7,6 +7,7 @@ module Oursignal
         self.poll_time = 15.minutes
         ABOVE_GLOBAL_AVERAGE_DAILY_LINKS = 1.5
         DECAY_IN_HOURS                   = 24.0
+        TODO_RESULT_WEIGHT               = 0.5
 
         def poll
           # TODO: This is going to be expensive later.
@@ -30,6 +31,10 @@ module Oursignal
             if average_daily_links > (global_average_daily_links * ABOVE_GLOBAL_AVERAGE_DAILY_LINKS)
               result *= (global_average_daily_links * ABOVE_GLOBAL_AVERAGE_DAILY_LINKS) / average_daily_links
             end
+
+            # TODO: Hacky way of making the score worth only half as much. I think it'd probably be better if we
+            # tweaked score updater average code.
+            result *= TODO_RESULT_WEIGHT
 
             score(link.url, result)
           end
