@@ -61,12 +61,14 @@ class User
     results = results.values.sort{|a, b| b.score <=> a.score}
     results = results.slice(0, limit)
 
-    # Re-scale scores within this context.
     max, min = results.first.score, results.last.score
-    scale    = 1.to_f / (max - min)
+    return results unless max > min
+
+    # Re-scale scores within this context.
+    scale = 1.to_f / (max - min)
     results.map do |link|
       link.score = (link.score - min) * scale
-      link.freeze
+      link
     end
   end
 
