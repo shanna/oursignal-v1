@@ -55,7 +55,14 @@ module Oursignal
           # Adjust the score by the number of score sources. John says the aggressiveness of this algorithm may need
           # to be tweaked to our tastes but you'll have to ask him for more black magic since this goes beyond my high
           # school maths :)
-          final = (Math.log(scores.size + 1) / Math.log(MAX_SOURCES + 1)) if scores.size >= 1
+          final *= (Math.log(scores.size + 1) / Math.log(MAX_SOURCES + 1)) if scores.size >= 1
+
+          #Merb.logger.debug(%Q{score\t%s
+          #  \r  sources %d
+          #  \r  scores  %s
+          #  \r  average %.5f
+          #  \r  final   %.5f
+          #} % [link.url, sources.size, scores.join(','), average, final])
 
           final
         end
