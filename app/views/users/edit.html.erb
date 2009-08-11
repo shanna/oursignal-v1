@@ -9,6 +9,13 @@
       <%= text_field :username, :label => 'Username', :class => 'vcard-nickname' %>
       <%= password_field :password, :label => 'Password', :value => '' %>
       <%= text_field :email, :label => 'Email', :class => 'vcard-email' %>
+      <%= select :theme,
+        :label        => 'Theme',
+        :collection   => Theme.all,
+        :text_method  => :name,
+        :value_method => :id,
+        :selected     => @user.theme.id
+      %>
 
       <%= submit 'save' %>
     </fieldset>

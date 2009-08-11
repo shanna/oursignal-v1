@@ -12,7 +12,7 @@ class User
   property :created_at, DateTime
   property :updated_at, DateTime
 
-  belongs_to :theme, :constraint => :protect # TODO: Why am I not getting a foreign key constraint here.
+  belongs_to :theme # TODO: Why am I not getting a foreign key constraint here.
   has n, :user_feeds, UserFeed
   has n, :feeds, :through => :user_feeds, :model => 'Feed', :constraint => :destroy!
 
