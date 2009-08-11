@@ -1,7 +1,7 @@
 (function ($) {
   $.require([
-    '/visualize/treemap/jquery-treemap.js',
-    '/visualize/treemap/jquery-textfill.js'
+    '/themes/treemap/jquery-treemap.js',
+    '/themes/treemap/jquery-textfill.js'
   ]);
 
   $.extend($.fn, {
