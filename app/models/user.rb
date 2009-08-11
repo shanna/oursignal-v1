@@ -3,6 +3,7 @@ require 'digest/sha1'
 class User
   include DataMapper::Resource
   property :id,         Serial
+  property :theme_id,   Integer, :nullable => false, :default => proc {Theme.first(:name => 'treemap').id rescue nil}
   property :fullname,   String, :nullable => false
   property :username,   String, :nullable => false, :length => (2..20), :format => /^[a-z0-9][a-z0-9\-]+$/i
   property :password,   String, :length => 40
@@ -11,6 +12,7 @@ class User
   property :created_at, DateTime
   property :updated_at, DateTime
 
+  belongs_to :theme, :constraint => :protect # TODO: Why am I not getting a foreign key constraint here.
   has n, :user_feeds, UserFeed
   has n, :feeds, :through => :user_feeds, :model => 'Feed', :constraint => :destroy!
 

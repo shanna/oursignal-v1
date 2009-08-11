@@ -1,7 +1,7 @@
 # vim: syntax=ruby
 %w{
   common
-  migrate
+  db
 }.each do |r|
   require File.join(File.dirname(__FILE__), r)
 end
