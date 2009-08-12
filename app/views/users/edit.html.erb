@@ -14,7 +14,7 @@
         :collection   => Theme.all,
         :text_method  => :name,
         :value_method => :id,
-        :selected     => @user.theme.to_s
+        :selected     => @user.theme.id.to_s
       %>
 
       <%= submit 'save' %>
