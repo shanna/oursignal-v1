@@ -6,13 +6,17 @@
 
   $.extend($.fn, {
     visualize: function (options) {
+      var defaults = {
+        cache:  true,
+        width:  $(window).width(),
+        height: $(window).height()
+      };
+      options = $.extend(defaults, options);
+
       return this.each(function () {
         var links    = $(this);
-        var defaults = {cache: true};
-        options      = $.extend(defaults, options);
-
         links.children().remove();
-        links.treemap($(window).width(), $(window).height() - 100, {getData: data(options)});
+        links.treemap(options.width, options.height, {getData: data(options)});
         links.find('div.treemapCell span').textfill({max: 50}).velocity();
       });
     },
