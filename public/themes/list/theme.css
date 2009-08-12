@@ -1,0 +1,25 @@
+div#links li {
+  padding: 10px;
+}
+
+div#links a {
+  color: #fff;
+}
+
+div#links .meta {
+  font-size: 12px;
+  color: #ccc;
+  padding: 2px 0px;
+}
+
+.meta * {
+  margin-right: 10px;
+}
+
+.meta .score {
+  display: inline;
+}
+
+.meta .velocity {
+  display: inline;
+}
