@@ -6,4 +6,12 @@ class Theme
   # property :path, Path
 
   has n, :users, User, :constraint => :protect
+
+  def css
+    "/themes/#{name.downcase}/theme.css"
+  end
+
+  def js
+    "/themes/#{name.downcase}/theme.js"
+  end
 end
