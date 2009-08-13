@@ -16,12 +16,11 @@ class Feed
   property :updated_at,     DateTime
 
   has n, :user_feeds
-  has n, :users, :through => :user_feeds, :model => 'User'
   has n, :feed_links
+  has n, :users, :through => :user_feeds, :model => 'User'
   has n, :links, :through => :feed_links, :constraint => :destroy!
 
   validates_with_method :url, :method => :validate_url, :when => [:default, :discover]
-  validates_with_method :url, :method => :validate_url_scheme, :when => [:default, :discover]
 
   # TODO: Move all the update code to a mixin.
 
@@ -63,8 +62,7 @@ class Feed
 
   def self.discover(url, options = {})
     options = {:content => true, :entries => false}.update(options)
-
-    feed = first_or_new(:url => url)
+    feed    = first_or_new(:url => url)
     return feed unless feed.new? && feed.valid?(:discover)
 
     primary = Columbus.new(feed.url).primary rescue nil
@@ -77,10 +75,7 @@ class Feed
 
   protected
     def validate_url
-      URI.sanatize(url) rescue [false, $!.message]
-    end
-
-    def validate_url_scheme
+      URI.sanatize(url.to_s) rescue return [false, $!.message]
       URI.parse(url.to_s).is_a?(URI::HTTP) || [false, 'Must be http(s) scheme.']
     end
 end
