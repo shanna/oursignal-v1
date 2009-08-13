@@ -9,7 +9,8 @@ module Oursignal
 
     desc 'migrate', '(Re)create default oursignal defaults'
     def migrate
-      Theme.first_or_create(:name => 'treemap')
+      # TODO: Move to an actual migration.
+      %w{treemap list}.each{|theme| Theme.first_or_create(:name => theme)}
       User.first_or_create({:username => 'oursignal'},
         :username => 'oursignal',
         :fullname => 'OurSignal',

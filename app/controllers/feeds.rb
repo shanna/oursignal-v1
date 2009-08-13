@@ -19,18 +19,17 @@ class Feeds < Application
 
   def create
     user = session.user
-    begin
-      link = Link.discover(params[:url])
-    rescue MongoMapper::DocumentNotValid => e
-      raise BadRequest, e.message
-    end
+    feed = Feed.discover(params[:url])
+    raise(BadRequest, feed.errors.full_messages.join(', ')) unless feed.valid?(:discover)
 
-    unless feed = user.feed(link.url)
-      user.user_feeds << feed = UserFeed.new(:url => link.url, :score => 0.5)
-      user.save
-    end
-
-    display feed
+    user_feed = user.user_feeds.first_or_create({:feed => feed}, :score => 0.5)
+    display({
+      :user_id => user_feed.user_id,
+      :feed_id => user_feed.feed_id,
+      :score   => user_feed.score,
+      :title   => feed.title,
+      :url     => feed.url
+    })
   end
 
   def update

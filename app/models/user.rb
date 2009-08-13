@@ -62,6 +62,7 @@ class User
     # Sort & Limit
     results = results.values.sort{|a, b| b.score <=> a.score}
     results = results.slice(0, limit)
+    return results if results.empty?
 
     max, min = results.first.score, results.last.score
     return results unless max > min
