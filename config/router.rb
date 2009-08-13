@@ -1,5 +1,7 @@
 Merb.logger.info("Compiling routes...")
 Merb::Router.prepare do
+  match('/static/:path_as_page').to(:controller => :static, :action => 'show')
+
   match('/signup', :method => :get).to(:controller => :users, :action => 'new').name(:signup)
   match('/signup', :method => :post).to(:controller => :users, :action => 'create')
   match('/login').to(:controller => :users, :action => 'login').name(:openid).name(:login)
