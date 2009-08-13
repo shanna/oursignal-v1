@@ -3,14 +3,22 @@ require File.join(File.dirname(__FILE__), 'helper')
 class FeedTest < ModelTest
   context 'Feed' do
     context '#discover url' do
-      should 'raise error on non http url' do
-        assert_nil Feed.discover('asdf')
-        assert_nil Feed.discover('ftp://localhost')
+      should 'have validation error on non url' do
+        assert feed = Feed.discover('asdf')
+        assert_kind_of Feed, feed
+        assert !feed.valid?(:discover)
       end
 
-      should 'create new feed link' do
-        assert link = Feed.discover(feed_url)
-        assert_kind_of Feed, link
+      should 'have validation error on non http url' do
+        assert feed = Feed.discover('ftp://localhost')
+        assert_kind_of Feed, feed
+        assert !feed.valid?(:discover)
+      end
+
+      should 'create new feed' do
+        assert feed = Feed.discover(feed_url)
+        assert_kind_of Feed, feed
+        assert feed.valid?(:discover)
       end
 
       should 'return existing feed link if it exists already' do
@@ -18,7 +26,7 @@ class FeedTest < ModelTest
         assert_equal link, Feed.discover(link.url)
       end
 
-      should 'return new feed link if other links exist already' do
+      should 'return new feed if other feeds exist already' do
         first  = Feed.discover(feed_url)
         second = Feed.discover(feed_url('http://rss.slashdot.org/Slashdot/slashdot'))
         assert_not_equal first, second
