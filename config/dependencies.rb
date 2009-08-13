@@ -16,6 +16,7 @@ dependency 'merb-slices', merb_gems_version
 dependency 'merb-auth-core', merb_gems_version
 dependency 'merb-auth-more', merb_gems_version
 dependency 'merb-param-protection', merb_gems_version
+dependency 'merb-builder', '0.9.8'
 
 do_gems_version = '0.10.0'
 dm_gems_version = '0.10.0'

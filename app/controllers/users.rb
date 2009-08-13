@@ -5,7 +5,7 @@ class Users < Application
   before :ensure_authorized,    :exclude => [:index, :new, :create, :login]
 
   def index
-    provides :rss, :json
+    provides :rss, :xml, :json
     display user.links
   end
 
