@@ -2,59 +2,13 @@
 
 Oursignal II
 
-== Installing
-
-cd oursignal # the git repo
-thor merb:gem:redeploy
-mongod --dbpath ./db run &
-memcached -d
-./bin/merb -a thin
-
-== Structure Ideas
-
-Mongo - http://www.mongodb.org
-
-Pretty much jsut two tables at the moment.
-
-=== db.oursignal.users
-
-{
-  openid: {identifier: ''},
-  email: '',
-  fullname: '',
-  username: '',
-  feeds: [{feed: DBRef?, score: 0}, ...]
-}
-
-=== db.oursignal.feeds
-
-{
-  title: '',
-  site: '',
-  url: '',
-  etag: '',
-  last_modified: '',
-  entries: [
-    {
-      url: '',
-      score: {digg: 0, ...},
-      ...
-    },
-    ...
-  ]
-}
-
 == TODO
 
 * Nginix or Apache
 * God or Monit
 * Passenger
-* Normal user/pass authentication strategy (same fields as twitter guy said).
 * Facebook authentication strategy?
-* Digg, Reddit, Delicious, Hackernews, Yahoo Buzz scores (cache their feeds then score entries against them)
-* Postrank (?)
-* Oursignal click score per feed/item.
-* Cache the feed.entries.scores (digg, oursignal clicks etc.) as much as we can.
-* Use the cached feed.entries.score against the users own feed ranking.
-* Popular feeds by score.
-* Visualizations.
+* Oursignal click score per feed/item?
+* PID files for feed and score daemons
+* uri-meta
+* Log to file (with timestamps) for feed and score daemons.
