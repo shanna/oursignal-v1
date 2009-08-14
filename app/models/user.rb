@@ -55,6 +55,7 @@ class User
   def links(limit = 50)
     results   = {}
     referrers = user_feeds.map{|feed| [feed.feed_id, feed.score]}.to_hash
+    return [] if referrers.empty?
 
     sql = %q{
       select
