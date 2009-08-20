@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), 'common')
 
-module Oursignal
+module Os
   class Db < Thor
     def self.new(*args)
       Oursignal.merb_env

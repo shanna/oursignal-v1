@@ -1,9 +1,12 @@
 # encoding: utf-8
 # vim: syntax=ruby
 
+require 'find'
+
 root = File.expand_path(File.dirname(__FILE__))
 God.pid_file_directory = "#{root}/log"
 
+=begin
 God.watch do |w|
   w.name     = 'memcached'
   w.group    = 'os'
@@ -39,4 +42,22 @@ God.watch do |w|
     end
   end
 end
+=end
 
+#%w{feed score}.each do |server|
+%w{feed}.each do |server|
+  God.watch do |w|
+    path       = File.join(root, 'bin', server)
+    w.group    = 'os'
+    w.name     = server
+    w.interval = 30.seconds
+    w.start    = "ruby #{path} 2>&1 > #{root}/log/#{server}.log"
+    w.start_if do |start|
+      start.condition(:process_running) do |c|
+        c.interval = 5.seconds
+        c.running  = false
+      end
+    end
+    w.behavior(:clean_pid_file)
+  end
+end

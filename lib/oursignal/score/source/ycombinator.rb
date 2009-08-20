@@ -5,7 +5,7 @@ module Oursignal
   module Score
     class Source
       class Ycombinator < Source
-        self.poll_time = 60 * 15
+        self.interval = 15.minutes
 
         def http_uri
           @http_uri ||= uri('http://news.ycombinator.com/').freeze

@@ -1,4 +1,4 @@
-require 'eventmachine'
+require 'schedule'
 require 'oursignal/score/source'
 require 'oursignal/score/source/digg'
 require 'oursignal/score/source/reddit'
@@ -11,12 +11,10 @@ require 'oursignal/score/expire'
 module Oursignal
   module Score
     def self.run
-      DataMapper.logger.level = Merb::Logger::Levels[:info]
-      Signal.trap('INT'){ puts '' && EM.stop}
-      EM.run do
-        Oursignal::Score::Source.subclasses.each(&:run)
-        Oursignal::Score::Update.run
-        Oursignal::Score::Expire.run
+      Schedule.run do
+        Source.subclasses.each(&:run)
+        Update.run
+        Expire.run
       end
     end
   end # Score
