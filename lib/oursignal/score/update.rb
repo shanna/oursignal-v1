@@ -14,8 +14,8 @@ module Oursignal
 
       def call
         # TODO: I can build an 'OR' with DM::Query even if the class finders can't do it yet.
-        links = Link.all(:score_at.lt => (Time.now - 5.minutes).to_datetime)
-        links + Link.all(:score_at => nil)
+        links =  Link.all(:score_at.lt => (Time.now - 5.minutes).to_datetime)
+        links += Link.all(:score_at => nil)
         unless links.empty?
           Merb.logger.info("score\tupdating scores for #{links.size} links") unless links.empty?
           links.each do |link|
