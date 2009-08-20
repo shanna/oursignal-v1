@@ -13,8 +13,8 @@ class Link
   property :created_at,  DateTime
   property :updated_at,  DateTime
 
-  has n, :feed_links
-  has n, :feeds, :through => :feed_links, :constraint => :destroy!
+  has n, :feed_links, :constraint => :destroy!
+  has n, :feeds, :through => :feed_links
 
   def to_json(options = {})
     {:url => url, :title => title, :score => score, :velocity => velocity}.to_json

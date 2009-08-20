@@ -15,10 +15,10 @@ class Feed
   property :created_at,     DateTime
   property :updated_at,     DateTime
 
-  has n, :user_feeds
-  has n, :feed_links
-  has n, :users, :through => :user_feeds, :model => 'User'
-  has n, :links, :through => :feed_links, :constraint => :destroy!
+  has n, :user_feeds, :constraint => :destroy!
+  has n, :feed_links, :constraint => :destroy!
+  has n, :users, :through => :user_feeds
+  has n, :links, :through => :feed_links
 
   validates_with_method :url, :method => :validate_url, :when => [:default, :discover]
 
