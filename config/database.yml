@@ -18,3 +18,11 @@ test:
       database: oursignal_test
       username: root
       host:     localhost
+
+staging:
+  repositories:
+    default:
+      adapter:  mysql
+      database: oursignal_staging
+      username: root
+      host:     localhost
