@@ -50,5 +50,6 @@ dependency 'jnunemaker-columbus', '0.1.2', :require_as => 'columbus'
 dependency 'pauldix-feedzirra', '0.0.15', :require_as => 'feedzirra'
 
 # These are for deployment only, they will be required when needed
+dependency 'god', '0.7.13', :require_as => nil
 dependency 'capistrano', '2.5.8', :require_as => nil
 dependency 'capistrano-ext', '1.2.1', :require_as => nil
