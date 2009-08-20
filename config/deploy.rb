@@ -37,17 +37,17 @@ namespace :deploy do
 
   desc 'Automigrates the database destructively'
   task :automigrate, :roles => :db do
-    run "MERB_ENV=#{stage} cd #{current_path} && bin/rake db:automigrate"
+    run "cd #{current_path} && MERB_ENV=#{stage} bin/rake db:automigrate"
   end
 
   desc 'Autoupgrading the database non-destructively'
   task :autoupgrade, :roles => :db do
-    run "MERB_ENV=#{stage} cd #{current_path} && bin/rake db:autoupgrade"
+    run "cd #{current_path} && MERB_ENV=#{stage} bin/rake db:autoupgrade"
   end
 
   desc 'Migrates the database using migrations'
   task :migrate, :roles => :db do
-    run "MERB_ENV=#{stage} cd #{current_path} && bin/rake db:migrate"
+    run "cd #{current_path} && MERB_ENV=#{stage} bin/rake db:migrate"
   end
 end
 
