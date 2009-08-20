@@ -23,6 +23,11 @@ namespace :deploy do
     task t, :roles => :app do ; end
   end
 
+  desc 'Restart god'
+  task :god do
+    run "cd #{release_path} && MERB_ENV=#{stage} bin/god -c config.god restart"
+  end
+
   desc 'Recreate gems'
   task :gems do
     run "cd #{release_path} && bin/thor merb:gem:redeploy"
@@ -54,3 +59,4 @@ end
 after 'deploy:cold'.to_sym,        'deploy:automigrate'
 after 'deploy:update_code'.to_sym, 'deploy:gems'
 after 'deploy:update_code'.to_sym, 'deploy:permissions'
+after 'deploy:restart'.to_sym,     'deploy:god'
