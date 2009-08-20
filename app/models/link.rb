@@ -13,7 +13,6 @@ class Link
   property :created_at,  DateTime
   property :updated_at,  DateTime
 
-  # has n, :feeds, :through => Resource, :constraint => :destroy!
   has n, :feed_links
   has n, :feeds, :through => :feed_links, :constraint => :destroy!
 

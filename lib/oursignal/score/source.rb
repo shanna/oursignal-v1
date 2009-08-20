@@ -1,4 +1,4 @@
-require 'oursignal/job'
+require 'schedule/job'
 require 'uri/sanatize'
 require 'open-uri'
 require 'zlib'
@@ -6,10 +6,11 @@ require 'zlib'
 module Oursignal
   module Score
 
-    class Source < Job
-      def poll
+    class Source < Schedule::Job
+      def call
         Merb.logger.info("#{name}\tupdating cache")
-        http_read(http_uri)
+        data = http_read(http_uri)
+        work(data) unless data.blank?
       end
 
       def uri(address, params = nil)
@@ -31,6 +32,10 @@ module Oursignal
             "%s\terror\t%s\n%s\n%s" % [self.class.name, error.class.to_s.downcase, error.message, error.backtrace.join($/)]
           )
         end
+      end
+
+      def work(data = nil)
+        raise NotImplementedError
       end
 
       protected

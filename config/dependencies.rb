@@ -33,6 +33,7 @@ dependency 'dm-validations', dm_gems_version
 
 dependency 'merb_datamapper', merb_gems_version
 
+dependency 'rufus-scheduler', '2.0.1', :require_as => 'rufus/scheduler'
 dependency 'eventmachine', '0.12.8'
 dependency 'mailfactory', '1.4.0'
 dependency 'memcache-client', '1.7.4', :require_as => 'memcache'

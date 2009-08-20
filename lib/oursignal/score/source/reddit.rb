@@ -5,7 +5,7 @@ module Oursignal
   module Score
     class Source
       class Reddit < Source
-        self.poll_time = 60 * 15
+        self.interval = 15.minutes
 
         def http_uri
           @http_uri ||= uri('http://www.reddit.com/.json').freeze

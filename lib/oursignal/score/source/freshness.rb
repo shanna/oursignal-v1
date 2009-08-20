@@ -4,19 +4,16 @@ module Oursignal
   module Score
     class Source
       class Freshness < Source
-        self.poll_time = 15.minutes
+        self.interval = 15.minutes
         ABOVE_GLOBAL_AVERAGE_DAILY_LINKS = 1.5
         DECAY_IN_HOURS                   = 24.0
         TODO_RESULT_WEIGHT               = 0.5
 
-        def poll
+        def call
           # TODO: This is going to be expensive later.
-          Link.all
-        end
-
-        def work(links)
           global_average_daily_links = Feed.avg(:daily_links).to_f
-          links.each do |link|
+
+          Link.all.each do |link|
             # Age in minutes.
             age = ((Time.now - link.referred_at.to_time).to_f / 1.hour)
 

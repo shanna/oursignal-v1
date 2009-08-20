@@ -1,16 +1,16 @@
-require 'oursignal/job'
+require 'schedule/job'
 
 module Oursignal
   module Feed
-    class Update < Job
-      self.poll_time = 30
+    class Update < Schedule::Job
+      self.interval = 30
 
-      def poll
-        ::Feed.all(:updated_at.lt => (Time.now - 30.minutes).to_datetime)
-      end
-
-      def work(links = [])
-        links.each(&:selfupdate)
+      def call(*args)
+        feeds = ::Feed.all(:updated_at.lt => (Time.now - 30.minutes).to_datetime)
+        unless feeds.empty?
+          Merb.logger.info("updating #{feeds.size} feeds")
+          feeds.each(&:selfupdate)
+        end
       end
     end # Update
   end # Feed

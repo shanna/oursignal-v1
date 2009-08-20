@@ -1,39 +1,38 @@
-require 'oursignal/job'
+require 'schedule/job'
 require 'oursignal/score/source'
 
 module Oursignal
   module Score
-    class Update < Job
-      self.poll_time = 5
-      MAX_SOURCES    = Oursignal::Score::Source.subclasses.size
+    class Update < Schedule::Job
+      self.interval = 5
+      MAX_SOURCES   = Oursignal::Score::Source.subclasses.size
 
       def initialize(*args)
         super
         @buckets = {}
       end
 
-      def poll
+      def call
         # TODO: I can build an 'OR' with DM::Query even if the class finders can't do it yet.
         links = Link.all(:score_at.lt => (Time.now - 5.minutes).to_datetime)
         links + Link.all(:score_at => nil)
-      end
-
-      def work(links)
-        Merb.logger.info("score\tupdating scores for #{links.size} links") unless links.empty?
-        links.each do |link|
-          begin
-            new_score     = score(link)
-            link.velocity = (new_score - (link.score || 0)) if new_score != link.score
-            link.score    = new_score
-          rescue => error
-            Merb.logger.error("score\terror\n#{error.message}\n#{error.backtrace.join($/)}")
-          ensure
-            link.score_at = DateTime.now
-            unless link.save
-              Merb.logger.error("score\terror\nfailed to update link\n#{link.errors.full_messages.join($/)}")
+        unless links.empty?
+          Merb.logger.info("score\tupdating scores for #{links.size} links") unless links.empty?
+          links.each do |link|
+            begin
+              new_score     = score(link)
+              link.velocity = (new_score - (link.score || 0)) if new_score != link.score
+              link.score    = new_score
+            rescue => error
+              Merb.logger.error("score\terror\n#{error.message}\n#{error.backtrace.join($/)}")
+            ensure
+              link.score_at = DateTime.now
+              unless link.save
+                Merb.logger.error("score\terror\nfailed to update link\n#{link.errors.full_messages.join($/)}")
+              end
             end
+            Merb.logger.debug("score\t%.5f\t%.5f\t%s" % [link.score, link.velocity, link.url])
           end
-          Merb.logger.debug("score\t%.5f\t%.5f\t%s" % [link.score, link.velocity, link.url])
         end
       end
 
