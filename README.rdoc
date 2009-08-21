@@ -4,11 +4,13 @@ Oursignal II
 
 == TODO
 
-* Nginix or Apache
-* God or Monit
-* Passenger
+* Username should return to '/username' in navigation.
+* Use google jquery/jquery-ui.
+* Bundle JS.
+* Remove fullname.
+* Include link feeds in feed json, xml and what not.
+* Fix tests.
 * Facebook authentication strategy?
 * Oursignal click score per feed/item?
-* PID files for feed and score daemons
-* uri-meta
+* metauri
 * Log to file (with timestamps) for feed and score daemons.
