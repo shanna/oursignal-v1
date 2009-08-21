@@ -1,7 +1,7 @@
 <div id="navigation">
   <% if session.user -%>
     <div class="user">
-      <%= tag 'abbr', session.user.username, :class => 'name', :title => session.user.fullname %>
+      <%= link_to(session.user.username, url(:users, session.user.username), :class => 'username') %>
       &raquo;
     </div>
   <% end -%>
