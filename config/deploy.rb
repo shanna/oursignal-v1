@@ -6,6 +6,8 @@ set :branch,           'master'
 set :repository_cache, 'git_cache'
 set :user,             'root'
 set :use_sudo,          false
+set :passenger_user,   'nobody'
+set :passenger_group,  'nogroup'
 
 set :stages, %w(staging production)
 set :default_stage, 'staging'
@@ -36,8 +38,15 @@ namespace :deploy do
   desc 'Sets permissions'
   task :permissions, :roles => :web do
     # Ruby inline complains if you make your directory group writable but apache must be able to write here.
-    run "chown nobody #{release_path}/tmp"
+    run "chown #{passenger_user} #{release_path}/tmp"
     run "chmod g-w #{release_path}/tmp"
+
+    # Merb page caches.
+    run "chown #{passenger_user} #{release_path}/public"
+
+    # Merb bundling.
+    run "chown #{passenger_user} #{release_path}/public/stylesheets"
+    run "chown #{passenger_user} #{release_path}/public/javascripts"
   end
 
   desc 'Automigrates the database destructively'
