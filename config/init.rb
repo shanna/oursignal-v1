@@ -26,6 +26,9 @@ Merb::BootLoader.before_app_loads do
     :namespace => 'uri_redirect'
   )
 
+  # Prevent IOError when running under passenger I hope.
+  ::OpenID::Util.logger = Merb.logger
+
   require 'dm/types'
   require 'ext/string'
   require 'ext/float'
