@@ -2,19 +2,27 @@ require 'rufus/scheduler'
 require 'eventmachine'
 
 module Schedule
-  def self.run(&block)
+  def self.run(options = {}, &block)
     if block_given?
       EM.run do
-        # TODO: Trap INT, QUIT, KILL etc.
-        # - unschedule everything
-        # - wait for everything already running to stop
-        # - EM.stop
-        sc = run
+        Signal.trap('TERM'){ stop}
+        Signal.trap('INT'){ stop}
+        Signal.trap('QUIT'){ stop}
+        sc = run(options)
         block.call(sc)
       end
     else
-      # I think I have this right. Should allow for schedulers in different processes.
-      Thread.current[:_schedule_rufus_scheduler] ||= Rufus::Scheduler.start_new
+      Thread.main[:_schedule_rufus_scheduler] ||= Rufus::Scheduler.start_new(options)
+    end
+  end
+
+  def self.stop
+    run do |sc|
+      # Unschedule everything and wait for threads.
+      # jobs = sc.jobs.map{|jid, job| job}
+      # jobs.each(&:unschedule)
+      # TODO: loop while jobs.select{|job| job.thread.alive?}
+      EM.stop
     end
   end
 
@@ -26,7 +34,7 @@ module Schedule
       # Locking.
       @scheduler.in 1 do |job|
         if @job_thread && @job_thread.alive?
-          @scheduler.in 1, &job.block
+          @scheduler.in(1, nil, {:tags => [tags, 'lock'].flatten}, &job.block)
         else
           schedule_next
         end

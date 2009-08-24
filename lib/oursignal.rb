@@ -7,7 +7,11 @@ module Oursignal
 
     Dir.chdir(root)
     require 'merb-core'
-    ::Merb.start({:environment => (ENV['MERB_ENV'] || 'development')}.update(options))
+    # The old way. Forking caused issues.
+    # ::Merb.start_environment({:environment => (ENV['MERB_ENV'] || 'development')}.update(options))
+    ::Merb.load_dependencies
+    ::Merb::Orms::DataMapper::Connect.run
+    ::Merb::BootLoader::LoadClasses.load_classes(File.join(root, 'app', 'models', '*'))
   end
 
   def self.root

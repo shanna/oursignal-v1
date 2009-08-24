@@ -10,7 +10,7 @@ module Schedule
     end
 
     def self.run
-      Schedule.run.series(interval){ new.call}
+      Schedule.run.series(interval, new, {:tags => [name]})
     end
 
     def self.name
@@ -19,6 +19,10 @@ module Schedule
 
     def name
       self.class.name
+    end
+
+    def trigger
+      call
     end
 
     def call

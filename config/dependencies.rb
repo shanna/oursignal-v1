@@ -33,8 +33,12 @@ dependency 'dm-validations', dm_gems_version
 
 dependency 'merb_datamapper', merb_gems_version
 
+# scheduler
+# TODO: Move all of this stuff into a library of it's own.
 dependency 'rufus-scheduler', '2.0.1', :require_as => 'rufus/scheduler'
 dependency 'eventmachine', '0.12.8'
+dependency 'eventmachine_httpserver', '0.1.1', :require_as => 'evma_httpserver' # Stupid name.
+
 dependency 'mailfactory', '1.4.0'
 dependency 'memcache-client', '1.7.4', :require_as => 'memcache'
 dependency 'moneta', '0.6.0'

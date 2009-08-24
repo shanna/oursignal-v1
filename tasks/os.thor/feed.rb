@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), 'common')
 module Os
   class Feed < Thor
     def self.new(*args)
-      Oursignal.merb_env
+      Oursignal.merb_env(:testing => false, :adapter => 'runner')
       super(*args)
     end
 
