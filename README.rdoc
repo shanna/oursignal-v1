@@ -2,12 +2,3 @@
 
 Oursignal II
 
-== TODO
-
-* Remove fullname.
-* Include link feeds in feed json, xml and what not.
-* Fix tests.
-* Facebook authentication strategy?
-* Oursignal click score per feed/item?
-* metauri
-* Log to file (with timestamps) for feed and score daemons.

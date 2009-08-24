@@ -5,7 +5,7 @@ Merb::Authentication.activate!(:default_openid)
 
 class Merb::Authentication::Strategies::Basic::OpenID
   def required_reg_fields
-    %w{fullname nickname email}
+    %w{nickname email}
   end
 
   def on_success!(response, sreg_response)
@@ -16,7 +16,6 @@ class Merb::Authentication::Strategies::Basic::OpenID
     sreg = sreg_response ? sreg_response.data : {}
     user = Merb::Authentication.user_class.new(
       :username => sreg['nickname'],
-      :fullname => sreg['fullname'],
       :email    => sreg['email'],
       :openid   => response.identity_url
     )

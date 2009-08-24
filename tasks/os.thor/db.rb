@@ -13,7 +13,6 @@ module Os
       %w{treemap list}.each{|theme| Theme.first_or_create(:name => theme)}
       User.first_or_create({:username => 'oursignal'},
         :username => 'oursignal',
-        :fullname => 'OurSignal',
         :email    => 'enquiries@oursignal.com'
       )
     end

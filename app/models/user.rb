@@ -4,7 +4,6 @@ class User
   include DataMapper::Resource
   property :id,          Serial
   property :theme_id,    Integer, :nullable => false, :default => proc {Theme.first(:name => 'treemap').id rescue nil}
-  property :fullname,    String, :nullable => false
   property :username,    String, :nullable => false, :length => (2..20), :format => /^[a-z0-9][a-z0-9\-]+$/i
   property :password,    String, :length => 40
   property :email,       String, :nullable => false, :length => 255, :format => :email_address
