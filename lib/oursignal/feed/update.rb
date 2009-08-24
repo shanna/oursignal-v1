@@ -6,7 +6,7 @@ module Oursignal
       self.interval = 30
 
       def call(*args)
-        feeds = ::Feed.all(:updated_at.lt => (Time.now - 30.minutes).to_datetime)
+        feeds = ::Feed.all(:updated_at.lt => (Time.now - 15.minutes).to_datetime)
         unless feeds.empty?
           Merb.logger.info("updating #{feeds.size} feeds")
           feeds.each(&:selfupdate)
