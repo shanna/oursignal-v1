@@ -11,12 +11,19 @@ module Os
 
     desc 'expire', %q{Feed expire.}
     def expire
-      Oursignal::Feed::Expire.run
+      run Oursignal::Feed::Expire
     end
 
     desc 'update', %q{Feed update.}
     def update
-      Oursignal::Feed::Update.run
+      run Oursignal::Feed::Update
     end
+
+    protected
+      def run(klass)
+        klass.run
+      rescue File::Pid::PidFileExist
+        true
+      end
   end
 end

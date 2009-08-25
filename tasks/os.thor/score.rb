@@ -11,39 +11,59 @@ module Os
 
     desc 'expire', %q{Score expire.}
     def expire
-      Oursignal::Score::Expire.run
+      run Oursignal::Score::Expire
     end
 
     desc 'update', %q{Score update.}
     def update
-      Oursignal::Score::Update.run
+      run Oursignal::Score::Update
     end
 
+    protected
+      def run(klass)
+        klass.run
+      rescue File::Pid::PidFileExist
+        true
+      end
+
     class Source < Thor
+      def self.new(*args)
+        Oursignal.merb_env
+        require 'oursignal/score'
+        super(*args)
+      end
+
       desc 'delicious', %q{Score source delicious update.}
       def delicious
-        Oursignal::Score::Source::Delicious.run
+        run Oursignal::Score::Source::Delicious
       end
 
       desc 'digg', %q{Score source digg update.}
       def digg
-        Oursignal::Score::Source::Digg.run
+        run Oursignal::Score::Source::Digg
       end
 
       desc 'freshness', %q{Score source freshness update.}
       def freshness
-        Oursignal::Score::Source::Freshness.run
+        run Oursignal::Score::Source::Freshness
       end
 
       desc 'reddit', %q{Score source reddit update.}
       def reddit
-        Oursignal::Score::Source::Reddit.run
+        run Oursignal::Score::Source::Reddit
       end
 
       desc 'ycombinator', %q{Score source ycombinator update.}
       def ycombinator
-        Oursignal::Score::Source::Ycombinator.run
+        run Oursignal::Score::Source::Ycombinator
       end
+
+      protected
+        def run(klass)
+          klass.run
+        rescue File::Pid::PidFileExist
+          true
+        end
     end
   end
 end
