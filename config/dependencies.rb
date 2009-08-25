@@ -45,7 +45,7 @@ dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
 dependency 'taf2-curb', '0.5', :require_as => 'curb'
 dependency 'thoughtbot-shoulda', '2.10.1', :require_as => 'shoulda'
 dependency 'jnunemaker-columbus', '0.1.2', :require_as => 'columbus'
-dependency 'pauldix-feedzirra', '0.0.15', :require_as => 'feedzirra'
+dependency 'pauldix-feedzirra', '0.0.17', :require_as => 'feedzirra'
 
 # These are for deployment only, they will be required when needed
 dependency 'capistrano', '2.5.8', :require_as => nil
