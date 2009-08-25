@@ -12,7 +12,7 @@ module Os
     desc 'redeploy', '(Re)deploy oursignal crontab for current environment.'
     def redeploy
       require 'erubis'
-      thor  = "MERB_ENV=#{Merb.environment} #{Oursignal.root}/bin/thor"
+      thor  = "cd #{Oursignal.root} && MERB_ENV=#{Merb.environment} #{Oursignal.root}/bin/thor"
       tmpl  = File.read(File.join(File.dirname(__FILE__), 'crontab.erb'))
       eruby = Erubis::Eruby.new(tmpl)
 
