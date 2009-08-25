@@ -5,8 +5,6 @@ module Oursignal
   module Score
     class Source
       class Reddit < Source
-        self.interval = 15.minutes
-
         def http_uri
           @http_uri ||= uri('http://www.reddit.com/.json').freeze
         end

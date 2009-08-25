@@ -1,11 +1,9 @@
-require 'schedule/job'
+require 'oursignal/job'
 
 module Oursignal
   module Feed
-    class Update < Schedule::Job
-      self.interval = 30
-
-      def call(*args)
+    class Update < Job
+      def call
         feeds = ::Feed.all(:updated_at.lt => (Time.now - 15.minutes).to_datetime)
         unless feeds.empty?
           Merb.logger.info("updating #{feeds.size} feeds")

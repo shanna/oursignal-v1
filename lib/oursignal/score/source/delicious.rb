@@ -5,8 +5,6 @@ module Oursignal
   module Score
     class Source
       class Delicious < Source
-        self.interval = 15.minutes
-
         def http_uri
           @http_uri ||= uri('http://delicious.com/popular/').freeze
         end

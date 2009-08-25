@@ -4,7 +4,6 @@ module Oursignal
   module Score
     class Source
       class Freshness < Source
-        self.interval = 15.minutes
         ABOVE_GLOBAL_AVERAGE_DAILY_LINKS = 1.5
         DECAY_IN_HOURS                   = 24.0
         TODO_RESULT_WEIGHT               = 0.5

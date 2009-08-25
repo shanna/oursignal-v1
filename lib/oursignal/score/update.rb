@@ -1,10 +1,9 @@
-require 'schedule/job'
+require 'oursignal/job'
 require 'oursignal/score/source'
 
 module Oursignal
   module Score
-    class Update < Schedule::Job
-      self.interval = 5
+    class Update < Job
       MAX_SOURCES   = Oursignal::Score::Source.subclasses.size
 
       def initialize(*args)

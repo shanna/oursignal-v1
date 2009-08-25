@@ -1,10 +1,8 @@
-require 'schedule/job'
+require 'oursignal/job'
 
 module Oursignal
   module Feed
-    class Expire < Schedule::Job
-      self.interval = 600 # Ten minutes.
-
+    class Expire < Job
       def call
         links = Link.all(:created_at.lt => (Time.now - 2.day).to_datetime)
         unless links.empty?

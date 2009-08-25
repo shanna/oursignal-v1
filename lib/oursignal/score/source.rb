@@ -1,4 +1,4 @@
-require 'schedule/job'
+require 'oursignal/job'
 require 'uri/sanatize'
 require 'open-uri'
 require 'zlib'
@@ -6,7 +6,7 @@ require 'zlib'
 module Oursignal
   module Score
 
-    class Source < Schedule::Job
+    class Source < Job
       def call
         Merb.logger.info("#{name}\tupdating cache")
         data = http_read(http_uri)

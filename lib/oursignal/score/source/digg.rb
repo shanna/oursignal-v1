@@ -5,8 +5,6 @@ module Oursignal
   module Score
     class Source
       class Digg < Source
-        self.interval = 15.minutes
-
         def http_uri
           @http_uri ||= uri('http://services.digg.com/stories/popular',
             'appkey' => 'http://oursignal.com/',
