@@ -33,12 +33,6 @@ dependency 'dm-validations', dm_gems_version
 
 dependency 'merb_datamapper', merb_gems_version
 
-# scheduler
-# TODO: Move all of this stuff into a library of it's own.
-dependency 'rufus-scheduler', '2.0.1', :require_as => 'rufus/scheduler'
-dependency 'eventmachine', '0.12.8'
-dependency 'eventmachine_httpserver', '0.1.1', :require_as => 'evma_httpserver' # Stupid name.
-
 dependency 'mailfactory', '1.4.0'
 dependency 'memcache-client', '1.7.4', :require_as => 'memcache'
 dependency 'moneta', '0.6.0'
@@ -54,6 +48,5 @@ dependency 'jnunemaker-columbus', '0.1.2', :require_as => 'columbus'
 dependency 'pauldix-feedzirra', '0.0.15', :require_as => 'feedzirra'
 
 # These are for deployment only, they will be required when needed
-dependency 'god', '0.7.13', :require_as => nil
 dependency 'capistrano', '2.5.8', :require_as => nil
 dependency 'capistrano-ext', '1.2.1', :require_as => nil
