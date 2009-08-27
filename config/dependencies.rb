@@ -35,7 +35,6 @@ dependency 'merb_datamapper', merb_gems_version
 
 dependency 'mailfactory', '1.4.0'
 dependency 'memcache-client', '1.7.4', :require_as => 'memcache'
-dependency 'moneta', '0.6.0'
 dependency 'addressable', '2.1.0', :require_as => 'addressable/uri'
 dependency 'hpricot', '0.8.1'
 dependency 'nokogiri', '1.2.3'
@@ -43,9 +42,12 @@ dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
 
 # github
 dependency 'taf2-curb', '0.5', :require_as => 'curb'
+dependency 'wycats-moneta', '0.6.0', :require_as => 'moneta'
 dependency 'thoughtbot-shoulda', '2.10.1', :require_as => 'shoulda'
 dependency 'jnunemaker-columbus', '0.1.2', :require_as => 'columbus'
 dependency 'pauldix-feedzirra', '0.0.17', :require_as => 'feedzirra'
+
+dependency 'uri-meta', '0.7.2', :require_as => 'uri/meta'
 
 # These are for deployment only, they will be required when needed
 dependency 'capistrano', '2.5.8', :require_as => nil

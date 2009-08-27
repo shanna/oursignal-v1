@@ -19,6 +19,11 @@ module Os
       run Oursignal::Feed::Update
     end
 
+    desc 'meta', %q{Fetch meta data for feed links}
+    def meta
+      run Oursignal::Feed::Meta
+    end
+
     protected
       def run(klass)
         klass.run

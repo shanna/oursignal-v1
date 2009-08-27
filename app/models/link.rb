@@ -3,21 +3,27 @@ require 'uri/domain'
 
 class Link
   include DataMapper::Resource
-  property :id,          DataMapper::Types::Digest::SHA1.new(:url), :key => true, :nullable => false
-  property :url,         URI, :length => 255, :nullable => false, :unique_index => true
-  property :title,       String, :length => 255
-  property :score,       Float, :default => 0
-  property :score_at,    DateTime
-  property :velocity,    Float, :default => 0
-  property :referred_at, DateTime
-  property :created_at,  DateTime
-  property :updated_at,  DateTime
+  property :id,                 DataMapper::Types::Digest::SHA1.new(:url), :key => true, :nullable => false
+  property :url,                URI, :length => 255, :nullable => false, :unique_index => true
+  property :title,              String, :length => 255
+  property :score,              Float, :default => 0
+  property :velocity,           Float, :default => 0
+  property :score_at,           DateTime, :index => true
+  property :meta_at,            DateTime, :index => true
+  property :referred_at,        DateTime, :default => proc{ DateTime.now}
+  property :created_at,         DateTime, :index => true
+  property :updated_at,         DateTime
 
   has n, :feed_links, :constraint => :destroy!
   has n, :feeds, :through => :feed_links
 
   def to_json(options = {})
-    {:url => url, :title => title, :score => score, :velocity => velocity}.to_json
+    {
+      :url      => last_effective_url || url,
+      :title    => title,
+      :score    => score,
+      :velocity => velocity
+    }.to_json
   end
 
   def score=(f)
@@ -48,16 +54,12 @@ class Link
       end
     end
 
-    # TODO: Use curl-multi to speed up the URI sanatization.
-    # URI.sanatize(links.keys) do |url|
-    #   url.last_effective_url
-    #   links[url.to_s] # title
-    # end
     links.map do |url, title|
-      url              = URI.sanatize(url) rescue next
+      url = URI.sanatize(url) rescue next
+      next if feed.feed_links.first(:url => url)
       link             = first_or_new({:url => url}, :title => title)
       link.referred_at = DateTime.now
-      link.save && feed.feed_links.first_or_create(:link => link)
+      link.save && feed.feed_links.first_or_create({:link => link}, :url => url)
     end
   end
 end # Link

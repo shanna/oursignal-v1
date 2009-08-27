@@ -19,11 +19,11 @@ Merb::Config.use do |c|
 end
 
 Merb::BootLoader.before_app_loads do
-  require 'uri/redirect'
+  require 'uri/meta'
   require 'moneta/memcache'
-  URI::Redirect::Cache.moneta = Moneta::Memcache.new(
+  URI::Meta::Cache.cache = Moneta::Memcache.new(
     :server    => 'localhost:11211',
-    :namespace => 'uri_redirect'
+    :namespace => 'uri_meta'
   )
 
   # Prevent IOError when running under passenger I hope.

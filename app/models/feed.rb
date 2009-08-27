@@ -12,8 +12,8 @@ class Feed
   property :last_modified,  DateTime
   property :total_links,    Integer, :default => 0
   property :daily_links,    Float, :default => 0
-  property :created_at,     DateTime
-  property :updated_at,     DateTime
+  property :created_at,     DateTime, :index => true
+  property :updated_at,     DateTime, :index => true
 
   has n, :user_feeds, :constraint => :destroy!
   has n, :feed_links, :constraint => :destroy!
@@ -68,8 +68,12 @@ class Feed
     primary = Columbus.new(feed.url).primary rescue nil
     return discover(primary.url.to_s, options.update(:content => false)) if options[:content] && primary
 
-    feed.save(:discover)
-    feed.selfupdate if options[:entries]
+    if feed.new? || options[:entries]
+      feed.save(:discover)
+      feed.selfupdate
+    else
+      feed.save(:discover)
+    end
     feed
   end
 
