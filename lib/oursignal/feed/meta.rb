@@ -12,7 +12,9 @@ module Oursignal
 
         while !urls.empty?
           chunk = urls.slice!(0..10).compact
+          # URI::Meta.multi(chunk, :connection_timeout => 2, :timeout => 10) do |meta|
           URI::Meta.multi(chunk) do |meta|
+            next if meta.errors?
             link  = Link.first(:url => URI.sanatize(meta.uri)) || next
             elink = Link.first_or_create({:url => URI.sanatize(meta.last_effective_uri)}, :title => meta.title.to_s) || next
 
