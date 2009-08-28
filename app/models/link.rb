@@ -19,7 +19,7 @@ class Link
 
   def to_json(options = {})
     {
-      :url      => last_effective_url || url,
+      :url      => url,
       :title    => title,
       :score    => score,
       :velocity => velocity
