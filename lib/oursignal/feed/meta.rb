@@ -16,15 +16,15 @@ module Oursignal
           URI::Meta.multi(chunk) do |meta|
             next if meta.errors?
             link  = Link.first(:url => URI.sanatize(meta.uri)) || next
-            elink = Link.first_or_create({:url => URI.sanatize(meta.last_effective_uri)}, :title => meta.title.to_s) || next
 
-            if elink != link
+            if meta.redirect?
+              elink = Link.first_or_create({:url => URI.sanatize(meta.last_effective_uri)}, :title => meta.title.to_s) || next
+              elink.update(:meta_at => DateTime.now) unless elink.meta_at
               adapter.execute('update feed_links set link_id = ? where link_id = ?', elink.id, link.id)
               link.destroy
+            else
+              link.update(:meta_at => DateTime.now) unless link.meta_at
             end
-
-            elink.meta_at = DateTime.now
-            elink.save
           end
         end
       end

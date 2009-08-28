@@ -2,6 +2,7 @@
 
 */10 * * * * root <%= thor %> os:feed:expire > /dev/null
 */1  * * * * root <%= thor %> os:feed:update > /dev/null
+*/1  * * * * root <%= thor %> os:feed:meta   > /dev/null
 
 */15 * * * * root <%= thor %> os:score:expire > /dev/null
 */1  * * * * root <%= thor %> os:score:update > /dev/null
