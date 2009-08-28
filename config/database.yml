@@ -1,28 +1,22 @@
 ---
-development:
-  repositories:
-    default:
-      adapter:  mysql
-      database: oursignal
-
-rake:
-  repositories:
-    default:
-      adapter:  mysql
-      database: oursignal
+development: &defaults
+  adapter:  mysql
+  database: oursignal
+  host: localhost
 
 test:
-  repositories:
-    default:
-      adapter:  mysql
-      database: oursignal_test
-      username: root
-      host:     localhost
+  <<:       *defaults
+  database: oursignal_test
 
 staging:
-  repositories:
-    default:
-      adapter:  mysql
-      database: oursignal_staging
-      username: root
-      host:     localhost
+  <<:       *defaults
+  database: oursignal_staging
+  username: root
+
+production:
+  <<:       *defaults
+  database: oursignal
+  username: root
+
+rake:
+  <<: *defaults
