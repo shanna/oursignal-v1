@@ -12,7 +12,7 @@ require 'capistrano/ext/multistage'
 set :application, 'oursignal'
 set :repository,  'git@github.com:stateless-systems/oursignal.git'
 
-set :rubygems, fetch(:rubygems, []).push('jeweler')
+set :gems, fetch(:gems, []).push('jeweler')
 
 set(:default_environment) do
   { 'MERB_ENV' => stage }
