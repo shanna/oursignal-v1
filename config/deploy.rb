@@ -19,10 +19,18 @@ set(:default_environment) do
 end
 
 namespace :deploy do
-  desc 'Recreate crontab'
-  task :crontab do
-    run "#{thor} os:crontab:redeploy"
+  namespace :thor do
+    desc 'Recreate crontab'
+    task :crontab do
+      run "#{thor} os:crontab:redeploy"
+    end
+
+    desc 'Custom migrations'
+    task :migrate do
+      run "#{thor} os:db:migrate"
+    end
   end
 end
 
-after 'deploy:restart'.to_sym, 'deploy:crontab'
+after 'deploy:restart'.to_sym, 'deploy:thor:crontab'
+after 'deploy:migrate'.to_sym, 'deploy:thor:migrate'
