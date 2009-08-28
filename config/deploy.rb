@@ -9,8 +9,10 @@ require 'capistrano/ext/nokogiri'
 require 'capistrano/ext/mysql'
 require 'capistrano/ext/multistage'
 
-set :application,      'oursignal'
-set :repository,       'git@github.com:stateless-systems/oursignal.git'
+set :application, 'oursignal'
+set :repository,  'git@github.com:stateless-systems/oursignal.git'
+
+set :rubygems, fetch(:rubygems, []).push('jeweler')
 
 set(:default_environment) do
   { 'MERB_ENV' => stage }
