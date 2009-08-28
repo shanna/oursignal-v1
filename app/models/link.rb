@@ -6,6 +6,7 @@ class Link
   property :id,                 DataMapper::Types::Digest::SHA1.new(:url), :key => true, :nullable => false
   property :url,                URI, :length => 255, :nullable => false, :unique_index => true
   property :title,              String, :length => 255
+  property :domains,            Json
   property :score,              Float, :default => 0
   property :velocity,           Float, :default => 0
   property :score_at,           DateTime, :index => true
@@ -58,6 +59,7 @@ class Link
       url = URI.sanatize(url) rescue next
       next if feed.feed_links.first(:url => url)
       link             = first_or_new({:url => url}, :title => title)
+      link.domains     = link.feeds.map(&:domain).push(feed.domain).uniq
       link.referred_at = DateTime.now
       link.save && feed.feed_links.first_or_create({:link => link}, :url => url)
     end

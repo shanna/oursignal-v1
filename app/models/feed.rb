@@ -1,4 +1,5 @@
 require 'uri/sanatize'
+require 'uri/domain'
 require 'dm/types/digest'
 
 class Feed
@@ -22,8 +23,12 @@ class Feed
 
   validates_with_method :url, :method => :validate_url, :when => [:default, :discover]
 
-  # TODO: Move all the update code to a mixin.
+  # Common form of 'domain name', name + public suffix.
+  def domain
+    url.domain rescue nil
+  end
 
+  # TODO: Move all the update code to a mixin.
   USER_AGENT = 'oursignal-rss/2 +oursignal.com'
   def selfupdate
     options = {
