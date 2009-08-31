@@ -23,7 +23,8 @@ class Link
       :url      => url,
       :title    => title,
       :score    => score,
-      :velocity => velocity
+      :velocity => velocity,
+      :domains  => domains
     }.to_json
   end
 

@@ -16,6 +16,15 @@ Merb::Config.use do |c|
   # cookie session store configuration
   c[:session_secret_key]  = '87107539db8cfa483be5b146200d88adb071300e'  # required for cookie session store
   c[:session_id_key] = '_oursignal/_session_id' # cookie session id key, defaults to "_session_id"
+
+  Merb::Plugins.config[:exceptions] = {
+    :email_addresses        => ['shane@statelesssystems.com'],
+    :app_name               => 'oursignal.com',
+    :environments           => ['production', 'staging', 'rake'],
+    :email_from             => 'exceptions@oursignal.com',
+    :mailer_config          => nil,
+    :mailer_delivery_method => :sendmail
+  }
 end
 
 Merb::BootLoader.before_app_loads do

@@ -20,9 +20,15 @@
       options      = $.extend(defaults, options);
 
       if (!(options.cache && $.links.data)) {
-        $.ajax({type: 'GET', url: '/' + $.os.user.username, dataType: 'json', async: false, success: function (json) {
-          $.links.data = json;
-        }});
+        if ($.os.links) {
+          $.links.data = $.os.links;
+          delete $.os.links;
+        }
+        else {
+          $.ajax({type: 'GET', url: '/' + $.os.user.username, dataType: 'json', async: false, success: function (json) {
+            $.links.data = json;
+          }});
+        }
       }
       return $.links.data;
     }

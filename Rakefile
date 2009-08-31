@@ -12,6 +12,12 @@ begin
     gem.authors = ["Shane Hanna"]
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
+
+  # No gemspec, I'm just using the version and release code from jeweler.
+  class Jeweler::Commands::Release
+    def regenerate_gemspec!; end
+    def gemspec_changed?; false end
+  end # Jeweler::Commands::Release
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
