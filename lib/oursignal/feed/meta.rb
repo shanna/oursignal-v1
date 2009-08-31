@@ -32,7 +32,7 @@ module Oursignal
                 ) || next
               end
               elink.update(:meta_at => DateTime.now) unless elink.meta_at
-              adapter.execute('update feed_links set link_id = ? where link_id = ?', elink.id, link.id)
+              adapter.execute('update feed_links set link_id = ? where link_id = ?', elink.id, link.id) rescue nil
               link.destroy
             else
               link.update(:meta_at => DateTime.now) unless link.meta_at
