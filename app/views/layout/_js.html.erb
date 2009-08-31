@@ -10,6 +10,7 @@
 <%= include_required_js %>
 <script type="text/javascript">
   //<![CDATA[
-    $.os.user = <%= user.to_json(:only => [:id, :username]) %>;
+    $.os.user  = <%= user.to_json(:only => [:id, :username]) %>;
+    $.os.links = <%= user.links.to_json %>;
   //]]>
 </script>
