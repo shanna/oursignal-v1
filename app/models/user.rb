@@ -51,6 +51,8 @@ class User
     first(:conditions => {:username => user.username, :password => user.password})
   end
 
+  #--
+  # TODO: Can I speed this up a bit?
   def links(limit = 50)
     results   = {}
     referrers = user_feeds.map{|feed| [feed.feed_id, feed.score]}.to_hash
@@ -83,6 +85,7 @@ class User
     scale = 1.to_f / (max - min)
     results.map do |link|
       link.score = (link.score - min) * scale
+      # TODO: Scale velocity between -1..1
       link
     end
   end

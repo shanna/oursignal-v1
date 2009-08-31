@@ -18,7 +18,19 @@ module Oursignal
             link  = Link.first(:url => URI.sanatize(meta.uri)) || next
 
             if meta.redirect?
-              elink = Link.first_or_create({:url => URI.sanatize(meta.last_effective_uri)}, :title => meta.title.to_s) || next
+              unless elink = Link.first(:url => URI.sanatize(meta.last_effective_uri))
+                # TODO: This eats dick and may break when you add new properties to Link.
+                # The intention here is to clone everything in the old link and set url (thus id) and meta_at.
+                elink = Link.create(
+                  :url         => URI.sanatize(meta.last_effective_uri),
+                  :domains     => link.domains,
+                  :title       => meta.title.to_s,
+                  :meta_at     => DateTime.now,
+                  :referred_at => link.referred_at,
+                  :created_at  => link.created_at,
+                  :updated_at  => link.updated_at
+                ) || next
+              end
               elink.update(:meta_at => DateTime.now) unless elink.meta_at
               adapter.execute('update feed_links set link_id = ? where link_id = ?', elink.id, link.id)
               link.destroy
