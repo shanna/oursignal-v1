@@ -21,8 +21,8 @@
 
       if (!(options.cache && $.links.data)) {
         if ($.os.links) {
+          $.links.data = $.os.links;
           delete $.os.links;
-          console.warn('html');
         }
         else {
           $.ajax({type: 'GET', url: '/' + $.os.user.username, dataType: 'json', async: false, success: function (json) {
