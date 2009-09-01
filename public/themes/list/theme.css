@@ -23,3 +23,7 @@ div#links .meta {
 .meta .velocity {
   display: inline;
 }
+
+.meta .domains {
+  display: inline;
+}
