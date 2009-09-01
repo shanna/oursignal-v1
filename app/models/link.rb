@@ -11,7 +11,7 @@ class Link
   property :velocity,           Float, :default => 0
   property :score_at,           DateTime, :index => true
   property :meta_at,            DateTime, :index => true
-  property :referred_at,        DateTime, :default => proc{ DateTime.now}
+  property :referred_at,        DateTime
   property :created_at,         DateTime, :index => true
   property :updated_at,         DateTime
 
@@ -43,26 +43,28 @@ class Link
   end
 
   def self.update(feed, remote_feed)
-    links = {}
     remote_feed.entries.each do |entry|
-      links[entry.url] = entry.title
-      xml              = Nokogiri::XML.parse("<r>#{entry.summary}</r>") rescue next
+      urls = [entry.url]
+      xml  = Nokogiri::XML.parse("<r>#{entry.summary}</r>") rescue next
       xml.xpath('//a').each do |anchor|
         url   = URI.parse(anchor.attribute('href').text) rescue next
         title = anchor.text.strip
         next unless title =~ /\w+/ && url.is_a?(URI::HTTP)
         next if feed.url.domain == url.domain
-        links[url.to_s] = entry.title
+        urls << url.to_s
       end
-    end
 
-    links.map do |url, title|
-      url = URI.sanatize(url) rescue next
-      next if feed.feed_links.first(:url => url)
-      link             = first_or_new({:url => url}, :title => title)
-      link.domains     = link.feeds.map(&:domain).push(feed.domain).uniq
-      link.referred_at = DateTime.now
-      link.save && feed.feed_links.first_or_create({:link => link}, :url => url)
+      urls.each do |url|
+        url = URI.sanatize(url) rescue next
+        next if feed.feed_links.first(:url => url)
+        link         = first_or_new({:url => url}, :title => entry.title.strip)
+        link.domains = link.feeds.map(&:domain).push(feed.domain).uniq
+
+        referred_at      = entry.published.to_datetime
+        link.referred_at = referred_at if link.referred_at.blank? || link.referred_at < referred_at
+
+        link.save && feed.feed_links.first_or_create({:link => link}, :url => url)
+      end
     end
   end
 end # Link
