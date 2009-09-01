@@ -13,8 +13,9 @@ module Oursignal
         end
 
         def work(data = '')
-          # TODO: ./@link is Real URL.
+          # TODO: Create fake feed entries for ./@link in digg popular feed.
           Nokogiri::XML.parse(data).xpath('//story').each do |story|
+            score(story.at('./@link').text, story.at('./@diggs').text.to_i)
             score(story.at('./@href').text, story.at('./@diggs').text.to_i)
           end
         end
