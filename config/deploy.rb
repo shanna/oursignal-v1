@@ -7,6 +7,7 @@ require 'capistrano/ext/merb'
 require 'capistrano/ext/curb'
 require 'capistrano/ext/nokogiri'
 require 'capistrano/ext/mysql'
+require 'capistrano/ext/memcached'
 require 'capistrano/ext/multistage'
 
 set :application, 'oursignal'
