@@ -17,6 +17,7 @@ module Oursignal
             age = ((Time.now - link.referred_at.to_time).to_f / 1.hour)
 
             # Average daily links across all feeds that have this link.
+            # TODO: Use dm-aggregates to sum() this in a single query.
             feeds               = Feed.all('feed_links.link_id' => link.id) # TODO: Why is link.feeds doing the wrong query?
             average_daily_links = feeds.empty? ? 0 : (feeds.inject(0.0){|ac, feed| ac += feed.daily_links; ac} / feeds.size)
 
