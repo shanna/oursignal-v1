@@ -8,6 +8,7 @@ class Feed
   include DataMapper::Resource
   property :id,             DataMapper::Types::Digest::SHA1.new(:url), :key => true, :nullable => false
   property :title,          String, :length => 255
+  property :site,           URI, :length => 255
   property :url,            URI, :length => 255, :nullable => false, :unique_index => true
   property :etag,           String, :length => 255
   property :last_modified,  DateTime
@@ -25,7 +26,7 @@ class Feed
 
   # Common form of 'domain name', name + public suffix.
   def domain
-    url.domain rescue nil
+    site.domain rescue nil
   end
 
   # TODO: Move all the update code to a mixin.
@@ -45,16 +46,17 @@ class Feed
   end
 
   def self.update(url, remote_feed)
-    feed = first(:url => url) || return
+    feed = first(:url => URI.sanatize(url)) || return
     begin
-      Link.update(feed, remote_feed)
-
       DataMapper.logger.info("feed\tupdate\t#{feed.url}")
       feed.title         = remote_feed.title
+      feed.site          = URI.sanatize(remote_feed.url) if feed.site.blank? && !remote_feed.url.blank?
       feed.etag          = remote_feed.etag
       feed.last_modified = remote_feed.last_modified.to_datetime unless remote_feed.last_modified.blank?
-      feed.total_links   = feed.links.size
 
+      Link.update(feed, remote_feed)
+
+      feed.total_links   = FeedLink.count(:feed => feed)
       age                = ((feed.updated_at.to_time - feed.created_at.to_time).to_f / 1.day).to_i
       feed.daily_links   = age >= 1 ? (feed.total_links.to_f / age).round(2) : feed.total_links
     rescue => error
