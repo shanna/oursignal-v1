@@ -63,7 +63,7 @@ class Link
         if referred_at = (entry.published.to_datetime rescue nil)
           link.referred_at = referred_at if link.referred_at.blank? || link.referred_at < referred_at
         else
-          link.referred_at = DateTime.now unless link.referred_at.blank?
+          link.referred_at = DateTime.now if link.referred_at.blank?
         end
 
         link.save && feed.feed_links.first_or_create({:link => link}, :url => url)
