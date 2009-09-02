@@ -51,41 +51,38 @@ class User
     first(:conditions => {:username => user.username, :password => user.password})
   end
 
-  #--
-  # TODO: Can I speed this up a bit?
   def links(limit = 50)
-    results   = {}
-    referrers = user_feeds.map{|feed| [feed.feed_id, feed.score]}.to_hash
-    return [] if referrers.empty?
-
-    sql = %q{
+    # Complain bitterly to Dan if this is wrong in any way!
+    results = repository.adapter.query(%q{
       select
-        feed_links.feed_id as feed_id,
-        links.*
-      from links
-      inner join feed_links on links.id = feed_links.link_id
-      where feed_links.feed_id in ?
-    }
-    repository.adapter.query(sql, referrers.keys).each do |link|
-      link.score = referrers[link.feed_id] * (link.score || 0)
-      if !results[link.id] || results[link.id].score > link.score
-        results[link.id] = Link.new(link.attributes.except(:feed_id))
-      end
-    end
-
-    # Sort & Limit
-    results = results.values.sort{|a, b| b.score <=> a.score}
-    results = results.slice(0, limit)
+        l.*,
+        (l.score * (
+          select MAX(uf2.score)
+          from user_feeds uf2
+          join feed_links fl2 on fl2.feed_id = uf2.feed_id
+          where
+            fl2.link_id = l.id
+            and uf2.user_id = uf.user_id
+        )) as final_score
+        from links l
+        inner join feed_links fl on l.id = fl.link_id
+        inner join user_feeds uf on fl.feed_id = uf.feed_id
+        where uf.user_id = ?
+        group by l.id
+        order by final_score desc
+        limit 50
+      },
+      id
+    )
     return results if results.empty?
 
-    max, min = results.first.score, results.last.score
-    return results unless max > min
+    max_score, min_score       = results.first.final_score, results.last.final_score
+    max_velocity, min_velocity = results.map(&:velocity).max, results.map(&:velocity).min
 
-    # Re-scale scores within this context.
-    scale = 1.to_f / (max - min)
-    results.map do |link|
-      link.score = (link.score - min) * scale
-      # TODO: Scale velocity between -1..1
+    results.map do |row|
+      link          = Link.new(row.attributes.except(:final_score))
+      link.score    = (row.final_score - min_score) / (max_score - min_score)
+      link.velocity = 2 * (row.velocity - min_velocity) / (max_velocity - min_velocity) - 1
       link
     end
   end
