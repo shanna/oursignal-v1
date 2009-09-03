@@ -1,11 +1,16 @@
 (function ($) {
   $.extend($.fn, {
     visualize: function (options) {
+      var defaults = {cache: true};
+      options = $.extend(defaults, options);
+
       return this.each(function () {
         var ul    = $('<ul />');
-        var links = $(this).append(ul);
+        var links = $(this);
+        links.children().remove();
+        links.append(ul);
 
-        $.links().map(function (link) {
+        $.links(options).map(function (link) {
           var score    = $('<div class="score" />').append('score: ', link.score);
           var velocity = $('<div class="velocity" />').append('velocity: ', link.velocity);
           var domains  = $('<div class="domains" />').append('domains: ', (link.domains || []).join(', '));

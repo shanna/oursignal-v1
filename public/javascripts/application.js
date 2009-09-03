@@ -19,18 +19,12 @@
       var defaults = {cache: true};
       options      = $.extend(defaults, options);
 
-      if (!(options.cache && $.links.data)) {
-        if ($.os.links) {
-          $.links.data = $.os.links;
-          delete $.os.links;
-        }
-        else {
-          $.ajax({type: 'GET', url: '/' + $.os.user.username, dataType: 'json', async: false, success: function (json) {
-            $.links.data = json;
-          }});
-        }
+      if (!(options.cache && $.os.links)) {
+        $.ajax({type: 'GET', url: '/' + $.os.user.username, dataType: 'json', async: false, success: function (json) {
+          $.os.links = json;
+        }});
       }
-      return $.links.data;
+      return $.os.links;
     }
   });
 

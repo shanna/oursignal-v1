@@ -42,8 +42,11 @@
   function data (options) {
     return function () {
       if (!(options.cache && $.fn.visualize.links)) {
+        var links = $.os.links || $.links({cache: false});
+        delete $.os.links;
+
         // No need to cache $.links since we are caching the link html.
-        $.fn.visualize.links = $.links({cache: false}).map(function (link) {
+        $.fn.visualize.links = links.map(function (link) {
           var velocity = $('<div class="velocity">').append(link.velocity);
           var meta     = $('<div class="meta" style="display: none;" />').append(velocity);
           var anchor   = $('<a />').attr({href: link.url}).append(link.title);
