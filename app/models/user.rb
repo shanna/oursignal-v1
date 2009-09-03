@@ -56,14 +56,14 @@ class User
     results = repository.adapter.query(%q{
       select
         l.*,
-        (l.score * (
+        (l.score * ((
           select MAX(uf2.score)
           from user_feeds uf2
           join feed_links fl2 on fl2.feed_id = uf2.feed_id
           where
             fl2.link_id = l.id
             and uf2.user_id = uf.user_id
-        )) as final_score
+        ) * 0.2 + 0.8)) as final_score
         from links l
         inner join feed_links fl on l.id = fl.link_id
         inner join user_feeds uf on fl.feed_id = uf.feed_id
