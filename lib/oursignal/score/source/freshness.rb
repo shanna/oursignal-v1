@@ -6,7 +6,7 @@ module Oursignal
       class Freshness < Source
         ABOVE_GLOBAL_AVERAGE_DAILY_LINKS = 1.5
         DECAY_IN_HOURS                   = 24.0
-        TODO_RESULT_WEIGHT               = 0.5
+        TODO_RESULT_WEIGHT               = 1
 
         def call
           # TODO: This is going to be expensive later.
