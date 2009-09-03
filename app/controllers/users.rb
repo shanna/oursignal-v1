@@ -6,7 +6,7 @@ class Users < Application
 
   def index
     provides :rss, :xml, :json
-    display user.links
+    display @links = user.links
   end
 
   def new

@@ -11,6 +11,6 @@
 <script type="text/javascript">
   //<![CDATA[
     $.os.user  = <%= user.to_json(:only => [:id, :username]) %>;
-    $.os.links = <%= user.links.to_json %>;
+    $.os.links = <%= (@links || user.links).to_json %>;
   //]]>
 </script>
