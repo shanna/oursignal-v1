@@ -83,8 +83,6 @@ class User
       link          = Link.new(row.attributes.except(:final_score))
       link.score    = (row.final_score - min_score) / (max_score - min_score)
       link.score    = 1.to_f if link.score.nan? || link.score.infinite? || max_score <= min_score
-      link.velocity = 2 * (row.velocity - min_velocity) / (max_velocity - min_velocity) - 1
-      link.velocity = 0.to_f if link.score.nan? || link.score.infinite? || max_velocity <= min_velocity
       link
     end
   end
