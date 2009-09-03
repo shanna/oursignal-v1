@@ -1,9 +1,17 @@
 xml.instruct! :xml, :version => "1.0"
 xml.oursignal :version => "1.0", :username => user.username do
-  user.links.each do |i|
-    xml.link :id => i.id, :score => i.score, :velocity => i.velocity do
-      xml.url(i.title, :href => i.url)
-      # TODO: sources, timestamps etc.
+  user.links.each do |link|
+    xml.link :id => link.id do
+      xml.score link.score
+      xml.velocity link.velocity
+      xml.title link.title
+      xml.url link.url
+      xml.domains do
+        link.domains.each do |domain|
+         xml.domain domain
+        end
+      end
+      # TODO: timestamps?
     end
   end
 end
