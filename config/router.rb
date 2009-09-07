@@ -15,8 +15,8 @@ Merb::Router.prepare do
     match('/logout').to(:controller => :users, :action => 'logout').name(:logout)
 
     match('/(:action)').to(:controller => :users).name(:users)
-    match('/(.:format)').to(:controller => :users, :action => 'index')
-    match('(.:format)').to(:controller => :users, :action => 'index')
+    match('/(.:format)').to(:controller => :users, :action => 'show')
+    match('(.:format)').to(:controller => :users, :action => 'show')
   end
 
   match('/(.:format)').to(:controller => :users, :action => 'index')

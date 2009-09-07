@@ -16,15 +16,6 @@ Merb::Config.use do |c|
   # cookie session store configuration
   c[:session_secret_key]  = '87107539db8cfa483be5b146200d88adb071300e'  # required for cookie session store
   c[:session_id_key] = '_oursignal/_session_id' # cookie session id key, defaults to "_session_id"
-
-  Merb::Plugins.config[:exceptions] = {
-    :email_addresses        => ['shane@statelesssystems.com'],
-    :app_name               => 'oursignal.com',
-    :environments           => ['production', 'staging', 'rake'],
-    :email_from             => 'exceptions@oursignal.com',
-    :mailer_config          => nil,
-    :mailer_delivery_method => :sendmail
-  }
 end
 
 Merb::BootLoader.before_app_loads do
@@ -42,10 +33,23 @@ Merb::BootLoader.before_app_loads do
   require 'ext/string'
   require 'ext/float'
   require 'ext/struct'
+
+  Merb::Plugins.config[:exceptions] = {
+    :email_addresses        => ['shane@statelesssystems.com'],
+    :app_name               => 'oursignal.com',
+    :environments           => ['production', 'staging', 'rake'],
+    :email_from             => 'exceptions@oursignal.com',
+    :mailer_config          => nil,
+    :mailer_delivery_method => :sendmail
+  }
+
+  Merb::Cache.setup do
+    register(:page, Merb::Cache::PageStore[Merb::Cache::FileStore], :dir => Merb.root / 'public') unless exists?(:page)
+    register(:default, Merb::Cache::AdhocStore[:page]) unless exists?(:default)
+  end
 end
 
 Merb::BootLoader.after_app_loads do
-  # This will get executed after your app's classes have been loaded.
 end
 
 Merb.add_mime_type :rss, nil, %w{text/xml}

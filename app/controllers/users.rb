@@ -1,10 +1,14 @@
 require 'recaptcha'
 
 class Users < Application
-  before :ensure_authenticated, :exclude => [:index, :new, :create]
-  before :ensure_authorized,    :exclude => [:index, :new, :create, :login]
+  before :ensure_authenticated, :exclude => [:index, :show, :new, :create]
+  before :ensure_authorized,    :exclude => [:index, :show, :new, :create, :login]
 
   def index
+    redirect url(:users, user.username)
+  end
+
+  def show
     provides :rss, :xml, :json
     display @links = user.links
   end
