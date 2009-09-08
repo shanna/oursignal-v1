@@ -8,12 +8,17 @@ require 'capistrano/ext/curb'
 require 'capistrano/ext/nokogiri'
 require 'capistrano/ext/mysql'
 require 'capistrano/ext/memcached'
+require 'capistrano/ext/monit'
+require 'capistrano/ext/varnish'
 require 'capistrano/ext/multistage'
 
 set :application, 'oursignal'
 set :repository,  'git@github.com:stateless-systems/oursignal.git'
 
 set :gems, fetch(:gems, []).push('jeweler')
+
+# Change the apache port because we run a caching service (varnish) on port 80
+set :apache_port, '8080'
 
 set(:default_environment) do
   { 'MERB_ENV' => stage }
