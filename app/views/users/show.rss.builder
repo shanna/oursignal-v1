@@ -5,7 +5,7 @@ xml.rss :version => "2.0" do
     xml.description user.description
     xml.link absolute_url(:users, user.username, :format => :rss)
 
-    user.links.each do |i|
+    (@links || user.links).each do |i|
       xml.item do
         # TODO: score, velocity, sources etc. could all be here namespaced.
         xml.title i.title
