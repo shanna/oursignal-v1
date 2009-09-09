@@ -19,5 +19,5 @@ Merb::Router.prepare do
     match('(.:format)').to(:controller => :users, :action => 'show')
   end
 
-  match('/(.:format)').to(:controller => :users, :action => 'index')
+  match('/(.:format)').to(:controller => :users, :action => 'show', :username => 'oursignal')
 end

@@ -1,15 +1,13 @@
 require 'recaptcha'
 
 class Users < Application
-  before :ensure_authenticated, :exclude => [:index, :show, :new, :create]
-  before :ensure_authorized,    :exclude => [:index, :show, :new, :create, :login]
-
-  def index
-    redirect url(:users, user.username)
-  end
+  before :ensure_authenticated, :exclude => [:show, :new, :create]
+  before :ensure_authorized,    :exclude => [:show, :new, :create, :login]
+  after  :purge_user_feed,      :exclude => [:create, :login]
 
   def show
     provides :rss, :xml, :json
+    http_max_age 5.minutes
     display @links = user.links
   end
 
@@ -55,11 +53,15 @@ class Users < Application
   end
 
   def login
-    redirect url(:users, user.username, :action => :edit) if session.user
+    if session.user
+      cookies[:username] = user.username
+      redirect url(:users, user.username, :action => :edit)
+    end
   end
 
   def logout
     session.abandon!
-    redirect '/', :message => { :notice => 'You are now logged out' }
+    cookies.delete(:username)
+    redirect '/', :message => {:notice => 'You are now logged out'}
   end
 end

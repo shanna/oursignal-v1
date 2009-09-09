@@ -2,6 +2,7 @@ class Feeds < Application
   only_provides :json
   before :ensure_authenticated
   before :ensure_authorized
+  after  :purge_user_feed, :exclude => [:index]
 
   def index
     sql = %q{

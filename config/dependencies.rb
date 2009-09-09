@@ -39,6 +39,7 @@ dependency 'addressable', '2.1.0', :require_as => 'addressable/uri'
 dependency 'hpricot', '0.8.1'
 dependency 'nokogiri', '1.2.3'
 dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
+dependency 'system_timer', '1.0'
 
 # github
 dependency 'taf2-curb', '0.5', :require_as => 'curb'
@@ -46,6 +47,7 @@ dependency 'wycats-moneta', '0.6.0', :require_as => 'moneta'
 dependency 'thoughtbot-shoulda', '2.10.1', :require_as => 'shoulda'
 dependency 'jnunemaker-columbus', '0.1.2', :require_as => 'columbus'
 dependency 'pauldix-feedzirra', '0.0.17', :require_as => 'feedzirra'
+dependency 'schoefmax-klarlack', '0.0.2', :require_as => 'klarlack'
 
 dependency 'uri-meta', '0.7.2', :require_as => 'uri/meta'
 

@@ -30,39 +30,39 @@ div#body {
   height: 20px;
 }
 
-#head h1 {
+#head .title {
   float: left;
 }
 
 /* navigation */
-div#navigation {
+#head .navigation {
   float: right;
 }
 
-div#navigation div.user {
+#head .navigation div.user {
   float: left;
 }
 
-div#navigation ul.options {
+#head .navigation ul.options {
   float: left;
   list-style-type: disc;
 }
 
-div#navigation ul li {
+#head .navigation ul li {
   display: block;
   float: left;
 }
 
-div#navigation ul li::before {
+#head .navigation ul li::before {
   content: " · ";
   white-space: pre;
 }
 
-div#navigation ul li:first-child::before {
+#head .navigation ul li:first-child::before {
   content: " ";
 }
 
-div#navigation ul a {
+#head .navigation ul a {
   color: #DDD;
   border-bottom: 1px dotted #DDD;
 }
