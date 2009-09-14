@@ -28,9 +28,14 @@
       options      = $.extend(defaults, options);
 
       if (!(options.cache && $.os.links)) {
-        $.ajax({type: 'GET', url: '/' + $.os.user.username, dataType: 'json', async: false, success: function (json) {
-          $.os.links = json;
-        }});
+        $.ajax({
+          type:     'GET',
+          url:      '/' + $.os.user.username,
+          dataType: 'json',
+          async:    false,
+          cache:    options.cache,
+          success:  function (json) { $.os.links = json;}
+        });
       }
       return $.os.links;
     }

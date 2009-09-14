@@ -26,6 +26,7 @@
     $('#scores').prepend(li);
     li.slideDown('slow');
     $('#feed_url').attr('value', '').focus();
+    $('#links').visualize({cache: false});
   }
 
   // TODO: Unified exceptions, growl style?
@@ -46,7 +47,9 @@
 
   function control(json) {
     var destroy = $('<input class="delete" value="delete" type="button" />').click(function () {
-      $.post('feeds', {feed_id: json.feed_id, _method: 'delete'}, null, 'json');
+      $.post('feeds', {feed_id: json.feed_id, _method: 'delete'}, function () {
+        $('#links').visualize({cache: false});
+      }, 'json');
       $(this).closest('li').remove();
     });
 

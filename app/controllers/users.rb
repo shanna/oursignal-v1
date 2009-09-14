@@ -7,7 +7,7 @@ class Users < Application
 
   def show
     provides :rss, :xml, :json
-    http_max_age 5.minutes
+    http_max_age 5.minutes if params[:_].blank?
     display @links = user.links
   end
 
