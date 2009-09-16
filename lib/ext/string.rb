@@ -1,15 +1,17 @@
 class String
   module UTF8
+    UTF8 = 'utf-8'.freeze
+
     def to_utf8(*args)
       if respond_to?(:valid_encoding?) # Ruby > 1.9.0
-        valid_encoding? ? encode('utf-8') : force_encoding('utf-8').encode('utf-8')
+        valid_encoding? ? encode(UTF8) : force_encoding(UTF8).encode(UTF8)
       else
         require 'iconv'
-        def to_utf8(charset = 'utf-8')
+        def to_utf8(charset = UTF8)
           begin
-            Iconv.conv('utf-8', charset || 'utf-8', self)
+            Iconv.conv(UTF8, charset || UTF8, self)
           rescue Iconv::Failure => error
-            charset == 'utf-8' ? nil : to_utf8
+            charset == UTF8 ? nil : to_utf8
           end
         end
         to_utf8(*args)
