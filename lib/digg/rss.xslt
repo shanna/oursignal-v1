@@ -17,7 +17,11 @@
     <item>
       <title><xsl:value-of select="title" /></title>
       <link><xsl:value-of select="@href" /></link>
-      <description><xsl:value-of select="description" /></description>
+      <description>
+        <xsl:value-of select="description" />
+        &lt;a href="<xsl:value-of select="@href" />"&gt;[digg]&lt;/a&gt;
+        &lt;a href="<xsl:value-of select="@link" />"&gt;[source]&lt;/a&gt;
+      </description>
       <guid isPermaLink="false"><xsl:value-of select="@href" /></guid>
       <pubDate><xsl:value-of select="@published" /></pubDate>
       <digg:diggCount><xsl:value-of select="@diggs" /></digg:diggCount>
