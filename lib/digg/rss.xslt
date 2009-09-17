@@ -6,11 +6,14 @@
         <description>A Digg popular RSS feed that includes the story source url.</description>
         <link>http://oursignal.com/rss/digg.rss</link>
       </channel>
-      <xsl:apply-templates />
+      <xsl:for-each select="//story">
+        <xsl:sort select="@submit_date" data-type="number" order="descending" />
+        <xsl:call-template name="item" />
+      </xsl:for-each>
     </rss>
   </xsl:template>
 
-  <xsl:template match="//story">
+  <xsl:template name="item">
     <item>
       <title><xsl:value-of select="title" /></title>
       <link><xsl:value-of select="@href" /></link>
