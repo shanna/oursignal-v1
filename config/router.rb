@@ -1,5 +1,8 @@
 Merb.logger.info("Compiling routes...")
 Merb::Router.prepare do
+  # hacks
+  match('/rss/digg.rss').to(:controller => :rss, :action => 'digg')
+
   match('/static/:path_as_page').to(:controller => :static, :action => 'show')
 
   match('/signup', :method => :get).to(:controller => :users, :action => 'new').name(:signup)

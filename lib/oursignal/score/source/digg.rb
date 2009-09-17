@@ -1,21 +1,21 @@
 require 'oursignal/score/source'
-require 'nokogiri'
+require 'digg'
 
 module Oursignal
   module Score
     class Source
       class Digg < Source
-        def http_uri
-          @http_uri ||= uri('http://services.digg.com/stories/popular',
-            'appkey' => 'http://oursignal.com/',
-            'type'   => 'xml'
-          ).freeze
-        end
-
-        def work(data = '')
-          Nokogiri::XML.parse(data).xpath('//story').each do |story|
-            real_url = URI.sanatize(story.at('./@link').text)
-            digg_url = URI.sanatize(story.at('./@href').text)
+        def call
+          rss = ::Digg.read
+          ns  = {'digg' => 'http://digg.com/docs/diggrss/'}
+          rss.xpath('//item').each do |item|
+            begin
+              real_url = URI.sanatize(item.at('./digg:source', ns).text)
+              digg_url = URI.sanatize(item.at('./link').text)
+              diggs    = item.at('./digg:diggCount', ns).text.to_i
+            rescue
+              next
+            end
 
             # Fake a meta entry and force a meta update to fix digg RSS feed links as metauri.com doesn't
             # (and shouldn't) follow links from these sites.
@@ -24,8 +24,8 @@ module Oursignal
             URI::Meta::Cache.store(digg_url, meta)
             Link.repository.adapter.execute(%q{update links set meta_at = null where url = ?}, digg_url)
 
-            score(digg_url, story.at('./@diggs').text.to_i)
-            score(real_url, story.at('./@diggs').text.to_i)
+            score(real_url, diggs)
+            score(digg_url, diggs)
           end
         end
       end # Digg
