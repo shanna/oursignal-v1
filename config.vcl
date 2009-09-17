@@ -46,7 +46,7 @@ sub vcl_recv {
   # Only send cookies to pages requiring authentication.
   if (
     req.url !~ "^/(signup|login)" &&
-    req.url !~ "^/[a-z0-9][a-z0-9]+/(logout|edit|feeds)"
+    req.url !~ "^/[a-z0-9][a-z0-9]+/(logout|edit|feeds|update)"
   ) {
     unset req.http.Pragma;
     unset req.http.Cache-Control;
