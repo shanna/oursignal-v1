@@ -86,6 +86,7 @@ class User
       link          = Link.new(row.attributes.except(:final_score))
       link.score    = (row.final_score - min_score) / (max_score - min_score)
       link.score    = 1.to_f if link.score.nan? || link.score.infinite? || max_score <= min_score
+      link.score    = 0.01 if link.score < 0.01
       link
     end
   end
