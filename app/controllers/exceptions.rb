@@ -14,6 +14,7 @@ class Exceptions < Merb::Controller
   end
 
   def unauthenticated
+    cookies.delete(:username) if !session.user
     display messages
   end
 

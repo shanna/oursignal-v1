@@ -11,6 +11,7 @@ class Users < Application
   end
 
   def new
+    cookies.delete(:username)
     display @user = User.new
   end
 
@@ -23,9 +24,10 @@ class Users < Application
     )
 
     @user = User.new(params[:user])
-    if @user.save && @captcha.success
-      session.user = @user
-      redirect resource(@user) #, :message => {:success => 'Signup was successful', :notice => 'You are now logged in'}
+    if @captcha.success && @user.save
+      session.user       = @user
+      cookies[:username] = @user.username
+      redirect resource(@user), :message => {:success => 'Signup was successful', :notice => 'You are now logged in'}
     else
       render :new, :status => 422, :message => {:error => 'There was an error creating your user account'}
     end
@@ -34,12 +36,14 @@ class Users < Application
   def edit
     @user = session.user
     raise NotFound unless @user
+    cookies[:username] = @user.username
     display @user
   end
 
   def update
     @user = session.user
     raise NotFound unless @user
+    cookies[:username] = @user.username
 
     # TODO: Must be a nicer way to do these.
     params[:user][:theme] = Theme.get(params[:user][:theme]) unless params[:user][:theme].blank?
