@@ -44,7 +44,10 @@ class Application < Merb::Controller
 
   protected
     def purge_user_feed
-      http_purge(:url, url(:users, session.user.username)) if session.user
+      if session.user
+        http_purge(:url, url(:links, session.user.username).sub(%r{/$}, ''))
+        http_purge(:url, url(:links, session.user.username))
+      end
     end
 
     def ensure_authorized

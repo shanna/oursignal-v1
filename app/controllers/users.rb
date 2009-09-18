@@ -7,7 +7,6 @@ class Users < Application
 
   def show
     provides :rss, :xml, :json
-    http_max_age 5.minutes if params[:_].blank?
     display @links = user.links
   end
 
@@ -26,7 +25,7 @@ class Users < Application
     @user = User.new(params[:user])
     if @user.save && @captcha.success
       session.user = @user
-      redirect url(:users, @user.username, :action => :edit)
+      redirect resource(@user) #, :message => {:success => 'Signup was successful', :notice => 'You are now logged in'}
     else
       render :new, :status => 422, :message => {:error => 'There was an error creating your user account'}
     end
@@ -46,7 +45,7 @@ class Users < Application
     params[:user][:theme] = Theme.get(params[:user][:theme]) unless params[:user][:theme].blank?
 
     if @user.update(params[:user])
-      redirect url(:users, @user.username), :message => {:notice => 'Your user account was updated'}
+      redirect resource(@user, :edit), :message => {:notice => 'Your user account was updated'}
     else
       display @user, :edit, :status => 422, :message => {:error => 'There was an error updating your user account'}
     end
@@ -55,7 +54,7 @@ class Users < Application
   def login
     if session.user
       cookies[:username] = user.username
-      redirect url(:users, user.username, :action => :edit)
+      redirect resource(user, :edit)
     end
   end
 

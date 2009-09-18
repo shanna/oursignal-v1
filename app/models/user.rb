@@ -19,7 +19,6 @@ class User
 
   validates_is_unique :username
 
-
   FEEDS = {
     # TODO: It sucks hard coding local feeds like this but I'm pressed for time.
     'http://staging.oursignal.com/rss/digg.rss' => 1,

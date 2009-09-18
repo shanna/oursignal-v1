@@ -35,7 +35,7 @@ class Feeds < Application
 
   def update
     user      = session.user
-    user_feed = user.user_feeds.first(:feed_id => params[:feed_id])
+    user_feed = user.user_feeds.first(:feed_id => params[:id])
     raise NotFound unless user_feed
 
     user_feed.score = params[:score]
@@ -45,7 +45,7 @@ class Feeds < Application
 
   def destroy
     user      = session.user
-    user_feed = user.user_feeds.first(:feed_id => params[:feed_id])
+    user_feed = user.user_feeds.first(:feed_id => params[:id])
     raise NotFound unless user_feed
     display user_feed.destroy
   end

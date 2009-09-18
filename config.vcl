@@ -35,22 +35,11 @@ sub vcl_recv {
     unset req.http.Cache-Control;
   }
 
-  # Force caching on static stuff.
-  if (req.url ~ "^/(stylesheets|javascripts|themes|images|static)/") {
-    unset req.http.Cookie;
-    unset req.http.Pragma;
-    unset req.http.Cache-Control;
-    lookup;
-  }
-
   # Only send cookies to pages requiring authentication.
-  if (
-    req.url !~ "^/(signup|login)" &&
-    req.url !~ "^/[a-z0-9][a-z0-9]+/(logout|edit|feeds|update)"
-  ) {
-    unset req.http.Pragma;
+  if (req.url !~ "^/(signup|login|users)") {
     unset req.http.Cache-Control;
     unset req.http.Cookie;
+    unset req.http.Pragma;
   }
 
   # The default vcl is used from here.
@@ -60,15 +49,23 @@ sub vcl_fetch {
   # Force caching regardless of headers.
   if (req.url ~ "^/(stylesheets|javascripts|themes|images|static)/") {
     # Try to encourage browsers by setting Cache-Control headers as well.
-    set obj.http.Cache-Control = "max-age=3600";
+    set obj.http.Cache-Control = "public,max-age=3600";
     set obj.ttl = 1h;
-    deliver;
+    # deliver;
+  }
+
+  # Cache links for 5 minutes.
+  if (req.url !~ "^/(signup|login|users)") {
+    # Try to encourage browsers by setting Cache-Control headers as well.
+    set obj.http.Cache-Control = "public,max-age=300";
+    set obj.ttl = 5m;
+    # deliver;
   }
 
   # Explicitly cache.
   if (obj.http.Cache-Control ~ "max-age") {
     unset obj.http.Set-Cookie;
-    deliver;
+    # deliver;
   }
 
   # The default vcl is used from here.
