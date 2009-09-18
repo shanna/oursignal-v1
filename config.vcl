@@ -10,6 +10,8 @@ backend backend_merb {
 
 acl acl_stateless {
   "localhost";
+  "oursignal.com";
+  "staging.oursignal.com";
   "203.206.182.106"; # Office.
 }
 
