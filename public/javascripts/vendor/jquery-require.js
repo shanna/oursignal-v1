@@ -26,6 +26,7 @@
             url:      url,
             dataType: 'script',
             async:    false,
+            cache:    true,
             success:  function (js) { if (jQuery.browser.safari) eval(js);}
           });
           if (!load) $.require.loaded.push(url);
