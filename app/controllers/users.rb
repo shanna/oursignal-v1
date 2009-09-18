@@ -1,13 +1,22 @@
 require 'recaptcha'
 
 class Users < Application
-  before :ensure_authenticated, :exclude => [:show, :new, :create]
-  before :ensure_authorized,    :exclude => [:show, :new, :create, :login]
-  after  :purge_user_feed,      :exclude => [:create, :login]
+  before :ensure_authenticated, :exclude => [:index, :show, :new, :create]
+  before :ensure_authorized,    :exclude => [:index, :show, :new, :create, :login]
+  after  :purge_user_feed,      :only    => [:update]
+
+  def index
+    # TODO: This will be the scoreboard stuff later.
+    redirect '/signup'
+  end
 
   def show
     provides :rss, :xml, :json
-    display @links = user.links
+    if !params[:username].blank? && params[:username] != user.username
+      raise NotFound unless @user
+    else
+      display @links = user.links
+    end
   end
 
   def new
