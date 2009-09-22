@@ -12,9 +12,15 @@ require 'capistrano/ext/monit'
 require 'capistrano/ext/varnish'
 require 'capistrano/ext/multistage'
 
+role :web, '72.47.219.75'
+role :app, '72.47.219.75'
+role :db, '72.47.219.75', :primary => true
+
 set :application, 'oursignal'
 set :repository,  'git@github.com:stateless-systems/oursignal.git'
 
+# Jeweler is required on the system level because Rakefile loads it before the
+# gem paths are tweaked by Merb
 set :gems, fetch(:gems, []).push('jeweler')
 
 # Change the apache port because we run a caching service (varnish) on port 80
