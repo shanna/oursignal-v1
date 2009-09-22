@@ -36,5 +36,4 @@ namespace :deploy do
   end
 end
 
-after 'deploy'.to_sym, 'deploy:migrate'
 after 'deploy:restart'.to_sym, 'deploy:crontab'
