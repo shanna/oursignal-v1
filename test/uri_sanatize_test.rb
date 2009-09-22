@@ -12,6 +12,11 @@ class URISanatieTest < MerbTest
         uri('http://demoday.fanchatter.com/').sanatize
       end
     end
+
+    should 'return same url' do
+      url = 'http://www.jnd.org/dn.mss/being_analog.html#makesense'
+      assert_equal url, URI.sanatize(url)
+    end
   end
 
   protected

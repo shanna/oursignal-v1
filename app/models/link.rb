@@ -57,7 +57,8 @@ class Link
       urls.each do |url|
         url = URI.sanatize(url) rescue next
         next if feed.feed_links.first(:url => url)
-        link         = first_or_new({:url => url}, :title => entry.title.strip)
+        title        = entry.title.strip.to_utf8 || next
+        link         = first_or_new({:url => url}, :title => title)
         link.domains = link.feeds.map(&:domain).push(feed.domain).uniq
 
         if referred_at = (entry.published.to_datetime rescue nil)

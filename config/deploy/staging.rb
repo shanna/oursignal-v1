@@ -9,6 +9,7 @@ set :apache_config_extra, <<__CONFIG__
   <Directory #{deploy_to}>
     Order deny,allow
     Deny from all
+    Allow from 127.0.0.1
     Allow from 203.206.182.106 # office
   </Directory>
 __CONFIG__

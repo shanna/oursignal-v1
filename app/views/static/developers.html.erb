@@ -1,6 +1,27 @@
 <ul>
-  <li>RSS: <%= link_to absolute_url(:users, user.username, :format => 'rss'), absolute_url(:users, user.username, :format => 'rss') %></li>
-  <li>XML: <%= link_to absolute_url(:users, user.username, :format => 'xml'), absolute_url(:users, user.username, :format => 'xml') %></li>
-  <li>JSON: <%= link_to absolute_url(:users, user.username, :format => 'json'), absolute_url(:users, user.username, :format => 'json') %></li>
+  <li>
+    RSS:
+    <%= link_to(
+      absolute_url(:links, 'oursignal', :format => 'rss'),
+      absolute_url(:links, 'oursignal', :format => 'rss'),
+      :id => 'developer_rss'
+    ) %>
+  </li>
+  <li>
+    XML:
+    <%= link_to(
+      absolute_url(:links, 'oursignal', :format => 'xml'),
+      absolute_url(:links, 'oursignal', :format => 'xml'),
+      :id => 'developer_xml'
+    ) %>
+  </li>
+  <li>
+    JSON:
+    <%= link_to(
+      absolute_url(:links, 'oursignal', :format => 'json'),
+      absolute_url(:links, 'oursignal', :format => 'json'),
+      :id => 'developer_json'
+    ) %>
+  </li>
 </ul>
 

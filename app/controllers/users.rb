@@ -3,17 +3,24 @@ require 'recaptcha'
 class Users < Application
   before :ensure_authenticated, :exclude => [:index, :show, :new, :create]
   before :ensure_authorized,    :exclude => [:index, :show, :new, :create, :login]
+  after  :purge_user_feed,      :only    => [:update]
 
   def index
-    redirect url(:users, user.username)
+    # TODO: This will be the scoreboard stuff later.
+    redirect '/signup'
   end
 
   def show
     provides :rss, :xml, :json
-    display @links = user.links
+    if !params[:username].blank? && params[:username] != user.username
+      raise NotFound unless @user
+    else
+      display @links = user.links
+    end
   end
 
   def new
+    cookies.delete(:username)
     display @user = User.new
   end
 
@@ -26,9 +33,10 @@ class Users < Application
     )
 
     @user = User.new(params[:user])
-    if @user.save && @captcha.success
-      session.user = @user
-      redirect url(:users, @user.username, :action => :edit)
+    if @captcha.success && @user.save
+      session.user       = @user
+      cookies[:username] = @user.username
+      redirect resource(@user), :message => {:success => 'Signup was successful', :notice => 'You are now logged in'}
     else
       render :new, :status => 422, :message => {:error => 'There was an error creating your user account'}
     end
@@ -37,29 +45,35 @@ class Users < Application
   def edit
     @user = session.user
     raise NotFound unless @user
+    cookies[:username] = @user.username
     display @user
   end
 
   def update
     @user = session.user
     raise NotFound unless @user
+    cookies[:username] = @user.username
 
     # TODO: Must be a nicer way to do these.
     params[:user][:theme] = Theme.get(params[:user][:theme]) unless params[:user][:theme].blank?
 
     if @user.update(params[:user])
-      redirect url(:users, @user.username), :message => {:notice => 'Your user account was updated'}
+      redirect resource(@user, :edit), :message => {:notice => 'Your user account was updated'}
     else
       display @user, :edit, :status => 422, :message => {:error => 'There was an error updating your user account'}
     end
   end
 
   def login
-    redirect url(:users, user.username, :action => :edit) if session.user
+    if session.user
+      cookies[:username] = user.username
+      redirect resource(user, :edit)
+    end
   end
 
   def logout
     session.abandon!
-    redirect '/', :message => { :notice => 'You are now logged out' }
+    cookies.delete(:username)
+    redirect '/', :message => {:notice => 'You are now logged out'}
   end
 end

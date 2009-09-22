@@ -26,7 +26,11 @@ class Feed
 
   # Common form of 'domain name', name + public suffix.
   def domain
-    site.domain rescue nil
+    # I was trying to avoid this shit so hard. Fuck you digg.
+    if site.domain =~ /^(?:oursignal.com|.*\.local)$/ && site.path =~ %r{rss/digg.rss}
+      return 'digg.com'
+    end
+    site.domain
   end
 
   # TODO: Move all the update code to a mixin.

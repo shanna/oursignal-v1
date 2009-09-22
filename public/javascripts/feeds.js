@@ -26,6 +26,7 @@
     $('#scores').prepend(li);
     li.slideDown('slow');
     $('#feed_url').attr('value', '').focus();
+    $('#links').visualize({cache: false});
   }
 
   // TODO: Unified exceptions, growl style?
@@ -46,12 +47,14 @@
 
   function control(json) {
     var destroy = $('<input class="delete" value="delete" type="button" />').click(function () {
-      $.post('feeds', {feed_id: json.feed_id, _method: 'delete'}, null, 'json');
+      $.post('feeds/' + json.feed_id, {_method: 'delete'}, function () {
+        $('#links').visualize({cache: false});
+      }, 'json');
       $(this).closest('li').remove();
     });
 
     var score = $('<div class="score" />').slider({value: json.score, min: 0, max: 1, step: 0.01, stop: function (e, ui) {
-      $.post('feeds', {feed_id: json.feed_id, score: ui.value, _method: 'put'}, function () {
+      $.post('feeds/' + json.feed_id, {score: ui.value, _method: 'put'}, function () {
         $('#links').visualize({cache: false});
       }, 'json');
     }});

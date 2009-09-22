@@ -1,7 +1,7 @@
 <%= error_messages_for @user %>
 <%= error_messages_for @captcha %>
 
-<%= form_for @user, :action => '/signup' do %>
+<%= form_for @user, :action => '/signup', :method => :post do %>
   <fieldset class="vcard">
     <legend>New User</legend>
 

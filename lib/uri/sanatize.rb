@@ -1,20 +1,24 @@
+require 'uri'
+require 'addressable/uri'
+require 'ext/string'
+
+# TODO: Fix this mess up!
 module URI
   module Sanatize
-    def sanatize!
-      final = sanatize
-      self.host = final.host
-      self.path = final.path
-      self
-    end
-
     def sanatize
-      URI.parse(Addressable::URI.heuristic_parse(to_s, {:scheme => 'http'}).normalize!)
+      URI.sanatize(self)
     end
   end
 
+  # TODO: Move this into Sanatize::ClassMethods and mixin.
   def self.sanatize(uri)
-    final = parse(uri.to_s).sanatize!
-    uri.is_a?(String) ? final.to_s : final
+    sanatized = Addressable::URI.heuristic_parse(uri.to_s.to_utf8, {:scheme => 'http'}).normalize!
+
+    case uri
+      when URI::Generic, URI::HTTP then URI.parse(sanatized.to_s)
+      when Addressable::URI        then sanatized
+      else sanatized.to_s
+    end
   end
 
   URI::Generic.send(:include, URI::Sanatize)

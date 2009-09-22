@@ -9,16 +9,19 @@
   <body>
     <div id="shell">
       <div id="head">
-        <h1><a href="/">oursignal</a></h1>
-        <%= partial 'layout/navigation' %>
+        <h1 class="title"><a href="/">oursignal</a></h1>
+        <div class="navigation">
+          <ul class="options">
+            <li class="customize"><a href="/login">customize</a></li>
+            <li class="developers"><a href="/static/developers">developers</a></li>
+            <li class="about"><a href="/static/about">about</a></li>
+          </ul>
+        </div>
       </div>
       <div id="body">
         <%= messages_for request.session.authentication %>
         <%= messages %>
         <%= catch_content :for_layout %>
-      </div>
-      <div id="meta">
-        <%= catch_content :for_meta %>
       </div>
     </div>
   </body>
