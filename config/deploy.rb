@@ -1,5 +1,5 @@
 require 'capistrano/ext/common'
-require 'capistrano/ext/debian'
+require 'capistrano/ext/centos'
 require 'capistrano/ext/git'
 require 'capistrano/ext/apache'
 require 'capistrano/ext/passenger'
