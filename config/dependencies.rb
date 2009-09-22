@@ -54,4 +54,4 @@ dependency 'uri-meta', '0.7.2', :require_as => 'uri/meta'
 # These are for deployment only, they will be required when needed
 dependency 'capistrano', '2.5.8', :require_as => nil
 dependency 'capistrano-ext', '1.2.1', :require_as => nil
-dependency 'stateless-systems-capistrano-ext', '0.8.0', :require_as => nil
+dependency 'stateless-systems-capistrano-ext', '0.9.0', :require_as => nil
