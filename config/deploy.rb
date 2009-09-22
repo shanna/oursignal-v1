@@ -43,3 +43,4 @@ namespace :deploy do
 end
 
 after 'deploy:restart'.to_sym, 'deploy:crontab'
+after 'deploy:start'.to_sym, 'deploy:crontab'
