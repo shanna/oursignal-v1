@@ -26,10 +26,6 @@ set :gems, fetch(:gems, []).push('jeweler')
 # Change the apache port because we run a caching service (varnish) on port 80
 set :apache_port, '8080'
 
-# Stop monit from checking varnish's connection, it doesn't seem to be working
-# properly just at the moment, still monitor via PID though
-set :varnish_monit_test_path, nil
-
 set(:default_environment) do
   { 'MERB_ENV' => stage }
 end
