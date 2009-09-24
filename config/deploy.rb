@@ -26,6 +26,9 @@ set :gems, fetch(:gems, []).push('jeweler')
 # Change the apache port because we run a caching service (varnish) on port 80
 set :apache_port, '8080'
 
+set :apache_monit_test_urls, ['http://staging.oursignal.com:8080/']
+set :varnish_monit_test_urls, ['http://staging.oursignal.com/']
+
 set(:default_environment) do
   { 'MERB_ENV' => stage }
 end
