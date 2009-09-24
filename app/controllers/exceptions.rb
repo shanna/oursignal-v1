@@ -1,5 +1,10 @@
 class Exceptions < Merb::Controller
   provides :json
+  before :purge_username_cookie
+
+  def forbidden
+    display messages
+  end
 
   def bad_request
     display messages
@@ -14,11 +19,16 @@ class Exceptions < Merb::Controller
   end
 
   def unauthenticated
-    cookies.delete(:username) if !session.user
     display messages
   end
 
-  private
+  protected
+    def purge_username_cookie
+      if !session.user || cookies[:username] == user.username
+        cookies.delete(:username)
+      end
+    end
+
     def messages
       request.exceptions.map(&:message)
     end
