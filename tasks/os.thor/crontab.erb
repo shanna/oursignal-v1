@@ -1,5 +1,6 @@
 # The > /dev/null is that these tasks remain less verbose if this crontab is run in development.
 MAILTO=shane@statelesssystems.com
+PATH=/usr/local/bin:/usr/bin:/bin
 
 */10 * * * * root <%= thor %> os:feed:expire > /dev/null 2>&1
 */1  * * * * root <%= thor %> os:feed:update > /dev/null 2>&1
