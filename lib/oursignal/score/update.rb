@@ -1,6 +1,7 @@
 require 'oursignal/job'
 require 'oursignal/score/source'
 require 'math/uniform_distribution'
+require 'math/average/exponential_moving'
 
 module Oursignal
   module Score
@@ -17,7 +18,8 @@ module Oursignal
           links.each do |link|
             begin
               new_score     = score(link)
-              link.velocity = (new_score - (link.score || 0)) if new_score != link.score
+              ema           = Math::Average::ExponentialMoving.new(0.9, (link.velocity || 0))
+              link.velocity = ema.update(new_score - (link.score || 0))
               link.score    = new_score
             rescue => error
               Merb.logger.error("score\terror\n#{error.message}\n#{error.backtrace.join($/)}")
