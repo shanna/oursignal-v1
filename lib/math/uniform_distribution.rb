@@ -9,7 +9,11 @@ module Math
   # TODO: Real name.
   class UniformDistribution
     attr_reader :buckets
+
     @@cache = Moneta::Memory.new
+    def self.cache=(moneta)
+      @@cache = moneta
+    end
 
     def initialize(name, expires_in = nil, &reload)
       @name, @expires_in, @reload = name.to_s, expires_in, reload
