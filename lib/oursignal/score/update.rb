@@ -1,15 +1,12 @@
 require 'oursignal/job'
 require 'oursignal/score/source'
+require 'math/uniform_distribution'
 
 module Oursignal
   module Score
     class Update < Job
-      MAX_SOURCES   = Oursignal::Score::Source.subclasses.size
-
-      def initialize(*args)
-        super
-        @buckets = {}
-      end
+      PRECISION   = 100
+      MAX_SOURCES = Oursignal::Score::Source.subclasses.size
 
       def call
         # TODO: I can build an 'OR' with DM::Query even if the class finders can't do it yet.
@@ -41,9 +38,8 @@ module Oursignal
           return 0.to_f if sources.empty?
 
           scores = sources.map do |source, score|
-            # No out of range error, use 1.0
-            find = buckets(source).find{|r| score <= r} || buckets(source).last
-            (buckets(source).index(find).to_f + 1) / buckets(source).size
+            ud = buckets(source)
+            (ud.at(score).to_f + 1) / ud.buckets
           end
 
           # The score is a simple average across the sources for now.
@@ -55,27 +51,25 @@ module Oursignal
           # school maths :)
           final *= (Math.log(scores.size + 1) / Math.log(MAX_SOURCES + 1)) if scores.size >= 1
 
-          #Merb.logger.debug(%Q{score\t%s
-          #  \r  sources %d
-          #  \r  scores  %s
-          #  \r  average %.5f
-          #  \r  final   %.5f
-          #} % [link.url, sources.size, scores.join(','), average, final])
+          Merb.logger.debug(%Q{score\t%s
+            \r  sources %d
+            \r  scores  %s
+            \r  average %.5f
+            \r  final   %.5f
+          } % [link.url, sources.size, scores.join(','), average, final])
 
           final
         end
 
-        #--
-        # TODO: Cache (Memcache?) the bucket list?
         def buckets(source)
-          return @buckets[source] if @buckets[source]
-
-          partition        = 100 # TODO: Remove magic number.
-          scores           = ::Score.all(:source => source, :order => [:score.asc]).map(&:score)
-          @buckets[source] = (1 .. partition).to_a.map! do |r|
-            scores.at((scores.size * (r.to_f / partition)).to_i) || scores.last
+          Math::UniformDistribution.new([self.class.to_s.downcase, source].join(':'), 1.hour) do
+            scores = ::Score.repository.adapter.query(
+              %q{select score from scores where source = ? order by score asc}, source
+            )
+            (1 .. PRECISION).to_a.map! do |r|
+              scores.at((scores.size * (r.to_f / PRECISION)).to_i) || scores.last
+            end
           end
-          @buckets[source]
         end
 
     end # Update
