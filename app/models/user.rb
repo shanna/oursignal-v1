@@ -1,7 +1,8 @@
 require 'digest/sha1'
-require 'math/uniform_distribution'
+require 'oursignal/velocity/uniform_distribution'
 
 class User
+  include Oursignal::Velocity::UniformDistribution
   include DataMapper::Resource
   property :id,          Serial
   property :theme_id,    Integer, :nullable => false, :default => proc {Theme.first(:name => 'treemap').id rescue nil}
@@ -87,25 +88,12 @@ class User
       link.score    = 1.to_f if link.score.nan? || link.score.infinite? || max_score <= min_score
       link.score    = 0.01 if link.score < 0.01
       link.score    = link.score.round(2)
-      link.velocity = normalize_velocity(link.velocity)
+      link.velocity = velocity_normal(link.velocity)
       link
     end
   end
 
   private
-    #--
-    # TODO: Move this. We can't have a million row select on some poor persons request.
-    def normalize_velocity(velocity)
-      precision = 100
-      ub        = Math::UniformDistribution.new(:velocity, 1.hour) do
-        velocities = repository.adapter.query(%q{select velocity from links order by velocity asc})
-        (1 .. precision).to_a.map! do |r|
-          velocities.at((velocities.size * (r.to_f / precision)).to_i) || velocities.last
-        end
-      end
-      ((ub.at(velocity).to_f * (2.to_f / precision)) - 1).round(2)
-    end
-
     def digest_password(password)
       Digest::SHA1.hexdigest('some salt' + password.to_s)
     end

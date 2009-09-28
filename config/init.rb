@@ -27,7 +27,7 @@ Merb::BootLoader.before_app_loads do
   )
 
   require 'math/uniform_distribution'
-  Math::UniformDistribution.cache = Moneta::Memcache.new(
+  Math::UniformDistribution::Cache.cache = Moneta::Memcache.new(
     :server    => 'localhost:11211',
     :namespace => 'math_uniform_distribution'
   )

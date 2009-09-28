@@ -10,31 +10,45 @@ module Math
   class UniformDistribution
     attr_reader :buckets
 
-    @@cache = Moneta::Memory.new
-    def self.cache=(moneta)
-      @@cache = moneta
-    end
-
     def initialize(name, expires_in = nil, &reload)
       @name, @expires_in, @reload = name.to_s, expires_in, reload
-      create_buckets
+      cache = Cache.get(@name) || self.reload
+      @buckets ||= cache.size
+    end
+
+    def reload
+      cache   = @reload.call
+      options = {}
+      options.update(:expires_in => @expires_in) if @expires_in
+      raise "Expected block to return Array but got '#{cache.class}'" unless cache.is_a?(Array)
+      @buckets ||= cache.size
+      Cache.store(@name, cache, options)
+      cache
     end
 
     def at(bucket = nil)
-      cache = create_buckets
+      cache = Cache.get(@name) || reload
       find  = cache.find{|r| bucket <= r} || cache.last
       cache.index(find)
     end
 
-    protected
-      def create_buckets
-        unless cache = @@cache[@name] and @expires_in
-          cache = @reload.call
-          raise "Expected block to return Array but got '#{cache.class}'" unless cache.is_a?(Array)
-          @@cache.store(@name, cache, :expires_in => @expires_in) if @expires_in
+    class Cache
+      @@cache = Moneta::Memory.new
+
+      class << self
+        def store(key, buckets, options = {})
+          @@cache.store(key, buckets, options) unless @@cache.nil?
         end
-        @buckets ||= cache.size
-        cache
+
+        def get(key)
+          @@cache[key] unless @@cache.nil?
+        end
+
+        def cache=(cache)
+          warn 'Turning off caching is poor form, for longer processes consider using moneta/memcached' if cache.nil?
+          @@cache = cache
+        end
       end
+    end # Cache
   end # UniformDistribution
 end # Math
