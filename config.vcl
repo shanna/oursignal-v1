@@ -8,13 +8,6 @@ backend backend_merb {
   .port = "4000";
 }
 
-acl acl_stateless {
-  "localhost";
-  "oursignal.com";
-  "staging.oursignal.com";
-  "203.206.182.106"; # Office.
-}
-
 sub vcl_recv {
   if (req.http.host ~ ".local$") {
     set req.backend = backend_merb;
@@ -26,11 +19,6 @@ sub vcl_recv {
     error 404 "Unknown virtual host.";
   }
 
-  # On top of basic auth at the apache level block outside IP's from staging.
-  if (req.http.host ~ "^staging." && !client.ip ~ acl_stateless) {
-    error 403 "Forbidden.";
-  }
-
   # Browsers send this shit way too often.
   if (req.http.Pragma ~ "no-cache" || req.http.Cache-Control ~ "no-cache" || req.http.Cache-Control ~ "private") {
     unset req.http.Pragma;
@@ -38,7 +26,7 @@ sub vcl_recv {
   }
 
   # Only send cookies to pages requiring authentication.
-  if (req.url !~ "^/(signup|login|users)") {
+  if (req.http.host !~ "^staging." && req.url !~ "^/(signup|login|users)") {
     unset req.http.Cache-Control;
     unset req.http.Cookie;
     unset req.http.Pragma;
@@ -54,7 +42,7 @@ sub vcl_fetch {
   }
 
   # Force caching regardless of headers.
-  if (req.url ~ "^/(stylesheets|javascripts|themes|images|static)/") {
+  if (req.url ~ "^/(stylesheets|javascripts|themes|i|static)/") {
     # Try to encourage browsers by setting Cache-Control headers as well.
     set obj.http.Cache-Control = "public,max-age=3600";
     set obj.ttl = 1h;
@@ -62,7 +50,7 @@ sub vcl_fetch {
   }
 
   # Cache links for 5 minutes.
-  if (req.url !~ "^/(signup|login|users)") {
+  if (req.http.host !~ "^staging." && req.url !~ "^/(signup|login|users)") {
     # Don't encourage browsers to cache for now. I don't have a message explaining that'll have to force refresh to
     # see feed changes after you make them.
     # set obj.http.Cache-Control = "public,max-age=300";
