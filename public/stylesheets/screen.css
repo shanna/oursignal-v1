@@ -117,7 +117,7 @@ ul.options li {
 }
 
 ul.options li.logout:after {
-  content: " \2022";
+  content: " \2022  ";
 }
 
 p.large {
