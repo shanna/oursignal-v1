@@ -28,17 +28,15 @@
 
         var colour = '303030';
         if (vel < 1)   colour = "eb433a";
-        if (vel < 0.8)  colour = "f8674a";
-        if (vel < 0.6)  colour = "f8764a";
-        if (vel < 0.4)  colour = "f88c4a";
-        if (vel < 0.2)  colour = "ffb78b";
+        if (vel < 0.9)  colour = "f8674a";
+        if (vel < 0.8)  colour = "f8764a";
+        if (vel < 0.7)  colour = "f88c4a";
+        if (vel < 0.6)  colour = "303030";
 
-        if (vel < 0)  colour = "96d5eb";
-
-        if (vel < -0.2)  colour = "7cc0d9";
-        if (vel < -0.4)  colour = "66abc4";
-        if (vel < -0.6)  colour = "5395ad";
-        if (vel < -0.8)  colour = "42788c";
+        if (vel < -0.6)  colour = "7cc0d9";
+        if (vel < -0.7)  colour = "66abc4";
+        if (vel < -0.8)  colour = "5395ad";
+        if (vel < -0.9)  colour = "42788c";
 
         el.parent().css('background-color', '#' + colour);
       });
@@ -64,7 +62,7 @@
           var link     = links[i];
           var velocity = $('<div class="velocity" />').append(link.velocity);
           var meta     = $('<div class="meta" style="display: none;" />').append(velocity);
-          var anchor   = $('<a />').attr({'href': link.url}).append(link.title);
+          var anchor   = $('<a />').attr({href: link.url}).append(link.title);
           var el       = $('<span />').append(meta, anchor);
           $.fn.visualize.links.push([el, parseFloat(link.score) * 100]);
         };

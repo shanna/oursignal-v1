@@ -12,7 +12,10 @@
   function index(json) {
     if (!($.isArray(json) && json.length)) return;
     var scores = $('#scores');
-    json.map(function (feed) {scores.prepend(control(feed))});
+
+    for (var i = 0; i < json.length; i++) {
+      scores.prepend(control(json[i]));
+    }
   }
 
   function create() {
