@@ -1,28 +1,19 @@
-<div class="left"><!-- start .centered -->
-
-<% require_js 'authentication' -%>
-
-  <div id="authentication"><!-- start #authentication -->
+<div class="left">
+  <div id="authentication">
     <div id="strategies">
       <h2>Log In</h2>
-
       <form id="strategies-password" method="post" action="/login">
-
         <%= text_field :name => :username, :label => 'Email:' %>
         <div class="clearSpace"></div>
         <%= password_field :name => :password, :label => 'Password' %>
         <div class="clearSpaceLeft">
-          <div class="lostPassword"><a href="#">lost ye password?</a></div>
+          <div class="lostPassword"><a href="/recover">lost ye password?</a></div>
           <%= submit 'login' %>
         </div>
-
       </form>
-
     </div>
-  </div><!-- end #authentication -->
+  </div>
 
   <h3>Register or log in to create your own, personalized Oursignal.</h3>
-
   <%= link_to 'signup', url(:signup) %>
-
 </div>
