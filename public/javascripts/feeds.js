@@ -23,7 +23,7 @@
 
   function show(json) {
     var li = control(json).hide();
-    $('#scores').prepend(li);
+    $('#scores').append(li);
     li.slideDown('slow');
     $('#feed_url').attr('value', '').focus();
     $('#links').visualize({cache: false});

@@ -1,14 +1,9 @@
 <div class="centered">
-
   <% require_js 'feeds' -%>
-
   <div id="users" class="alignRight">
-
     <h4>Customize your page...</h4>
-
     <%= form_for @user, :action => resource(@user) do -%>
     <br clear="all" />
-
       <%= text_field :username, :label => 'http://oursignal.com/', :class => 'vcard-nickname' %>
       <div class="clearSpace"></div>
       <%= password_field :password, :label => 'Password:', :value => '' %>
@@ -22,11 +17,8 @@
         :value_method => :id,
         :selected     => @user.theme.id.to_s
       %>
-
       <%= submit 'save' %>
-
     <% end =%>
-
   </div>
 
   <div class="divider"></div>
@@ -34,23 +26,16 @@
   <div id="feedsOuter">
     <div id="feedsInner">
       <h4>Your feeds...</h4>
-
       <div id="feeds">
-
         <ul id="scores" />
-
         <form id="feed" method="post" action="">
           <!--<label for="feed_url">Feed url:</label>-->
           <input id="feed_url" name="feed[url]" value="" type="text" />
           <input id="feed_add" name="feed[add]" value="Add Feed" type="button" />
         </form>
-
       </div>
-
     </div>
-    
   </div>
-
 </div>
 
 <%= partial 'layout/links' %>
