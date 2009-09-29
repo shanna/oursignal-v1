@@ -1,16 +1,39 @@
+<div class="left">
+  <h2>Developers...</h2>
 
-<div class="left"><!-- start .left --> 
+  <p class="large">
+    Want to pipe oursignal feeds somewhere else?
+    Create your own visualizations?<br />
+    Download our master feed in any of these popular formats:
+  </p>
 
-<h2>Developers...</h2>
+  <div class="inline">
+    <%= link_to(
+      '<img src="/i/rssLarge.png" alt="RSS image" />',
+      absolute_url(:links, 'oursignal', :format => 'rss'),
+      :title => 'RSS Format',
+      :id    => 'developer_rss'
+    ) %>
+    <h3>RSS</h3>
+  </div>
 
-<p class="large">Want to pipe oursignal feeds somewhere else?  Create your own visualizations? <br />
-Download our master feed in any of these popular formats:</p>
+  <div class="inline">
+    <%= link_to(
+      '<img src="/i/xmlLarge.png" alt="XML image" />',
+      absolute_url(:links, 'oursignal', :format => 'xml'),
+      :title => 'XML Format',
+      :id    => 'developer_xml'
+    ) %>
+    <h3>XML</h3>
+  </div>
 
-
-
-
-<div class="inline"><a href="http://oursignal.com/oursignal.rss" title="RSS format"><img src="/i/rssLarge.png" alt="RSS image" /></a><h3>RSS</h3></div>
-<div class="inline"><a href="http://oursignal.com/oursignal.xml" title="XML format"><img src="/i/xmlLarge.png" alt="XML image" /></a><h3>XML</h3></div>
-<div class="inline"><a href="http://oursignal.com/oursignal.json" title="JSON format"><img src="/i/jsonLarge.png" alt="JSON image" /></a><h3>JSON</h3></div>
-
-</div> <!-- end .left -->
+  <div class="inline">
+    <%= link_to(
+      '<img src="/i/jsonLarge.png" alt="JSON image" />',
+      absolute_url(:links, 'oursignal', :format => 'json'),
+      :title => 'JSON Format',
+      :id    => 'developer_json'
+    ) %>
+    <h3>JSON</h3>
+  </div>
+</div>
