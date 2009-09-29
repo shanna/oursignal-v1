@@ -8,7 +8,7 @@ class Link
   property :title,              String, :length => 255
   property :domains,            Json
   property :score,              Float, :default => 0
-  property :velocity,           Float, :default => 0
+  property :velocity,           Float, :default => 0, :index => true
   property :score_at,           DateTime, :index => true
   property :meta_at,            DateTime, :index => true
   property :referred_at,        DateTime

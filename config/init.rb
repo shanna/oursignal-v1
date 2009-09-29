@@ -26,6 +26,12 @@ Merb::BootLoader.before_app_loads do
     :namespace => 'uri_meta'
   )
 
+  require 'math/uniform_distribution'
+  Math::UniformDistribution::Cache.cache = Moneta::Memcache.new(
+    :server    => 'localhost:11211',
+    :namespace => 'math_uniform_distribution'
+  )
+
   # Prevent IOError when running under passenger I hope.
   ::OpenID::Util.logger = Merb.logger
 

@@ -1,17 +1,20 @@
-# The > /dev/null is that these tasks remain less verbose if this crontab is run in development.
+# The > /dev/null so that these tasks remain less verbose if this crontab is run in development.
 MAILTO=shane@statelesssystems.com
+PATH=/usr/local/bin:/usr/bin:/bin
 
-*/10 * * * * root <%= thor %> os:feed:expire > /dev/null 2>&1
-*/1  * * * * root <%= thor %> os:feed:update > /dev/null 2>&1
-*/1  * * * * root <%= thor %> os:feed:meta   > /dev/null 2>&1
+*/10 * * * * root <%= thor %> os:feed:expire > /dev/null
+*/1  * * * * root <%= thor %> os:feed:update > /dev/null
+*/1  * * * * root <%= thor %> os:feed:meta   > /dev/null
 
-*/15 * * * * root <%= thor %> os:score:expire > /dev/null 2>&1
-*/1  * * * * root <%= thor %> os:score:update > /dev/null 2>&1
+*/15 * * * * root <%= thor %> os:score:expire > /dev/null
+*/1  * * * * root <%= thor %> os:score:update > /dev/null
+
+11   * * * * root <%= thor %> os:velocity:update > /dev/null
 
 # Spread everything out a bit. I think freshness is the only one that might be a little expensive.
-0,15,30,45 * * * * root <%= thor %> os:score:source:delicious   > /dev/null 2>&1
-2,17,32,47 * * * * root <%= thor %> os:score:source:digg        > /dev/null 2>&1
-4,19,34,49 * * * * root <%= thor %> os:score:source:freshness   > /dev/null 2>&1
-6,21,36,51 * * * * root <%= thor %> os:score:source:reddit      > /dev/null 2>&1
-8,23,38,53 * * * * root <%= thor %> os:score:source:ycombinator > /dev/null 2>&1
+0,15,30,45 * * * * root <%= thor %> os:score:source:delicious   > /dev/null
+2,17,32,47 * * * * root <%= thor %> os:score:source:digg        > /dev/null
+4,19,34,49 * * * * root <%= thor %> os:score:source:freshness   > /dev/null
+6,21,36,51 * * * * root <%= thor %> os:score:source:reddit      > /dev/null
+8,23,38,53 * * * * root <%= thor %> os:score:source:ycombinator > /dev/null
 
