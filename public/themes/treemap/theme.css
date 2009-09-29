@@ -33,6 +33,7 @@
 
 .treemapCell a:link {
   color: #FFFFFF;
+  text-decoration: none;
 }
 
 .treemapCell a:visited {
