@@ -553,8 +553,9 @@ ul#scores li {
   margin-right: 10px;
 }
 
-div.control input {
-  display: none !important;
+div.control input.delete {
+  position: relative;
+  top: -2px;
 }
 
 input#feed_url {
