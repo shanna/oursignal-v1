@@ -145,7 +145,7 @@ img.logOut {
 
 div.centered {
   text-align: center;
-  padding: 25px 10px 15px 10px;  
+  padding: 25px 10px 25px 10px;  
 }
 
 div.left {
@@ -163,12 +163,8 @@ div#signUp, div#strategies, div.divider, div.vcard {
   text-align: left;
 }
 
-div#strategies {
-  margin-left: 25px;
-}
-
 div#strategies h2 {
-  margin: 0 0 4px 20px;
+  margin: 0 0 20px 0;
 }
 
 div#signUp {
@@ -555,7 +551,7 @@ ul#scores li {
 
 div.control input.delete {
   position: relative;
-  top: -2px;
+  top: -3px;
 }
 
 input#feed_url {
@@ -586,6 +582,7 @@ form#feed {
   width: 200px;
   height: 16px;
   position: relative;
+  padding-right: 6px;
 }
 
 #feeds .control .ui-slider-handle {
@@ -593,4 +590,5 @@ form#feed {
   background-color: #DDD;
   width: 6px;
   height: 16px;
+  margin-left: -3px;
 }
