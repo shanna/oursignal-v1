@@ -88,8 +88,8 @@
         delete $.os.links;
 
         // No need to cache $.links since we are caching the link html.
-        $.fn.visualize.links = links.map(function (link) {
-          var velocity = $('<div class="velocity">').append(link.velocity);
+        $.fn.visualize.links = $.map(links, function (link) {
+          var velocity = $('<div class="velocity" />').append(link.velocity);
           var meta     = $('<div class="meta" style="display: none;" />').append(velocity);
           var anchor   = $('<a />').attr({href: link.url}).append(link.title);
           return [$('<span />').append(meta, anchor), parseFloat(link.score) * 100];
