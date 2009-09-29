@@ -1,0 +1,36 @@
+<% @title = %w{oursignal about} -%>
+
+<h1>You what the hey now?</h1>
+<p>OurSignal.com looks at currently popular items on RSS feeds and mashes them all together.</p>
+<p>The idea is to allow users (you especially) to get a rapid overview of what the latest breaking headlines are at the frontline of the intermatubes.</p>
+<p>Sources are refreshed every 20 minutes.</p>
+<p>Please send any witty barbs to
+<script type="text/javascript" language="javascript">
+<!--
+// Email obfuscator script 2.1 by Tim Williams, University of Arizona
+// Random encryption key feature by Andrew Moulden, Site Engineering Ltd
+// This code is freeware provided these four comment lines remain intact
+// A wizard to generate this code is at http://www.jottings.com/obfuscator/
+{ coded = "MSorxRxML@UrRLxaSWP.FUK"
+  key = "oSAIDGJwR905PtiN1hWmXBdUus2z4bvVc8gTyxeqnQKjOk3rL6HlECYFfa7ZpM"
+  shift=coded.length
+  link=""
+  for (i=0; i<coded.length; i++) {
+    if (key.indexOf(coded.charAt(i))==-1) {
+      ltr = coded.charAt(i)
+      link += (ltr)
+    }
+    else {     
+      ltr = (key.indexOf(coded.charAt(i))-shift+key.length) % key.length
+      link += (key.charAt(ltr))
+    }
+  }
+document.write("<a href='mailto:"+link+"'>"+link+"</a>")
+}
+//-->
+</script><noscript>Sorry, you need Javascript on to email me.</noscript>.</p>
+
+<p>This has been another fine <a href="http://www.statelesssystems.com">Stateless Systems</a> creation.</p>
+<p>Also- if you're interested in custom Digg RSS feeds then check out <a href="http://www.disstill.com/">disstill</a>.</p>
+<p style="text-align:center;margin-top:50px;"><img src="/images/sewer_horse.gif" alt="Sewer Horse is watching..." /></p>
+

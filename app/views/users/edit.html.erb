@@ -1,15 +1,22 @@
-<% require_js 'feeds' -%>
+<div class="centered">
 
-<div id="users">
-  <%= form_for @user, :action => resource(@user) do -%>
-    <fieldset class="vcard">
-      <legend>About your news page:</legend>
+  <% require_js 'feeds' -%>
 
-      <%= text_field :username, :label => 'Username', :class => 'vcard-nickname' %>
-      <%= password_field :password, :label => 'Password', :value => '' %>
-      <%= text_field :email, :label => 'Email', :class => 'vcard-email' %>
+  <div id="users" class="alignRight">
+
+    <h4>Customize your page...</h4>
+
+    <%= form_for @user, :action => resource(@user) do -%>
+    <br clear="all" />
+
+      <%= text_field :username, :label => 'http://oursignal.com/', :class => 'vcard-nickname' %>
+      <div class="clearSpace"></div>
+      <%= password_field :password, :label => 'Password:', :value => '' %>
+      <div class="clearSpace"></div>
+      <%= text_field :email, :label => 'Email:', :class => 'vcard-email' %>
+      <div class="clearSpace"></div>
       <%= select :theme,
-        :label        => 'Theme',
+        :label        => 'Theme:',
         :collection   => Theme.all,
         :text_method  => :name,
         :value_method => :id,
@@ -17,19 +24,33 @@
       %>
 
       <%= submit 'save' %>
-    </fieldset>
-  <% end =%>
+
+    <% end =%>
+
+  </div>
+
+  <div class="divider tall"></div>
+
+  <div id="feedsOuter">
+    <div id="feedsInner">
+      <h4>Your feeds...</h4>
+
+      <div id="feeds">
+
+        <ul id="scores" />
+
+        <form id="feed" method="post" action="">
+          <!--<label for="feed_url">Feed url:</label>-->
+          <input id="feed_url" name="feed[url]" value="" type="text" />
+          <input id="feed_add" name="feed[add]" value="Add Feed" type="button" />
+        </form>
+
+      </div>
+
+    </div>
+    
+  </div>
+
 </div>
 
-<div id="feeds">
-  <form id="feed" method="post" action="">
-    <label for="feed_url">feed url:</label>
-    <input id="feed_url" name="feed[url]" value="" type="text" />
-    <input id="feed_add" name="feed[add]" value="add" type="button" />
-  </form>
-
-  <ul id="scores" />
-</div>
-
-<br class="break" />
-<%= partial 'layout/links' %>
+<!-- <%= partial 'layout/links' %> -->

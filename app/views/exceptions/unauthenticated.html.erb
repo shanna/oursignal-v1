@@ -1,25 +1,28 @@
-<% require_js 'authentication' -%>
-<h1>Authentication</h1>
-<p>Please register or login to create your very own, personalized oursignal:</p>
-<div id="authentication">
-  <div id="strategies">
-    <form id="strategies-password" class="password" method="post" action="/login">
-      <fieldset>
-        <legend>Login</legend>
-        <%= text_field :name => :username, :label => 'Username' %>
-        <%= password_field :name => :password, :label => 'Password' %>
-        <%= submit 'login' %>
-      </fieldset>
-    </form>
+<div class="left"><!-- start .centered -->
 
-    <form id="strategies-openid" class="openid" method="post" action="/login">
-      <fieldset>
-        <legend>OpenID Login</legend>
-        <%= text_field :name => :openid_url, :label => 'OpenID' %>
-        <%= submit 'login' %>
-      </fieldset>
-    </form>
-  </div>
+<% require_js 'authentication' -%>
+
+  <div id="authentication"><!-- start #authentication -->
+    <div id="strategies">
+      <h2>Log In</h2>
+
+      <form id="strategies-password" method="post" action="/login">
+
+        <%= text_field :name => :username, :label => 'Email:' %>
+        <div class="clearSpace"></div>
+        <%= password_field :name => :password, :label => 'Password' %>
+        <div class="clearSpaceLeft">
+          <div class="lostPassword"><a href="#">lost ye password?</a></div>
+          <%= submit 'login' %>
+        </div>
+
+      </form>
+
+    </div>
+  </div><!-- end #authentication -->
+
+  <h3>Register or log in to create your own, personalized Oursignal.</h3>
 
   <%= link_to 'signup', url(:signup) %>
+
 </div>

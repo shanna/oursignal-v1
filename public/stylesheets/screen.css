@@ -1,94 +1,587 @@
+/* === GLOBAL RESET http://meyerweb.com/eric/tools/css/reset/ === */
 
-/* global */
-body {
-  padding: 10px;
-  font-family: georgia, tahoma, sans-serif;
-  color: #FFF;
-  background-color: #222;
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, button, 
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
 }
 
-a {
-  text-decoration: none;
+/* === BODY STYLES === */
+
+body { 
+  background-color: #303030;
+  font-family: georgia, tahoma, sans-serif;
+  color: #FFFFFF;
+}
+
+body a:link, body a:visited, 
+body a:hover, body a:active {
+  color: #FFFFFF;
 }
 
 .break {
   clear: both;
 }
 
-/* forms */
-input {
-  display: block;
+/* ===  HEADER STYLES === */
+
+h2 {
+  font: normal 30px/36px "Trebuchet MS";
+  text-shadow: #000000 1px 1px 1px;
 }
 
-/* body */
-div#body {
-  padding: 10px 0px;
+h3 {
+  font: normal 18px/20px "Trebuchet MS";
+  text-shadow: #000000 1px 1px 1px;
+  margin: 25px 50px 15px 0;
 }
 
-/* head */
-#head {
+h4 {
+  font: normal 18px/20px "Trebuchet MS";
+  text-shadow: #000000 1px 1px 1px;
+  margin: 0 50px 15px 0;
+}
+
+div#head {
+  font: bold 12px/14px "Trebuchet MS";
+  color: #FFFFFF;
+  width: 100%;
+  background-image:url('../i/headbg.gif');
+  height: 38px;
+}
+
+div#logo, div.navigation {
+  text-transform: uppercase;
+}
+
+div#head_foot {
+  width: 100%;
+  height: 5px;
+  background-image:url('../i/headbg_btm.gif');
+}
+
+div#head a:link, div#head a:visited, div#head a:active {
+  color: white;
+  text-decoration: none;
+}
+
+div#head a:hover {
+  color: white;
+  text-decoration: none;
+  border-bottom: 1px dotted #FFFFFF;
+}
+
+div#logo {
+  text-align: left;
+  float: left;
+  display: inline-block;
+  padding: 10px 0 0 10px;
+}
+
+div#logo h1 {
+  padding: 0;
+  margin: 0;
+  font: inherit;
+}
+
+h1 img {
+  padding-right: 6px;
+  vertical-align: -4px;
+}
+
+div.navigation {
+  float: right;
+  display: inline-block;
+  text-align: right;
+  padding: 13px 10px 0 0;
+}
+
+div.navigation div, div.navigation ul {
+  display: inline;
+}
+
+ul.options li {
+  display: inline;
+}
+
+ul.options li.logout:after {
+  content: " \2022";
+}
+
+p.large {
+  font: 14px/20px "Trebuchet MS";
+  margin: 10px 0 15px 0;
+}
+
+p.large a:link, p.large a:visited, 
+p.large a:active, p.large a:hover {
+  color: #FFFFFF;
+  text-decoration: none;
+  border-bottom: 1px dotted #FFFFFF;
+}
+
+.grey {
+  color: #c7c7c7;
+}
+
+img.logOut {
+  vertical-align: -3px;
+  border: 0;
+}
+
+/* === LOGIN / SIGN UP STYLES === */
+
+div.centered {
+  text-align: center;
+  padding: 25px 10px 15px 10px;  
+}
+
+div.left {
+  text-align: left;
+  padding: 25px 10px 15px 10px;  
+}
+
+div#authentication {
+  display: inline-block;
+}
+
+div#signUp, div#strategies, div.divider, div.vcard {
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
+}
+
+div#strategies {
+  margin-left: 25px;
+}
+
+div#strategies h2 {
+  margin: 0 0 4px 20px;
+}
+
+div#signUp {
+  margin-right: 50px;
+}
+
+div#signUp h2 {
+  text-align: left; /* changed from right */
+  margin: 0 0 20px 0;
+}
+
+.inputbg {
+  background: url("../i/inputbg.png");
+  background-position: 2px 15px;
+  background-repeat: no-repeat;
+  height: 28px;
+  width: 200px;
+  display: inline-block;
+}
+
+.inputbgLarge {
+  background: url("../i/inputbg.png");
+  background-position: 2px 46px;
+  background-repeat: no-repeat;
+  height: 59px;
+  width: 200px;
+  display: inline-block;
+}
+
+.inputbgWide {
+  background: url("../i/inputbg.png");
+  background-position: 2px 15px;
+  background-repeat: no-repeat;
+  height: 28px;
+  width: 311px;
+  display: inline-block;
+}
+
+.inputbgSelect {
+  background: url("../i/inputbg.png");
+  background-position: 2px 15px;
+  background-repeat: no-repeat;
+  height: 28px;
+  width: 110px;
+  display: inline-block;
+}
+
+.text, .password, #feed_url {
+  border: 1px solid #181818;
+  margin-left: 5px; 
+  padding: 3px 5px 0 5px;
   height: 20px;
+  width: 194px;
+  font: 14px/16px "Trebuchet MS";
+  color: #303030;  
 }
 
-#head .title {
-  float: left;
+.largeInput {
+  border: 1px solid #181818;
+  padding: 3px 5px 0 5px;
+  height: 50px;
+  width: 190px;
+  font: 14px/16px "Trebuchet MS";
+  color: #303030;  
 }
 
-/* navigation */
-#head .navigation {
+.wideInput {
+  border: 1px solid #181818;
+  padding: 3px 5px 0 5px;
+  height: 20px;
+  width: 300px;
+  font: 14px/16px "Trebuchet MS";
+  color: #303030;  
+}
+
+.divider {
+  height: 150px;
+  width: 1px;
+  background: url("../i/divider.gif");
+}
+
+.tall {
+  height: 220px;
+}
+
+.clearSpace {
+  clear: left;
+  margin-top: 5px;
+}
+
+.clearSpaceLeft {
+  clear: left;
+  margin-top: 5px;
+  text-align: left;
+}
+
+.clearSpaceRight {
+  clear: left;
+  margin-top: 5px;
+  text-align: right;
+}
+
+label {
+  width: 100px;
+  text-align: right;
+  display: inline-block;
+  font: 18px/20px "Trebuchet MS";
+  text-shadow: #000000 1px 1px 1px;
+}
+
+div.lostPassword {
+  font: 9px/12px "Trebuchet MS";
+  color: #FFFFFF;
+  display: inline-block;
+  margin-left: 110px;
+}
+
+.lostPassword a:link, .lostPassword a:visited, .lostPassword a:active {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+.lostPassword a:hover {
+  text-decoration: none;
+  border-bottom: 1px dotted #FFFFFF;
+}
+
+#strategies input#submit {
+  margin-left: 70px;
+  font: bold 12px/14px "Trebuchet MS";
+}
+
+#strategies input#submit:hover {
+  background-position: 0 -28px;
+  cursor: pointer;
+}
+
+#strategies input#submit span {
+  display: none;
+}
+
+#signUp button {
+  width: 74px;
+  height: 28px;
+  background-image: url("../i/submit.png");
+  vertical-align: top;
+}
+
+#signUp button:hover {
+  background-position: 0 -28px;
+  cursor: pointer;
+}
+
+#signUp button span {
+  display: none;
+}
+
+.infoBox {
+  font-size: 12px;
+  font-weight: normal;
+  text-align: center;
+  height: 17px;
+  margin-right: 2px;
+  margin-top: 1px;
+  padding: 4px 6px 0 6px;
+  display: inline-block;
+  vertical-align: 1px;
+  text-align: left;
+}
+
+.errorText {
+  background-color: #b34c4c;
+  border: 1px solid #c56c6c;
+}
+
+.errorTextLarge {
+  background-color: #b34c4c;
+  border: 1px solid #c56c6c;
+  width: 155px;
+}
+
+.successTextLarge {
+  background-color: #5db34c;
+  border: 1px solid #a8e59c;
+  width: 155px;
+}
+
+/* === DEVELOPER PAGE STYLES === */
+
+div.inline {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+div.inline a:hover {
+  border: none !important;
+}
+
+div.inline h3 {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+/* === ABOUT PAGE STYLES === */
+
+div.featureInner {
+  display: inline-block;
+  vertical-align: top;
+  border: 1px solid #000000;
+  background: url("../i/featurebg.gif");
+  height: 70px;
+  padding: 5px 7px 5px 7px;
+}
+
+ul.featureList {
+  list-style-type: none;
+}
+
+ul.featureList li {
+  background-image: url("../i/star.png");
+  padding: 2px 0 0 22px;
+  padding-left: 22px;
+  background-repeat: no-repeat;
+  height: 24px;
+  font: bold 12px/14px "Trebuchet MS";
+  color: #a5a5a5;
+}
+
+.king {
   float: right;
+  font: 10px/12px "Trebuchet MS";
+  overflow: hidden;
 }
 
-#head .navigation div.user {
-  float: left;
+.king span {
+  margin: 2px 0 0 10px;
 }
 
-#head .navigation ul.options {
-  float: left;
-  list-style-type: disc;
+/* === CUSTOMIZE (FEEDS) STYLES === */
+
+div#users, div#feedsOuter,
+div#feedsInner, div#feedStrength, div#feeds {
+  display: inline-block;
+  text-align: left;
+  vertical-align: top;
+  font-family: "Trebuchet MS";
 }
 
-#head .navigation ul li {
-  display: block;
-  float: left;
+div#users {
+  margin-right: 22px;
 }
 
-#head .navigation ul li::before {
-  content: " · ";
-  white-space: pre;
+div#feedsOuter {
+  margin-left: 25px;
 }
 
-#head .navigation ul li:first-child::before {
-  content: " ";
+div#users label {
+  width: 143px;
+  vertical-align: top;
+  font: 14px/16px "Trebuchet MS";
+  color: #a5a5a5;
+  margin-top: 5px;
 }
 
-#head .navigation ul a {
-  color: #DDD;
-  border-bottom: 1px dotted #DDD;
+div#users input, div#users textarea {
+  display: inline-block;
 }
 
-/* users */
-#users {
-  float: left;
-  width: 38%;
+div#users .inputbg {
+  vertical-align: top;
 }
 
-#feeds {
-  float: right;
-  width: 62%;
+img.info {
+  vertical-align: top;
+  padding: 5px 3px 0 2px;
 }
 
-#feeds li {
-  border: 1px solid red;
+select#user_theme {
+  font: 14px/30px "Trebuchet MS";
+  padding: 1px;
+  width: 108px;
+  margin-left: 5px;
+  border: 1px solid #181818;
 }
+
+div#users button, div#feedStrength button {
+  margin-left: 27px;
+  width: 60px;
+  height: 28px;
+  background-image: url("../i/save.png");
+  vertical-align: top;
+}
+
+div#users button:hover, div#feedStrength button:hover {
+  background-position: 0 -28px;
+  cursor: pointer;
+}
+
+div#users button span, div#feedStrength button span {
+  display: none;
+}
+
+
+
+div#addFeed {
+  font: 9px/12px "Trebuchet MS";
+  text-align: right;
+}
+
+div#addFeed a:link, div#addFeed a:visited,
+div#addFeed a:hover, div#addFeed a:active {
+  text-decoration: none;
+}
+
+div#addFeed img {
+  vertical-align: -3px;
+}
+
+div#feedStrength {
+  margin-left: 10px;
+  font-size: 9px;
+  line-height: 9px;
+}
+
+div#feedStrength div {
+  margin-top: -3px;
+}
+
+div.slideOuter {
+  margin-bottom: 7px;
+}
+
+div.sliderMin, div.sliderMax {
+  display: inline-block;
+  width: 88px;
+  height: 10px;
+}
+
+div.sliderMin {
+  text-align: left;
+}
+
+div.sliderMax {
+  text-align: right;
+}
+
+div#feedSave {
+  margin-top: 25px;
+  text-align: right;
+}
+
+div.cancel {
+  font: 9px/12px "Trebuchet MS";
+  vertical-align: -8px;
+  display: inline-block;
+}
+
+div.cancel a:link, div.cancel a:visited,
+div.cancel a:hover, div.cancel a:active {
+  text-decoration: none;
+  border-bottom: 1px dotted #FFFFFF;
+}
+
+div#feedStrength button {
+  margin-left: 15px;
+}
+
+ul#scores div, ul#scores input {
+  display: inline-block;
+}
+
+ul#scores li {
+  height: 22px;
+  margin-bottom: 5px;
+  font: 14px/18px "Trebuchet MS";
+  text-shadow: #000000 1px 1px 1px;
+}
+
+.score {
+  position: relative;
+  margin-right: 10px;
+}
+
+div.control input {
+  display: none !important;
+}
+
+input#feed_url {
+  margin-left: 0;
+}
+
+input#feed_add {
+  margin-left: 5px;
+}
+
+div#users form {
+  margin-top: -20px;
+}
+
+form#feed {
+  clear: left;
+}
+
+/* == IMPORTED FEEDS STYLES == */
 
 #feeds .control {
+  margin-left: 10px;
   float: right;
-  height: 16px;
 }
 
 #feeds .control .ui-slider {
-  background-color: #333;
+  background-color: #444;
   width: 200px;
   height: 16px;
   position: relative;
@@ -100,4 +593,3 @@ div#body {
   width: 6px;
   height: 16px;
 }
-

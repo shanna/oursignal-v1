@@ -1,27 +1,16 @@
-<ul>
-  <li>
-    RSS:
-    <%= link_to(
-      absolute_url(:links, 'oursignal', :format => 'rss'),
-      absolute_url(:links, 'oursignal', :format => 'rss'),
-      :id => 'developer_rss'
-    ) %>
-  </li>
-  <li>
-    XML:
-    <%= link_to(
-      absolute_url(:links, 'oursignal', :format => 'xml'),
-      absolute_url(:links, 'oursignal', :format => 'xml'),
-      :id => 'developer_xml'
-    ) %>
-  </li>
-  <li>
-    JSON:
-    <%= link_to(
-      absolute_url(:links, 'oursignal', :format => 'json'),
-      absolute_url(:links, 'oursignal', :format => 'json'),
-      :id => 'developer_json'
-    ) %>
-  </li>
-</ul>
 
+<div class="left"><!-- start .left --> 
+
+<h2>Developers...</h2>
+
+<p class="large">Want to pipe oursignal feeds somewhere else?  Create your own visualizations? <br />
+Download our master feed in any of these popular formats:</p>
+
+
+
+
+<div class="inline"><a href="http://oursignal.com/oursignal.rss" title="RSS format"><img src="/i/rssLarge.png" alt="RSS image" /></a><h3>RSS</h3></div>
+<div class="inline"><a href="http://oursignal.com/oursignal.xml" title="XML format"><img src="/i/xmlLarge.png" alt="XML image" /></a><h3>XML</h3></div>
+<div class="inline"><a href="http://oursignal.com/oursignal.json" title="JSON format"><img src="/i/jsonLarge.png" alt="JSON image" /></a><h3>JSON</h3></div>
+
+</div> <!-- end .left -->

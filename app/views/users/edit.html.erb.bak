@@ -1,0 +1,35 @@
+<% require_js 'feeds' -%>
+
+<div id="users">
+  <%= form_for @user, :action => resource(@user) do -%>
+    <fieldset class="vcard">
+      <legend>About your news page:</legend>
+
+      <%= text_field :username, :label => 'Username', :class => 'vcard-nickname' %>
+      <%= password_field :password, :label => 'Password', :value => '' %>
+      <%= text_field :email, :label => 'Email', :class => 'vcard-email' %>
+      <%= select :theme,
+        :label        => 'Theme',
+        :collection   => Theme.all,
+        :text_method  => :name,
+        :value_method => :id,
+        :selected     => @user.theme.id.to_s
+      %>
+
+      <%= submit 'save' %>
+    </fieldset>
+  <% end =%>
+</div>
+
+<div id="feeds">
+  <form id="feed" method="post" action="">
+    <label for="feed_url">feed url:</label>
+    <input id="feed_url" name="feed[url]" value="" type="text" />
+    <input id="feed_add" name="feed[add]" value="add" type="button" />
+  </form>
+
+  <ul id="scores" />
+</div>
+
+<br class="break" />
+<!-- <%= partial 'layout/links' %> -->
