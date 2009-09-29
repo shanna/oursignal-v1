@@ -7,6 +7,7 @@ require 'capistrano/ext/merb'
 require 'capistrano/ext/curb'
 require 'capistrano/ext/nokogiri'
 require 'capistrano/ext/mysql'
+require 'capistrano/ext/basic-authentication'
 require 'capistrano/ext/memcached'
 require 'capistrano/ext/monit'
 require 'capistrano/ext/varnish'
@@ -18,6 +19,7 @@ role :db, '72.47.219.75', :primary => true
 
 set :application, 'oursignal'
 set :repository,  'git@github.com:stateless-systems/oursignal.git'
+set :monit_email, 'danial@statelesssystems.com'
 
 # Jeweler is required on the system level because Rakefile loads it before the
 # gem paths are tweaked by Merb
