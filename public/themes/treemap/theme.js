@@ -59,12 +59,15 @@
         delete $.os.links;
 
         // No need to cache $.links since we are caching the link html.
-        $.fn.visualize.links = $.map(links, function (link) {
+        $.fn.visualize.links = []
+        for (var i = 0; i < links.length; i++) {
+          var link     = links[i];
           var velocity = $('<div class="velocity" />').append(link.velocity);
           var meta     = $('<div class="meta" style="display: none;" />').append(velocity);
-          var anchor   = $('<a />').attr({href: link.url}).append(link.title);
-          return [$('<span />').append(meta, anchor), parseFloat(link.score) * 100];
-        });
+          var anchor   = $('<a />').attr({'href': link.url}).append(link.title);
+          var el       = $('<span />').append(meta, anchor);
+          $.fn.visualize.links.push([el, parseFloat(link.score) * 100]);
+        };
       }
       return $.fn.visualize.links;
     };
