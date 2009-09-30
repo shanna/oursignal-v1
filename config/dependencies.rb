@@ -49,7 +49,7 @@ dependency 'jnunemaker-columbus', '0.1.2', :require_as => 'columbus'
 dependency 'pauldix-feedzirra', '0.0.17', :require_as => 'feedzirra'
 dependency 'schoefmax-klarlack', '0.0.2', :require_as => 'klarlack'
 
-dependency 'uri-meta', '0.8.7', :require_as => 'uri/meta'
+dependency 'uri-meta', '0.8.8', :require_as => 'uri/meta'
 
 # These are for deployment only, they will be required when needed
 dependency 'capistrano', '2.5.8', :require_as => nil
