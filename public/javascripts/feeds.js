@@ -36,12 +36,12 @@
   function exception(request, status, error) {
     var json = eval(request.responseText);
     if (json) {
-      json.map(function (message) {
-        var ex = $('<div class="exception" />').append(message);
+      for (var i = 0; i < json.length; i++) {
+        var ex = $('<div class="exception" />').append(json[i]);
         $('#feeds').prepend(ex);
         // TODO: ex.remove causes errors in jquery.
         ex.animate({opacity: 100}, 2500).slideUp('slow'); // , ex.remove);
-      });
+      }
     }
     else {
       // TODO: Unknown exception.
