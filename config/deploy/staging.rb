@@ -10,5 +10,10 @@ set :apache_config_extra do
       AuthUserFile #{current_path}/config/htpasswd
       Require valid-user
     </Location>
+
+    <Location /static/monit>
+      Allow from all
+      Satisfy any
+    </Location>
   }
 end
