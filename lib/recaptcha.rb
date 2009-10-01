@@ -10,7 +10,7 @@ class Recaptcha
     end
 
     def errors
-      success ? [] : [[:captcha, 'fail']] # TODO: A better generic message.
+      success ? [] : [['Captcha incorrect, are you a computer?']] # TODO: A better generic message.
     end
   end
 
