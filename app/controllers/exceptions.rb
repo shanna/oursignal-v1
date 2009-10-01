@@ -24,7 +24,7 @@ class Exceptions < Merb::Controller
 
   protected
     def purge_username_cookie
-      if !session.user || cookies[:username] == user.username
+      if !session.user || cookies[:username] != session.user.username
         cookies.delete(:username)
       end
     end
