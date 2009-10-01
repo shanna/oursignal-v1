@@ -5,6 +5,7 @@ Merb::Router.prepare do
   match('/rss/digg.rss').to(:controller => :rss, :action => 'digg')
 
   # TODO: Rename public?
+  match('/static/monit').to(:controller => :static, :action => 'monit').name('monit')
   match('/static/:path_as_page').to(:controller => :static, :action => 'show')
 
   match('/signup', :method => :get).to(:controller => :users, :action => 'new').name(:signup)
