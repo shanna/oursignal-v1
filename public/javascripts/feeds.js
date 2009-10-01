@@ -47,7 +47,7 @@
   }
 
   function on_load() {
-    return $('<div class="load"><img src="/i/ajax-loader2.gif" /></div>');
+    return $('<div class="load"><img src="/i/ajax-loader.gif" /></div>');
   }
 
   // TODO: Unified exceptions, growl style?

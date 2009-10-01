@@ -571,13 +571,21 @@ form#feed {
 }
 
 #feeds .load {
-  margin-left: 10px;
   float: right;
+  margin-right: 65px;
 }
 
 #feeds .error {
-  margin-left: 10px;
+  width: 175px;
+  margin-right: 72px;
+  text-align: left;
   float: right;
+  border: 1px solid #c56c6c;
+  background-image: url('/i/error.png');
+  background-color: #b34c4c;
+  background-repeat: no-repeat;
+  background-position: 4px 3px;
+  padding: 2px 5px 2px 24px;
 }
 
 /* == IMPORTED FEEDS STYLES == */
