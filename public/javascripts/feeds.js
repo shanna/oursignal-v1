@@ -14,33 +14,50 @@
     var scores = $('#scores');
 
     for (var i = 0; i < json.length; i++) {
-      scores.prepend(control(json[i]));
+      var score = $('<li>').append(on_load(), json[i].url);
+      on_success(score, json[i]);
+      scores.append(score);
     }
   }
 
   function create() {
-    var data = {url: $('#feed_url').attr('value')};
-    $.ajax({type: 'POST', url: 'feeds', data: data, dataType: 'json', error: exception, success: show});
+    var scores = $('#scores');
+    var feed   = $('#feed_url');
+    var url    = feed.attr('value');
+    var score  = $('<li />').append(on_load(), url).hide();
+
+    // scores.remove('.error'); // Remove old errors.
+    scores.append(score);
+
+    $.ajax({
+      type:     'POST',
+      url:      'feeds',
+      data:     {url: url},
+      dataType: 'json',
+      error:    function(request, status, error) { on_error(score, request)},
+      success:  function(response) {
+        on_success(score, response);
+        $('#links').visualize({cache: false});
+      }
+    });
+
+    feed.attr('value', '').focus();
+    score.slideDown('slow');
     return false;
   }
 
-  function show(json) {
-    var li = control(json).hide();
-    $('#scores').append(li);
-    li.slideDown('slow');
-    $('#feed_url').attr('value', '').focus();
-    $('#links').visualize({cache: false});
+  function on_load() {
+    return $('<div class="load">Loading...</div>');
   }
 
   // TODO: Unified exceptions, growl style?
-  function exception(request, status, error) {
+  function on_error(score, request) {
     var json = eval(request.responseText);
     if (json) {
       for (var i = 0; i < json.length; i++) {
-        var ex = $('<div class="exception" />').append(json[i]);
-        $('#feeds').prepend(ex);
-        // TODO: ex.remove causes errors in jquery.
-        ex.animate({opacity: 100}, 2500).slideUp('slow'); // , ex.remove);
+        var ex = $('<div class="error" />').append(json[i]);
+        score.find('.load').replaceWith(ex);
+        score.animate({opacity: 100}, 5000).slideUp('slow', function() {score.remove()});
       }
     }
     else {
@@ -48,7 +65,7 @@
     }
   }
 
-  function control(json) {
+  function on_success(score, json) {
     var destroy = $('<input class="delete" value="delete" type="button" />').click(function () {
       $.post('feeds/' + json.feed_id, {_method: 'delete'}, function () {
         $('#links').visualize({cache: false});
@@ -56,16 +73,13 @@
       $(this).closest('li').remove();
     });
 
-    var score = $('<div class="score" />').slider({value: json.score, min: 0, max: 1, step: 0.01, stop: function (e, ui) {
+    var update = $('<div class="score" />').slider({value: json.score, min: 0, max: 1, step: 0.01, stop: function (e, ui) {
       $.post('feeds/' + json.feed_id, {score: ui.value, _method: 'put'}, function () {
         $('#links').visualize({cache: false});
       }, 'json');
     }});
 
-    return $('<li />').append(
-      $('<div class="control" />').append(score, destroy),
-      json.url
-    );
+    score.find('.load').replaceWith($('<div class="control" />').append(update, destroy));
   }
 
   $(document).ready(function () {

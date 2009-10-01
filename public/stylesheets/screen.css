@@ -570,6 +570,16 @@ form#feed {
   clear: left;
 }
 
+#feeds .load {
+  margin-left: 10px;
+  float: right;
+}
+
+#feeds .error {
+  margin-left: 10px;
+  float: right;
+}
+
 /* == IMPORTED FEEDS STYLES == */
 
 #feeds .control {
