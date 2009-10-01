@@ -1,11 +1,11 @@
 <div class="left"><!-- start .centered -->
 
-    <%= error_messages_for @user %>
-    <%= error_messages_for @captcha %>
-
     <div class="vcard">
       <div id="signUp"><!-- start #signUp -->
         <h2>Sign Up</h2>
+
+        <%= messages_for @user %>
+        <%= messages_for @captcha %>
 
         <%= form_for @user, :action => '/signup', :method => :post do %>
 
