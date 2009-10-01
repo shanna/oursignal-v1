@@ -13,7 +13,7 @@ class Users < Application
   def show
     provides :rss, :xml, :json
     if !params[:username].blank? && params[:username] != user.username
-      raise NotFound unless @user
+      raise NotFound
     else
       display @links = user.links
     end
@@ -50,14 +50,15 @@ class Users < Application
   end
 
   def update
-    @user = session.user
+    @user = session.user.dup
     raise NotFound unless @user
-    cookies[:username] = @user.username
 
     # TODO: Must be a nicer way to do these.
     params[:user][:theme] = Theme.get(params[:user][:theme]) unless params[:user][:theme].blank?
 
+    params[:user].delete(:password) if params[:user][:password].blank? # TODO: Build this into user?
     if @user.update(params[:user])
+      cookies[:username] = @user.username
       redirect resource(@user, :edit), :message => {:notice => 'Your user account was updated'}
     else
       display @user, :edit, :status => 422, :message => {:error => 'There was an error updating your user account'}

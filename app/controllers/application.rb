@@ -48,6 +48,8 @@ class Application < Merb::Controller
         http_purge(:url, url(:links, session.user.username).sub(%r{/$}, ''))
         http_purge(:url, url(:links, session.user.username))
       end
+    rescue
+      return false
     end
 
     def ensure_authorized

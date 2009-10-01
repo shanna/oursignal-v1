@@ -23,7 +23,6 @@ class User
   validates_is_unique   :username
   validates_with_method :username, :method => :validate_username_reserved
   validates_present     :password
-  validates_present     :email
 
   FEEDS = {
     # TODO: It sucks hard coding local feeds like this but I'm pressed for time.

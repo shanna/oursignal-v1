@@ -15,7 +15,7 @@ module Oursignal
           last  = ::Link.first(:order => [:velocity.desc]).velocity
           (1 .. VELOCITY_PRECISION).to_a.map! do |range|
             offset = (total * (range.to_f / VELOCITY_PRECISION)).to_i
-            link   = ::Link.first(:order => [:velocity.asc], :offset => offset, :limit => 1)
+            link   = ::Link.first(:order => [:velocity.asc], :offset => offset)
             link ? link.velocity : last
           end
         end

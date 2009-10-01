@@ -19,7 +19,7 @@ dependency 'merb-param-protection', merb_gems_version
 dependency 'merb-builder', '0.9.8'
 
 do_gems_version = '0.10.0'
-dm_gems_version = '0.10.0'
+dm_gems_version = '0.10.1'
 dependency 'data_objects', do_gems_version
 dependency 'do_mysql', do_gems_version
 dependency 'dm-core', dm_gems_version

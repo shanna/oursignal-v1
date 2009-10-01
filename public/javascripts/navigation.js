@@ -1,5 +1,4 @@
 (function ($) {
-
   // Builds navigation to suit $.username() cache.
   $(document).ready(function () {
     var username = $.username();

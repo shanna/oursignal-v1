@@ -2,8 +2,9 @@
   <% require_js 'feeds' -%>
   <div id="users" class="alignRight">
     <h4>Customize your page...</h4>
-    <%= form_for @user, :action => resource(@user) do -%>
-    <br clear="all" />
+    <%= messages_for @user %>
+    <%= form_for @user, :action => resource(session.user) do -%>
+      <br clear="all" />
       <%= text_field :username, :label => 'http://oursignal.com/', :class => 'vcard-nickname' %>
       <div class="clearSpace"></div>
       <%= password_field :password, :label => 'Password:', :value => '' %>

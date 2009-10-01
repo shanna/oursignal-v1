@@ -5,7 +5,7 @@
       $('#feed_url').focus();
       $('#feed_add').click(create);
       $('#feed').submit(create);
-      $.getJSON('feeds', index);
+      $.getJSON('/users/' + $.os.user.username + '/feeds', index);
     }
   });
 
@@ -25,13 +25,11 @@
     var feed   = $('#feed_url');
     var url    = feed.attr('value');
     var score  = $('<li />').append(on_load(), url).hide();
-
-    // scores.remove('.error'); // Remove old errors.
     scores.append(score);
 
     $.ajax({
       type:     'POST',
-      url:      'feeds',
+      url:      '/users/' + $.os.user.username + '/feeds',
       data:     {url: url},
       dataType: 'json',
       error:    function(request, status, error) { on_error(score, request)},
@@ -47,7 +45,7 @@
   }
 
   function on_load() {
-    return $('<div class="load"><img src="/i/ajax-loader2.gif" /></div>');
+    return $('<div class="load"><img src="/i/ajax-loader.gif" /></div>');
   }
 
   // TODO: Unified exceptions, growl style?
@@ -67,7 +65,7 @@
 
   function on_success(score, json) {
     var destroy = $('<input class="delete" value="delete" type="button" />').click(function () {
-      $.post('feeds/' + json.feed_id, {_method: 'delete'}, function () {
+      $.post('/users/' + $.os.user.username + '/feeds/' + json.feed_id, {_method: 'delete'}, function () {
         $('#links').visualize({cache: false});
       }, 'json');
       $(this).closest('li').remove();
