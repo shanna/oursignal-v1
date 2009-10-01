@@ -20,9 +20,10 @@ class User
   has n, :user_feeds, :constraint => :destroy!
   has n, :feeds, :through => :user_feeds
 
-  validates_present     :password
   validates_is_unique   :username
   validates_with_method :username, :method => :validate_username_reserved
+  validates_present     :password
+  validates_present     :email
 
   FEEDS = {
     # TODO: It sucks hard coding local feeds like this but I'm pressed for time.
@@ -112,6 +113,7 @@ class User
       if username =~ /^(?:#{RESERVED_USERNAMES.join('|')})/i
         return [false, 'Username %s is already taken' % username]
       end
+      true
     end
 end
 

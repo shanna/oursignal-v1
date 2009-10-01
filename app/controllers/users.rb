@@ -33,7 +33,7 @@ class Users < Application
     )
 
     @user = User.new(params[:user])
-    if @captcha.success && @user.save
+    if @user.valid? && @captcha.success && @user.save
       session.user       = @user
       cookies[:username] = @user.username
       redirect resource(@user), :message => {:success => 'Signup was successful', :notice => 'You are now logged in'}
