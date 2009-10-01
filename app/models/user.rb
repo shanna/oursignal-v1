@@ -4,22 +4,25 @@ require 'oursignal/velocity/uniform_distribution'
 class User
   include Oursignal::Velocity::UniformDistribution
   include DataMapper::Resource
-  property :id,          Serial
-  property :theme_id,    Integer, :nullable => false, :default => proc {Theme.first(:name => 'treemap').id rescue nil}
-  property :username,    String, :nullable => false, :length => (2..20), :format => /^[a-z0-9][a-z0-9\-]+$/i
-  property :password,    String, :length => 40
-  property :email,       String, :nullable => false, :length => 255, :format => :email_address
-  property :openid,      String, :length => 255
-  property :description, String, :length => 255
-  property :tags,        String, :length => 255
-  property :created_at,  DateTime
-  property :updated_at,  DateTime
+  property :id,             Serial
+  property :theme_id,       Integer, :nullable => false, :default => proc {Theme.first(:name => 'treemap').id rescue nil}
+  property :username,       String, :nullable => false, :length => (2..20), :format => /^[a-z0-9][a-z0-9\-]+$/i
+  property :password,       String, :length => 40
+  property :password_reset, String, :length => 40
+  property :email,          String, :nullable => false, :length => 255, :format => :email_address
+  property :openid,         String, :length => 255
+  property :description,    String, :length => 255
+  property :tags,           String, :length => 255
+  property :created_at,     DateTime
+  property :updated_at,     DateTime
 
   belongs_to :theme
   has n, :user_feeds, :constraint => :destroy!
   has n, :feeds, :through => :user_feeds
 
-  validates_is_unique :username
+  validates_present     :password
+  validates_is_unique   :username
+  validates_with_method :username, :method => :validate_username_reserved
 
   FEEDS = {
     # TODO: It sucks hard coding local feeds like this but I'm pressed for time.
@@ -96,6 +99,19 @@ class User
   private
     def digest_password(password)
       Digest::SHA1.hexdigest('some salt' + password.to_s)
+    end
+
+    RESERVED_USERNAMES = %w{
+      rss static user admin monit
+      login signup openid recover
+      image stylesheet javascript theme
+      favicon robot
+      default index main root owner webmaster stateless
+    }.freeze
+    def validate_username_reserved
+      if username =~ /^(?:#{RESERVED_USERNAMES.join('|')})/i
+        return [false, 'Username %s is already taken' % username]
+      end
     end
 end
 
