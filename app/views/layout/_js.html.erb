@@ -19,7 +19,6 @@
     Cufon.replace('h4');
     Cufon.replace('label');
 
-    $.os.user  = <%= user.to_json(:only => [:id, :username]) %>;
-    $.os.links = <%= (@links || user.links).to_json %>;
+    $.os.user = <%= user.to_json(:only => [:id, :username]) %>;
   //]]>
 </script>
