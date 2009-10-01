@@ -5,15 +5,20 @@
 <%= js_include_tag(
   'vendor/jquery-require',
   'vendor/jquery-cookie',
+  'vendor/cufon-yui',
+  'vendor/trebuchet.font',
   'application',
   'navigation',
-  'cufon-yui',
-  'Trebuchet_MS_400-Trebuchet_MS_700.font',
   :bundle => 'bundle'
 ) %>
 <%= include_required_js %>
 <script type="text/javascript">
   //<![CDATA[
+    Cufon.replace('h2');
+    Cufon.replace('h3');
+    Cufon.replace('h4');
+    Cufon.replace('label');
+
     $.os.user  = <%= user.to_json(:only => [:id, :username]) %>;
     $.os.links = <%= (@links || user.links).to_json %>;
   //]]>

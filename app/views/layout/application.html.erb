@@ -1,42 +1,32 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <%= tag 'title', title %>
-  <%= partial 'layout/css' %>
-  <%= partial 'layout/js' %>
-  <!-- <script type="text/javascript">
-    Cufon.replace('h2');
-    Cufon.replace('h3');
-    Cufon.replace('h4');
-    Cufon.replace('label');
-  </script> -->
-  <script type='text/javascript' src='http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'></script>
-</head>
-<body>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <%= tag 'title', title %>
+    <%= partial 'layout/css' %>
+    <%= partial 'layout/js' %>
+  </head>
+  <body>
+    <div id="shell">
+      <div id="head">
+        <div id="logo">
+          <h1><img src="/i/favicon.gif" alt="oursignal.com - news aggregation at it's finest" /><a href="/" title="Home">oursignal</a></h1>
+        </div>
 
-<div id="shell">
-  <div id="head">
-    <div id="logo">
-      <h1><img src="/i/favicon.gif" alt="oursignal.com - news aggregation at it's finest" /><a href="/" title="Home">oursignal</a></h1>
+        <div class="navigation">
+          <ul class="options">
+            <li class="customize"><a href="/login">customize</a> &#8226;</li>
+            <li class="developers"><a href="/static/developers">developers</a> &#8226;</li>
+            <li class="about"><a href="/static/about">about</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="head_foot"></div>
+
+      <div id="body">
+        <%= messages_for message %>
+        <%= catch_content :for_layout %>
+      </div>
     </div>
-
-    <div class="navigation">
-      <ul class="options">
-        <li class="customize"><a href="/login">customize</a> &#8226;</li>
-        <li class="developers"><a href="/static/developers">developers</a> &#8226;</li>
-        <li class="about"><a href="/static/about">about</a></li>
-      </ul>
-    </div>
-  </div>
-  <div id="head_foot"></div>
-
-  <div id="body">
-    <%= messages_for message %>
-    <%= catch_content :for_layout %>
-  </div>
-
-</div>
-
-</body>
+  </body>
 </html>
