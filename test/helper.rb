@@ -1,7 +1,15 @@
 require File.join(File.dirname(__FILE__), '..', 'lib', 'oursignal')
 require 'test/unit'
 
-Oursignal.merb_env(
+require 'rubygems'
+if (local_gem_dir = File.join(Oursignal.root, 'gems')) && $BUNDLE.nil?
+  $BUNDLE = true; Gem.clear_paths; Gem.path.unshift(local_gem_dir)
+end
+
+Dir.chdir(::Oursignal.root)
+require 'merb-core'
+
+Merb.start_environment(
   :testing     => true,
   :adapter     => 'runner',
   :environment => (ENV['MERB_ENV'] || 'test')
