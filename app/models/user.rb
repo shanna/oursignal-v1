@@ -33,6 +33,10 @@ class User
     'http://news.ycombinator.com/rss'           => 0.3,
   }.freeze
 
+  before :save do
+    self.password = digest_password(password) if attribute_dirty?(:password)
+  end
+
   after :create do
     FEEDS.map do |url, score|
       feed = Feed.discover(url) || next
@@ -50,13 +54,12 @@ class User
     description
   end
 
-  def password=(password)
-    attribute_set(:password, digest_password(password))
+  def self.authenticate(username, password)
+    new(:username => username, :password => password).authenticate
   end
 
-  def self.authenticate(username, password)
-    user = User.new(:username => username, :password => password)
-    first(:conditions => {:username => user.username, :password => user.password})
+  def authenticate
+    self.class.first(:conditions => {:username => username, :password => digest_password(password)})
   end
 
   def links(limit = 50)
