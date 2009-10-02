@@ -588,6 +588,10 @@ form#feed {
   padding: 2px 5px 2px 24px;
 }
 
+.mac #feeds .error {
+  margin-right: 63px;
+}
+
 /* == IMPORTED FEEDS STYLES == */
 
 #feeds .control {
