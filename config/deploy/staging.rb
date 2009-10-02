@@ -11,6 +11,11 @@ set :apache_config_extra do
       Require valid-user
     </Location>
 
+    <Location /rss>
+      Allow from all
+      Satisfy any
+    </Location>
+
     <Location /static/monit>
       Allow from all
       Satisfy any
