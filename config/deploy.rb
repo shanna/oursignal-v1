@@ -47,5 +47,6 @@ namespace :deploy do
   end
 end
 
-after 'deploy:restart'.to_sym, 'deploy:crontab'
-after 'deploy:start'.to_sym, 'deploy:crontab'
+before 'deploy:migrate', 'deploy:merb:autoupgrade'
+after 'deploy:restart', 'deploy:crontab'
+after 'deploy:start', 'deploy:crontab'
