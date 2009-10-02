@@ -8,8 +8,8 @@
     visualize: function (options) {
       var defaults = {
         cache:  true,
-        width:  $(window).width(),
-        height: $(window).height()
+        width:  Math.min($(window).width(), $(document).width()),
+        height: Math.min($(window).height(), $(document).width()) - 43 // TODO: Ick. Hard coded head height.
       };
       options = $.extend(defaults, options);
 
@@ -62,7 +62,7 @@
           var link     = links[i];
           var velocity = $('<div class="velocity" />').append(link.velocity);
           var meta     = $('<div class="meta" />').append(velocity);
-          var anchor   = $('<a />').attr({href: link.url}).append(link.title);
+          var anchor   = $('<a />').attr({href: link.url, title: link.url}).append(link.title);
           var el       = $('<span />').append(meta, anchor);
           $.fn.visualize.links.push([el, parseFloat(link.score) * 100]);
         };
