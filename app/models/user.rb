@@ -78,7 +78,7 @@ class User
         inner join feed_links fl on l.id = fl.link_id
         inner join user_feeds uf on fl.feed_id = uf.feed_id
         where uf.user_id = ?
-        group by l.id
+        group by l.title
         order by final_score desc
         limit 50
       },
