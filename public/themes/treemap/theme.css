@@ -65,11 +65,10 @@
   left: 0;
   z-index: 3000;
   display: none;
-
   color: #fff;
   background-color: #000;
   border: 1px solid #666;
-  font-size: 12px;
   padding: 5px;
+  font: bold 11px/14px "Trebuchet MS";
 }
 
