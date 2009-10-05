@@ -592,6 +592,31 @@ form#feed {
   margin-right: 63px;
 }
 
+#strategies .error {
+  height: 18px;
+  border: 1px solid #c56c6c;
+  background-image: url('/i/error.png');
+  background-color: #b34c4c;
+  background-repeat: no-repeat;
+  background-position: 4px 3px;
+  padding: 5px 5px 0 24px;
+  font: bold 12px/14px "Trebuchet MS";
+  margin-bottom: 8px;
+}
+
+#users div.error {
+  width: 322px;
+  min-height: 18px;
+  border: 1px solid #c56c6c;
+  background-image: url('/i/error.png');
+  background-color: #b34c4c;
+  background-repeat: no-repeat;
+  background-position: 4px 3px;
+  padding: 5px 5px 2px 24px;
+  font: bold 12px/14px "Trebuchet MS";
+  margin-bottom: 8px;
+}
+
 /* == IMPORTED FEEDS STYLES == */
 
 #feeds .control {

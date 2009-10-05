@@ -48,10 +48,11 @@
 
 .meta {
   width: 400px;
+  font: bold 11px/14px "Trebuchet MS";
 }
 
 .meta div {
-  padding: 2px;
+  padding: 1px;
 }
 
 .meta .screenshot img {
@@ -68,6 +69,7 @@
 }
 
 .tipsy-inner {
+  border: 1px solid #666;
   padding: 10px;
   background-color: black;
   color: white;

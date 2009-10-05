@@ -14,7 +14,9 @@
       </form>
     </div>
   </div>
-
-  <h3>Register or log in to create your own, personalized Oursignal.</h3>
-  <%= link_to 'signup', url(:signup) %>
+  <style type="text/css">
+  h3 a:link { text-decoration: none; }
+  </style>
+  <!--<h3>Register or log in to create your own, personalized Oursignal.</h3>-->
+  <h3><%= link_to '..or Sign Up here!', url(:signup) %></h3>
 </div>
