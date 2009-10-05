@@ -47,5 +47,29 @@
 }
 
 .meta {
-  display: none;
+  width: 400px;
 }
+
+.meta div {
+  padding: 2px;
+}
+
+.meta .screenshot img {
+  width: 120px;
+  height: 90px;
+}
+
+.tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3000;
+  display: none;
+
+  color: #fff;
+  background-color: #000;
+  border: 1px solid #666;
+  font-size: 12px;
+  padding: 5px;
+}
+
