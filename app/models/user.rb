@@ -86,12 +86,14 @@ class User
     )
     return results if results.empty?
 
-    max_score, min_score = results.first.final_score, results.last.final_score
+    domains  = feeds.map(&:domain)
+    max, min = results.first.final_score, results.last.final_score
 
     results.map do |row|
       link          = Link.new(row.attributes.except(:final_score))
-      link.score    = (row.final_score - min_score) / (max_score - min_score)
-      link.score    = 1.to_f if link.score.nan? || link.score.infinite? || max_score <= min_score
+      link.domains  &= domains
+      link.score    = (row.final_score - min) / (max - min)
+      link.score    = 1.to_f if link.score.nan? || link.score.infinite? || max <= min
       link.score    = 0.01 if link.score < 0.01
       link.score    = link.score.round(2)
       link.velocity = velocity_normal(link.velocity)
