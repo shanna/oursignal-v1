@@ -73,7 +73,7 @@ class User
           where
             fl2.link_id = l.id
             and uf2.user_id = uf.user_id
-        ) * 0.2 + 0.8)) as final_score
+        ) * 0.5 + 0.5)) as final_score
         from links l
         inner join feed_links fl on l.id = fl.link_id
         inner join user_feeds uf on fl.feed_id = uf.feed_id
