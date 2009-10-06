@@ -46,7 +46,7 @@ dependency 'taf2-curb', '0.5', :require_as => 'curb'
 dependency 'wycats-moneta', '0.6.0', :require_as => 'moneta'
 dependency 'thoughtbot-shoulda', '2.10.1', :require_as => 'shoulda'
 dependency 'jnunemaker-columbus', '0.1.2', :require_as => 'columbus'
-dependency 'pauldix-feedzirra', '0.0.17', :require_as => 'feedzirra'
+dependency 'pauldix-feedzirra', '0.0.18', :require_as => 'feedzirra'
 dependency 'schoefmax-klarlack', '0.0.2', :require_as => 'klarlack'
 
 dependency 'uri-meta', '0.8.8', :require_as => 'uri/meta'
