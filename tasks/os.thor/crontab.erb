@@ -11,10 +11,12 @@ PATH=/usr/local/bin:/usr/bin:/bin
 
 11   * * * * root <%= thor %> os:velocity:update > /dev/null
 
-# Spread everything out a bit. I think freshness is the only one that might be a little expensive.
+# Freshness needs to run more often. It's the only scoring system for a lot of entries.
+*/5  * * * * root <%= thor %> os:score:source:freshness   > /dev/null
+
+# Spread everything out a bit.
 0,15,30,45 * * * * root <%= thor %> os:score:source:delicious   > /dev/null
 2,17,32,47 * * * * root <%= thor %> os:score:source:digg        > /dev/null
-4,19,34,49 * * * * root <%= thor %> os:score:source:freshness   > /dev/null
 6,21,36,51 * * * * root <%= thor %> os:score:source:reddit      > /dev/null
 8,23,38,53 * * * * root <%= thor %> os:score:source:ycombinator > /dev/null
 
