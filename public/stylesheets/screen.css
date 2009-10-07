@@ -639,3 +639,12 @@ form#feed {
   height: 16px;
   margin-left: -3px;
 }
+
+/* === ERROR PAGES === */
+
+h2.notFound {
+  margin: 0;
+  padding: 0;
+  font: bold 120px/140px "Trebuchet MS";
+  color: #a5a5a5;
+}
