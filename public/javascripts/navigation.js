@@ -4,6 +4,11 @@
     var username = $.username();
     if (!username) return;
 
+    // Redirect to users custom feed.
+    if ($.url.attr('path') == '/') {
+      return document.location = '/' + username;
+    }
+
     // Username
     var el_navigation = $('#head .navigation');
     var el_username   = $('<a />').attr({href: '/' + username + '/', 'class': 'username'}).append(username);
