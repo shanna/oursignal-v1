@@ -246,6 +246,13 @@ div#signUp h2 {
   background: url("../i/divider.gif");
 }
 
+.dividerCustomize {
+  width: 3px;
+  background: #515151;
+  display: inline-block;
+  min-height: 175px;
+}
+
 .tall {
   height: 220px;
 }
@@ -420,12 +427,21 @@ div#feedsInner h4 {
   display: inline-block;
 }
 
-div#feedsInner p {
+div#feedsInner p, div#users p {
   display: inline-block;
   font: 12px/14px "Trebuchet MS";
   color: #a5a5a5;
   margin: 8px 0 8px 0;
   vertical-align: -2px;
+}
+
+div#users p {
+  margin-top: 15px;
+}
+
+div#users p a {
+  text-decoration: none;
+  border-bottom: 1px dotted #FFFFFF;
 }
 
 div#users {
