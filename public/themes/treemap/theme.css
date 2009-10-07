@@ -51,6 +51,13 @@
   font: bold 11px/14px "Trebuchet MS";
 }
 
+.meta:after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+}
+
 .meta div {
   padding: 1px;
 }
@@ -58,6 +65,10 @@
 .meta .screenshot img {
   width: 120px;
   height: 90px;
+  padding: 3px;
+  margin: 3px 5px 0 0;
+  border: 1px dashed #515151;
+  float: left;
 }
 
 .tipsy {
