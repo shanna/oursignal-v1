@@ -8,6 +8,7 @@ class Feeds < Application
     sql = %q{
       select
         user_feeds.score,
+        user_feeds.follow,
         feeds.id as feed_id,
         feeds.title,
         feeds.url
@@ -28,6 +29,7 @@ class Feeds < Application
       :user_id => user_feed.user_id,
       :feed_id => user_feed.feed_id,
       :score   => user_feed.score,
+      :follow  => user_feed.follow,
       :title   => feed.title,
       :url     => feed.url
     })
@@ -38,8 +40,7 @@ class Feeds < Application
     user_feed = user.user_feeds.first(:feed_id => params[:id])
     raise NotFound unless user_feed
 
-    user_feed.score = params[:score]
-    user_feed.save
+    user_feed.update(params.only(:score, :follow))
     display user_feed
   end
 
