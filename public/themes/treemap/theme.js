@@ -109,16 +109,16 @@
         var vel = parseFloat(el.context.link.velocity);
 
         var colour = '303030';
-        if (vel < 1)   colour = "eb433a";
-        if (vel < 0.9)  colour = "f8674a";
-        if (vel < 0.8)  colour = "f8764a";
-        if (vel < 0.7)  colour = "f88c4a";
+        if (vel < 1)   colour = "ff453f";
+        if (vel < 0.9)  colour = "ff5c58";
+        if (vel < 0.8)  colour = "ff7672";
+        if (vel < 0.7)  colour = "ff9491";
         if (vel < 0.6)  colour = "303030";
 
-        if (vel < -0.6)  colour = "7cc0d9";
-        if (vel < -0.7)  colour = "66abc4";
-        if (vel < -0.8)  colour = "5395ad";
-        if (vel < -0.9)  colour = "42788c";
+        if (vel < -0.6)  colour = "b3d6ff";
+        if (vel < -0.7)  colour = "8cc1ff";
+        if (vel < -0.8)  colour = "64abff";
+        if (vel < -0.9)  colour = "3e96ff";
 
         el.parent().css('background-color', '#' + colour);
       });
