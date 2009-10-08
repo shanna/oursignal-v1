@@ -6,6 +6,10 @@ module Merb
       [@title].flatten.join(' &raquo; ')
     end
 
+    def classes
+      [params[:controller], params.values_at(:controller, :action).join('_')].join(' ').gsub('/', '_')
+    end
+
     def messages_for(errors)
       error_messages_for errors, :header => ''
     end
