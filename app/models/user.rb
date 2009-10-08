@@ -108,7 +108,7 @@ class User
 
     RESERVED_USERNAMES = %w{
       rss static user admin monit
-      login signup openid recover
+      login signup openid recover password
       image stylesheet javascript theme
       favicon robot
       default index main root owner webmaster stateless

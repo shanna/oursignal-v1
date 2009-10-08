@@ -8,7 +8,7 @@
         <div class="clearSpace"></div>
         <%= password_field :name => :password, :label => 'Password:' %>
         <div class="clearSpaceLeft">
-          <div class="lostPassword"><a href="/recover">lost ye password?</a></div>
+          <div class="lostPassword"><%= link_to 'lost ye password?', url(:new_password) %></div>
           <%= submit 'login' %>
         </div>
       </form>

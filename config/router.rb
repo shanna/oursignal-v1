@@ -16,6 +16,7 @@ Merb::Router.prepare do
     resources :feeds
     match('/logout').to(:controller => :users, :action => 'logout').name(:logout)
   end
+  resources :passwords, :key => :username, :identify => :username
 
   match('/:username(.:format)', :username => /^[a-z0-9][a-z0-9\-]+$/i, :method => :get) \
     .to(:controller => :users, :action => 'show') \

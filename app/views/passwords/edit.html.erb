@@ -1,0 +1,11 @@
+<h2>New password...</h2>
+<%= messages_for @user %>
+<%= form_for @user, :action => url(:password, @user.username) do -%>
+  <br clear="all" />
+  <%= hidden_field :password_reset %>
+  <%= text_field :username, :label => 'http://oursignal.com/', :readonly => 'readonly' %>
+  <div class="clearSpace"></div>
+  <%= password_field :password, :label => 'Password:', :value => '' %>
+  <%= submit 'save' %>
+<% end =%>
+

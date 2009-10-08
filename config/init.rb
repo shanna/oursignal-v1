@@ -49,6 +49,8 @@ Merb::BootLoader.before_app_loads do
     :mailer_delivery_method => :sendmail
   }
 
+  Merb::Mailer.delivery_method = :sendmail
+
   Merb::Cache.setup do
     register(:page, Merb::Cache::PageStore[Merb::Cache::FileStore], :dir => Merb.root / 'public') unless exists?(:page)
     register(:default, Merb::Cache::AdhocStore[:page]) unless exists?(:default)

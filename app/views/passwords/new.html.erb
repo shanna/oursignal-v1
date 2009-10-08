@@ -1,0 +1,10 @@
+<div class="left">
+  <h2>Recover your Password</h2>
+  <%= messages_for message %>
+  <%= form_for User.new, :action => url(:passwords) do =%>
+    <%= text_field :name => :username, :label => 'Username:' %>
+    <div class="clearSpaceLeft">
+      <%= submit 'recover' %>
+    </div>
+  <% end =%>
+</div>

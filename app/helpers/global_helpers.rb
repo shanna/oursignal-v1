@@ -11,7 +11,11 @@ module Merb
     end
 
     def messages_for(errors)
-      error_messages_for errors, :header => ''
+      if errors.respond_to?(:errors)
+        error_messages_for errors, :header => ''
+      elsif errors.is_a?(Hash)
+        [:error, :success, :notice].map{|type| tag(:div, :class => type){message[type]}}
+      end
     end
 
     def user
