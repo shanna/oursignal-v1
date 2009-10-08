@@ -64,20 +64,27 @@
   }
 
   function on_success(score, json) {
-    var destroy = $('<input class="delete" value="delete" type="button" />').click(function () {
+    var destroy_el = $('<input class="delete" value="delete" type="button" />').click(function () {
       $.post('/users/' + $.os.user.username + '/feeds/' + json.feed_id, {_method: 'delete'}, function () {
         $('#links').visualize({cache: false});
       }, 'json');
       $(this).closest('li').remove();
     });
 
-    var update = $('<div class="score" />').slider({value: json.score, min: 0, max: 1, step: 0.01, stop: function (e, ui) {
-      $.post('feeds/' + json.feed_id, {score: ui.value, _method: 'put'}, function () {
+    var score_el = $('<div class="score" />').slider({value: json.score, min: 0, max: 1, step: 0.01, stop: function (e, ui) {
+      $.post('/users/' + $.os.user.username + '/feeds/' + json.feed_id, {score: ui.value, _method: 'put'}, function () {
         $('#links').visualize({cache: false});
       }, 'json');
     }});
 
-    score.find('.load').replaceWith($('<div class="control" />').append(update, destroy));
+    var follow_el = $('<input class="follow" type="checkbox" />').click(function (ev) {
+      $.post('/users/' + $.os.user.username + '/feeds/' + json.feed_id, {follow: $(ev.target).attr('checked'), _method: 'put'}, function () {
+        $('#links').visualize({cache: false});
+      }, 'json');
+    });
+    follow_el.attr('checked', json.follow);
+
+    score.find('.load').replaceWith($('<div class="control" />').append(score_el, follow_el, destroy_el));
   }
 
   $(document).ready(function () {

@@ -1,10 +1,11 @@
 class UserFeed
-    include DataMapper::Resource
-    property :user_id, Integer, :key => true, :nullable => false
-    property :feed_id, String,  :key => true, :nullable => false, :length => 40
-    property :score, Float, :default => 0.5, :precision => 10, :scale => 9
+  include DataMapper::Resource
+  property :user_id, Integer, :key => true, :nullable => false
+  property :feed_id, String,  :key => true, :nullable => false, :length => 40
+  property :score, Float, :default => 0.5, :precision => 10, :scale => 9
+  property :follow, Boolean, :default => true
 
-    belongs_to :user
-    belongs_to :feed
+  belongs_to :user
+  belongs_to :feed
 end # UserFeed
 

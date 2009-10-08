@@ -36,6 +36,10 @@ class Link
     attribute_set(:velocity, (f ? f.to_f.round(5) : 0))
   end
 
+  def domain
+    url.domain
+  end
+
   #--
   # TODO: Can this be done as a relationship?
   def scores
@@ -50,7 +54,7 @@ class Link
         url   = URI.parse(anchor.attribute('href').text) rescue next
         title = anchor.text.strip
         next unless title =~ /\w+/ && url.is_a?(URI::HTTP)
-        next if feed.url.domain == url.domain
+        next if feed.domain == url.domain
         urls << url.to_s
       end
 
@@ -67,7 +71,11 @@ class Link
           link.referred_at = DateTime.now if link.referred_at.blank?
         end
 
-        link.save && feed.feed_links.first_or_create({:link => link}, :url => url)
+        link.save && feed.feed_links.first_or_create(
+          {:link => link},
+          :url      => url,
+          :external => (feed.domain != link.domain)
+        )
       end
     end
   end
