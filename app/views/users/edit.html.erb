@@ -24,7 +24,7 @@
       %>
       <%= submit 'save' %>
     <% end =%>
-    <p>Your custom link: <a href="http://oursignal.com/[username]" target="_blank">http://oursignal.com/xxx20charusernamexxx</a></p>
+    <p>Your custom link: <%= link_to absolute_url(:links, @user.username), absolute_url(:links, @user.username), :target => '_blank' %></p>
   </div>
 
   <div class="dividerCustomize"></div>
