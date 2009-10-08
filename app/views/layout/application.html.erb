@@ -5,6 +5,7 @@
     <%= tag 'title', title %>
     <%= partial 'layout/css' %>
     <%= partial 'layout/js' %>
+    <%= catch_content :for_head %>
   </head>
   <%= tag 'body', {:class => classes} do =%>
     <div id="shell">
