@@ -6,7 +6,7 @@
     <%= partial 'layout/css' %>
     <%= partial 'layout/js' %>
   </head>
-  <body>
+  <%= tag 'body', {:class => classes} do =%>
     <div id="shell">
       <div id="head">
         <div id="logo">
@@ -28,5 +28,5 @@
         <%= catch_content :for_layout %>
       </div>
     </div>
-  </body>
+  <% end =%>
 </html>
