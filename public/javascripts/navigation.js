@@ -1,13 +1,13 @@
 (function ($) {
+  // Redirect to users custom feed.
+  if ($.url.attr('path') == '/' && $.cookie('username')) {
+    return document.location = '/' + $.cookie('username');
+  }
+
   // Builds navigation to suit $.username() cache.
   $(document).ready(function () {
     var username = $.username();
     if (!username) return;
-
-    // Redirect to users custom feed.
-    if ($.url.attr('path') == '/') {
-      return document.location = '/' + username;
-    }
 
     // Feed links.
     var base = [
