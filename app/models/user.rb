@@ -62,33 +62,11 @@ class User
   end
 
   def links(limit = 50)
-    # Complain bitterly to Dan if this is wrong in any way!
-    results = repository.adapter.query(%q{
-      select
-        l.*,
-        (l.score * ((
-          select MAX(uf2.score)
-          from user_feeds uf2
-          join feed_links fl2 on fl2.feed_id = uf2.feed_id
-          where
-            fl2.link_id = l.id
-            and uf2.user_id = uf.user_id
-        ) * 0.5 + 0.5)) as final_score
-        from links l
-        inner join feed_links fl on l.id = fl.link_id
-        inner join user_feeds uf on fl.feed_id = uf.feed_id
-        where uf.user_id = ?
-        group by l.title
-        order by final_score desc
-        limit 50
-      },
-      id
-    )
+    results = user_links(limit)
     return results if results.empty?
 
     domains  = feeds.map(&:domain)
     max, min = results.first.final_score, results.last.final_score
-
     results.map do |row|
       link          = Link.new(row.attributes.except(:final_score))
       link.domains  &= domains
@@ -102,6 +80,33 @@ class User
   end
 
   private
+    def user_links(limit)
+      Link.repository.adapter.query(%q{
+        select
+          l.*,
+          (l.score * ((
+            select MAX(uf2.score)
+            from user_feeds uf2
+            join feed_links fl2 on fl2.feed_id = uf2.feed_id
+            where
+              fl2.link_id      = l.id
+              and uf2.user_id  = uf.user_id
+              and fl2.external = uf2.follow
+          ) * 0.5 + 0.5)) as final_score
+          from links l
+          inner join feed_links fl on l.id = fl.link_id
+          inner join user_feeds uf on fl.feed_id = uf.feed_id
+          where
+            uf.user_id = ?
+            and fl.external = uf.follow
+          group by l.id
+          order by final_score desc
+          limit ?
+        },
+        id, limit
+      )
+    end
+
     def digest_password(password)
       Digest::SHA1.hexdigest('some salt' + password.to_s)
     end
