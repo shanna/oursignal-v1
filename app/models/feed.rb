@@ -60,12 +60,17 @@ class Feed
   end
 
   def self.discover(url, options = {})
-    options = {:content => true}.update(options)
-    feed    = first_or_new(:url => URI.sanatize(url.to_s))
-    return feed unless feed.new? && feed.valid?(:discover)
+    url  = URI.sanatize(url.to_s)
 
-    primary = Columbus.new(feed.url).primary rescue nil
-    return discover(primary.url.to_s, options.update(:content => false)) if options[:content] && primary
+    begin
+      meta = URI::Meta.get(URI.parse(url), :timeout => 5)
+      url  = (meta.feed || meta.last_effective_uri) if meta
+    rescue => e
+    rescue NotImplementedError => e
+    end
+
+    feed = first_or_new(:url => url.to_s)
+    return feed unless feed.new? && feed.valid?(:discover)
 
     feed.selfupdate
     feed

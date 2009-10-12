@@ -21,10 +21,12 @@ end
 Merb::BootLoader.before_app_loads do
   require 'uri/meta'
   require 'moneta/memcache'
+  URI::Meta.user_agent   = '2b3b3a4f365060d56e5642fd8e59816b'
   URI::Meta::Cache.cache = Moneta::Memcache.new(
     :server    => 'localhost:11211',
     :namespace => 'uri_meta'
   )
+
 
   require 'math/uniform_distribution'
   Math::UniformDistribution::Cache.cache = Moneta::Memcache.new(

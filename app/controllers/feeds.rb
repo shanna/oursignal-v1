@@ -23,6 +23,7 @@ class Feeds < Application
     user = session.user
     feed = Feed.discover(params[:url])
     raise(BadRequest, feed.errors.full_messages.join(', ')) unless feed.valid?(:discover)
+    raise(BadRequest, 'Already in your feeds') if user.feeds.include?(feed)
 
     user_feed = user.user_feeds.first_or_create({:feed => feed}, :score => 0.5)
     display({
