@@ -1,7 +1,9 @@
+require 'oursignal/score/source/frequency'
 require 'uri/sanatize'
 require 'uri/domain'
 
 class Link
+  include Oursignal::Score::Source::Frequency::UniformDistribution
   include DataMapper::Resource
   property :id,                 DataMapper::Types::Digest::SHA1.new(:url), :key => true, :nullable => false
   property :url,                URI, :length => 255, :nullable => false, :unique_index => true

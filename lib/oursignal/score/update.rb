@@ -17,7 +17,8 @@ module Oursignal
           Merb.logger.info("score\tupdating scores for #{links.size} links") unless links.empty?
           links.each do |link|
             begin
-              new_score     = score(link)
+              age           = ((Time.now - link.referred_at.to_time).to_f / 1.hour)
+              new_score     = score(link) / ((age + 2) ** 1.5)
               ema           = Math::Average::ExponentialMoving.new(0.9, (link.velocity || 0))
               link.velocity = ema.update(new_score - (link.score || 0))
               link.score    = new_score
