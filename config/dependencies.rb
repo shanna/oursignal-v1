@@ -47,7 +47,7 @@ dependency 'thoughtbot-shoulda', '2.10.1', :require_as => 'shoulda'
 dependency 'pauldix-feedzirra', '0.0.18', :require_as => 'feedzirra'
 dependency 'schoefmax-klarlack', '0.0.2', :require_as => 'klarlack'
 
-dependency 'uri-meta', '0.9.0', :require_as => 'uri/meta'
+dependency 'uri-meta', '0.9.1', :require_as => 'uri/meta'
 
 # These are for deployment only, they will be required when needed
 dependency 'capistrano', '2.5.8', :require_as => nil
