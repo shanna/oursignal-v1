@@ -1,5 +1,6 @@
 require 'link/discover'
 require 'link/update'
+require 'link/meta'
 require 'uri/domain'
 
 class Link
