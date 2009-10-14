@@ -31,13 +31,14 @@
 
         while (low <= high) {
           var mid = Math.round(low + ((high - low) / 2));
-          el.css('font-size', mid);
+          el.css('font-size', mid + 'px');
 
           if (el.height() > height || el.width() > width) { high = mid - 1; continue;}
           if (el.height() < height && el.width() <= width) { low  = mid + 1; continue;}
           break;
         }
-        el.css('font-size', low - 1);
+
+        if ((low - 1) > 0) el.css('font-size', (low - 1) + 'px');
       });
     }
   });

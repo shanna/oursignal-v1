@@ -1,7 +1,10 @@
 (function ($) {
   // Redirect to users custom feed.
   if ($.url.attr('path') == '/' && $.cookie('username')) {
-    return document.location = '/' + $.cookie('username');
+    var to = '/' + $.cookie('username');
+    document.write('<body><div id="shell"><div id="head"><div id="logo"><h1><img src="/i/favicon.gif" alt="oursignal.com - news aggregation at it\'s finest" /><a href="' + to + '" title="Home">Loading your signal...</a></h1></div></div></div></body>');
+    document.location = to;
+    return;
   }
 
   // Builds navigation to suit $.username() cache.
