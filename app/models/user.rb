@@ -1,8 +1,6 @@
 require 'digest/sha1'
-require 'oursignal/velocity/uniform_distribution'
 
 class User
-  include Oursignal::Velocity::UniformDistribution
   include DataMapper::Resource
   property :id,             Serial
   property :theme_id,       Integer, :nullable => false, :default => proc {Theme.first(:name => 'treemap').id rescue nil}
@@ -74,7 +72,6 @@ class User
       link.score    = 1.to_f if link.score.nan? || link.score.infinite? || max <= min
       link.score    = 0.01 if link.score < 0.01
       link.score    = link.score.round(2)
-      link.velocity = velocity_normal(link.velocity)
       link
     end
   end

@@ -1,4 +1,10 @@
+require 'score/normalize'
+require 'score/update'
+
 class Score
+  include Score::Normalize
+  include Score::Update
+
   include DataMapper::Resource
   property :id,         DataMapper::Types::Digest::SHA1.new(:source, :url), :key => true, :nullable => false
   property :source,     String, :nullable => false
