@@ -5,6 +5,7 @@ module Os
   class Velocity < Thor
     def self.new(*args)
       Oursignal.merb_env
+      require 'oursignal/velocity'
       super(*args)
     end
 

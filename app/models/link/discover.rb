@@ -1,5 +1,6 @@
 require 'uri/sanatize'
 require 'uri/domain'
+require 'score/frequency'
 
 class Link
   module Discover
@@ -14,17 +15,15 @@ class Link
         return if feed.feed_links.first(:url => entry_url)
 
         discover_entry_urls(feed, entry).each do |url|
-          title          = entry.title.strip.to_utf8 || next
-          link           = first_or_new({:url => url}, :title => title)
-          link.domains   = link.feeds.map(&:domain).push(feed.domain).uniq
-          link.referrers = link.feed_links.map(&:url).push(entry_url).uniq
+          title            = entry.title.strip.to_utf8 || next
+          link             = first_or_new({:url => url}, :title => title)
+          link.domains     = link.feeds.map(&:domain).push(feed.domain).uniq
+          link.referrers   = link.feed_links.map(&:url).push(entry_url).uniq
+          link.referred_at = DateTime.now if link.referred_at.blank?
 
-          # TODO: Use feed.last_updated before using now.
-          if referred_at = (entry.published.to_datetime rescue nil)
-            link.referred_at = referred_at if link.referred_at.blank? || link.referred_at < referred_at
-          else
-            link.referred_at = DateTime.now if link.referred_at.blank?
-          end
+          # TODO: Clean up this hack job.
+          link.extend ::Score::Frequency
+          ::Score.create(:url => url, :score => link.frequency_score, :source => 'frequency') if link.new?
 
           link.save && feed.feed_links.first_or_create({:link => link}, :url => entry_url)
         end

@@ -1,14 +1,15 @@
 class Score
   module Update
-    def included(klass)
+    def self.included(klass)
       klass.extend ClassMethods
     end
 
     module ClassMethods
       def sources
-        Sources.subclasses
+        # TODO: Move the source code into Score:: namespace.
+        # Sources.subclasses
+        %w{delicious digg frequency reddit ycombinator}
       end
     end # ClassMethods
-
   end # Update
 end # Score
