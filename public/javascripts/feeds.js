@@ -14,7 +14,8 @@
     var scores = $('#scores');
 
     for (var i = 0; i < json.length; i++) {
-      var score = $('<li>').append(on_load(), json[i].url);
+      var url   = $('<input />').attr({readonly: 'readonly', type: 'text', value: json[i].url});
+      var score = $('<li>').append(on_load(), url);
       on_success(score, json[i]);
       scores.append(score);
     }
@@ -23,7 +24,7 @@
   function create() {
     var scores = $('#scores');
     var feed   = $('#feed_url');
-    var url    = feed.attr('value');
+    var url    = $('<input />').attr({readonly: 'readonly', type: 'text', value: feed.attr('value')});
     var score  = $('<li />').append(on_load(), url).hide();
     scores.append(score);
 
