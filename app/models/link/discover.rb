@@ -10,14 +10,14 @@ class Link
 
     module ClassMethods
       def discover(feed, entry)
-        discover_entry_urls(feed, entry).each do |url|
-          url = URI.sanatize(url.to_s) rescue next
-          next if feed.feed_links.first(:url => url)
+        entry_url = URI.sanatize(entry.url) rescue return
+        return if feed.feed_links.first(:url => entry_url)
 
+        discover_entry_urls(feed, entry).each do |url|
           title          = entry.title.strip.to_utf8 || next
           link           = first_or_new({:url => url}, :title => title)
           link.domains   = link.feeds.map(&:domain).push(feed.domain).uniq
-          link.referrers = link.referrers.push(url).uniq
+          link.referrers = link.feed_links.map(&:url).push(entry_url).uniq
 
           # TODO: Use feed.last_updated before using now.
           if referred_at = (entry.published.to_datetime rescue nil)
@@ -26,7 +26,7 @@ class Link
             link.referred_at = DateTime.now if link.referred_at.blank?
           end
 
-          link.save && feed.feed_links.first_or_create({:link => link}, :url => url)
+          link.save && feed.feed_links.first_or_create({:link => link}, :url => entry_url)
         end
       end
 
