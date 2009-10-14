@@ -2,7 +2,6 @@
 %w{
   common
   crontab
-  db
   feed
   score
   velocity

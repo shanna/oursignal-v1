@@ -43,10 +43,9 @@ namespace :deploy do
 
   desc 'Custom migrations'
   task :migrate do
-    run "#{rake} db:migrate && #{thor} os:db:migrate"
+    run "#{rake} db:migrate"
   end
 end
 
-before 'deploy:migrate', 'deploy:merb:autoupgrade'
 after 'deploy:restart', 'deploy:crontab'
 after 'deploy:start', 'deploy:crontab'
