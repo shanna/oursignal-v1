@@ -19,7 +19,7 @@
 (function ($) {
   $.extend($.fn, {
     textfill: function (options) {
-      var defaults = {max: 50};
+      var defaults = {max: 100};
       options      = $.extend(defaults, options);
 
       return this.each(function () {
@@ -546,7 +546,7 @@
       var defaults = {
         cache:  true,
         width:  Math.min($(window).width(), $(document).width()),
-        height: Math.min($(window).height(), $(document).width()) - 43 // TODO: Ick. Hard coded head height.
+        height: Math.min($(window).height(), $(document).width()) - 45 // TODO: Ick. Hard coded head height.
       };
       options = $.extend(defaults, options);
 
@@ -554,7 +554,7 @@
         var links    = $(this);
         links.children().remove();
         links.treemap(options.width, options.height, {getData: data(options)});
-        links.find('div.treemapCell span').link_context().textfill({max: 50}).velocity().tooltip();
+        links.find('div.treemapCell span').link_context().textfill({max: 100}).velocity().tooltip();
       });
     },
 
