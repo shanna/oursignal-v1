@@ -77,14 +77,7 @@
       }, 'json');
     }});
 
-    var follow_el = $('<input class="follow" type="checkbox" />').click(function (ev) {
-      $.post('/users/' + $.os.user.username + '/feeds/' + json.feed_id, {follow: $(ev.target).attr('checked'), _method: 'put'}, function () {
-        $('#links').visualize({cache: false});
-      }, 'json');
-    });
-    follow_el.attr('checked', json.follow);
-
-    score.find('.load').replaceWith($('<div class="control" />').append(score_el, follow_el, destroy_el));
+    score.find('.load').replaceWith($('<div class="control" />').append(score_el, destroy_el));
   }
 
   $(document).ready(function () {

@@ -86,16 +86,13 @@ class User
             from user_feeds uf2
             join feed_links fl2 on fl2.feed_id = uf2.feed_id
             where
-              fl2.link_id      = l.id
-              and uf2.user_id  = uf.user_id
-              and fl2.external = uf2.follow
+              fl2.link_id     = l.id
+              and uf2.user_id = uf.user_id
           ) * 0.5 + 0.5)) as final_score
           from links l
           inner join feed_links fl on l.id = fl.link_id
           inner join user_feeds uf on fl.feed_id = uf.feed_id
-          where
-            uf.user_id = ?
-            and fl.external = uf.follow
+          where uf.user_id = ?
           group by l.id
           order by final_score desc
           limit ?
