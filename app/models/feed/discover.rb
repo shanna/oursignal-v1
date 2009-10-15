@@ -21,7 +21,7 @@ class Feed
         end
 
         feed = first_or_new(:url => url.to_s)
-        feed.valid?(:discover)
+        feed.save if feed.valid?(:discover) && feed.new?
         feed
       end
     end # ClassMethods

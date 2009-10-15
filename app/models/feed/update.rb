@@ -32,7 +32,8 @@ class Feed
       options[:if_none_match]     = etag unless etag.blank?
 
       case feed = Feedzirra::Feed.fetch_and_parse(url.to_s, options)
-        when Feedzirra::Parser::RSS, Feedzirra::Parser::Atom, 304 then [true, feed]
+        when Feedzirra::Parser::RSS, Feedzirra::Parser::Atom, Feedzirra::Parser::AtomFeedBurner, 304
+          [true, feed]
         when nil                                                  then [false, 'Not an RSS feed']
         when 0                                                    then [false, 'Timed out']
         when Fixnum                                               then [false, "Returned #{feed} status"]
