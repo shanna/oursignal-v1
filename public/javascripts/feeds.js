@@ -31,7 +31,7 @@
     $.ajax({
       type:     'POST',
       url:      '/users/' + $.os.user.username + '/feeds',
-      data:     {url: url},
+      data:     {url: feed.attr('value')},
       dataType: 'json',
       error:    function(request, status, error) { on_error(score, request)},
       success:  function(response) {
