@@ -2,8 +2,9 @@ require 'math/uniform_distribution'
 
 class Velocity
   module Normalize
-    def normalized
-      ((velocity_distribution.at(velocity).to_f * (2.to_f / 100)) - 1).round(2)
+    def normalized(v = nil)
+      v ||= velocity
+      ((velocity_distribution.at(v).to_f * (2.to_f / 100)) - 1).round(2)
     end
 
     def velocity_distribution

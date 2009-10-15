@@ -27,9 +27,12 @@ module Math
     end
 
     def at(bucket = nil)
-      cache = Cache.get(@name) || reload
       find  = cache.find{|r| bucket <= r} || cache.last
       cache.index(find)
+    end
+
+    def cache
+      Cache.get(@name) || reload
     end
 
     class Cache
