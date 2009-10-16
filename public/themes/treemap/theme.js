@@ -546,7 +546,7 @@
       var defaults = {
         cache:  true,
         width:  Math.min($(window).width(), $(document).width()),
-        height: Math.min($(window).height(), $(document).width()) - 45 // TODO: Ick. Hard coded head height.
+        height: Math.min($(window).height(), $(document).width()) - 56 // TODO: Ick. Hard coded head height.
       };
       options = $.extend(defaults, options);
 
