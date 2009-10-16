@@ -8,7 +8,7 @@ class Score
       def sources
         # TODO: Move the source code into Score:: namespace.
         # Sources.subclasses
-        %w{delicious digg frequency reddit ycombinator}
+        %w{delicious digg frequency freshness reddit ycombinator}
       end
     end # ClassMethods
   end # Update

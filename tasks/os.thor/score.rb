@@ -48,6 +48,11 @@ module Os
         run Oursignal::Score::Source::Frequency
       end
 
+      desc 'freshness', %q{Score source freshness update.}
+      def freshness
+        run Oursignal::Score::Source::Freshness
+      end
+
       desc 'reddit', %q{Score source reddit update.}
       def reddit
         run Oursignal::Score::Source::Reddit

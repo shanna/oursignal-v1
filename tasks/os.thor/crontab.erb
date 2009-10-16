@@ -8,12 +8,12 @@ PATH=/usr/local/bin:/usr/bin:/bin
 
 */15 * * * * root <%= thor %> os:score:expire > /dev/null
 */1  * * * * root <%= thor %> os:score:update > /dev/null
-
 11   * * * * root <%= thor %> os:velocity:update > /dev/null
 
+*/5 * * * * root <%= thor %> os:score:source:frequency > /dev/null
+*/5 * * * * root <%= thor %> os:score:source:freshness > /dev/null
 
 # Spread everything out a bit.
-10         * * * * root <%= thor %> os:score:source:frequency   > /dev/null
 0,15,30,45 * * * * root <%= thor %> os:score:source:delicious   > /dev/null
 2,17,32,47 * * * * root <%= thor %> os:score:source:digg        > /dev/null
 6,21,36,51 * * * * root <%= thor %> os:score:source:reddit      > /dev/null

@@ -12,11 +12,11 @@ module Os
       DataMapper.logger.level = :error
       user  = ::User.first(:username => username)
 
-      puts 'link_id  | score_avg(sa) | score_bonus(sb) | (sa * sb) | age(a)    | (sa * sb * a) | score    | velocity_avg | velocity'
-      puts '---------+---------------+-----------------+-----------+-----------+---------------+----------+--------------+---------'
+      puts 'link_id  | score_avg(sa) | score_bonus(sb) | (sa * sb) | age(a)    | (sa * sb * a) | score    | velocity_avg | velocity | domains'
+      puts '---------+---------------+-----------------+-----------+-----------+---------------+----------+--------------+----------+--------'
       user.links.each do |l|
         puts(
-          '%.8s | %+.5f      | %+.5f        | %+.5f  | %+.5f  | %+.5f      | %+.5f | %+.5f     | %+.5f' %
+          '%.8s | %+.5f      | %+.5f        | %+.5f  | %+.5f  | %+.5f      | %+.5f | %+.5f     | %+.5f | %s' %
           [
             l.id,
             l.score_average,
@@ -26,7 +26,8 @@ module Os
             (l.score_average * l.score_bonus * l.age),
             l.score,
             l.velocity_average,
-            l.velocity
+            l.velocity,
+            l.domains.join(', ')
           ]
         )
       end
