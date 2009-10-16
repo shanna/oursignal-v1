@@ -27,3 +27,7 @@ div#links .meta {
 .meta .domains {
   display: inline;
 }
+
+ul {
+  list-style: none;
+}
