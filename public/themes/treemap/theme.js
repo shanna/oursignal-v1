@@ -574,12 +574,12 @@
         var el  = $(this);
         var vel = parseFloat(el.context.link.velocity);
 
-        var colour = '181818';
+        var colour = '1b1b1b';
         if (vel < 1)   colour = "cc3732";
         if (vel < 0.9)  colour = "cc4a46";
         if (vel < 0.8)  colour = "cc5e5b";
         if (vel < 0.7)  colour = "cc7674";
-        if (vel < 0.6)  colour = "181818";
+        if (vel < 0.6)  colour = "1b1b1b";
 
         if (vel < -0.6)  colour = "8fabcc";
         if (vel < -0.7)  colour = "709acc";
