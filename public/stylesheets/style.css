@@ -19,9 +19,14 @@ a:hover {
   color: #dddddd;
 }
 
+div#logo, div.navigation {
+  display: inline;
+}
+
 .navBar {
   background: url(/i/navBar.png) repeat-x;
-  height: 45px;
+  height: 41px;
+  padding: 0 15px;
   margin: 0;
 }
 
