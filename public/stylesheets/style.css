@@ -82,11 +82,6 @@ ul.options li.current a.about {
   background: url(/i/aboutIcon.png) no-repeat 0 -15px;
 }
 
-div.user {
-  display: inline;
-  text-align: right;
-}
-
 .logout a {
   background: url(/i/logoutIcon.png) no-repeat 0 -1px;
   color: #939393 !important;
