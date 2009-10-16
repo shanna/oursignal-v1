@@ -93,15 +93,15 @@ div.user {
   margin-right: 20px;
 }
 
-a.customize {
+.customize a {
   background: url(/i/customizeIcon.png) no-repeat 0 -1px;
 }
 
-a.developers {
+.developers a {
   background: url(/i/developersIcon.png) no-repeat 0 -1px;
 }
 
-a.about {
+.about a {
   background: url(/i/aboutIcon.png) no-repeat 0 -1px;
 }
 
