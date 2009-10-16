@@ -1,7 +1,17 @@
-#links {
-  margin-top: -1px;
+#body {
+  line-height: 1;
 }
 
+#links {
+  margin-top: 0;
+}
+
+#links a:link, #links a:visited, #links a:hover, #links a:active {
+  text-shadow: none !important;
+  font-family: Georgia, Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  text-decoration: none;
+}
 .treemapView {
   vertical-align: middle;
 }
@@ -9,7 +19,7 @@
 .treemapSquare {}
 
 .treemapCell {
-  border-color: #222 !important;
+  border-color: #1b1b1b !important;
 }
 
 .treemapCell:hover {

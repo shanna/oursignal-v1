@@ -2,47 +2,72 @@
   html,body { height: 100% !important; min-height: 100% !important; margin-bottom: 1px !important; }
 </style>
 
-<div class="centered">
-  <% require_js 'feeds' -%>
-  <div id="users" class="alignRight">
-    <h4>Customize your page...</h4>
-    <%= messages_for @user %>
-    <%= form_for @user, :action => resource(session.user) do -%>
-      <br clear="all" />
-      <%= text_field :username, :label => 'http://oursignal.com/', :class => 'vcard-nickname' %>
-      <div class="clearSpace"></div>
-      <%= password_field :password, :label => 'Password:', :value => '' %>
-      <div class="clearSpace"></div>
-      <%= text_field :email, :label => 'Email:', :class => 'vcard-email' %>
-      <div class="clearSpace"></div>
-      <%= select :theme,
-        :label        => 'Theme:',
-        :collection   => Theme.all,
-        :text_method  => :name,
-        :value_method => :id,
-        :selected     => @user.theme.id.to_s
-      %>
-      <%= submit 'save' %>
-    <% end =%>
-    <p>Your custom link: <%= link_to absolute_url(:links, @user.username), absolute_url(:links, @user.username), :target => '_blank' %></p>
-  </div>
+<div class="container_12">
+    <div class="grid_6" id="feeds">
 
-  <div class="dividerCustomize"></div>
+        <table border="0">
+          <tr>
+            <td colspan="2"><h2>Your Feeds</h2><h2 class="padLeft">Feed Strength</h2></td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <ul id="scores"></ul>
+            </td>
+          </tr>
+          <form id="feed" method="post" action="">
+          <tr>
+            <td colspan="2"><input id="feed_url" type="text" name="feed[url]" value="" size="28" /><input id="feed_add" name="feed[add]" value="Add Feed" type="button" class="addFeed" /></td>
+          </tr>
+          </form>
+        </table>
 
-  <div id="feedsOuter">
-    <div id="feedsInner">
-      <h4>Your feeds...</h4>
-      <p>Add your own rss feeds and move the slider (weak --- strong) to adjust it's importance.</p>
-      <div class="clearSpace"></div>
-      <div id="feeds">
-        <ul id="scores"></ul>
-        <form id="feed" method="post" action="">
-          <input id="feed_url" name="feed[url]" value="" type="text" />
-          <input id="feed_add" name="feed[add]" value="Add Feed" type="button" />
-        </form>
-      </div>
+    </div><!-- prefix_1 grid_5 feeds -->
+
+    <% require_js 'feeds' -%>
+    <div class="grid_6 customLink">
+      <h3>Your custom link: <%= link_to absolute_url(:links, @user.username), absolute_url(:links, @user.username), :target => '_blank' %></h3>
     </div>
-  </div>
-</div>
+    <div class="grid_6" id="users">
+      <h2>Customize your page</h2>
+      <%= messages_for @user %>
+      <%= form_for @user, :action => resource(session.user) do -%>
+        <table border="0">
+          <tr>
+            <td width="210px" align="right" class="label">http://oursignal.com/ </td>
+            <td width="210px"><%= text_field :username, :class => 'vcard-nickname', :size => '28' %></td>
+          </tr>
+          <tr>
+            <td align="right" class="label">Password: </td>
+            <td><%= password_field :password, :value => '', :size => '28' %></td>
+          </tr>
+          <tr>
+            <td align="right" class="label">Email: </td>
+            <td><%= text_field :email, :class => 'vcard-email', :size => '28' %></td>
+          </tr>
+          <tr>
+            <td align="right" class="label">Theme:</td>
+            <td>
+              <%= select :theme,
+                :collection   => Theme.all,
+                :text_method  => :name,
+                :value_method => :id,
+                :selected     => @user.theme.id.to_s
+              %>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td align="right"><%= submit 'Save' %></td>
+          </tr>
+        </table>
+      <% end =%>
+    </div><!-- prefix_1 grid_5 -->
+
+    <div class="clear">&nbsp;</div>
+
+</div><!-- container_12 -->
+
+<div class="clear">&nbsp;</div>
 
 <%= partial 'layout/links' %>
+

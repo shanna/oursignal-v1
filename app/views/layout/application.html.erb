@@ -1,32 +1,43 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <%= tag 'title', title %>
-    <%= partial 'layout/css' %>
-    <%= partial 'layout/js' %>
-    <%= catch_content :for_head %>
-  </head>
-  <%= tag 'body', {:class => classes} do =%>
-    <div id="shell">
-      <div id="head">
-        <div id="logo">
-          <h1><img src="/i/favicon.gif" alt="oursignal.com - news aggregation at it's finest" /><a href="/" title="Home">oursignal</a></h1>
-        </div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-        <div class="navigation">
-          <ul class="options">
-            <li class="customize"><a href="/login">customize</a> &#8226;</li>
-            <li class="developers"><a href="/static/developers">developers</a> &#8226;</li>
-            <li class="about"><a href="/static/about">about</a></li>
-          </ul>
-        </div>
-      </div>
-      <div id="head_foot"></div>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Language" content="en-us" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="Keywords" content="__CHANGE__" />
+  <meta name="Description" content="__CHANGE__" />    
+  <meta name="ROBOTS" content="ALL" />
+  <meta http-equiv="imagetoolbar" content="no" />
+  <meta name="MSSmartTagsPreventParsing" content="true" />
+  <meta name="Copyright" content="(c) 2009 Stateless Systems" />
 
-      <div id="body">
-        <%= catch_content :for_layout %>
-      </div>
-    </div>
-  <% end =%>
+  <%= tag 'title', title %>
+  <%= partial 'layout/css' %>
+  <%= partial 'layout/js' %>
+  <%= catch_content :for_head %>
+
+</head>
+<%= tag 'body', {:class => classes} do =%>
+  <div class="navBar">
+    <div class="container_12">
+      <div class="grid_12 navigation">
+        <a class="logo" href="/" title="OurSignal | Home">Home</a>
+        <ul class="options">
+          <li><a class="customize" href="/login">Customize</a></li>
+          <li><a class="developers" href="/static/developers">Developers</a></li>
+          <li><a class="about" href="/static/about">About</a></li>
+        </ul>
+      </div><!-- grid_12 -->
+    </div><!-- container_12 -->
+  </div><!-- navBar -->
+  <div class="clear">&nbsp;</div>
+
+  <div id="body">
+
+    <%= catch_content :for_layout %>
+
+  </div>
+
+<% end =%>
 </html>

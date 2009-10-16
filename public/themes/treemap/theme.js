@@ -574,17 +574,17 @@
         var el  = $(this);
         var vel = parseFloat(el.context.link.velocity);
 
-        var colour = '303030';
-        if (vel < 1)   colour = "ff453f";
-        if (vel < 0.9)  colour = "ff5c58";
-        if (vel < 0.8)  colour = "ff7672";
-        if (vel < 0.7)  colour = "ff9491";
-        if (vel < 0.6)  colour = "303030";
+        var colour = '181818';
+        if (vel < 1)   colour = "cc3732";
+        if (vel < 0.9)  colour = "cc4a46";
+        if (vel < 0.8)  colour = "cc5e5b";
+        if (vel < 0.7)  colour = "cc7674";
+        if (vel < 0.6)  colour = "181818";
 
-        if (vel < -0.6)  colour = "b3d6ff";
-        if (vel < -0.7)  colour = "8cc1ff";
-        if (vel < -0.8)  colour = "64abff";
-        if (vel < -0.9)  colour = "3e96ff";
+        if (vel < -0.6)  colour = "8fabcc";
+        if (vel < -0.7)  colour = "709acc";
+        if (vel < -0.8)  colour = "5089cc";
+        if (vel < -0.9)  colour = "3278cc";
 
         el.parent().css('background-color', '#' + colour);
       });

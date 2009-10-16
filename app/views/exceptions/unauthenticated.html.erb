@@ -1,22 +1,36 @@
-<div class="left">
-  <div id="authentication">
-    <div id="strategies">
-      <h2>Log In</h2>
-      <%= messages_for request.session.authentication %>
-      <form id="strategies-password" method="post" action="/login">
-        <%= text_field :name => :username, :label => 'Username:' %>
-        <div class="clearSpace"></div>
-        <%= password_field :name => :password, :label => 'Password:' %>
-        <div class="clearSpaceLeft">
-          <div class="lostPassword"><%= link_to 'lost ye password?', url(:new_password) %></div>
-          <%= submit 'login' %>
-        </div>
-      </form>
+<div class="container_12">
+  <div class="push_1 grid_5">
+    <div id="authentication">
+      <div id="strategies">
+        <h2>Login</h2>
+        <%= messages_for request.session.authentication %>
+        <form id="strategies-password" method="post" action="/login">     
+          <table border="0">
+            <tr>
+              <td align="right" class="label" width="110px">Username: </td>
+              <td width="240px"><%= text_field :name => :username, :size => '28' %></td>
+            </tr>      
+            <tr>
+              <td align="right" class="label">Password: </td>
+              <td><%= password_field :name => :password, :size => '28' %></td>
+            </tr>      
+            <tr>
+              <td colspan="2">
+                <img src="/i/invis.gif" width="1" height="10" alt="" />
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td align="right"><%= link_to 'lost ye password?', url(:new_password) %> <%= submit 'Login' %></td>
+            </tr>
+          </table>
+        </form>
+      </div>
     </div>
+  </div><!-- prefix_1 grid_5 -->
+  <div class="clear">&nbsp;</div>
+
+  <div class="grid_12">
+    <h3><%= link_to '..or Sign Up here!', url(:signup), :style => 'text-decoration: none' %></h3>
   </div>
-  <style type="text/css">
-  h3 a:link { text-decoration: none; }
-  </style>
-  <!--<h3>Register or log in to create your own, personalized Oursignal.</h3>-->
-  <h3><%= link_to '..or Sign Up here!', url(:signup) %></h3>
 </div>

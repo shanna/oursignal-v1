@@ -1,53 +1,45 @@
 <% @title = %w{oursignal about} -%>
 
-<div class="left"><!-- start .left -->
-
-  <h2>About oursignal...</h2>
-
-    <div class="inline">
-
-      <p class="large">OurSignal.com looks at currently popular items on the top social news sites and mashes them all together. <br />
-      The idea is to allow users ( <a href="/login">you especially</a> ) to get a rapid overview of the latest breaking headlines on the interbutts.</p>
-
-      <div class="featureOuter"><img src="/i/arrow.png" />
-        <div class="featureInner">
-          <ul class="featureList">
-            <li>The bigger the box, the more relative votes a story has.</li>
-            <li>The warmer the color, the quicker the story is on the rise.  Cooler colors denote negative velocity.</li>
-            <li>Sources are refreshed every 5 minutes.</li>
-          </ul>
-        </div>
-      </div>
-
-      <p class="large">Please send any witty barbs to 
-      <script type="text/javascript" language="javascript">
-      <!--
-      // Email obfuscator script 2.1 by Tim Williams, University of Arizona
-      // Random encryption key feature by Andrew Moulden, Site Engineering Ltd
-      // This code is freeware provided these four comment lines remain intact
-      // A wizard to generate this code is at http://www.jottings.com/obfuscator/
-      { coded = "MSorxRxML@UrRLxaSWP.FUK"
-        key = "oSAIDGJwR905PtiN1hWmXBdUus2z4bvVc8gTyxeqnQKjOk3rL6HlECYFfa7ZpM"
-        shift=coded.length
-        link=""
-        for (i=0; i<coded.length; i++) {
-          if (key.indexOf(coded.charAt(i))==-1) {
-            ltr = coded.charAt(i)
-            link += (ltr)
+  <div class="container_12">
+    <div class="push_2 grid_8">
+      <h2 class="about">About OurSignal</h2>
+      <p>OurSignal.com looks at currently popular items on the top social news sites and mashes them all together. The idea is to allow users (you especially) to get a rapid overview of the latest breaking headlines on the interbutts.</p>
+      <ul class="aboutList">
+        <li>The bigger the box, the more relative votes a story has</li>
+        <li>The warmer the color, the quicker the story is on the rise</li>
+        <li>Cooler colors denote negative velocity</li>
+        <li>Sources are refreshed every 5 minutes</li>
+      </ul>
+      <br />
+      <p>Please send any witty barbs to 
+        <script type="text/javascript" language="javascript">
+        <!--
+        // Email obfuscator script 2.1 by Tim Williams, University of Arizona
+        // Random encryption key feature by Andrew Moulden, Site Engineering Ltd
+        // This code is freeware provided these four comment lines remain intact
+        // A wizard to generate this code is at http://www.jottings.com/obfuscator/
+        { coded = "MSorxRxML@UrRLxaSWP.FUK"
+          key = "oSAIDGJwR905PtiN1hWmXBdUus2z4bvVc8gTyxeqnQKjOk3rL6HlECYFfa7ZpM"
+          shift=coded.length
+          link=""
+          for (i=0; i<coded.length; i++) {
+            if (key.indexOf(coded.charAt(i))==-1) {
+              ltr = coded.charAt(i)
+              link += (ltr)
+            }
+            else {
+              ltr = (key.indexOf(coded.charAt(i))-shift+key.length) % key.length
+              link += (key.charAt(ltr))
+            }
           }
-          else {
-            ltr = (key.indexOf(coded.charAt(i))-shift+key.length) % key.length
-            link += (key.charAt(ltr))
-          }
+        document.write("<a href='mailto:"+link+"'>"+link+"</a>")
         }
-      document.write("<a href='mailto:"+link+"'>"+link+"</a>")
-      }
-      //-->
-      </script><noscript>Sorry, you need Javascript on to email me.</noscript>.</p>
-      <p class="large">This has been another <a href="http://www.statelesssystems.com/" target="_blank">Stateless Systems</a> creation!</p>
+        //-->
+        </script><noscript>Sorry, you need Javascript on to email me.</noscript>.
+      </p>
 
+      <p>This has been another <a href="http://www.statelesssystems.com/" target="_blank">Stateless Systems</a> creation!</p>
     </div>
-
-    <div class="king"><img src="/i/guyKing.jpg" alt="my first time on the internet" /> <br /> <span>Stateless founder Guy King, 1974</span></div>
-
-</div> <!-- end .left -->
+  </div><!-- container_12 -->
+</body>
+</html>
