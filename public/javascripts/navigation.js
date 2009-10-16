@@ -22,16 +22,15 @@
     $('#developer_xml').attr('href', base + '.xml');
     $('#developer_json').attr('href', base + '.json');
 
-    // Username
-    var el_navigation = $('#head .navigation');
-    var el_username   = $('<a />').attr({href: '/' + username + '/', 'class': 'username'}).append(username);
-    var el_user       = $('<div />').attr('class', 'user').append(el_username, ' &raquo; ');
-    // el_navigation.prepend(el_user);
-
     // Logout, Customize
-    var el_options = el_navigation.children('.options');
+    var el_options = $('#head .navigation .options');
     var el_logout  = $('<a />').attr('href', '/users/' + username + '/logout').append(username, ': ', 'Logout ');
     el_options.find('.customize a').attr('href', '/users/' + username + '/edit');
     el_options.prepend($('<li />').attr('class', 'logout').append(el_logout));
+
+    // Username
+    var el_username   = $('<a />').attr({href: '/' + username + '/', 'class': 'username'}).append(username);
+    var el_user       = $('<li />').attr('class', 'user').append(el_username, ' &raquo; ');
+    el_options.prepend(el_user);
   });
 })(jQuery);
