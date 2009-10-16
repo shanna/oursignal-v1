@@ -82,10 +82,13 @@ ul.options li.current a.about {
   background: url(/i/aboutIcon.png) no-repeat 0 -15px;
 }
 
+li.user {
+  margin-right: 10px;
+}
+
 .logout a {
   background: url(/i/logoutIcon.png) no-repeat 0 -1px;
   color: #939393 !important;
-  margin-right: 20px;
 }
 
 .customize a {
