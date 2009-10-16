@@ -2,7 +2,7 @@
   // Redirect to users custom feed.
   if ($.url.attr('path') == '/' && $.cookie('username')) {
     var to = '/' + $.cookie('username');
-    document.write('<body><div id="shell"><div id="head"><div id="logo"><h1><img src="/i/favicon.gif" alt="oursignal.com - news aggregation at it\'s finest" /><a href="' + to + '" title="Home">Loading your signal...</a></h1></div></div></div></body>');
+    document.write('<body><div id="head" class="navBar"><div class="container_12"><div class="grid_12"><a class="logo" href="/" title="OurSignal | Home">Home</a><div class="navigation"><h3>Loading Oursignal...</h3></div></div></div></div></body>');
     document.location = to;
     return;
   }

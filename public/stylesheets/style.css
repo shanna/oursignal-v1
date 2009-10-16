@@ -85,6 +85,7 @@ div.user {
 .logout a {
   background: url(/i/logoutIcon.png) no-repeat 0 -1px;
   color: #939393 !important;
+  margin-right: 20px;
 }
 
 a.customize {
@@ -376,7 +377,12 @@ div.control, input.delete, div.control input {
   display: inline;
 }
 
-ul#scores input.delete { display: inline; width: 82px; float: right; margin-top: -1px; }
+ul#scores input.delete {
+  display: inline;
+  width: 82px;
+  float: right;
+  margin-top: -1px;
+}
 
 #feeds .control {
   margin-left: 10px;
@@ -401,7 +407,11 @@ ul#scores input.delete { display: inline; width: 82px; float: right; margin-top:
 }
 
 /* == EXTRAS == */
-body.static div.navBar, body.users div.navBar {
-  margin-bottom: 10px;
+body.users div.padTop {
+  margin-top: 10px;
+}
+
+body.static div.push_2 {
+  margin-top: 20px;
 }
 
