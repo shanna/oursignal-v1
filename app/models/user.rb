@@ -92,7 +92,9 @@ class User
           from links l
           inner join feed_links fl on l.id = fl.link_id
           inner join user_feeds uf on fl.feed_id = uf.feed_id
-          where uf.user_id = ?
+          where
+            uf.user_id = ?
+            and l.domains is not null
           group by l.id
           order by final_score desc
           limit ?
