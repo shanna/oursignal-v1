@@ -393,20 +393,21 @@ ul#scores input.delete {
 }
 
 #feeds .control .ui-slider {
-  background-color: #444;
+  background: transparent url(/i/slider.png) no-repeat;
   width: 100px;
-  height: 16px;
+  height: 5px;
   position: relative;
   padding-right: 6px;
-  top: 3px;
+  top: 8px;
 }
 
 #feeds .control .ui-slider-handle {
   position: absolute;
   background-color: #DDD;
-  width: 6px;
-  height: 20px;
-  margin-left: -3px;
+  background: transparent url(/i/slideButton.png) no-repeat;
+  width: 15px;
+  height: 15px;
+  margin: -4px 0 0 -8px;
 }
 
 /* == EXTRAS == */
