@@ -405,7 +405,7 @@ ul#scores input.delete {
   position: absolute;
   background-color: #DDD;
   width: 6px;
-  height: 16px;
+  height: 20px;
   margin-left: -3px;
 }
 
@@ -418,3 +418,34 @@ body.static div.push_2 {
   margin-top: 20px;
 }
 
+div.load {
+  float: right;
+  padding-top: 4px;
+  width: 198px;
+  text-align: left;
+}
+
+div.error {
+  float: right;
+  width: 181px;
+  text-align: left;
+  padding-left: 18px;
+  background: url(/i/error.png);
+  background-repeat: no-repeat;
+  background-position: top left;
+  margin-top: 4px;
+}
+
+.centered {
+  margin: 20px 0;
+  text-align: center;
+}
+
+h2.errorMessage {
+  font-size: 30px;
+}
+
+.errorImage {
+  -webkit-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
+  -moz-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
+}
