@@ -24,7 +24,7 @@ class User
 
   FEEDS = {
     # TODO: It sucks hard coding local feeds like this but I'm pressed for time.
-    'http://staging.oursignal.com/rss/digg.rss' => 1,
+    'http://staging.oursignal.com/rss/digg.rss' => 0.2,
     'http://www.reddit.com/.rss'                => 0.7,
     'http://feeds.delicious.com/v2/rss/popular' => 0.6,
     'http://news.ycombinator.com/rss'           => 0.3,
