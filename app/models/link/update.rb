@@ -14,9 +14,9 @@ class Link
       local_scores = scores
 
       begin
-        self.score_average = (local_scores.map(&:normalized).inject(&:+) / local_scores.size)
-        self.score_bonus   = local_scores.size >= 1 ? (Math.log(local_scores.size + 1) / Math.log(::Score.sources.size + 1)) : 0.0
-        self.score         = score_average * score_bonus * age
+        self.score_average = local_scores.map(&:normalized).inject(&:+) / local_scores.size
+        self.score_bonus   = local_scores.size / ::Score.sources.size
+        self.score         = score_average * (0.1 * score_bonus + 0.9) * age
 
         v = ::Velocity.new(last_link, self)
         self.velocity_average = v.velocity
