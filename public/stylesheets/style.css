@@ -410,7 +410,7 @@ ul#scores input.delete {
 }
 
 /* == EXTRAS == */
-body.users div.padTop {
+div.padTop {
   margin-top: 10px;
 }
 
@@ -418,7 +418,9 @@ body.static div.push_2 {
   margin-top: 20px;
 }
 
-body.static .navBar, body.users_edit .navBar {
+body.static .navBar, body.users_edit .navBar,
+body.passwords .navBar, body.users_new .navBar,
+body.users_login .navBar {
   height: 47px;
 }
 
@@ -465,8 +467,21 @@ div#strategies div.error {
   color: #FFFFFF;
 }
 
-div#strategies div.error ul {
+div#strategies div.error ul,
+body.passwords_update div.error ul {
   list-style-type: none;
+}
+
+body.passwords_update div.error {
+  background: url(/i/error.png);
+  background-repeat: no-repeat;
+  background-position: 0 1px;
+  text-align: left;
+  margin: -8px 0 5px 0;
+  text-indent: -10px;
+  font-weight: bold;
+  color: #FFFFFF;
+
 }
 
 .centered {
