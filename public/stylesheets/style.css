@@ -418,6 +418,10 @@ body.static div.push_2 {
   margin-top: 20px;
 }
 
+body.static .navBar, body.users_edit .navBar {
+  height: 47px;
+}
+
 div.load {
   float: right;
   padding-top: 4px;
@@ -425,7 +429,7 @@ div.load {
   text-align: left;
 }
 
-div.error {
+div#feeds div.error {
   float: right;
   width: 181px;
   text-align: left;
@@ -434,6 +438,35 @@ div.error {
   background-repeat: no-repeat;
   background-position: top left;
   margin-top: 4px;
+}
+
+div.vcard div.error ul {
+  list-style-type: none;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+div.vcard div.error li {
+  background: url(/i/error.png);
+  background-repeat: no-repeat;
+  background-position: 0 1px;
+  margin: 0 0 10px 0;
+  padding-left: 18px;
+}
+
+div#strategies div.error {
+  background: url(/i/error.png);
+  background-repeat: no-repeat;
+  background-position: 0 1px;
+  text-align: left;
+  margin: -8px 0 5px 0;
+  text-indent: -10px;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+div#strategies div.error ul {
+  list-style-type: none;
 }
 
 .centered {
