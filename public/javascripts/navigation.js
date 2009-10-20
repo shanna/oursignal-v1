@@ -29,8 +29,8 @@
     el_options.prepend($('<li />').attr('class', 'logout').append(el_logout));
 
     // Username
-    var el_username   = $('<a />').attr({href: '/' + username + '/', 'class': 'username'}).append('Hello, ',username,'!');
-    var el_user       = $('<li />').attr('class', 'user').append(el_username);
+    var el_username = $('<a />').attr({href: '/' + username + '/', 'class': 'username'}).append('Hello, ' + username + '!');
+    var el_user     = $('<li />').attr('class', 'user').append(el_username);
     el_options.prepend(el_user);
   });
 })(jQuery);
