@@ -82,14 +82,21 @@ ul.options li.current a.about {
   background: url(/i/aboutIcon.png) no-repeat 0 -15px;
 }
 
-.logout a {
-  background: url(/i/logoutIcon.png) no-repeat 0 -1px;
+ul.options li.user a {
+  padding-left: 0;
   color: #939393 !important;
-  margin-right: 20px;
+  margin-right: 15px;
+  border-bottom: 1px dotted #939393;
+}
+
+ul.options li.logout { float: right; }
+
+ul.options .logout a {
+  background: url(/i/logoutIcon.png) no-repeat 0 0;
 }
 
 .customize a {
-  background: url(/i/customizeIcon.png) no-repeat 0 -1px;
+  background: url(/i/customizeIcon.png) no-repeat 0 0;
 }
 
 .developers a {
@@ -519,11 +526,13 @@ h2.errorMessage {
 
 ul.devList {
   list-style-type: none;
-  margin-bottom: 20px;
   text-align: center;
+  margin: 0 0 20px 0;
+  padding: 0;
 }
 
 ul.devList li {
   display: inline-block;
+  margin: 0 10px;
 }
 
