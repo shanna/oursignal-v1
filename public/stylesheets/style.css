@@ -82,13 +82,10 @@ ul.options li.current a.about {
   background: url(/i/aboutIcon.png) no-repeat 0 -15px;
 }
 
-li.user {
-  margin-right: 10px;
-}
-
 .logout a {
   background: url(/i/logoutIcon.png) no-repeat 0 -1px;
   color: #939393 !important;
+  margin-right: 20px;
 }
 
 .customize a {
@@ -125,7 +122,7 @@ li.user {
 .grid_6 {
   width: 420px !important;
   margin-top: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   padding: 15px 20px 15px 20px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -145,6 +142,24 @@ li.user {
   width: 580px !important;
   margin-top: 10px;
   margin-bottom: 30px;
+  padding: 15px 20px 15px 20px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-top: 1px solid rgba(255,255,255,.2);
+  border-bottom: 1px solid rgba(0,0,0,.3);
+  background: #222222 url(/i/bg1.png) repeat-x; /* Gecko */
+  background: rgba(255,255,255,.05) -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,.1)), color-stop(.2, rgba(255,255,255,0)),  to(rgba(255,255,255,0))) top center no-repeat;
+  -webkit-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
+  -moz-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
+  opacity: 1;
+  -webkit-transition-property: opacity;
+  -webkit-transition-duration: .25s;
+  -webkit-transition-function: ease-in;
+}
+
+.grid_11 {
+  width: 900px !important;
+  margin-bottom: 20px;
   padding: 15px 20px 15px 20px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -220,6 +235,11 @@ h2.developers {
   background: url(/i/developers.png) no-repeat  left center;
   line-height: 1.6;
   display: block;
+}
+
+h2.formats {
+  letter-spacing: -1px;
+  text-align: center;
 }
 
 h3 {
@@ -349,14 +369,14 @@ div.score { float: left; }
 
 ul#scores { margin-top: 10px; }
 
-ul#scores input, input#feed_url { width: 200px; }
+ul#scores input, input#feed_url { width: 300px; }
 
 #feeds h2 {
   display: inline;
 }
 
 h2.padLeft {
-  padding-left: 105px;
+  padding-left: 205px;
 }
 
 div.customLink {
@@ -364,9 +384,6 @@ div.customLink {
   padding-bottom: 0;
 }
 
-#feeds {
-  float: right;
-}
 
 #feeds ul {
   list-style-type: none;
@@ -394,7 +411,7 @@ ul#scores input.delete {
 
 #feeds .control .ui-slider {
   background: transparent url(/i/slider.png) no-repeat;
-  width: 100px;
+  width: 175px;
   height: 5px;
   position: relative;
   padding-right: 6px;
@@ -411,6 +428,7 @@ ul#scores input.delete {
 }
 
 /* == EXTRAS == */
+
 div.padTop {
   margin-top: 10px;
 }
@@ -498,3 +516,14 @@ h2.errorMessage {
   -webkit-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
   -moz-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
 }
+
+ul.devList {
+  list-style-type: none;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+ul.devList li {
+  display: inline-block;
+}
+

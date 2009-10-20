@@ -3,29 +3,44 @@
 </style>
 
 <div class="container_12 padTop">
-    <div class="grid_6" id="feeds">
-
-        <table border="0">
-          <tr>
-            <td colspan="2"><h2>Your Feeds</h2><h2 class="padLeft">Feed Strength</h2></td>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <ul id="scores"></ul>
-            </td>
-          </tr>
-          <form id="feed" method="post" action="">
-          <tr>
-            <td colspan="2"><input id="feed_url" type="text" name="feed[url]" value="" size="28" /><input id="feed_add" name="feed[add]" value="Add Feed" type="button" class="addFeed" /></td>
-          </tr>
-          </form>
-        </table>
-
-    </div><!-- prefix_1 grid_5 feeds -->
 
     <% require_js 'feeds' -%>
     <div class="grid_6 customLink">
-      <h3>Your custom link: <%= link_to absolute_url(:links, @user.username), absolute_url(:links, @user.username), :target => '_blank' %></h3>
+      <h2 class="formats">Receive your news in any of these formats:</h2>
+      <ul class="devList">
+        <li class="html"><img src="/i/html.png" alt="HTML format" /><br />
+        <%= link_to(
+          'HTML',
+          absolute_url(:links, 'oursignal', :format => 'html'),
+          :title => 'RSS Format',
+          :id    => 'developer_html'
+        ) %>
+        </li>
+        <li class="rss"><img src="/i/rss.png" alt="RSS format" /><br />
+        <%= link_to(
+          'RSS',
+          absolute_url(:links, 'oursignal', :format => 'rss'),
+          :title => 'RSS Format',
+          :id    => 'developer_rss'
+        ) %>
+        </li>
+        <li class="xml"><img src="/i/xml.png" alt="XML format" /><br />
+        <%= link_to(
+          'XML',
+          absolute_url(:links, 'oursignal', :format => 'xml'),
+          :title => 'XML Format',
+          :id    => 'developer_xml'
+        ) %>
+        </li>
+        <li class="json"><img src="/i/json.png" alt="JSON format" /><br />
+        <%= link_to(
+          'JSON',
+          absolute_url(:links, 'oursignal', :format => 'json'),
+          :title => 'JSON Format',
+          :id    => 'developer_json'
+        ) %>
+        </li>
+      </ul>
     </div>
     <div class="grid_6" id="users">
       <h2>Customize your page</h2>
@@ -61,11 +76,32 @@
           </tr>
         </table>
       <% end =%>
-    </div><!-- prefix_1 grid_5 -->
+    </div>
+
+    <div class="grid_11" id="feeds">
+
+      <table border="0">
+        <tr>
+          <td colspan="2"><h2>Your Feeds</h2><h2 class="padLeft">Feed Strength</h2></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <ul id="scores"></ul>
+          </td>
+        </tr>
+        <form id="feed" method="post" action="">
+        <tr>
+          <td colspan="2"><input id="feed_url" type="text" name="feed[url]" value="" size="28" /><input id="feed_add" name="feed[add]" value="Add Feed" type="button" class="addFeed" /></td>
+        </tr>
+        </form>
+      </table>
+
+    </div>
+
 
     <div class="clear">&nbsp;</div>
 
-</div><!-- container_12 -->
+</div>
 
 <div class="clear">&nbsp;</div>
 
