@@ -85,8 +85,11 @@ ul.options li.current a.about {
 ul.options li.user a {
   padding-left: 0;
   color: #939393 !important;
-  margin-right: 15px;
-  border-bottom: 1px dotted #939393;
+  margin-right: 25px;
+}
+
+span.username {
+  color: #FFFFFF;
 }
 
 ul.options li.logout { float: right; }
