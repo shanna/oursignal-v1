@@ -393,29 +393,36 @@ ul#scores input.delete {
 }
 
 #feeds .control .ui-slider {
-  background-color: #444;
+  background: transparent url(/i/slider.png) no-repeat;
   width: 100px;
-  height: 16px;
+  height: 5px;
   position: relative;
   padding-right: 6px;
-  top: 3px;
+  top: 8px;
 }
 
 #feeds .control .ui-slider-handle {
   position: absolute;
   background-color: #DDD;
-  width: 6px;
-  height: 20px;
-  margin-left: -3px;
+  background: transparent url(/i/slideButton.png) no-repeat;
+  width: 15px;
+  height: 15px;
+  margin: -4px 0 0 -8px;
 }
 
 /* == EXTRAS == */
-body.users div.padTop {
+div.padTop {
   margin-top: 10px;
 }
 
 body.static div.push_2 {
   margin-top: 20px;
+}
+
+body.static .navBar, body.users_edit .navBar,
+body.passwords .navBar, body.users_new .navBar,
+body.users_login .navBar {
+  height: 47px;
 }
 
 div.load {
@@ -425,7 +432,7 @@ div.load {
   text-align: left;
 }
 
-div.error {
+div#feeds div.error {
   float: right;
   width: 181px;
   text-align: left;
@@ -434,6 +441,48 @@ div.error {
   background-repeat: no-repeat;
   background-position: top left;
   margin-top: 4px;
+}
+
+div.vcard div.error ul {
+  list-style-type: none;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+div.vcard div.error li {
+  background: url(/i/error.png);
+  background-repeat: no-repeat;
+  background-position: 0 1px;
+  margin: 0 0 10px 0;
+  padding-left: 18px;
+}
+
+div#strategies div.error {
+  background: url(/i/error.png);
+  background-repeat: no-repeat;
+  background-position: 0 1px;
+  text-align: left;
+  margin: -8px 0 5px 0;
+  text-indent: -10px;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+div#strategies div.error ul,
+body.passwords_update div.error ul {
+  list-style-type: none;
+}
+
+body.passwords_update div.error {
+  background: url(/i/error.png);
+  background-repeat: no-repeat;
+  background-position: 0 1px;
+  text-align: left;
+  margin: -8px 0 5px 0;
+  text-indent: -10px;
+  font-weight: bold;
+  color: #FFFFFF;
+
 }
 
 .centered {

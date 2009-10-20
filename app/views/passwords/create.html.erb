@@ -1,5 +1,10 @@
-<div class="left">
-  <h2>Recover your Password</h2>
-  A password recovery email has been sent for the account <%= link_to @user.username, url(:links, @user.username) %>.
+<div class="container_12 padTop">
+  <div class="push_1 grid_5">
+    <h2>Recover your Password</h2>
+    <table border="0">
+      <tr>
+        <td align="left" class="label" colspan="2">A password recovery email has been sent for the account <%= link_to @user.username, url(:links, @user.username) %>.</td>
+      </tr>
+    </table>
+  </div>
 </div>
-
