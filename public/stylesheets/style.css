@@ -249,7 +249,6 @@ h2.developers {
 
 h2.formats {
   letter-spacing: -1px;
-  text-align: center;
 }
 
 h3 {
@@ -332,7 +331,7 @@ form {
   font-weight: bold;
   vertical-align: middle;
   border: 0px;
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
 /*Slider Styling*/
@@ -386,12 +385,13 @@ ul#scores input, input#feed_url { width: 300px; }
 }
 
 h2.padLeft {
-  padding-left: 205px;
+  padding-left: 215px;
 }
 
 div.customLink {
   margin-bottom: 10px;
   padding-bottom: 0;
+  height: 195px;
 }
 
 
@@ -412,10 +412,11 @@ ul#scores input.delete {
   width: 82px;
   float: right;
   margin-top: -1px;
+  margin-right: -10px;
 }
 
 #feeds .control {
-  margin-left: 10px;
+  margin-left: 20px;
   float: right;
 }
 
@@ -462,13 +463,14 @@ div.load {
 
 div#feeds div.error {
   float: right;
-  width: 181px;
+  width: 255px;
   text-align: left;
-  padding-left: 18px;
+  padding-left: 19px;
   background: url(/i/error.png);
   background-repeat: no-repeat;
-  background-position: top left;
+  background-position: 0 0;
   margin-top: 4px;
+  font-weight: bold;
 }
 
 div.vcard div.error ul {
@@ -497,11 +499,13 @@ div#strategies div.error {
 }
 
 div#strategies div.error ul,
-body.passwords_update div.error ul {
+body.passwords_update div.error ul,
+body.passwords_create div.error ul {
   list-style-type: none;
 }
 
-body.passwords_update div.error {
+body.passwords_update div.error,
+body.passwords_create div.error {
   background: url(/i/error.png);
   background-repeat: no-repeat;
   background-position: 0 1px;
@@ -510,7 +514,11 @@ body.passwords_update div.error {
   text-indent: -10px;
   font-weight: bold;
   color: #FFFFFF;
+}
 
+body.passwords_create div.error {
+  text-indent: 0;
+  padding-left: 19px;
 }
 
 .centered {
@@ -530,7 +538,7 @@ h2.errorMessage {
 ul.devList {
   list-style-type: none;
   text-align: center;
-  margin: 0 0 20px 0;
+  margin: 40px 0 20px 0;
   padding: 0;
 }
 
