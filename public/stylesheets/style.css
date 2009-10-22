@@ -4,7 +4,6 @@ body {
   color: #cccccc;
   font-family: Helvetica, Arial, sans-serif;
   text-shadow: rgba(0,0,0,.6) 0 -1px 1px;
-  min-height: 800px;
   -webkit-text-stroke:1px transparent;
 }
 
@@ -202,10 +201,10 @@ li.rss {
   color: #666666;
   font-size: 12px;
   opacity: 1;
-  -webkit-transition: opacity .25s linear;  
+  -webkit-transition: opacity .25s linear;
 }
 
-#footer {
+/* #footer {
   float: left;
   clear: both;
   width: 460px;
@@ -217,6 +216,64 @@ li.rss {
 }
 #footer img {
   margin-bottom: 10px;
+}
+
+*/
+
+#footer {
+  margin: 0;
+  padding: 0;
+  height: 35px;
+  background: url(/i/footBg.png);
+  width: 100%;
+  color: #FFFFFF;
+}
+
+body.static #footer, body.users_login #footer,
+body.users_new #footer, body.passwords #footer {
+  position: fixed;
+  bottom: 0; left: 0;
+}
+
+.ssLogo {
+  float: left;
+  padding: 3px 0 0 8px;
+}
+
+.ssLogo, .networkSites, .networkSites ul, .networkSites li {
+  display: inline;
+}
+
+.ssLogo span {
+  text-indent: -999px;
+}
+
+.networkSites {
+  float: right;
+  padding: 7px 10px 0 0;
+}
+
+.networkSites ul {
+  list-style-type: none;
+}
+
+.networkSites a {
+  color: #FFFFFF;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.networkSites a:hover {
+  color: #EFEFEF;
+  text-decoration: none;
+}
+
+.networkSites li {
+  background: url(/i/arrow.png);
+  background-repeat: no-repeat;
+  background-position: 0 3px;
+  padding-left: 15px;
+  margin-left: 10px;
 }
 
 h1 {
@@ -446,6 +503,10 @@ div.padTop {
 
 body.static div.push_2 {
   margin-top: 20px;
+}
+
+body.users {
+  overflow-x: hidden;
 }
 
 body.static .navBar, body.users_edit .navBar,
