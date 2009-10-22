@@ -71,10 +71,10 @@
       } else {
         data = options.getData(el);
       }
-      
+
       //copy data because during the processing elements are deleted
       data = data.concat();
-      
+
       if($.fn.treemap.caller!=treemap.layoutRow) {
         options.minColorValue = Number.POSITIVE_INFINITY;
         options.maxColorValue = Number.NEGATIVE_INFINITY;
@@ -83,7 +83,7 @@
         options.colorDiscrete = options.minColorValue == Number.POSITIVE_INFINITY;
         options.rangeColorValue = options.maxColorValue-options.minColorValue;
       }
-      
+
       if (options.sort)
         data.sort(function(a,b){
           var val1 = b[1], val2 = a[1];
@@ -91,16 +91,16 @@
           val2 = val2.constructor==Array?treemap.getValue(val2):val2;
           return val1-val2;
         });
-      
+
       options.target = or_target || el;
       options.numSquare = 0;
-         
+
       treemap.render(data,h,w,options);
-      
+
       if($.fn.treemap.caller!=treemap.layoutRow && options.legend) {
         jQuery(options.target).append(treemap.legend(h,options));
       }
-      
+
       if(options.target==el && $.nodeName(el,"table")) {
         var newObj = jQuery(el).find(">").insertBefore(el);
         $(el).remove();
@@ -134,9 +134,9 @@
           if(color<options.minColorValue) options.minColorValue=color;
           if(color>options.maxColorValue) options.maxColorValue=color;
           if(!options.colorDiscreteVal[color]) options.colorDiscreteVal[color] = options.colorDiscreteVal.num++;
-        }   
+        }
     },
-    
+
     getDataFromTable : function(table,options) {
       var data = [];
       if(options.labelCell==undefined) options.labelCell = options.dataCell;
@@ -149,9 +149,9 @@
       });
       return data;
     }, 
-    
+
     emptyView: $("<div>").addClass("treemapView"),
-    
+
     render : function(data,h,w,options) {
       options.height = h;
       options.width = w;
@@ -163,7 +163,7 @@
       options.view.treemapAppend(options.content);
       $(options.target).empty().treemapAppend(options.view);
     },
-    
+
     squarify : function(data,row,w,orientation,options) {
       if(w<=0) return; //exit if there's no space left on the treemap
       var widerRow = row,s,s2,current;
@@ -191,7 +191,7 @@
       }
       treemap.squarify(data,[],width,!orientation,options);
     },
-    
+
     worst : function(row,w,s,coeff) {
       var rl = row.length;
       if(!rl) return Number.POSITIVE_INFINITY;
@@ -200,10 +200,10 @@
       var r2 = s2/(w2*(row[rl-1][1].constructor==Array?treemap.getValue(row[rl-1][1]):row[rl-1][1]));
       return Math.max( r1, r2 );
     },
-    
+
     emptyCell: $("<div>").addClass("treemapCell").css({'float':'left','overflow':'hidden'}),
     emptySquare: $("<div>").addClass("treemapSquare").css('float','left'),
-    
+
     layoutRow : function(row,w,orientation,s,options,last) {
       var square = treemap.emptySquare.treemapClone();
       var rowDim, h = s/w;
@@ -240,7 +240,7 @@
             cellStyles['border'+(orientation?'Right':'Bottom')] = 'none';
         } 
         var height = orientation?varDim:fixedDim, width = orientation?fixedDim:varDim;
-        
+
         cellStyles.height = height+'px';
         cellStyles.width = width+'px';
         if(hier) {
@@ -250,7 +250,7 @@
               height = varDim -= options.headHeight;
             else
               height = fixedDim -= options.headHeight;
-             
+
           }
           if(height>0) {
             var new_opt = {};
@@ -263,7 +263,7 @@
         } else {
           if(n[2]) cellStyles.backgroundColor = treemap.getColor(n[2],options);
         }
-        
+
         var cellstyle = cell[0].style;
         for(var prop in cellStyles)
           cellstyle[prop] = cellStyles[prop];
@@ -274,7 +274,7 @@
       options.numSquare++;
       return rowDim;
     },
-    
+
     calculateArea : function(row) {
       if(row.total) return row.total;
       var s = 0,rl = row.length;
@@ -282,15 +282,15 @@
         var val = row[i][1];
         s += val.constructor==Array?treemap.getValue(val):val;
       }
-      
+
       return row.total = s;
     },
-    
+
     getValue : function(val) {
         if(!val.total) val.total=treemap.calculateArea(val);
         return val.total;
     },
-    
+
     getColor : function(val,options) {
       var colorCode;
       if(options.colorDiscrete) {
@@ -300,7 +300,7 @@
       }
       return treemap.getColorCode(colorCode);
     },
-    
+
     getColorCode : function(colorCode) {
       colorCode = Math.round(colorCode*510);
       if(colorCode==0) return "#0000FF";
@@ -320,9 +320,9 @@
         return "#"+code1+code2+"00";
       } 
     },
-    
+
     emptyLegendDescr : $("<div class='treemapLegendDescr'>").css({position:'absolute',left:25,width:200}),
-    
+
     legend : function(h,options) {
       var l = $("<div class='treemapLegend'>").css({position:'relative','float':'left',height:h-2});
       var bar = $("<div>").css({width:20,height:h-2,border:"1px solid"});
@@ -348,7 +348,7 @@
           val = options.descriptionCallback ? options.descriptionCallback(val):val; 
           var desc = treemap.emptyLegendDescr.clone().text(val.toString()).css('bottom',Math.round(i*h/10));
           l.append(desc);
-        };    
+        };
       }
       return l;
     }
@@ -546,7 +546,7 @@
       var defaults = {
         cache:  true,
         width:  Math.min($(window).width(), $(document).width()),
-        height: Math.min($(window).height(), $(document).width()) - 56 // TODO: Ick. Hard coded head height.
+        height: Math.min($(window).height(), $(document).width()) - 41 // TODO: Ick. Hard coded head height.
       };
       options = $.extend(defaults, options);
 
