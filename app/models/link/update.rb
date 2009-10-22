@@ -1,3 +1,5 @@
+require 'math/average/exponential_moving'
+
 class Link
   module Update
     def scores
@@ -18,9 +20,9 @@ class Link
         self.score_bonus   = local_scores.size.to_f / ::Score.sources.size
         self.score         = score_average * (0.1 * score_bonus + 0.9) * age
 
-        v = ::Velocity.new(last_link, self)
-        self.velocity_average = v.velocity
-        self.velocity         = v.normalized
+        ema = Math::Average::ExponentialMoving.new(0.5, (last_link.velocity_average || 0))
+        self.velocity_average = ema.update(score - (last_link.score || 0))
+        self.velocity         = Velocity.normalized(velocity_average)
       rescue => e
         DataMapper.logger.error("link\terror\n#{$!.message}\n#{$!.backtrace}")
       ensure
