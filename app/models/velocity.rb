@@ -1,13 +1,10 @@
-require 'math/average/exponential_moving'
 require 'velocity/normalize'
 
 class Velocity
-  include Velocity::Normalize
+  include DataMapper::Resource
+  extend Velocity::Normalize
 
-  attr_accessor :velocity
-
-  def initialize(last_link, link)
-    ema           = Math::Average::ExponentialMoving.new(0.5, (last_link.velocity_average || 0))
-    self.velocity = ema.update(link.score - (last_link.score || 0))
-  end
+  property :link_id,    String, :length => 40, :key => true
+  property :created_at, DateTime, :key => true
+  property :velocity,   Float
 end
