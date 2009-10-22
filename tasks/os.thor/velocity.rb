@@ -14,6 +14,11 @@ module Os
       run Oursignal::Velocity::Update
     end
 
+    desc 'expire', %q{Velocity cache expire.}
+    def expire
+      run Oursignal::Velocity::Expire
+    end
+
     protected
       def run(klass)
         klass.run

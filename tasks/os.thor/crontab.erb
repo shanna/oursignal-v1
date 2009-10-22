@@ -9,6 +9,7 @@ PATH=/usr/local/bin:/usr/bin:/bin
 */15 * * * * root <%= thor %> os:score:expire > /dev/null
 */1  * * * * root <%= thor %> os:score:update > /dev/null
 11   * * * * root <%= thor %> os:velocity:update > /dev/null
+30   0 * * * root <%= thor %> os:velocity:expire > /dev/null
 
 */5 * * * * root <%= thor %> os:score:source:frequency > /dev/null
 */5 * * * * root <%= thor %> os:score:source:freshness > /dev/null
