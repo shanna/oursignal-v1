@@ -27,6 +27,8 @@
 
 .treemapCell span {
   font-size: 1px;
+  padding: 0 5px;
+  display: block;
 }
 
 .treemapCell span strong {
