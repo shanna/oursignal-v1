@@ -31,6 +31,9 @@ set :apache_port, '8080'
 set :apache_monit_test_urls, ['http://staging.oursignal.com:8080/static/monit']
 set :varnish_monit_test_urls, ['http://staging.oursignal.com/static/monit']
 
+# We run our own migrations
+set :merb_use_automigrate, false
+
 set(:default_environment) do
   { 'MERB_ENV' => stage }
 end
@@ -39,11 +42,6 @@ namespace :deploy do
   desc 'Recreate crontab'
   task :crontab do
     run "#{thor} os:crontab:redeploy"
-  end
-
-  desc 'Custom migrations'
-  task :migrate do
-    run "#{rake} db:migrate"
   end
 end
 
