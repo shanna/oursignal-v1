@@ -545,8 +545,8 @@
             }));
             var anchor   = $('<a />').attr({href: link.url, title: '', target: $.target()}).append(link.url);
             var url        = $('<div class="url" />').append('URL: ', anchor);
-            var score      = $('<div class="metaScore" />').append('<span class=\"metaWhite\">Score:</span> ' + link.score);
-            var velocity   = $('<div class="velocity" />').append('<span class=\"metaWhite\">Velocity:</span> ' + link.velocity);
+            var score      = $('<div class="metaScore" />').append('Score: <span class=\"metaWhite\">' + link.score, '</strong>');
+            var velocity   = $('<div class="velocity" />').append('Velocity: <span class=\"metaWhite\">' + link.velocity, '</strong>');
             var domains    = $('<div class="domains" />').append('Source: ' + (link.domains || []).join(', '));
             var meta = $('#meta');
             meta.children().remove();
