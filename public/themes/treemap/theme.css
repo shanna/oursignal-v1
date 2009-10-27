@@ -17,7 +17,7 @@
 }
 
 .treemapCell {
-  border-color: #1b1b1b !important;
+  border-color: #000000 !important;
 }
 
 .treemapCell:hover {
@@ -50,21 +50,50 @@
   opacity: .25;
   filter: alpha(opacity=25);
 }
+
 .treemapCell a:hover {
   color: #FFFFFF;
 }
 
 #meta {
-  height: 100px;
-  font: bold 11px/14px "Trebuchet MS";
+  height: 96px;
+  position: relative;
+  background: #303030;
+  padding-top: 4px;
+  background: url(/i/shadowBg.png);
+  background-repeat: repeat-x;
+  background-position: top left;
 }
 
 #meta div {
-  padding: 2px;
+  padding: 0; margin: 0;
+}
+
+#meta .title {
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  vertical-align: top;
+  text-shadow: #000000 1px 1px 2px;
+}
+
+#meta .url {
+  padding: 5px 0 0 0;
+}
+
+#meta .url a {
+  font-family: Helvetica, Arial, sans-serif;
+  color: #FFFFFF;
+}
+
+#meta .url a:hover {
+  text-shadow: 0 0 10px rgba(150, 210, 255, 0.8) !important;
 }
 
 #meta .screenshot {
   float: left;
+  margin: 1px 5px 0 4px;
 }
 
 #meta .screenshot img {
@@ -72,3 +101,24 @@
   height: 90px;
 }
 
+#meta .domains {
+  position: absolute;
+  left: 130px;
+  bottom: 5px;
+}
+
+#meta .metaScore {
+  position: absolute;
+  right: 8px;
+  bottom: 81px;
+}
+
+#meta .velocity {
+  position: absolute;
+  right: 8px;
+  bottom: 62px;
+}
+
+span.metaWhite {
+  color: #FFFFFF;
+}

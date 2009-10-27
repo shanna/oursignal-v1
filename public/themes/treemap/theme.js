@@ -516,16 +516,16 @@
     meta_default: function () {
       return this.each(function () {
         var links = $(this);
-        var title      = $('<div class="title" />').append('title: ');
+        var title      = $('<div class="title" />').append('');
         var screenshot = $('<div class="screenshot" />').append($('<img />').attr({
           width:  '120',
           height: '90',
           src:    '/i/screenshot_placeholder.gif'
         }));
-        var url        = $('<div class="url" />').append('url: ');
-        var score      = $('<div class="score" />').append('score: ');
-        var velocity   = $('<div class="velocity" />').append('velocity: ');
-        var domains    = $('<div class="domains" />').append('via: ');
+        var url        = $('<div class="url" />').append('');
+        var score      = $('<div class="metaScore" />').append('');
+        var velocity   = $('<div class="velocity" />').append('');
+        var domains    = $('<div class="domains" />').append('');
         links.append($('<div id="meta" />').append(screenshot, title, url, score, velocity, domains));
       });
     },
@@ -537,17 +537,17 @@
           interval: 500,
           over: function () {
             var link       = el.context.link;
-            var title      = $('<div class="title" />').append('title: ' + link.title);
+            var title      = $('<div class="title" />').append('' + link.title);
             var screenshot = $('<div class="screenshot" />').append($('<img />').attr({
               width:  '120',
               height: '90',
               src:    'http://open.thumbshots.org/image.aspx?url=' + escape(link.url)
             }));
             var anchor   = $('<a />').attr({href: link.url, title: ''}).append(link.url);
-            var url        = $('<div class="url" />').append('url: ', anchor);
-            var score      = $('<div class="score" />').append('score: ' + link.score);
-            var velocity   = $('<div class="velocity" />').append('velocity: ' + link.velocity);
-            var domains    = $('<div class="domains" />').append('via: ' + (link.domains || []).join(', '));
+            var url        = $('<div class="url" />').append('URL: ', anchor);
+            var score      = $('<div class="metaScore" />').append('<span class=\"metaWhite\">Score:</span> ' + link.score);
+            var velocity   = $('<div class="velocity" />').append('<span class=\"metaWhite\">Velocity:</span> ' + link.velocity);
+            var domains    = $('<div class="domains" />').append('Source: ' + (link.domains || []).join(', '));
 
             var meta = $('#meta');
             meta.children().remove();
