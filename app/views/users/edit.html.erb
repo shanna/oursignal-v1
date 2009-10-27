@@ -6,7 +6,7 @@
 
     <% require_js 'feeds' -%>
     <div class="grid_6" id="users">
-      <h2>Customize your page</h2>
+      <h2>Customize your signal:</h2>
       <%= messages_for @user %>
       <%= form_for @user, :action => resource(session.user) do -%>
         <table border="0">
@@ -21,6 +21,10 @@
           <tr>
             <td align="right" class="label">Email: </td>
             <td><%= text_field :email, :class => 'vcard-email', :size => '28' %></td>
+          </tr>
+          <tr>
+            <td align="right" class="label">Links open new window: </td>
+            <td><%= check_box :show_new_window %></td>
           </tr>
           <tr>
             <td align="right" class="label">Theme:</td>

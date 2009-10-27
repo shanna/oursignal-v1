@@ -9,6 +9,10 @@
       return $.cookie('username');
     },
 
+    target: function () {
+      return $.cookie('show_new_window') == 'true' ? '_blank' : '_self';
+    },
+
     // Fetch links for feed.
     // TODO: Switch to $.username();
     links: function (options) {

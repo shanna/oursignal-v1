@@ -21,6 +21,7 @@ class Users < Application
 
   def new
     cookies.delete(:username)
+    cookies.delete(:show_new_windo)
     display @user = User.new
   end
 
@@ -34,8 +35,9 @@ class Users < Application
 
     @user = User.new(params[:user])
     if @user.valid? && @captcha.success && @user.save
-      session.user       = @user
-      cookies[:username] = @user.username
+      session.user              = @user
+      cookies[:username]        = @user.username
+      cookies[:show_new_window] = @user.show_new_window
       redirect resource(@user), :message => {:success => 'Signup was successful', :notice => 'You are now logged in'}
     else
       render :new, :status => 422, :message => {:error => 'There was an error creating your user account'}
@@ -45,6 +47,8 @@ class Users < Application
   def edit
     @user = session.user
     raise NotFound unless @user
+      cookies[:username]        = @user.username
+      cookies[:show_new_window] = @user.show_new_window
     cookies[:username] = @user.username
     display @user
   end
@@ -58,7 +62,8 @@ class Users < Application
 
     params[:user].delete(:password) if params[:user][:password].blank? # TODO: Build this into user?
     if @user.update(params[:user])
-      cookies[:username] = @user.username
+      cookies[:username]        = @user.username
+      cookies[:show_new_window] = @user.show_new_window
       redirect resource(@user, :edit), :message => {:notice => 'Your user account was updated'}
     else
       display @user, :edit, :status => 422, :message => {:error => 'There was an error updating your user account'}
@@ -67,7 +72,8 @@ class Users < Application
 
   def login
     if session.user
-      cookies[:username] = user.username
+      cookies[:username]        = user.username
+      cookies[:show_new_window] = user.show_new_window
       redirect resource(user, :edit)
     end
   end
@@ -75,6 +81,7 @@ class Users < Application
   def logout
     session.abandon!
     cookies.delete(:username)
+    cookies.delete(:show_new_window)
     redirect '/', :message => {:notice => 'You are now logged out'}
   end
 end

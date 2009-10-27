@@ -543,12 +543,11 @@
               height: '90',
               src:    'http://open.thumbshots.org/image.aspx?url=' + escape(link.url)
             }));
-            var anchor   = $('<a />').attr({href: link.url, title: ''}).append(link.url);
+            var anchor   = $('<a />').attr({href: link.url, title: '', target: $.target()}).append(link.url);
             var url        = $('<div class="url" />').append('URL: ', anchor);
             var score      = $('<div class="metaScore" />').append('<span class=\"metaWhite\">Score:</span> ' + link.score);
             var velocity   = $('<div class="velocity" />').append('<span class=\"metaWhite\">Velocity:</span> ' + link.velocity);
             var domains    = $('<div class="domains" />').append('Source: ' + (link.domains || []).join(', '));
-
             var meta = $('#meta');
             meta.children().remove();
             meta.append(screenshot, title, url, score, velocity, domains);
@@ -579,7 +578,7 @@
         $.fn.visualize.links = []
         for (var i = 0; i < links.length; i++) {
           var link     = links[i];
-          var anchor   = $('<a />').attr({href: link.url, title: ''}).append(link.title);
+          var anchor   = $('<a />').attr({href: link.url, title: '', target: $.target()}).append(link.title);
           var el       = $('<span />').append(anchor).data('link', link);
           $.fn.visualize.links.push([el, parseFloat(link.score) * 100]);
         };
