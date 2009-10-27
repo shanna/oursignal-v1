@@ -81,9 +81,6 @@ ul.options li.current a.about {
   background: url(/i/aboutIcon.png) no-repeat 0 -15px;
 }
 
-ul.options li.user a {
-}
-
 span.username {
   color: #FFFFFF;
 }
@@ -389,44 +386,6 @@ form {
   margin-left: 20px;
 }
 
-/*Slider Styling*/
-
-/*
-.slider {
-  margin-left: 10px;
-}
-
-.ui-slider {
-  position: relative;
-  text-align: left;
-  top: -2px;
-}
-
-.ui-slider .ui-slider-handle {
-  background: transparent url(/i/slideButton.png) no-repeat;
-  width: 15px;
-  height: 15px;
-  display: block;
-  position: absolute;
-  z-index: 2;
-  outline: none;
-}
-
-.ui-slider .ui-slider-range {
-  position: absolute;
-  z-index: 1;
-  display: block;
-  border: 0;
-}
-
-.ui-slider-horizontal { height: 5px; width: 175px; background: transparent url(/i/slider.png) no-repeat;}
-.ui-slider-horizontal .ui-slider-handle { top: -5px; margin-left: -5px; }
-.ui-slider-horizontal .ui-slider-range { top: 0; height: 100%; }
-.ui-slider-horizontal .ui-slider-range-min { left: 0; }
-.ui-slider-horizontal .ui-slider-range-max { right: 0; }
-
-*/
-
 /* == FEEDS STYLES == */
 
 div.score { float: left; }
@@ -446,9 +405,12 @@ h2.padLeft {
 div.customLink {
   margin-bottom: 10px;
   padding-bottom: 0;
-  height: 226px;
+  height: 217px;
 }
 
+.ie div.customLink {
+  height: 209px;
+}
 
 #feeds ul {
   list-style-type: none;
@@ -456,6 +418,12 @@ div.customLink {
 
 #feeds li {
   margin: 0 0 10px 0;
+}
+
+input.checkbox {
+  width: 13px;
+  margin: 5px 0 0 0;
+  padding: 0;
 }
 
 div.control, input.delete, div.control input {

@@ -103,20 +103,17 @@
 
 #meta .domains {
   position: absolute;
-  left: 130px;
+  left: 129px;
   bottom: 5px;
 }
 
-#meta .metaScore {
-  position: absolute;
-  right: 8px;
-  bottom: 81px;
+#meta .metaScore, #meta .velocity {
+  margin-top: 5px;
+  float: left;
 }
 
 #meta .velocity {
-  position: absolute;
-  right: 8px;
-  bottom: 62px;
+  padding-left: 10px;
 }
 
 span.metaWhite {
