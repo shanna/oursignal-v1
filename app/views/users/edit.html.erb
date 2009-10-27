@@ -23,6 +23,10 @@
             <td><%= text_field :email, :class => 'vcard-email', :size => '28' %></td>
           </tr>
           <tr>
+            <td align="right" class="label">Links open new window: </td>
+            <td><%= check_box :show_new_window %></td>
+          </tr>
+          <tr>
             <td align="right" class="label">Theme:</td>
             <td>
               <%= select :theme,
