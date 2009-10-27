@@ -560,6 +560,9 @@
   });
 
   $(document).ready(function () {
+    // Cheeky hack.
+    $('body').append('<style type="text/css">html,body { height: 100% !important; min-height: 100% !important; margin-bottom: 1px !important; }</style>');
+
     $('#links').visualize();
     $(window).resize(function () {
       $('#links').visualize();
