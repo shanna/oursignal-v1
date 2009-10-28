@@ -2,6 +2,10 @@ class Exceptions < Merb::Controller
   provides :json
   before :purge_username_cookie
 
+  def exception
+    display messages
+  end
+
   def forbidden
     display messages
   end
@@ -30,6 +34,9 @@ class Exceptions < Merb::Controller
     end
 
     def messages
+      content_type
       request.exceptions.map(&:message)
+    rescue NotAcceptable
+      self.content_type = :html
     end
 end
