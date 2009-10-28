@@ -32,6 +32,9 @@ class Feed
 
   # Common form of 'domain name', name + public suffix.
   def domain
+    return unless site.respond_to?(:domain)
+    return site.host unless site.domain
+
     # I was trying to avoid this shit so hard. Fuck you digg.
     return 'digg.com' if site.domain =~ /^(?:oursignal.com|.*\.local)$/ && site.path =~ %r{rss/digg.rss}
     site.domain
