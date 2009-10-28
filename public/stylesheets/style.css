@@ -328,6 +328,10 @@ input, textarea {
   font-weight: bold;
 }
 
+.ie input, .ie textarea {
+  color: #666666;
+}
+
 select {
   margin-top: 5px;
   margin-bottom: 0;
@@ -336,6 +340,7 @@ select {
 input {
   padding: 3px 3px;
 }
+
 textarea {
   resize: none;
 }
@@ -356,8 +361,13 @@ input#submit {
   vertical-align: middle;
   border: 0px;
 }
+
 input#submit:active {
   background-position: 0 -26px;
+}
+
+.ie input#submit {
+  color: #cecece;
 }
 
 td.label {
@@ -384,6 +394,10 @@ form {
   vertical-align: middle;
   border: 0px;
   margin-left: 20px;
+}
+
+.ie .addFeed, .ie input.delete {
+  color: #cecece;
 }
 
 /* == FEEDS STYLES == */
@@ -486,6 +500,7 @@ div.load {
   padding-top: 4px;
   width: 198px;
   text-align: left;
+  margin-right: 75px;
 }
 
 div#feeds div.error {
