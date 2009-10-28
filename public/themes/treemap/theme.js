@@ -538,15 +538,16 @@
           over: function () {
             var link       = el.context.link;
             var title      = $('<div class="title" />').append('' + link.title);
-            var screenshot = $('<div class="screenshot" />').append($('<img />').attr({
+            var image      = $('<img />').attr({
               width:  '120',
               height: '90',
               src:    'http://open.thumbshots.org/image.aspx?url=' + escape(link.url)
-            }));
-            var anchor   = $('<a />').attr({href: link.url, title: '', target: $.target()}).append(link.url);
+            });
+            var screenshot = $('<div class="screenshot" />').append(image);
+            var anchor     = $('<a />').attr({href: link.url, title: '', target: $.target()}).append(link.url);
             var url        = $('<div class="url" />').append('URL: ', anchor);
-            var score      = $('<div class="metaScore" />').append('Score: <span class=\"metaWhite\">' + link.score, '</span>');
-            var velocity   = $('<div class="velocity" />').append('Velocity: <span class=\"metaWhite\">' + link.velocity, '</span>');
+            var score      = $('<div class="metaScore" />').append('Score: <span class=\"metaWhite\">' + link.score + '</span>');
+            var velocity   = $('<div class="velocity" />').append('Velocity: <span class=\"metaWhite\">' + link.velocity + '</span>');
             var domains    = $('<div class="domains" />').append('Source: ' + (link.domains || []).join(', '));
             var meta = $('#meta');
             meta.children().remove();
