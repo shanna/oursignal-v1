@@ -1,3 +1,9 @@
+html, body {
+  height: 100% !important;
+  min-height: 100% !important;
+  margin-bottom: 1px !important;
+}
+
 #body {
   line-height: 1;
 }
@@ -6,12 +12,16 @@
   margin-top: 0;
 }
 
-#links a:link, #links a:visited, #links a:hover, #links a:active {
+#links .treemapView a:link,
+#links .treemapView a:visited,
+#links .treemapView a:hover,
+#links .treemapView a:active {
   text-shadow: none !important;
   font-family: Georgia, Helvetica, Arial, sans-serif;
   font-weight: normal;
   text-decoration: none;
 }
+
 .treemapView {
   vertical-align: middle;
 }
@@ -70,8 +80,8 @@
 }
 
 #meta .title {
-  font-size: 24px;
-  line-height: 24px;
+  font-size: 20px;
+  line-height: 20px;
   font-weight: bold;
   letter-spacing: -1px;
   vertical-align: top;
@@ -82,12 +92,13 @@
   padding: 5px 0 0 0;
 }
 
-#meta .url a {
+#meta a {
   font-family: Helvetica, Arial, sans-serif;
+  /* font-weight: bold; */
   color: #FFFFFF;
 }
 
-#meta .url a:hover {
+#meta a:hover {
   text-shadow: 0 0 10px rgba(150, 210, 255, 0.8) !important;
 }
 
@@ -101,13 +112,13 @@
   height: 90px;
 }
 
-#meta .domains {
+#meta .source {
   position: absolute;
   left: 129px;
   bottom: 5px;
 }
 
-#meta .metaScore, #meta .velocity {
+#meta .score, #meta .velocity {
   margin-top: 5px;
   float: left;
 }
@@ -116,7 +127,3 @@
   padding-left: 10px;
 }
 
-span.metaWhite {
-  color: #FFFFFF;
-  font-weight: bold;
-}

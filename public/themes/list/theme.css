@@ -1,33 +1,28 @@
-div#links li {
+#links ul {
+  list-style: none;
+}
+
+#links li {
   padding: 10px;
 }
 
-div#links a {
+#links a {
+  font-size: 14px;
+  line-height: 14px;
   color: #fff;
 }
 
-div#links .meta {
+#links .meta {
   font-size: 12px;
   color: #ccc;
-  padding: 2px 0px;
 }
 
-.meta * {
+#links .meta a {
+  font-size: 12px;
+}
+
+#links .meta div {
   margin-right: 10px;
-}
-
-.meta .score {
   display: inline;
 }
 
-.meta .velocity {
-  display: inline;
-}
-
-.meta .domains {
-  display: inline;
-}
-
-ul {
-  list-style: none;
-}

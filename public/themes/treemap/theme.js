@@ -469,6 +469,10 @@
 
 (function ($) {
   $.extend($.fn, {
+    outer: function () {
+      return $('<div />').append(this.eq(0).clone()).html();
+    },
+
     visualize: function (options) {
       var defaults = {
         cache:  true,
@@ -546,16 +550,16 @@
             var screenshot = $('<div class="screenshot" />').append(image);
             var anchor     = $('<a />').attr({href: link.url, title: '', target: $.target()}).append(link.url);
             var url        = $('<div class="url" />').append('URL: ', anchor);
-            var score      = $('<div class="metaScore" />').append('Score: <span class=\"metaWhite\">' + link.score + '</span>');
-            var velocity   = $('<div class="velocity" />').append('Velocity: <span class=\"metaWhite\">' + link.velocity + '</span>');
+            var score      = $('<div class="score" />').append('Score: ' + link.score);
+            var velocity   = $('<div class="velocity" />').append('Velocity: ' + link.velocity);
             var sources    = [];
             $.each(link.referrers, function (k, v) {
-              sources.push($('<div />').append($('<a />').attr({href: v}).append(k)).html());
+              sources.push($('<a />').attr({href: v}).append(k).outer());
             });
-            var domains = $('<div class="domains" />').append('Source: ' + sources.join(', '));
-            var meta    = $('#meta');
+            var source   = $('<div class="source" />').append('Source: ' + sources.join(', '));
+            var meta     = $('#meta');
             meta.children().remove();
-            meta.append(screenshot, title, url, score, velocity, domains);
+            meta.append(screenshot, title, url, score, velocity, source);
           },
           out: function () {} // Must be defined.
         });
@@ -564,9 +568,6 @@
   });
 
   $(document).ready(function () {
-    // Cheeky hack.
-    $('body').append('<style type="text/css">html,body { height: 100% !important; min-height: 100% !important; margin-bottom: 1px !important; }</style>');
-
     $('#links').visualize();
     $(window).resize(function () {
       $('#links').visualize();
