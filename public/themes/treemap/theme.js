@@ -548,8 +548,12 @@
             var url        = $('<div class="url" />').append('URL: ', anchor);
             var score      = $('<div class="metaScore" />').append('Score: <span class=\"metaWhite\">' + link.score + '</span>');
             var velocity   = $('<div class="velocity" />').append('Velocity: <span class=\"metaWhite\">' + link.velocity + '</span>');
-            var domains    = $('<div class="domains" />').append('Source: ' + (link.domains || []).join(', '));
-            var meta = $('#meta');
+            var sources    = [];
+            $.each(link.referrers, function (k, v) {
+              sources.push($('<div />').append($('<a />').attr({href: v}).append(k)).html());
+            });
+            var domains = $('<div class="domains" />').append('Source: ' + sources.join(', '));
+            var meta    = $('#meta');
             meta.children().remove();
             meta.append(screenshot, title, url, score, velocity, domains);
           },

@@ -17,8 +17,8 @@ class Link
         discover_entry_urls(feed, entry).each do |url|
           title            = entry.title.strip.to_utf8 || next
           link             = first_or_new({:url => url}, :title => title)
-          link.domains     = link.feeds.map(&:domain).push(feed.domain).uniq
-          link.referrers   = link.feed_links.map(&:url).push(entry_url).uniq
+          # TODO: Only adding the new ref to the hash would be faster if I trusted the cache not to get out of sync.
+          link.referrers   = link.feed_links.map{|fl| [fl.feed.domain, fl.url]}.to_mash
           link.referred_at = DateTime.now if link.referred_at.blank?
 
           # TODO: Clean up this hack job.

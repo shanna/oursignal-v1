@@ -6,9 +6,9 @@ xml.oursignal :version => "1.0", :username => user.username do
       xml.velocity link.velocity
       xml.title link.title
       xml.url link.url
-      xml.domains do
-        link.domains.each do |domain|
-         xml.domain domain
+      xml.referrers do
+        link.referrers.each do |domain, href|
+         xml.domain domain, :href => href
         end
       end
       # TODO: timestamps?

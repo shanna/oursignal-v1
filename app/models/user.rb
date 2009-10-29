@@ -67,12 +67,15 @@ class User
     domains  = feeds.map(&:domain)
     max, min = results.first.final_score, results.last.final_score
     results.map do |row|
-      link          = Link.new(row.attributes.except(:final_score))
-      link.domains  &= domains
-      link.score    = (row.final_score - min) / (max - min)
-      link.score    = 1.to_f if link.score.nan? || link.score.infinite? || max <= min
-      link.score    = 0.01 if link.score < 0.01
-      link.score    = link.score.round(2)
+      link           = Link.new(row.attributes.except(:final_score))
+
+      # TODO: The is_a?(Hash) clause can be removed once we get rid of all the old format links from the DB.
+      link.referrers = link.referrers.to_mash.only(*domains) if link.referrers.is_a?(Hash)
+
+      link.score     = (row.final_score - min) / (max - min)
+      link.score     = 1.to_f if link.score.nan? || link.score.infinite? || max <= min
+      link.score     = 0.01 if link.score < 0.01
+      link.score     = link.score.round(2)
       link
     end
   end
@@ -93,9 +96,7 @@ class User
           from links l
           inner join feed_links fl on l.id = fl.link_id
           inner join user_feeds uf on fl.feed_id = uf.feed_id
-          where
-            uf.user_id = ?
-            and l.domains is not null
+          where uf.user_id = ?
           group by l.id
           order by final_score desc
           limit ?
