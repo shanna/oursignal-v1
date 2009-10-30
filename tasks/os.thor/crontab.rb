@@ -16,7 +16,7 @@ module Os
       tmpl  = File.read(File.join(File.dirname(__FILE__), 'crontab.erb'))
       eruby = Erubis::Eruby.new(tmpl)
 
-      File.open("/etc/cron.d/oursignal.#{Merb.environment}", File::CREAT | File::TRUNC | File::WRONLY) do |f|
+      File.open("/etc/cron.d/oursignal-#{Merb.environment}", File::CREAT | File::TRUNC | File::WRONLY) do |f|
         f.write eruby.result(:thor => thor)
       end
     end
