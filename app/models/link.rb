@@ -11,7 +11,6 @@ class Link
   property :id,               DataMapper::Types::Digest::SHA1.new(:url), :key => true, :nullable => false
   property :url,              URI, :length => 255, :nullable => false, :unique_index => true
   property :title,            String, :length => 255
-  property :domains,          Json
   property :referrers,        Json
   property :score_average,    Float, :default => 0
   property :score_bonus,      Float, :default => 0
@@ -31,11 +30,11 @@ class Link
 
   def to_json(options = {})
     {
-      :url      => url,
-      :title    => title,
-      :score    => score,
-      :velocity => velocity,
-      :domains  => domains
+      :url       => url,
+      :title     => title,
+      :score     => score,
+      :velocity  => velocity,
+      :referrers => referrers
     }.to_json
   end
 
