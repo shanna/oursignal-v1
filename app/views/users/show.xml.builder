@@ -5,10 +5,10 @@ xml.oursignal :version => "1.0", :username => user.username do
       xml.score link.score
       xml.velocity link.velocity
       xml.title link.title
-      xml.url link.url
+      xml.url link.title, :href => link.url
       xml.referrers do
-        link.referrers.each do |domain, href|
-         xml.domain domain, :href => href
+        link.referrers.each do |name, href|
+         xml.url name, :href => href
         end
       end
       # TODO: timestamps?
