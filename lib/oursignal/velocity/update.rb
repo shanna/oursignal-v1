@@ -9,9 +9,9 @@ module Oursignal
         velocity_distribution.reload
 
         # Handy for debugging.
-        ud = []
-        velocity_distribution.cache.each_with_index{|v, i| ud << [i, '%.5f' % v]}
-        Merb.logger.info("Velocity Distribution: \n\r#{ud.inspect}")
+        # ud = []
+        # velocity_distribution.cache.each_with_index{|v, i| ud << [i, '%.5f' % v]}
+        # Merb.logger.info("Velocity Distribution: \n\r#{ud.inspect}")
 
         # XXX: While I'm messing, recalculate all velocities.
         Link.all.each do |link|
