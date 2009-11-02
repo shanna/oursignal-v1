@@ -39,11 +39,11 @@ set(:default_environment) do
 end
 
 namespace :deploy do
-  desc 'Recreate crontab'
-  task :crontab do
-    run "#{thor} os:crontab:redeploy"
+  desc 'Restart scheduler'
+  task :scheduler do
+    run "#{thor} os:scheduler:stop #{thor} os:scheduler:start"
   end
 end
 
-after 'deploy:restart', 'deploy:crontab'
-after 'deploy:start', 'deploy:crontab'
+after 'deploy:restart', 'deploy:scheduler'
+after 'deploy:start', 'deploy:scheduler'

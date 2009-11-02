@@ -42,6 +42,7 @@ dependency 'system_timer', '1.0'
 
 dependency 'rufus-scheduler', '2.0.1', :require_as => nil
 dependency 'eventmachine', '0.12.10', :require_as => nil
+dependency 'daemons', '1.0.10', :require_as => nil
 
 # github
 dependency 'taf2-curb', '0.5', :require_as => 'curb'
