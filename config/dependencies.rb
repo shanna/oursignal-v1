@@ -40,6 +40,9 @@ dependency 'nokogiri', '1.2.3'
 dependency 'ruby-openid', '2.1.6', :require_as => 'openid'
 dependency 'system_timer', '1.0'
 
+dependency 'rufus-scheduler', '2.0.1', :require_as => nil
+dependency 'eventmachine', '0.12.10', :require_as => nil
+
 # github
 dependency 'taf2-curb', '0.5', :require_as => 'curb'
 dependency 'wycats-moneta', '0.6.0', :require_as => 'moneta'
