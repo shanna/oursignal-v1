@@ -23,8 +23,11 @@ class Link
           link.referred_at = DateTime.now if link.referred_at.blank?
 
           # TODO: Clean up this hack job.
-          link.extend ::Score::Frequency
-          ::Score.create(:url => url, :score => link.frequency_score, :source => 'frequency') if link.new?
+          begin
+            link.extend ::Score::Frequency
+            ::Score.create(:url => url, :score => link.frequency_score, :source => 'frequency') if link.new?
+          rescue DataObjects::IntegrityError
+          end
 
           link.save && feed.feed_links.first_or_create({:link => link}, :url => entry_url)
         end
