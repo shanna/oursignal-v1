@@ -42,7 +42,7 @@ namespace :deploy do
   desc 'Restart scheduler'
   task :scheduler do
     run "#{thor} os:scheduler:stop"
-    run "#{thor} os:scheduler:start"
+    run "#{thor} os:scheduler:start -d"
   end
 end
 
