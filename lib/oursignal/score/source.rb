@@ -29,7 +29,9 @@ module Oursignal
             ::Score.create(options.update(:score => score))
           end
           Merb.logger.debug("%s\t%.5f\t%s" % [self.class.name, score, url])
-        rescue URI::Error => error
+        rescue DataObjects::IntegrityError
+          # Ignore. It's a tiny race condition.
+        rescue URI::Error
           # Ignore.
         rescue Exception => error
           Merb.logger.error(
