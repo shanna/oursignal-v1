@@ -67,7 +67,7 @@ module Oursignal
 
         # Options that will be passed to open() when requesting the data.
         def http_read_options
-          {'User-Agent' => Feed::USER_AGENT, 'Accept-Encoding' => 'gzip'}
+          {'User-Agent' => 'oursignal-rss/2 +oursignal.com', 'Accept-Encoding' => 'gzip'}
         end
 
         # Generate a URI, Addressable::URI or just a string URI to read from.

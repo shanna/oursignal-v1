@@ -26,8 +26,7 @@ module Oursignal
         s.every('15m'){ Oursignal::Score::Expire.run}
         s.every('1m'){ Oursignal::Score::Update.run}
 
-        s.every('5m'){ Oursignal::Score::Source::Freshness.run}
-        s.every('5m', :first_in => '2m30s'){ Oursignal::Score::Source::Frequency.run}
+        s.every('15m'){ Oursignal::Score::Source::Freshness.run}
         s.every('15m', :first_in => '2m'){ Oursignal::Score::Source::Delicious.run}
         s.every('15m', :first_in => '4m'){ Oursignal::Score::Source::Digg.run}
         s.every('15m', :first_in => '6m'){ Oursignal::Score::Source::Reddit.run}
