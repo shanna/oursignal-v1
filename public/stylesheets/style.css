@@ -87,6 +87,10 @@ span.username {
 
 ul.options li.logout { float: right; }
 
+ul.options .user a {
+  background: url(/i/yourSignal.png) no-repeat 0 0;
+}
+
 ul.options .logout a {
   background: url(/i/logoutIcon.png) no-repeat 0 0;
 }
@@ -402,7 +406,7 @@ form {
 
 /* == FEEDS STYLES == */
 
-div.score { float: left; }
+div.control div.score { float: left; }
 
 ul#scores { margin-top: 10px; }
 
