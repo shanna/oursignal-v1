@@ -21,7 +21,7 @@
             sources.push($('<a />').attr({href: v}).append(k).outer());
           });
 
-          var score    = $('<div class="score" />').append('score: ' + link.score);
+          var score    = $('<div class="score" />').append(link.score);
           var velocity = $('<div class="velocity" />').append('velocity: ' + link.velocity);
           var domains  = $('<div class="source" />').append('source: ' + sources.join(', '));
           var meta     = $('<div class="meta" />').append(score, velocity, domains);
