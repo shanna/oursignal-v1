@@ -18,10 +18,10 @@ module Oursignal
         s = Rufus::Scheduler::EmScheduler.start_new
         s.every('10m'){ Oursignal::Feed::Expire.run}
         s.every('1m'){ Oursignal::Feed::Update.run}
-        s.every('1m'){ Oursignal::Feed::Meta.run}
+        s.every('2m', :first_in => '1m'){ Oursignal::Feed::Meta.run}
 
-        s.every('1h', :first_in => '11m'){ Oursignal::Velocity::Update.run}
-        s.every('1d', :first_in => '21m'){ Oursignal::Velocity::Expire.run}
+        s.every('2h', :first_in => '11m'){ Oursignal::Velocity::Update.run}
+        s.every('2h', :first_in => '21m'){ Oursignal::Velocity::Expire.run}
 
         s.every('15m'){ Oursignal::Score::Expire.run}
         s.every('1m'){ Oursignal::Score::Update.run}

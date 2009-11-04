@@ -14,10 +14,10 @@ module Oursignal
         # Merb.logger.info("Velocity Distribution: \n\r#{ud.inspect}")
 
         # XXX: While I'm messing, recalculate all velocities.
-        Link.all.each do |link|
-          link.velocity = normalized(link.velocity_average)
-          link.save
-        end
+        # Link.all.each do |link|
+        #   link.velocity = normalized(link.velocity_average)
+        #   link.save
+        # end
       end
     end
   end
