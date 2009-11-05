@@ -68,6 +68,7 @@
     var destroy_el = $('<input class="delete" value="delete" type="button" />').click(function () {
       $.post('/users/' + $.os.user.username + '/feeds/' + json.feed_id, {_method: 'delete'}, function () {
         $('#links').visualize({cache: false});
+        stats();
       }, 'json');
       $(this).closest('li').remove();
     });
@@ -75,10 +76,20 @@
     var score_el = $('<div class="score" />').slider({value: json.score, min: 0, max: 1, step: 0.01, stop: function (e, ui) {
       $.post('/users/' + $.os.user.username + '/feeds/' + json.feed_id, {score: ui.value, _method: 'put'}, function () {
         $('#links').visualize({cache: false});
+        stats();
       }, 'json');
     }});
 
-    score.find('.load').replaceWith($('<div class="control" />').append(score_el, destroy_el));
+    var control_el = $('<div class="control" />').append(score_el, destroy_el).data('user_feed', json);
+    score.find('.load').replaceWith(control_el);
+  }
+
+  function stats() {
+    var links = $.links();
+    $('#scores .control').each(function () {
+      // TODO: Whip through links, update scores with a % by each feed domain.
+      // console.warn($(this).data('user_feed'));
+    });
   }
 
   $(document).ready(function () {

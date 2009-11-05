@@ -5,17 +5,7 @@ class Feeds < Application
   after  :purge_user_feed, :exclude => [:index]
 
   def index
-    sql = %q{
-      select
-        user_feeds.score,
-        feeds.id as feed_id,
-        feeds.title,
-        feeds.url
-      from feeds
-      inner join user_feeds on feeds.id = user_feeds.feed_id
-      where user_feeds.user_id = ?
-    }
-    display repository(:default).adapter.query(sql, session.user.id)
+    display session.user.user_feeds.to_a
   end
 
   def create
@@ -24,14 +14,7 @@ class Feeds < Application
     raise(BadRequest, feed.errors.full_messages.join(', ')) unless feed.valid?(:discover)
     raise(BadRequest, 'Already in your feeds') if user.feeds.include?(feed)
 
-    user_feed = user.user_feeds.first_or_create({:feed => feed}, :score => 0.5)
-    display({
-      :user_id => user_feed.user_id,
-      :feed_id => user_feed.feed_id,
-      :score   => user_feed.score,
-      :title   => feed.title,
-      :url     => feed.url
-    })
+    display user.user_feeds.first_or_create({:feed => feed}, :score => 0.5)
   end
 
   def update
