@@ -24,7 +24,7 @@
   function create() {
     var scores = $('#scores');
     var feed   = $('#feed_url');
-    var url    = $('<input />').attr({readonly: 'readonly', type: 'text', value: feed.attr('value')});
+    var url    = $('<input class="scores_url" />').attr({readonly: 'readonly', type: 'text', value: feed.attr('value')});
     var score  = $('<li />').append(on_load(), url).hide();
     scores.append(score);
 
@@ -68,7 +68,7 @@
     var destroy_el = $('<input class="delete" value="delete" type="button" />').click(function () {
       $.post('/users/' + $.os.user.username + '/feeds/' + json.feed_id, {_method: 'delete'}, function () {
         $('#links').visualize({cache: false});
-        stats();
+        redraw_ratios();
       }, 'json');
       $(this).closest('li').remove();
     });
@@ -76,19 +76,22 @@
     var score_el = $('<div class="score" />').slider({value: json.score, min: 0, max: 1, step: 0.01, stop: function (e, ui) {
       $.post('/users/' + $.os.user.username + '/feeds/' + json.feed_id, {score: ui.value, _method: 'put'}, function () {
         $('#links').visualize({cache: false});
-        stats();
+        redraw_ratios();
       }, 'json');
     }});
 
-    var control_el = $('<div class="control" />').append(score_el, destroy_el).data('user_feed', json);
+    var ratio_el   = $('<div class="ratio" />').append(json.ratio + '%');
+    var control_el = $('<div class="control" />').append(score_el, ratio_el, destroy_el);
     score.find('.load').replaceWith(control_el);
   }
 
-  function stats() {
-    var links = $.links();
-    $('#scores .control').each(function () {
-      // TODO: Whip through links, update scores with a % by each feed domain.
-      // console.warn($(this).data('user_feed'));
+  function redraw_ratios() {
+    $.getJSON('/users/' + $.os.user.username + '/feeds', function (json) {
+      if (!($.isArray(json) && json.length)) return;
+      var scores = $('#scores li');
+      $.each(json, function (i, s) {
+        scores.get(i).find('.ratio').text(s.ratio + '%');
+      });
     });
   }
 

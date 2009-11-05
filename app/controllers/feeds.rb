@@ -5,7 +5,20 @@ class Feeds < Application
   after  :purge_user_feed, :exclude => [:index]
 
   def index
-    display session.user.user_feeds.to_a
+    links      = session.user.links.to_a
+    user_feeds = session.user.user_feeds.map do |uf|
+      count = links.find_all{|l| l.referrers.keys.include?(uf.feed.domain)}.size
+      {
+        :user_id => uf.user_id,
+        :feed_id => uf.feed_id,
+        :score   => uf.score,
+        :title   => uf.feed.title,
+        :url     => uf.feed.url,
+        :domain  => uf.feed.domain,
+        :ratio   => ((count.to_f / links.size) * 100).to_i
+      }
+    end
+    display user_feeds
   end
 
   def create

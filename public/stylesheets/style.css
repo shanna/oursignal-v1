@@ -407,6 +407,10 @@ form {
 /* == FEEDS STYLES == */
 
 div.control div.score { float: left; }
+div.control div.ratio {
+  padding-left: 20px;
+  float: left;
+}
 
 ul#scores { margin-top: 10px; }
 
