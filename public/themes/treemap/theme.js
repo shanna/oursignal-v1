@@ -493,6 +493,7 @@
       return this.each(function () {
         var el = $(this);
         if (el.data('link')) el.context.link = el.data('link');
+        if (el.context && el.context.link) el.parent().wrap($('<a />').attr({href: el.context.link.url}));
       });
     },
 
