@@ -1,3 +1,7 @@
+li {
+  margin-left: 3px;
+}
+
 #links ul {
   list-style: none;
 }
@@ -10,6 +14,7 @@
   font-size: 14px;
   line-height: 14px;
   color: #fff;
+  margin-left: 55px;
 }
 
 #links .meta {
@@ -26,3 +31,21 @@
   display: inline;
 }
 
+#links div.source a {
+  margin-left: 0;
+}
+
+div#links div.score {
+  float: left;
+  width: 46px;
+  height: 31px;
+  padding-top: 5px;
+  margin-top: -19px;
+  background: url(/i/scorebg.png);
+  background-repeat: no-repeat;
+  font: bold 18px/18px "Arial";
+  letter-spacing: -1px;
+  color: #1b1b1b;
+  text-align: center;
+  text-shadow: none;
+}
