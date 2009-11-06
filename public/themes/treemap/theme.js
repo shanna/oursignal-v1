@@ -586,9 +586,8 @@
         // No need to cache $.links since we are caching the link html.
         $.fn.visualize.links = []
         for (var i = 0; i < links.length; i++) {
-          var link     = links[i];
-          var anchor   = $('<a />').attr({href: link.url, title: '', target: $.target()}).append(link.title);
-          var el       = $('<span />').append(anchor).data('link', link);
+          var link = links[i];
+          var el   = $('<span />').append(link.title).data('link', link);
           $.fn.visualize.links.push([el, parseFloat(link.score) * 100]);
         };
       }
