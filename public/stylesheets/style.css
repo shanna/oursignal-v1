@@ -408,7 +408,8 @@ form {
 
 div.control div.score { float: left; }
 div.control div.ratio {
-  padding-left: 20px;
+  margin-left: 30px;
+  margin-top: 5px;
   float: left;
 }
 

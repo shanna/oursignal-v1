@@ -90,7 +90,7 @@
       if (!($.isArray(json) && json.length)) return;
       var scores = $('#scores li');
       $.each(json, function (i, s) {
-        scores.get(i).find('.ratio').text(s.ratio + '%');
+        $(scores.get(i)).find('.ratio').text(s.ratio + '%');
       });
     });
   }
