@@ -118,7 +118,8 @@ migration 1, :os do
         created_at datetime default null,
         updated_at datetime default null,
         primary key (id),
-        index (url)
+        index (url),
+        index (score)
       ) engine=innodb default charset=utf8
     }
   end

@@ -7,7 +7,8 @@ migration 5, :velocities do
         velocity float not null,
         created_at datetime default null,
         primary key (link_id, created_at),
-        index(created_at)
+        index(created_at),
+        index(velocity)
       ) engine=innodb default charset=utf8
     }
   end
