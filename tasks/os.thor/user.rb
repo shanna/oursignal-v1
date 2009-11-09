@@ -27,7 +27,7 @@ module Os
             l.score,
             l.velocity_average,
             l.velocity,
-            l.domains.join(', ')
+            l.referrers.keys.join(', ')
           ]
         )
       end

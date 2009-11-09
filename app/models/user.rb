@@ -66,7 +66,33 @@ class User
 
     domains  = feeds.map(&:domain)
     max, min = results.first.final_score, results.last.final_score
-    results.map do |row|
+
+    # Without a doubt this is the biggest hack I've ever done.
+    # This just makes sure you only ever get 5 scores in each 0.1 range so that your feed never ends up all at the same
+    # velocity. Because though the velocities are accurate it looks like balls.
+    gte_0      = results.find_all{|r| r.velocity >= 0}.sort{|a, b| a.velocity <=> b.velocity || a.score <=> b.score}
+    lt_0       = results.find_all{|r| r.velocity < 0}.sort{|a, b| b.velocity <=> a.velocity || b.score <=> a.score}
+    bucket_max = limit / 10
+    results    = (0..9).to_a.map{|range| range *= 0.1}.reverse.map do |range|
+      bucket = []
+      while(!gte_0.empty? && gte_0.last.velocity >= range && bucket.size <= bucket_max)
+        bucket << gte_0.pop
+        bucket.last.velocity -= 0.1 while bucket.last.velocity > range + 0.1
+      end
+      bucket
+    end
+    results << gte_0.each{|r| r.velocity = 0.0}
+    results << (0..9).to_a.map{|range| range *= -0.1}.reverse.map do |range|
+      bucket = []
+      while(!lt_0.empty? && lt_0.last.velocity <= range && bucket.size <= bucket_max)
+        bucket << lt_0.pop
+        bucket.last.velocity += 0.1 while bucket.last.velocity < range - 0.1
+      end
+      bucket
+    end
+    results << lt_0.each{|r| r.velocity = 0.0}
+
+    results.flatten.sort{|a, b| a.score <=> b.score}.map do |row|
       link           = Link.new(row.attributes.except(:final_score))
 
       # TODO: The is_a?(Hash) clause can be removed once we get rid of all the old format links from the DB.
