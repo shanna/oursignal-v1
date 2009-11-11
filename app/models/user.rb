@@ -92,7 +92,7 @@ class User
     end
     results << lt_0.each{|r| r.velocity = 0.0}
 
-    results.flatten.sort{|a, b| a.score <=> b.score}.map do |row|
+    results.flatten.map do |row|
       link           = Link.new(row.attributes.except(:final_score))
 
       # TODO: The is_a?(Hash) clause can be removed once we get rid of all the old format links from the DB.
@@ -103,7 +103,7 @@ class User
       link.score     = 0.01 if link.score < 0.01
       link.score     = link.score.round(2)
       link
-    end
+    end.sort{|a, b| b.score <=> a.score}
   end
 
   private
