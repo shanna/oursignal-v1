@@ -70,8 +70,8 @@ class User
     # Without a doubt this is the biggest hack I've ever done.
     # This just makes sure you only ever get 5 scores in each 0.1 range so that your feed never ends up all at the same
     # velocity. Because though the velocities are accurate it looks like balls.
-    gte_0      = results.find_all{|r| r.velocity >= 0}.sort{|a, b| a.velocity <=> b.velocity || a.score <=> b.score}
-    lt_0       = results.find_all{|r| r.velocity < 0}.sort{|a, b| b.velocity <=> a.velocity || b.score <=> a.score}
+    gte_0      = results.find_all{|r| r.velocity >= 0}.sort_by{|r| [r.velocity, r.score]}
+    lt_0       = results.find_all{|r| r.velocity < 0}.sort_by{|r| [r.velocity, r.score]}.reverse
     bucket_max = limit / 10
     results    = (0..9).to_a.map{|range| range *= 0.1}.reverse.map do |range|
       bucket = []
