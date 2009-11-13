@@ -10,11 +10,14 @@ module Oursignal
     def self.run(daemonize = false)
       # Process.daemon if daemonize # 1.9 only.
       Daemons.daemonize if daemonize
-      super()
+      $stdout.sync = true
+      super(false)
     end
 
     def call
       EM.run do
+        Signal.trap('INT'){ EM.stop }
+
         s = Rufus::Scheduler::EmScheduler.start_new
         s.every('10m'){ Oursignal::Feed::Expire.run}
         s.every('1m'){ Oursignal::Feed::Update.run}
