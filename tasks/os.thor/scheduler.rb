@@ -10,9 +10,8 @@ module Os
     end
 
     desc 'start', %q{Start oursignal scheduler.}
-    method_options %w{daemonize -d} => :boolean
     def start
-      Oursignal::Scheduler.run(options['daemonize'])
+      Oursignal::Scheduler.run
     end
 
     desc 'stop', %q{Stop oursignal scheduler.}

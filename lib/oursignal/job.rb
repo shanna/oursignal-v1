@@ -2,20 +2,23 @@ require 'file/pid'
 
 module Oursignal
   class Job
-    def self.run(forking = true)
-
-      if forking
-        pid = fork do
-          Daemons.daemonize
-          Process.setpriority(Process::PRIO_PROCESS, 0, 10)
-          _run
+    def self.run
+      pid = Process.fork do 
+        app = to_s.downcase.gsub(/::/, ':')
+        log = File.join(Oursignal.root, 'log', "#{Extlib::Inflection.underscore(to_s)}.log")
+        Daemonize.daemonize(log, app)
+        Process.setpriority(Process::PRIO_PROCESS, 0, 10)
+        begin
+          print "%s(%d)\t%s\n" % [DateTime.now.to_s, Process.pid, to_s.downcase.gsub(/::/, ':')]
+          pid_file = File.join(Oursignal.root, 'log', "#{Extlib::Inflection.underscore(to_s)}.pid")
+          pid      = File::Pid.new(pid_file, Process.pid)
+          pid.run{ new.call}
+        rescue File::Pid::PidFileExist
+        ensure
+          pid
         end
-        Process.detach(pid)
-        print "%s os:job(%d)\t%s\n" % [DateTime.now.to_s, pid, to_s.downcase.gsub(/::/, ':')]
-      else
-        print "%s os:job\t%s\n" % [DateTime.now.to_s, to_s.downcase.gsub(/::/, ':')]
-        _run
       end
+      Process.detach(pid)
     end
 
     def self.name
@@ -32,12 +35,10 @@ module Oursignal
 
     private
       def self._run
+        print "%s(%d)\t%s\n" % [DateTime.now.to_s, Process.pid, to_s.downcase.gsub(/::/, ':')]
         pid_file = File.join(Oursignal.root, 'log', "#{Extlib::Inflection.underscore(to_s)}.pid")
         pid      = File::Pid.new(pid_file, Process.pid)
-        pid.run do
-          $0 = 'os:job - ' + to_s.downcase.gsub(/::/, ':')
-          new.call
-        end
+        pid.run{ new.call}
       rescue File::Pid::PidFileExist
       ensure
         pid

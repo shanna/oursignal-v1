@@ -7,13 +7,6 @@ require 'oursignal/velocity'
 
 module Oursignal
   class Scheduler < Job
-    def self.run(daemonize = false)
-      # Process.daemon if daemonize # 1.9 only.
-      Daemons.daemonize if daemonize
-      $stdout.sync = true
-      super(false)
-    end
-
     def call
       EM.run do
         Signal.trap('INT'){ EM.stop }
