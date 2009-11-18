@@ -24,7 +24,7 @@
   function create() {
     var scores = $('#scores');
     var feed   = $('#feed_url');
-    var url    = $('<input class="scores_url" />').attr({readonly: 'readonly', type: 'text', value: feed.attr('value')});
+    var url    = $('<input />').addClass("scores_url").attr({readonly: 'readonly', type: 'text', value: feed.val()});
     var score  = $('<li />').append(on_load(), url).hide();
     scores.append(score);
 
@@ -37,6 +37,7 @@
       success:  function(response) {
         on_success(score, response);
         $('#links').visualize({cache: false});
+        redraw_ratios();
       }
     });
 
@@ -80,7 +81,7 @@
       }, 'json');
     }});
 
-    var ratio_el   = $('<div class="ratio" />').append(json.ratio + '%');
+    var ratio_el   = $('<div class="ratio" />').append((json.ratio || '0') + '%');
     var control_el = $('<div class="control" />').append(score_el, ratio_el, destroy_el);
     score.find('.load').replaceWith(control_el);
   }
