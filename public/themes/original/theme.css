@@ -69,3 +69,24 @@ html, body {
   display: none;
 }
 
+.tipsy {
+  padding: 0px 5px;
+  font-size: 10px;
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+  background-repeat: no-repeat;
+}
+ 
+.tipsy-inner {
+  width: 400px;
+  border: 1px solid #666;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  text-align: left;
+}
+ 
+.tipsy-ne { background-image: url(/i/tipsy-east.gif); background-position: right top; }
+.tipsy-nw { background-image: url(/i/tipsy-west.gif); background-position: left top; }
+.tipsy-se { background-image: url(/i/tipsy-east.gif); background-position: right bottom; }
+.tipsy-sw { background-image: url(/i/tipsy-west.gif); background-position: left bottom; }

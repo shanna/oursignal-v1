@@ -355,115 +355,72 @@
   }
 })(jQuery);
 
-/**
-* hoverIntent is similar to jQuery's built-in "hover" function except that
-* instead of firing the onMouseOver event immediately, hoverIntent checks
-* to see if the user's mouse has slowed down (beneath the sensitivity
-* threshold) before firing the onMouseOver event.
-* 
-* hoverIntent r5 // 2007.03.27 // jQuery 1.1.2+
-* <http://cherne.net/brian/resources/jquery.hoverIntent.html>
-* 
-* hoverIntent is currently available for use in all personal or commercial 
-* projects under both MIT and GPL licenses. This means that you can choose 
-* the license that best suits your project, and use it accordingly.
-* 
-* // basic usage (just like .hover) receives onMouseOver and onMouseOut functions
-* $("ul li").hoverIntent( showNav , hideNav );
-* 
-* // advanced usage receives configuration object only
-* $("ul li").hoverIntent({
-* sensitivity: 7, // number = sensitivity threshold (must be 1 or higher)
-* interval: 100,   // number = milliseconds of polling interval
-* over: showNav,  // function = onMouseOver callback (required)
-* timeout: 0,   // number = milliseconds delay before onMouseOut function call
-* out: hideNav    // function = onMouseOut callback (required)
-* });
-* 
-* @param  f  onMouseOver function || An object with configuration options
-* @param  g  onMouseOut function  || Nothing (use configuration options object)
-* @author    Brian Cherne <brian@cherne.net>
-*/
+/*
+ * Tipsy.
+ *
+ * - Removed gravity code. Always gravitate towards center of screen.
+ * - Removed all the extra whitespace.
+ * - Added tip callback.
+ * - Added sane variable naming.
+ *
+ * Original:
+ * http://plugins.jquery.com/project/tipsy
+ * The MIT License
+ * Copyright (c) 2008 Jason Frame (jason@onehackoranother.com)
+ */
 (function($) {
-  $.fn.hoverIntent = function(f,g) {
-    // default configuration options
-    var cfg = {
-      sensitivity: 7,
-      interval: 100,
-      timeout: 0
-    };
-    // override configuration options with user supplied object
-    cfg = $.extend(cfg, g ? { over: f, out: g } : f );
-
-    // instantiate variables
-    // cX, cY = current X and Y position of mouse, updated by mousemove event
-    // pX, pY = previous X and Y position of mouse, set by mouseover and polling interval
-    var cX, cY, pX, pY;
-
-    // A private function for getting mouse position
-    var track = function(ev) {
-      cX = ev.pageX;
-      cY = ev.pageY;
-    };
-
-    // A private function for comparing current and previous mouse position
-    var compare = function(ev,ob) {
-      ob.hoverIntent_t = clearTimeout(ob.hoverIntent_t);
-      // compare mouse positions to see if they've crossed the threshold
-      if ( ( Math.abs(pX-cX) + Math.abs(pY-cY) ) < cfg.sensitivity ) {
-        $(ob).unbind("mousemove",track);
-        // set hoverIntent state to true (so mouseOut can be called)
-        ob.hoverIntent_s = 1;
-        return cfg.over.apply(ob,[ev]);
-      } else {
-        // set previous coordinates for next time
-        pX = cX; pY = cY;
-        // use self-calling timeout, guarantees intervals are spaced out properly (avoids JavaScript timer bugs)
-        ob.hoverIntent_t = setTimeout( function(){compare(ev, ob);} , cfg.interval );
+  $.fn.tipsy = function(opts) {
+    opts = $.extend({fade: false}, opts || {});
+    var tip = null, cancelHide = false;
+ 
+    this.hover(function() {
+      $.data(this, 'cancel.tipsy', true);
+ 
+      var tip = $.data(this, 'active.tipsy');
+      if (!tip) {
+        var inner = $('<div class="tipsy-inner">').append(opts.tip ? opts.tip() : $(this).attr('title'));
+        tip = $('<div class="tipsy">').append(inner);
+        tip.css({position: 'absolute', zIndex: 100000});
+        $(this).attr('title', '');
+        $.data(this, 'active.tipsy', tip);
       }
-    };
-
-    // A private function for delaying the mouseOut function
-    var delay = function(ev,ob) {
-      ob.hoverIntent_t = clearTimeout(ob.hoverIntent_t);
-      ob.hoverIntent_s = 0;
-      return cfg.out.apply(ob,[ev]);
-    };
-
-    // A private function for handling mouse 'hovering'
-    var handleHover = function(e) {
-      // next three lines copied from jQuery.hover, ignore children onMouseOver/onMouseOut
-      var p = (e.type == "mouseover" ? e.fromElement : e.toElement) || e.relatedTarget;
-      while ( p && p != this ) { try { p = p.parentNode; } catch(e) { p = this; } }
-      if ( p == this ) { return false; }
-
-      // copy objects to be passed into t (required for event object to be passed in IE)
-      var ev = jQuery.extend({},e);
-      var ob = this;
-
-      // cancel hoverIntent timer if it exists
-      if (ob.hoverIntent_t) { ob.hoverIntent_t = clearTimeout(ob.hoverIntent_t); }
-
-      // else e.type == "onmouseover"
-      if (e.type == "mouseover") {
-        // set "previous" X and Y position based on initial entry point
-        pX = ev.pageX; pY = ev.pageY;
-        // update "current" X and Y position based on mousemove
-        $(ob).bind("mousemove",track);
-        // start polling interval (self-calling timeout) to compare mouse coordinates over time
-        if (ob.hoverIntent_s != 1) { ob.hoverIntent_t = setTimeout( function(){compare(ev,ob);} , cfg.interval );}
-
-      // else e.type == "onmouseout"
-      } else {
-        // unbind expensive mousemove event
-        $(ob).unbind("mousemove",track);
-        // if hoverIntent state is true, then call the mouseOut function after the specified delay
-        if (ob.hoverIntent_s == 1) { ob.hoverIntent_t = setTimeout( function(){delay(ev,ob);} , cfg.timeout );}
+ 
+      var pos = $.extend({}, $(this).offset(), {width: this.offsetWidth, height: this.offsetHeight});
+      tip.remove().css({top: 0, left: 0, visibility: 'hidden', display: 'block'}).appendTo(document.body);
+      var actualWidth = tip[0].offsetWidth, actualHeight = tip[0].offsetHeight;
+ 
+      // TODO: Brutal. Clean this up later.
+      var half_width  = $(window).width() / 2;
+      var half_height = $(window).height() / 2;
+      if (pos.top < half_height) {
+        tip.css({top: pos.top})
+        if (pos.left < half_width) tip.css({left: pos.left + pos.width}).addClass('tipsy-nw');
+        else tip.css({left: pos.left - actualWidth}).addClass('tipsy-ne');
       }
-    };
-
-    // bind the function to the two event listeners
-    return this.mouseover(handleHover).mouseout(handleHover);
+      else {
+        tip.css({top: pos.top - (actualHeight - pos.height)})
+        if (pos.left < half_width) tip.css({left: pos.left + pos.width}).addClass('tipsy-sw');
+        else tip.css({left: pos.left - actualWidth}).addClass('tipsy-se');
+      }
+ 
+      if (opts.fade) {
+        tip.css({opacity: 0, display: 'block', visibility: 'visible'}).animate({opacity: 1});
+      } else {
+        tip.css({visibility: 'visible'});
+      }
+    }, function() {
+      $.data(this, 'cancel.tipsy', false);
+      var self = this;
+      setTimeout(function() {
+        if ($.data(this, 'cancel.tipsy')) return;
+        var tip = $.data(self, 'active.tipsy');
+        if (opts.fade) {
+          tip.stop().fadeOut(function() { $(this).remove(); });
+        } else {
+          tip.remove();
+        }
+      }, 100);
+    });
   };
 })(jQuery);
 
@@ -502,16 +459,44 @@
         var vel = parseFloat(el.context.link.velocity);
 
         var colour = '222222';
-        if (vel < 1)   colour = "cc3732";
-        if (vel < 0.9)  colour = "cc4a46";
-        if (vel < 0.8)  colour = "cc5e5b";
-        if (vel < 0.7)  colour = "cc7674";
-        if (vel < 0.6)  colour = "222222";
+        if (vel <= 1.00) colour = "D67404";
+        if (vel <  0.97) colour = "C95D05";
+        if (vel <  0.94) colour = "BB4707";
+        if (vel <  0.91) colour = "AE3708";
+        if (vel <  0.88) colour = "A1290A";
+        if (vel <  0.85) colour = "94200C";
+        if (vel <  0.82) colour = "86190F";
+        if (vel <  0.79) colour = "771411";
+        if (vel <  0.76) colour = "691514";
+        if (vel <  0.73) colour = "5F1616";
+        if (vel <  0.70) colour = "581717";
+        if (vel <  0.67) colour = "521818";
+        if (vel <  0.64) colour = "4B1A1A";
+        if (vel <  0.61) colour = "451B1B";
+        if (vel <  0.58) colour = "3F1C1C";
+        if (vel <  0.55) colour = "381E1E";
+        if (vel <  0.52) colour = "311F1F";
+        if (vel <  0.49) colour = "2B2020";
+        if (vel <  0.46) colour = "222222";
 
-        if (vel < -0.6)  colour = "8fabcc";
-        if (vel < -0.7)  colour = "709acc";
-        if (vel < -0.8)  colour = "5089cc";
-        if (vel < -0.9)  colour = "3278cc";
+        if (vel < -0.46) colour = "22272D";
+        if (vel < -0.49) colour = "222931";
+        if (vel < -0.52) colour = "222A35";
+        if (vel < -0.55) colour = "222C39";
+        if (vel < -0.58) colour = "222E3D";
+        if (vel < -0.61) colour = "223042";
+        if (vel < -0.64) colour = "223246";
+        if (vel < -0.67) colour = "22334A";
+        if (vel < -0.70) colour = "213551";
+        if (vel < -0.73) colour = "20385D";
+        if (vel < -0.76) colour = "213E68";
+        if (vel < -0.79) colour = "254673";
+        if (vel < -0.72) colour = "284F7E";
+        if (vel < -0.85) colour = "2E5B8A";
+        if (vel < -0.88) colour = "356996";
+        if (vel < -0.91) colour = "3E7AA3";
+        if (vel < -0.94) colour = "488DB0";
+        if (vel < -0.97) colour = "53A0BC";
 
         el.parent().css('background-color', '#' + colour);
       });
@@ -537,9 +522,8 @@
     meta: function () {
       return this.each(function () {
         var el = $(this);
-        el.parent().hoverIntent({
-          interval: 500,
-          over: function () {
+        el.parent().tipsy({
+          tip: function () {
             var link       = el.context.link;
             var title      = $('<div class="title" />').append('' + link.title);
             var image      = $('<img />').attr({
@@ -557,11 +541,9 @@
               sources.push($('<a />').attr({href: v}).append(k).outer());
             });
             var source   = $('<div class="source" />').append('Source: ' + sources.join(', '));
-            var meta     = $('#meta');
-            meta.children().remove();
-            meta.append(screenshot, title, url, score, velocity, source);
-          },
-          out: function () {} // Must be defined.
+            var meta     = $('<div class="meta" />').append(screenshot, title, url, score, velocity, source);
+            return meta;
+          }
         });
       });
     }
