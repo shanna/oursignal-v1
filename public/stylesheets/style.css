@@ -408,9 +408,11 @@ form {
 
 div.control div.score { float: left; }
 div.control div.ratio {
-  margin-left: 30px;
+  width: 40px;
+  margin-left: 20px;
   margin-top: 5px;
   float: left;
+  text-align: right;
 }
 
 ul#scores { margin-top: 10px; }
@@ -507,9 +509,9 @@ body.users_login .navBar {
 div.load {
   float: right;
   padding-top: 4px;
-  width: 198px;
+  width: 188px;
   text-align: left;
-  margin-right: 75px;
+  margin-right: 145px;
 }
 
 div#feeds div.error {

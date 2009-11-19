@@ -36,8 +36,8 @@
       error:    function(request, status, error) { on_error(score, request)},
       success:  function(response) {
         on_success(score, response);
-        $('#links').visualize({cache: false});
         redraw_ratios();
+        $('#links').visualize({cache: false});
       }
     });
 
@@ -91,7 +91,10 @@
       if (!($.isArray(json) && json.length)) return;
       var scores = $('#scores li');
       $.each(json, function (i, s) {
-        $(scores.get(i)).find('.ratio').text(s.ratio + '%');
+        $.each(scores, function () {
+          var el = $(this);
+          if (el.find('.scores_url').val() == s.url) el.find('.ratio').text(s.ratio + '%');
+        });
       });
     });
   }
