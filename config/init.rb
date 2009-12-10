@@ -3,8 +3,6 @@
 # The monkey patching conflicts with the monkey patching in json.
 Merb.disable :json
 
-require 'config/dependencies.rb'
-
 use_test :test_unit
 use_orm :datamapper
 use_template_engine :erb

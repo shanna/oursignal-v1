@@ -1,0 +1,3 @@
+#!/usr/bin/ruby1.8 -ws
+require File.join(File.dirname(__FILE__), "../gems/environment")
+load File.join(File.dirname(__FILE__), "../gems/gems/ZenTest-4.2.0/bin/autotest")

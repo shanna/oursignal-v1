@@ -1,0 +1,3 @@
+#!/usr/bin/ruby1.8 -w
+require File.join(File.dirname(__FILE__), "../gems/environment")
+load File.join(File.dirname(__FILE__), "../gems/gems/ParseTree-3.0.4/bin/parse_tree_audit")
