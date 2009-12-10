@@ -9,8 +9,8 @@ module Oursignal
           Link.send(:include, ::Score::Freshness)
           Link.send(:include, ::Score::Frequency)
           Link.all.each do |link|
-            score(link.url, link.frequency_score)
-            score(link.url, link.freshness_score)
+            score('frequency', link.url, link.frequency_score)
+            score('freshness', link.url, link.freshness_score)
           end
         end
       end # Freshness

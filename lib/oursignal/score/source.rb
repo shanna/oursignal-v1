@@ -19,23 +19,24 @@ module Oursignal
         uri
       end
 
-      def score(url, score)
+      def score(*args)
+        name, url, score = (args.size == 3 ? args : args.unshift(self.class.name))
         begin
           # TODO: REPLACE INTO:
-          options = {:url => URI.sanatize(url), :source => self.class.name}
+          options = {:url => URI.sanatize(url), :source => name}
           if sc = ::Score.first(options)
             sc.update(:score => score)
           else
             ::Score.create(options.update(:score => score))
           end
-          Merb.logger.debug("%s\t%.5f\t%s" % [self.class.name, score, url])
+          Merb.logger.debug("%s\t%.5f\t%s" % [name, score, url])
         rescue DataObjects::IntegrityError
           # Ignore. It's a tiny race condition.
         rescue URI::Error
           # Ignore.
         rescue Exception => error
           Merb.logger.error(
-            "%s\terror\t%s\n%s\n%s" % [self.class.name, error.class.to_s.downcase, error.message, error.backtrace.join($/)]
+            "%s\terror\t%s\n%s\n%s" % [name, error.class.to_s.downcase, error.message, error.backtrace.join($/)]
           )
         end
       end
