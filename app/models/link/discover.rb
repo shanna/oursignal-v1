@@ -63,10 +63,8 @@ class Link
             DataMapper.logger.error("link\terror\n#{$!.message}\n#{$!.backtrace}")
           end
 
-          urls = [entry.url] if urls.empty?
+          urls = [URI.sanatize(entry.url)] if urls.empty?
           urls
         end
     end # ClassMethods
   end # Discover
-end # Link
-
