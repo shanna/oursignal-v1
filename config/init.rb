@@ -32,9 +32,6 @@ Merb::BootLoader.before_app_loads do
     :namespace => 'math_uniform_distribution'
   )
 
-  # Prevent IOError when running under passenger I hope.
-  ::OpenID::Util.logger = Merb.logger
-
   require 'dm/types'
   require 'ext/string'
   require 'ext/float'
@@ -50,11 +47,6 @@ Merb::BootLoader.before_app_loads do
   }
 
   Merb::Mailer.delivery_method = :sendmail
-
-  Merb::Cache.setup do
-    register(:page, Merb::Cache::PageStore[Merb::Cache::FileStore], :dir => Merb.root / 'public') unless exists?(:page)
-    register(:default, Merb::Cache::AdhocStore[:page]) unless exists?(:default)
-  end
 end
 
 Merb::BootLoader.after_app_loads do
