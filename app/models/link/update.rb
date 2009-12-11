@@ -14,6 +14,7 @@ class Link
     def selfupdate
       last_link    = self.copy
       local_scores = scores
+      return [last_link, self] if local_scores.empty?
 
       begin
         self.score_average = local_scores.map(&:normalized).inject(&:+) / local_scores.size
@@ -23,8 +24,8 @@ class Link
         ema = Math::Average::ExponentialMoving.new(0.5, (last_link.velocity_average || 0))
         self.velocity_average = ema.update(score - (last_link.score || 0))
         self.velocity         = Velocity.normalized(velocity_average)
-      rescue => e
-        DataMapper.logger.error("link\terror\n#{$!.message}\n#{$!.backtrace}")
+      rescue => error
+        DataMapper.logger.error(%Q{#{error.message}:\n#{error.backtrace.join("\n")}})
       ensure
         self.score_at = DateTime.now
         self.save

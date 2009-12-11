@@ -1,8 +1,7 @@
 class Link
   module Meta
     def self.update
-      adapter = Link.repository.adapter
-      urls    = adapter.query('select url from links where meta_at is null')
+      urls = Link.repository.adapter.query('select url from links where meta_at is null')
       while !urls.empty?
         chunk = urls.slice!(0..10).compact
         URI::Meta.multi(chunk) do |meta|
@@ -11,7 +10,7 @@ class Link
           begin
             update_link(link, meta)
           rescue => error
-            Merb.logger.error(error.message)
+            DataMapper.logger.error(%Q{#{error.message}:\n#{error.backtrace.join("\n")}})
           end
         end
       end
@@ -34,7 +33,11 @@ class Link
             )
             return unless last_effective_link.save
           end
-          adapter.execute('update feed_links set link_id = ? where link_id = ?', last_effective_link.id, link.id)
+          Link.repository.adapter.execute(
+            'update feed_links set link_id = ? where link_id = ? on duplicate key ignore',
+            last_effective_link.id,
+            link.id
+          )
           link.destroy
         else
           link.update(:title => title)

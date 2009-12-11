@@ -38,6 +38,15 @@ class Link
     }.to_json
   end
 
+  def title=(str = nil)
+    words    = str.strip.split(/\s+/)
+    sentence = ''
+    sentence << "#{words.shift} " while !words.empty? && sentence.length < 120
+    sentence.strip!
+    sentence << '...' unless words.empty? || sentence =~ /[.!\?]$/
+    attribute_set(:title, sentence)
+  end
+
   %w{score_average score_bonus score velocity_average velocity}.each do |fl|
     define_method(:"#{fl}=") do |f|
       attribute_set(fl.to_sym, (f ? f.to_f.round(5) : 0))
@@ -48,8 +57,8 @@ class Link
     url.domain
   end
 
-  def copy
-    self.class.new(attributes(:name).except(:id))
+  def copy(update = {})
+    self.class.new(attributes(:name).except(:id).update(update))
   end
 end # Link
 

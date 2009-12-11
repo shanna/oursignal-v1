@@ -16,7 +16,7 @@ class Link
 
         discover_entry_urls(feed, entry).each do |url|
           title            = entry.title.strip.to_utf8 || next
-          link             = first_or_new({:url => url}, :title => truncate_title(title))
+          link             = first_or_new({:url => url}, :title => title)
           # TODO: Only adding the new ref to the hash would be faster if I trusted the cache not to get out of sync.
           link.referrers   = link.feed_links.map{|fl| [fl.feed.domain, fl.url]}.to_mash
           link.referrers   = link.referrers.update(feed.domain => entry_url)
@@ -34,17 +34,6 @@ class Link
       end
 
       protected
-
-        # Truncate to the first punctuation after 15 words.
-        def truncate_title(string)
-          words    = string.split(/\s+/)
-          sentence = ''
-          sentence << "#{words.shift} " while !words.empty? && sentence.length < 120
-          sentence.strip!
-          sentence << '...' unless words.empty? || sentence =~ /[.!\?]$/
-          sentence
-        end
-
         # ==== Notes
         # Doesn't include the feed URL if external (to feed.domain) URLs exist.
         def discover_entry_urls(feed, entry)
@@ -60,7 +49,7 @@ class Link
             end
           rescue Nokogiri::XML::SyntaxError
           rescue
-            DataMapper.logger.error("link\terror\n#{$!.message}\n#{$!.backtrace}")
+            DataMapper.logger.error(%Q{#{$!.message}:\n#{$!.backtrace.join("\n")}})
           end
 
           urls = [URI.sanatize(entry.url)] if urls.empty?
@@ -68,3 +57,4 @@ class Link
         end
     end # ClassMethods
   end # Discover
+end # Link
