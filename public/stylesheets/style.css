@@ -354,7 +354,7 @@ input, textarea {
       font-size: 12px;
 }
 
-input#submit {
+input#form_submit {
   width: 82px;
   height: 26px;
   cursor: pointer;
