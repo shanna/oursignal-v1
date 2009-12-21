@@ -31,8 +31,8 @@ class Passwords < Application
     @user = User.first(:password_reset => params[:user][:password_reset])
     raise NotFound unless @user
     if @user.update(:password => params[:user][:password])
-      session.user       = @user
-      cookies[:username] = @user.username
+      session.user = @user
+      cookies.set_cookie(:username, @user.username, :secure => false, :expires => Time.now + Merb::Const::WEEK * 60)
       redirect resource(@user), :message => {:success => 'Password changed.', :notice => 'You are now logged in'}
     else
       display @user, :edit, :status => 422, :message => {:error => 'There was an error updating your user account'}

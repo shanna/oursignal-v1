@@ -36,8 +36,8 @@ class Users < Application
     @user = User.new(params[:user])
     if @user.valid? && @captcha.success && @user.save
       session.user              = @user
-      cookies[:username]        = @user.username
-      cookies[:show_new_window] = @user.show_new_window
+      cookies.set_cookie(:username, @user.username, :secure => false, :expires => Merb::Const::WEEK * 60)
+      cookies.set_cookie(:show_new_window, @user.show_new_window, :secure => false, :expires => Merb::Const::WEEK * 60)
       redirect resource(@user), :message => {:success => 'Signup was successful', :notice => 'You are now logged in'}
     else
       render :new, :status => 422, :message => {:error => 'There was an error creating your user account'}
@@ -47,9 +47,8 @@ class Users < Application
   def edit
     @user = session.user
     raise NotFound unless @user
-      cookies[:username]        = @user.username
-      cookies[:show_new_window] = @user.show_new_window
-    cookies[:username] = @user.username
+    cookies.set_cookie(:username, @user.username, :secure => false, :expires => Time.now + Merb::Const::WEEK * 60)
+    cookies.set_cookie(:show_new_window, @user.show_new_window, :secure => false, :expires => Time.now + Merb::Const::WEEK * 60)
     display @user
   end
 
@@ -62,8 +61,8 @@ class Users < Application
 
     params[:user].delete(:password) if params[:user][:password].blank? # TODO: Build this into user?
     if @user.update(params[:user])
-      cookies[:username]        = @user.username
-      cookies[:show_new_window] = @user.show_new_window
+      cookies.set_cookie(:username, @user.username, :secure => false, :expires => Time.now + Merb::Const::WEEK * 60)
+      cookies.set_cookie(:show_new_window, @user.show_new_window, :secure => false, :expires => Time.now + Merb::Const::WEEK * 60)
       redirect resource(@user, :edit), :message => {:notice => 'Your user account was updated'}
     else
       display @user, :edit, :status => 422, :message => {:error => 'There was an error updating your user account'}
@@ -72,8 +71,8 @@ class Users < Application
 
   def login
     if session.user
-      cookies[:username]        = user.username
-      cookies[:show_new_window] = user.show_new_window
+      cookies.set_cookie(:username, user.username, :secure => false, :expires => Time.now + Merb::Const::WEEK * 60)
+      cookies.set_cookie(:show_new_window, user.show_new_window, :secure => false, :expires => Time.now + Merb::Const::WEEK * 60)
       redirect resource(user, :edit)
     end
   end

@@ -12,8 +12,9 @@ Merb::Config.use do |c|
   c[:session_store] = 'cookie'  # can also be 'memory', 'memcache', 'container', 'datamapper
 
   # cookie session store configuration
+  c[:session_expiry]      = Merb::Const::WEEK * 60
   c[:session_secret_key]  = '87107539db8cfa483be5b146200d88adb071300e'  # required for cookie session store
-  c[:session_id_key] = '_oursignal/_session_id' # cookie session id key, defaults to "_session_id"
+  c[:session_id_key]      = '_oursignal/_session_id' # cookie session id key, defaults to "_session_id"
 end
 
 Merb::BootLoader.before_app_loads do
