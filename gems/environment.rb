@@ -6,25 +6,29 @@ module Bundler
   ENV["PATH"]     = "#{dir}/../bin:#{ENV["PATH"]}"
   ENV["RUBYOPT"]  = "-r#{file} #{ENV["RUBYOPT"]}"
 
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/abstract-1.0.0/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/abstract-1.0.0/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/net-ssh-2.0.17/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/net-ssh-2.0.17/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/net-ssh-gateway-1.0.1/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/net-ssh-gateway-1.0.1/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/sexp_processor-3.0.3/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/sexp_processor-3.0.3/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/abstract-1.0.0/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/abstract-1.0.0/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/erubis-2.6.5/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/erubis-2.6.5/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/rake-0.8.7/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/rake-0.8.7/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/curb-0.6.0.0/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/curb-0.6.0.0/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/curb-0.6.0.0/ext")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/rake-0.8.7/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/rake-0.8.7/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/net-scp-1.0.2/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/net-scp-1.0.2/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/klarlack-0.0.3/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/klarlack-0.0.3/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json-1.2.0/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json-1.2.0/ext/json/ext")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json-1.2.0/ext")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json-1.2.0/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/system_timer-1.0/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/system_timer-1.0/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/stateless-systems-capistrano-ext-0.11.0/bin")
@@ -60,10 +64,10 @@ module Bundler
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/randexp-0.1.4/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-sweatshop-0.10.1/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-sweatshop-0.10.1/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/haml-2.2.16/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/haml-2.2.16/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/highline-1.5.1/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/highline-1.5.1/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/haml-2.2.16/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/haml-2.2.16/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/sax-machine-0.0.15/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/sax-machine-0.0.15/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-migrations-0.10.1/bin")
@@ -151,24 +155,26 @@ module Bundler
   require "rubygems"
 
   @bundled_specs = {}
+  @bundled_specs["abstract"] = eval(File.read("#{dir}/specifications/abstract-1.0.0.gemspec"))
+  @bundled_specs["abstract"].loaded_from = "#{dir}/specifications/abstract-1.0.0.gemspec"
   @bundled_specs["net-ssh"] = eval(File.read("#{dir}/specifications/net-ssh-2.0.17.gemspec"))
   @bundled_specs["net-ssh"].loaded_from = "#{dir}/specifications/net-ssh-2.0.17.gemspec"
   @bundled_specs["net-ssh-gateway"] = eval(File.read("#{dir}/specifications/net-ssh-gateway-1.0.1.gemspec"))
   @bundled_specs["net-ssh-gateway"].loaded_from = "#{dir}/specifications/net-ssh-gateway-1.0.1.gemspec"
   @bundled_specs["sexp_processor"] = eval(File.read("#{dir}/specifications/sexp_processor-3.0.3.gemspec"))
   @bundled_specs["sexp_processor"].loaded_from = "#{dir}/specifications/sexp_processor-3.0.3.gemspec"
-  @bundled_specs["abstract"] = eval(File.read("#{dir}/specifications/abstract-1.0.0.gemspec"))
-  @bundled_specs["abstract"].loaded_from = "#{dir}/specifications/abstract-1.0.0.gemspec"
   @bundled_specs["erubis"] = eval(File.read("#{dir}/specifications/erubis-2.6.5.gemspec"))
   @bundled_specs["erubis"].loaded_from = "#{dir}/specifications/erubis-2.6.5.gemspec"
-  @bundled_specs["rake"] = eval(File.read("#{dir}/specifications/rake-0.8.7.gemspec"))
-  @bundled_specs["rake"].loaded_from = "#{dir}/specifications/rake-0.8.7.gemspec"
   @bundled_specs["curb"] = eval(File.read("#{dir}/specifications/curb-0.6.0.0.gemspec"))
   @bundled_specs["curb"].loaded_from = "#{dir}/specifications/curb-0.6.0.0.gemspec"
+  @bundled_specs["rake"] = eval(File.read("#{dir}/specifications/rake-0.8.7.gemspec"))
+  @bundled_specs["rake"].loaded_from = "#{dir}/specifications/rake-0.8.7.gemspec"
   @bundled_specs["net-scp"] = eval(File.read("#{dir}/specifications/net-scp-1.0.2.gemspec"))
   @bundled_specs["net-scp"].loaded_from = "#{dir}/specifications/net-scp-1.0.2.gemspec"
   @bundled_specs["klarlack"] = eval(File.read("#{dir}/specifications/klarlack-0.0.3.gemspec"))
   @bundled_specs["klarlack"].loaded_from = "#{dir}/specifications/klarlack-0.0.3.gemspec"
+  @bundled_specs["json"] = eval(File.read("#{dir}/specifications/json-1.2.0.gemspec"))
+  @bundled_specs["json"].loaded_from = "#{dir}/specifications/json-1.2.0.gemspec"
   @bundled_specs["system_timer"] = eval(File.read("#{dir}/specifications/system_timer-1.0.gemspec"))
   @bundled_specs["system_timer"].loaded_from = "#{dir}/specifications/system_timer-1.0.gemspec"
   @bundled_specs["stateless-systems-capistrano-ext"] = eval(File.read("#{dir}/specifications/stateless-systems-capistrano-ext-0.11.0.gemspec"))
@@ -203,10 +209,10 @@ module Bundler
   @bundled_specs["randexp"].loaded_from = "#{dir}/specifications/randexp-0.1.4.gemspec"
   @bundled_specs["dm-sweatshop"] = eval(File.read("#{dir}/specifications/dm-sweatshop-0.10.1.gemspec"))
   @bundled_specs["dm-sweatshop"].loaded_from = "#{dir}/specifications/dm-sweatshop-0.10.1.gemspec"
-  @bundled_specs["haml"] = eval(File.read("#{dir}/specifications/haml-2.2.16.gemspec"))
-  @bundled_specs["haml"].loaded_from = "#{dir}/specifications/haml-2.2.16.gemspec"
   @bundled_specs["highline"] = eval(File.read("#{dir}/specifications/highline-1.5.1.gemspec"))
   @bundled_specs["highline"].loaded_from = "#{dir}/specifications/highline-1.5.1.gemspec"
+  @bundled_specs["haml"] = eval(File.read("#{dir}/specifications/haml-2.2.16.gemspec"))
+  @bundled_specs["haml"].loaded_from = "#{dir}/specifications/haml-2.2.16.gemspec"
   @bundled_specs["sax-machine"] = eval(File.read("#{dir}/specifications/sax-machine-0.0.15.gemspec"))
   @bundled_specs["sax-machine"].loaded_from = "#{dir}/specifications/sax-machine-0.0.15.gemspec"
   @bundled_specs["dm-migrations"] = eval(File.read("#{dir}/specifications/dm-migrations-0.10.1.gemspec"))

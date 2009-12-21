@@ -33,6 +33,7 @@ gem 'dm-validations', dm_gems_version
 
 gem 'merb_datamapper', merb_gems_version
 
+gem 'json'
 gem 'addressable', '>= 2.1.0', :require_as => 'addressable/uri'
 gem 'curb'
 gem 'feedzirra', '>= 0.0.20'
