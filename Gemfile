@@ -1,5 +1,5 @@
 # vim: syntax=ruby
-# disable_rubygems
+# disable_system_gems
 source "http://gemcutter.org"
 bundle_path 'gems'
 

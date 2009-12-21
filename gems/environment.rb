@@ -6,8 +6,8 @@ module Bundler
   ENV["PATH"]     = "#{dir}/../bin:#{ENV["PATH"]}"
   ENV["RUBYOPT"]  = "-r#{file} #{ENV["RUBYOPT"]}"
 
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/net-ssh-2.0.16/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/net-ssh-2.0.16/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/net-ssh-2.0.17/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/net-ssh-2.0.17/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/net-ssh-gateway-1.0.1/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/net-ssh-gateway-1.0.1/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/sexp_processor-3.0.3/bin")
@@ -43,25 +43,25 @@ module Bundler
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/builder-2.1.2/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-constraints-0.10.1/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-constraints-0.10.1/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/nokogiri-1.4.0/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/nokogiri-1.4.0/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/nokogiri-1.4.0/ext")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/nokogiri-1.4.1/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/nokogiri-1.4.1/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/nokogiri-1.4.1/ext")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/mime-types-1.16/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/mime-types-1.16/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/diff-lcs-1.1.2/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/diff-lcs-1.1.2/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/memcache-client-1.7.4/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/memcache-client-1.7.4/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/rack-1.0.1/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/rack-1.0.1/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/diff-lcs-1.1.2/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/diff-lcs-1.1.2/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-types-0.10.1/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-types-0.10.1/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/randexp-0.1.4/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/randexp-0.1.4/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-sweatshop-0.10.1/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-sweatshop-0.10.1/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/haml-2.2.15/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/haml-2.2.15/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/haml-2.2.16/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/haml-2.2.16/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/highline-1.5.1/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/highline-1.5.1/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/sax-machine-0.0.15/bin")
@@ -76,18 +76,26 @@ module Bundler
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/moneta-0.6.0/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/uri-meta-0.9.4/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/uri-meta-0.9.4/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/bundler-0.7.1/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/bundler-0.7.1/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/extlib-0.9.13/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/extlib-0.9.13/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-core-0.10.1/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-core-0.10.1/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-serializer-0.10.1/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-serializer-0.10.1/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/bundler-0.7.2/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/bundler-0.7.2/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/rspec-1.2.9/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/rspec-1.2.9/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/addressable-2.1.1/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/addressable-2.1.1/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-param-protection-1.1.0.pre/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-param-protection-1.1.0.pre/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-auth-core-1.1.0.pre/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-auth-core-1.1.0.pre/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-auth-more-1.1.0.pre/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-auth-more-1.1.0.pre/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-exceptions-1.1.0.pre/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-exceptions-1.1.0.pre/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/extlib-0.9.14/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/extlib-0.9.14/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-core-0.10.1/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-core-0.10.1/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-serializer-0.10.1/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-serializer-0.10.1/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-core-1.1.0.pre/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-core-1.1.0.pre/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-mailer-1.1.0.pre/bin")
@@ -102,14 +110,6 @@ module Bundler
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb_datamapper-1.1.0.pre/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-slices-1.1.0.pre/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-slices-1.1.0.pre/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-param-protection-1.1.0.pre/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-param-protection-1.1.0.pre/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-auth-core-1.1.0.pre/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-auth-core-1.1.0.pre/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-auth-more-1.1.0.pre/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-auth-more-1.1.0.pre/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-exceptions-1.1.0.pre/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/merb-exceptions-1.1.0.pre/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/ruby_parser-2.0.4/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/ruby_parser-2.0.4/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/ruby2ruby-1.2.4/bin")
@@ -124,10 +124,10 @@ module Bundler
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/templater-1.0.0/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/loofah-0.4.1/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/loofah-0.4.1/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/ZenTest-4.2.0/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/ZenTest-4.2.0/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/RubyInline-3.8.3/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/RubyInline-3.8.3/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/ZenTest-4.2.1/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/ZenTest-4.2.1/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/RubyInline-3.8.4/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/RubyInline-3.8.4/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/ParseTree-3.0.4/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/ParseTree-3.0.4/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/ParseTree-3.0.4/test")
@@ -151,8 +151,8 @@ module Bundler
   require "rubygems"
 
   @bundled_specs = {}
-  @bundled_specs["net-ssh"] = eval(File.read("#{dir}/specifications/net-ssh-2.0.16.gemspec"))
-  @bundled_specs["net-ssh"].loaded_from = "#{dir}/specifications/net-ssh-2.0.16.gemspec"
+  @bundled_specs["net-ssh"] = eval(File.read("#{dir}/specifications/net-ssh-2.0.17.gemspec"))
+  @bundled_specs["net-ssh"].loaded_from = "#{dir}/specifications/net-ssh-2.0.17.gemspec"
   @bundled_specs["net-ssh-gateway"] = eval(File.read("#{dir}/specifications/net-ssh-gateway-1.0.1.gemspec"))
   @bundled_specs["net-ssh-gateway"].loaded_from = "#{dir}/specifications/net-ssh-gateway-1.0.1.gemspec"
   @bundled_specs["sexp_processor"] = eval(File.read("#{dir}/specifications/sexp_processor-3.0.3.gemspec"))
@@ -187,24 +187,24 @@ module Bundler
   @bundled_specs["builder"].loaded_from = "#{dir}/specifications/builder-2.1.2.gemspec"
   @bundled_specs["dm-constraints"] = eval(File.read("#{dir}/specifications/dm-constraints-0.10.1.gemspec"))
   @bundled_specs["dm-constraints"].loaded_from = "#{dir}/specifications/dm-constraints-0.10.1.gemspec"
-  @bundled_specs["nokogiri"] = eval(File.read("#{dir}/specifications/nokogiri-1.4.0.gemspec"))
-  @bundled_specs["nokogiri"].loaded_from = "#{dir}/specifications/nokogiri-1.4.0.gemspec"
+  @bundled_specs["nokogiri"] = eval(File.read("#{dir}/specifications/nokogiri-1.4.1.gemspec"))
+  @bundled_specs["nokogiri"].loaded_from = "#{dir}/specifications/nokogiri-1.4.1.gemspec"
   @bundled_specs["mime-types"] = eval(File.read("#{dir}/specifications/mime-types-1.16.gemspec"))
   @bundled_specs["mime-types"].loaded_from = "#{dir}/specifications/mime-types-1.16.gemspec"
+  @bundled_specs["diff-lcs"] = eval(File.read("#{dir}/specifications/diff-lcs-1.1.2.gemspec"))
+  @bundled_specs["diff-lcs"].loaded_from = "#{dir}/specifications/diff-lcs-1.1.2.gemspec"
   @bundled_specs["memcache-client"] = eval(File.read("#{dir}/specifications/memcache-client-1.7.4.gemspec"))
   @bundled_specs["memcache-client"].loaded_from = "#{dir}/specifications/memcache-client-1.7.4.gemspec"
   @bundled_specs["rack"] = eval(File.read("#{dir}/specifications/rack-1.0.1.gemspec"))
   @bundled_specs["rack"].loaded_from = "#{dir}/specifications/rack-1.0.1.gemspec"
-  @bundled_specs["diff-lcs"] = eval(File.read("#{dir}/specifications/diff-lcs-1.1.2.gemspec"))
-  @bundled_specs["diff-lcs"].loaded_from = "#{dir}/specifications/diff-lcs-1.1.2.gemspec"
   @bundled_specs["dm-types"] = eval(File.read("#{dir}/specifications/dm-types-0.10.1.gemspec"))
   @bundled_specs["dm-types"].loaded_from = "#{dir}/specifications/dm-types-0.10.1.gemspec"
   @bundled_specs["randexp"] = eval(File.read("#{dir}/specifications/randexp-0.1.4.gemspec"))
   @bundled_specs["randexp"].loaded_from = "#{dir}/specifications/randexp-0.1.4.gemspec"
   @bundled_specs["dm-sweatshop"] = eval(File.read("#{dir}/specifications/dm-sweatshop-0.10.1.gemspec"))
   @bundled_specs["dm-sweatshop"].loaded_from = "#{dir}/specifications/dm-sweatshop-0.10.1.gemspec"
-  @bundled_specs["haml"] = eval(File.read("#{dir}/specifications/haml-2.2.15.gemspec"))
-  @bundled_specs["haml"].loaded_from = "#{dir}/specifications/haml-2.2.15.gemspec"
+  @bundled_specs["haml"] = eval(File.read("#{dir}/specifications/haml-2.2.16.gemspec"))
+  @bundled_specs["haml"].loaded_from = "#{dir}/specifications/haml-2.2.16.gemspec"
   @bundled_specs["highline"] = eval(File.read("#{dir}/specifications/highline-1.5.1.gemspec"))
   @bundled_specs["highline"].loaded_from = "#{dir}/specifications/highline-1.5.1.gemspec"
   @bundled_specs["sax-machine"] = eval(File.read("#{dir}/specifications/sax-machine-0.0.15.gemspec"))
@@ -219,18 +219,26 @@ module Bundler
   @bundled_specs["moneta"].loaded_from = "#{dir}/specifications/moneta-0.6.0.gemspec"
   @bundled_specs["uri-meta"] = eval(File.read("#{dir}/specifications/uri-meta-0.9.4.gemspec"))
   @bundled_specs["uri-meta"].loaded_from = "#{dir}/specifications/uri-meta-0.9.4.gemspec"
-  @bundled_specs["bundler"] = eval(File.read("#{dir}/specifications/bundler-0.7.1.gemspec"))
-  @bundled_specs["bundler"].loaded_from = "#{dir}/specifications/bundler-0.7.1.gemspec"
-  @bundled_specs["extlib"] = eval(File.read("#{dir}/specifications/extlib-0.9.13.gemspec"))
-  @bundled_specs["extlib"].loaded_from = "#{dir}/specifications/extlib-0.9.13.gemspec"
-  @bundled_specs["dm-core"] = eval(File.read("#{dir}/specifications/dm-core-0.10.1.gemspec"))
-  @bundled_specs["dm-core"].loaded_from = "#{dir}/specifications/dm-core-0.10.1.gemspec"
-  @bundled_specs["dm-serializer"] = eval(File.read("#{dir}/specifications/dm-serializer-0.10.1.gemspec"))
-  @bundled_specs["dm-serializer"].loaded_from = "#{dir}/specifications/dm-serializer-0.10.1.gemspec"
+  @bundled_specs["bundler"] = eval(File.read("#{dir}/specifications/bundler-0.7.2.gemspec"))
+  @bundled_specs["bundler"].loaded_from = "#{dir}/specifications/bundler-0.7.2.gemspec"
   @bundled_specs["rspec"] = eval(File.read("#{dir}/specifications/rspec-1.2.9.gemspec"))
   @bundled_specs["rspec"].loaded_from = "#{dir}/specifications/rspec-1.2.9.gemspec"
   @bundled_specs["addressable"] = eval(File.read("#{dir}/specifications/addressable-2.1.1.gemspec"))
   @bundled_specs["addressable"].loaded_from = "#{dir}/specifications/addressable-2.1.1.gemspec"
+  @bundled_specs["merb-param-protection"] = eval(File.read("#{dir}/specifications/merb-param-protection-1.1.0.pre.gemspec"))
+  @bundled_specs["merb-param-protection"].loaded_from = "#{dir}/specifications/merb-param-protection-1.1.0.pre.gemspec"
+  @bundled_specs["merb-auth-core"] = eval(File.read("#{dir}/specifications/merb-auth-core-1.1.0.pre.gemspec"))
+  @bundled_specs["merb-auth-core"].loaded_from = "#{dir}/specifications/merb-auth-core-1.1.0.pre.gemspec"
+  @bundled_specs["merb-auth-more"] = eval(File.read("#{dir}/specifications/merb-auth-more-1.1.0.pre.gemspec"))
+  @bundled_specs["merb-auth-more"].loaded_from = "#{dir}/specifications/merb-auth-more-1.1.0.pre.gemspec"
+  @bundled_specs["merb-exceptions"] = eval(File.read("#{dir}/specifications/merb-exceptions-1.1.0.pre.gemspec"))
+  @bundled_specs["merb-exceptions"].loaded_from = "#{dir}/specifications/merb-exceptions-1.1.0.pre.gemspec"
+  @bundled_specs["extlib"] = eval(File.read("#{dir}/specifications/extlib-0.9.14.gemspec"))
+  @bundled_specs["extlib"].loaded_from = "#{dir}/specifications/extlib-0.9.14.gemspec"
+  @bundled_specs["dm-core"] = eval(File.read("#{dir}/specifications/dm-core-0.10.1.gemspec"))
+  @bundled_specs["dm-core"].loaded_from = "#{dir}/specifications/dm-core-0.10.1.gemspec"
+  @bundled_specs["dm-serializer"] = eval(File.read("#{dir}/specifications/dm-serializer-0.10.1.gemspec"))
+  @bundled_specs["dm-serializer"].loaded_from = "#{dir}/specifications/dm-serializer-0.10.1.gemspec"
   @bundled_specs["merb-core"] = eval(File.read("#{dir}/specifications/merb-core-1.1.0.pre.gemspec"))
   @bundled_specs["merb-core"].loaded_from = "#{dir}/specifications/merb-core-1.1.0.pre.gemspec"
   @bundled_specs["merb-mailer"] = eval(File.read("#{dir}/specifications/merb-mailer-1.1.0.pre.gemspec"))
@@ -245,14 +253,6 @@ module Bundler
   @bundled_specs["merb_datamapper"].loaded_from = "#{dir}/specifications/merb_datamapper-1.1.0.pre.gemspec"
   @bundled_specs["merb-slices"] = eval(File.read("#{dir}/specifications/merb-slices-1.1.0.pre.gemspec"))
   @bundled_specs["merb-slices"].loaded_from = "#{dir}/specifications/merb-slices-1.1.0.pre.gemspec"
-  @bundled_specs["merb-param-protection"] = eval(File.read("#{dir}/specifications/merb-param-protection-1.1.0.pre.gemspec"))
-  @bundled_specs["merb-param-protection"].loaded_from = "#{dir}/specifications/merb-param-protection-1.1.0.pre.gemspec"
-  @bundled_specs["merb-auth-core"] = eval(File.read("#{dir}/specifications/merb-auth-core-1.1.0.pre.gemspec"))
-  @bundled_specs["merb-auth-core"].loaded_from = "#{dir}/specifications/merb-auth-core-1.1.0.pre.gemspec"
-  @bundled_specs["merb-auth-more"] = eval(File.read("#{dir}/specifications/merb-auth-more-1.1.0.pre.gemspec"))
-  @bundled_specs["merb-auth-more"].loaded_from = "#{dir}/specifications/merb-auth-more-1.1.0.pre.gemspec"
-  @bundled_specs["merb-exceptions"] = eval(File.read("#{dir}/specifications/merb-exceptions-1.1.0.pre.gemspec"))
-  @bundled_specs["merb-exceptions"].loaded_from = "#{dir}/specifications/merb-exceptions-1.1.0.pre.gemspec"
   @bundled_specs["ruby_parser"] = eval(File.read("#{dir}/specifications/ruby_parser-2.0.4.gemspec"))
   @bundled_specs["ruby_parser"].loaded_from = "#{dir}/specifications/ruby_parser-2.0.4.gemspec"
   @bundled_specs["ruby2ruby"] = eval(File.read("#{dir}/specifications/ruby2ruby-1.2.4.gemspec"))
@@ -267,10 +267,10 @@ module Bundler
   @bundled_specs["templater"].loaded_from = "#{dir}/specifications/templater-1.0.0.gemspec"
   @bundled_specs["loofah"] = eval(File.read("#{dir}/specifications/loofah-0.4.1.gemspec"))
   @bundled_specs["loofah"].loaded_from = "#{dir}/specifications/loofah-0.4.1.gemspec"
-  @bundled_specs["ZenTest"] = eval(File.read("#{dir}/specifications/ZenTest-4.2.0.gemspec"))
-  @bundled_specs["ZenTest"].loaded_from = "#{dir}/specifications/ZenTest-4.2.0.gemspec"
-  @bundled_specs["RubyInline"] = eval(File.read("#{dir}/specifications/RubyInline-3.8.3.gemspec"))
-  @bundled_specs["RubyInline"].loaded_from = "#{dir}/specifications/RubyInline-3.8.3.gemspec"
+  @bundled_specs["ZenTest"] = eval(File.read("#{dir}/specifications/ZenTest-4.2.1.gemspec"))
+  @bundled_specs["ZenTest"].loaded_from = "#{dir}/specifications/ZenTest-4.2.1.gemspec"
+  @bundled_specs["RubyInline"] = eval(File.read("#{dir}/specifications/RubyInline-3.8.4.gemspec"))
+  @bundled_specs["RubyInline"].loaded_from = "#{dir}/specifications/RubyInline-3.8.4.gemspec"
   @bundled_specs["ParseTree"] = eval(File.read("#{dir}/specifications/ParseTree-3.0.4.gemspec"))
   @bundled_specs["ParseTree"].loaded_from = "#{dir}/specifications/ParseTree-3.0.4.gemspec"
   @bundled_specs["data_objects"] = eval(File.read("#{dir}/specifications/data_objects-0.10.0.gemspec"))
