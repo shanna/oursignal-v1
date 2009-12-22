@@ -31,8 +31,13 @@ set :apache_monit_test_urls, ['http://www.oursignal.com:8080/static/monit', 'htt
 set :varnish_monit_test_urls, ['http://www.oursignal.com/static/monit', 'http://staging.oursignal.com/static/monit']
 set :monit_cpu_user, '80% for 2 cycles'
 
-# We run our own migrations
-set :merb_use_automigrate, false
+# Use bundler instead of thor for gems
+set :'use_bundler?', true
+
+# We don't have any migrations yet
+set :'merb_use_automigrate?', false
+set :'merb_use_autoupgrade?', false
+set :'use_migrations?', false
 
 set(:default_environment) do
   { 'MERB_ENV' => stage }
