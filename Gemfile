@@ -64,5 +64,5 @@ end
 only :deploy do
   gem 'capistrano'
   gem 'capistrano-ext'
-  gem 'stateless-systems-capistrano-ext', '0.12.2'
+  gem 'stateless-systems-capistrano-ext', '0.12.3'
 end
