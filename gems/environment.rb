@@ -31,8 +31,8 @@ module Bundler
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json-1.2.0/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/system_timer-1.0/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/system_timer-1.0/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/stateless-systems-capistrano-ext-0.12.1/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/stateless-systems-capistrano-ext-0.12.1/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/stateless-systems-capistrano-ext-0.12.2/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/stateless-systems-capistrano-ext-0.12.2/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/shoulda-2.10.2/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/shoulda-2.10.2/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/eventmachine-0.12.10/bin")
@@ -177,8 +177,8 @@ module Bundler
   @bundled_specs["json"].loaded_from = "#{dir}/specifications/json-1.2.0.gemspec"
   @bundled_specs["system_timer"] = eval(File.read("#{dir}/specifications/system_timer-1.0.gemspec"))
   @bundled_specs["system_timer"].loaded_from = "#{dir}/specifications/system_timer-1.0.gemspec"
-  @bundled_specs["stateless-systems-capistrano-ext"] = eval(File.read("#{dir}/specifications/stateless-systems-capistrano-ext-0.12.1.gemspec"))
-  @bundled_specs["stateless-systems-capistrano-ext"].loaded_from = "#{dir}/specifications/stateless-systems-capistrano-ext-0.12.1.gemspec"
+  @bundled_specs["stateless-systems-capistrano-ext"] = eval(File.read("#{dir}/specifications/stateless-systems-capistrano-ext-0.12.2.gemspec"))
+  @bundled_specs["stateless-systems-capistrano-ext"].loaded_from = "#{dir}/specifications/stateless-systems-capistrano-ext-0.12.2.gemspec"
   @bundled_specs["shoulda"] = eval(File.read("#{dir}/specifications/shoulda-2.10.2.gemspec"))
   @bundled_specs["shoulda"].loaded_from = "#{dir}/specifications/shoulda-2.10.2.gemspec"
   @bundled_specs["eventmachine"] = eval(File.read("#{dir}/specifications/eventmachine-0.12.10.gemspec"))
