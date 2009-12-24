@@ -4,6 +4,7 @@ class Score
   module Frequency
     def frequency_score
       average_daily_links = Feed.avg(:daily_links, Feed.feed_links.link_id => id)
+      average_daily_links = 0.to_f if average_daily_links.nil? || average_daily_links.nan? || average_daily_links.infinite?
       1 - frequency_normal(average_daily_links)
     end
 
