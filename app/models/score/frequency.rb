@@ -3,7 +3,7 @@ require 'math/uniform_distribution'
 class Score
   module Frequency
     def frequency_score
-      average_daily_links = feeds.inject(0.0){|ac, feed| ac += feed.daily_links; ac} / feeds.size
+      average_daily_links = Feed.avg(:daily_links, Feed.feed_links.link_id => id)
       1 - frequency_normal(average_daily_links)
     end
 
