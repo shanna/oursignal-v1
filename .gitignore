@@ -13,7 +13,6 @@ schema/*.db
 *.sqlite
 *.sqlite3
 *.db
-src/*
 log/*
 tc/*
 .hgignore
@@ -25,3 +24,5 @@ tc/*
 gems/gems
 gems/specifications
 .original_gems/
+bin/freshness
+bin/frequency
