@@ -9,11 +9,15 @@ PROGRAMS = freshness frequency
 
 all: $(PROGRAMS)
 
-freshness:
-	$(CC) $(CFLAGS) $(INCLUDES) -o freshness freshness.c $(LIBS)
+deps:
+	$(CC) $(CFLAGS) $(INCLUDES) -c os.c $(LIBS)
+	$(CC) $(CFLAGS) $(INCLUDES) -c score.c $(LIBS)
 
-frequency:
-	$(CC) $(CFLAGS) $(INCLUDES) -o frequency frequency.c $(LIBS)
+freshness: deps
+	$(CC) $(CFLAGS) $(INCLUDES) os.o score.o freshness.c -o freshness $(LIBS)
+
+frequency: deps
+	$(CC) $(CFLAGS) $(INCLUDES) os.o score.o frequency.c -o frequency $(LIBS)
 
 install:
 	for program in $(PROGRAMS); do \
