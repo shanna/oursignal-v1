@@ -1,17 +1,12 @@
-require 'score/freshness'
-require 'score/frequency'
+require 'oursignal'
 
 module Oursignal
   module Score
     class Source
       class Freshness < Source
         def call
-          Link.send(:include, ::Score::Freshness)
-          Link.send(:include, ::Score::Frequency)
-          Link.all.each do |link|
-            score('frequency', link.url, link.frequency_score)
-            score('freshness', link.url, link.freshness_score)
-          end
+          system File.join(Oursignal.root, 'bin', 'freshness')
+          system File.join(Oursignal.root, 'bin', 'frequency')
         end
       end # Freshness
     end # Source
