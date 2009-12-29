@@ -7,6 +7,16 @@ typedef struct {
 } bucket;
 bucket buckets[100];
 
+int normalized_score(float bv) {
+  int i = 0;
+  for (; i < 100; i++) {
+    if (buckets[i].range < bv) {
+      return buckets[i].value;
+    }
+  }
+  return buckets[-1].value;
+}
+
 int main (int arc, char* argv[]) {
   // TODO: Move all the basic looping stuff into score.h && score.c
 
@@ -54,8 +64,8 @@ int main (int arc, char* argv[]) {
     mysql_free_result(feeds);
   }
   free(daily_links_offset);
-/*
-  if (mysql_query(db, "select url, ((now() - referred_at) / (60 * 60)) as hours from links")) {
+
+  if (mysql_query(db, "select l.url, avg(f.daily_links) from links l join feed_links fl on (l.id = fl.link_id) join feeds f on (f.id = fl.feed_id) group by l.url")) {
     fprintf(stderr, "%s\n", mysql_error(db));
     return 1;
   }
@@ -80,7 +90,7 @@ int main (int arc, char* argv[]) {
   }
 
   char* id     = malloc(300);
-  char* source = "freshness";
+  char* source = "frequency";
   unsigned long source_length = strlen(source);
 
   binds[0].buffer_type   = MYSQL_TYPE_STRING;
@@ -99,8 +109,7 @@ int main (int arc, char* argv[]) {
   MYSQL_ROW link;
   unsigned long int updates = 0;
   while ((link = mysql_fetch_row(links))) {
-    float hours = atof(link[1]);
-    hours = hours < 24 ? ((24.0f - hours) / 24) : 0.0f;
+    float frequency = 1 - ((float)normalized_score(atof(link[1])) * 0.01f);
 
     strcpy(id, source);
     strcat(id, link[0]);
@@ -113,11 +122,11 @@ int main (int arc, char* argv[]) {
     binds[2].buffer = link[0];
     binds[2].length = &url_length;
 
-    binds[3].buffer = (char*)& hours;
+    binds[3].buffer = (char*)& frequency;
     binds[3].length = 0;
     binds[3].is_null = 0;
 
-    binds[4].buffer = (char*)& hours;
+    binds[4].buffer = (char*)& frequency;
     binds[4].length = 0;
     binds[4].is_null = 0;
 
@@ -144,9 +153,8 @@ int main (int arc, char* argv[]) {
 
   free(id);
   mysql_free_result(links);
-*/
   mysql_close(db);
 
-//  printf("ok, %lu rows\n", updates);
+  printf("ok, %lu rows\n", updates);
   return(0);
 }
