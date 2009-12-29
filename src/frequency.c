@@ -14,7 +14,7 @@ int normalized_score(float bv) {
       return buckets[i].value;
     }
   }
-  return buckets[-1].value;
+  return buckets[i-1].value;
 }
 
 int main (int arc, char* argv[]) {
