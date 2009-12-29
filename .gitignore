@@ -26,3 +26,5 @@ gems/specifications
 .original_gems/
 bin/freshness
 bin/frequency
+src/frequency
+src/freshness
