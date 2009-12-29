@@ -45,6 +45,12 @@ set(:default_environment) do
 end
 
 namespace :deploy do
+  desc 'Score tasks'
+  task :scores do
+    run "cd #{current_path}/src && make"
+    run "cd #{current_path}/src && make install"
+  end
+
   desc 'Restart scheduler'
   task :scheduler do
     run "#{thor} os:scheduler:stop"
@@ -52,5 +58,7 @@ namespace :deploy do
   end
 end
 
+after 'deploy:restart', 'deploy:scores'
 after 'deploy:restart', 'deploy:scheduler'
+after 'deploy:start', 'deploy:scores'
 after 'deploy:start', 'deploy:scheduler'
