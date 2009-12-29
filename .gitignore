@@ -28,3 +28,4 @@ bin/freshness
 bin/frequency
 src/frequency
 src/freshness
+*.o
