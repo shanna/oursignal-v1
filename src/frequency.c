@@ -4,7 +4,7 @@
   from links l \
   join feed_links fl on (l.id = fl.link_id) \
   join feeds f on (f.id = fl.feed_id) \
-  group by l.url"
+  group by l.id"
 
 #define BUCKET_SQL "select daily_links \
   from feeds \
