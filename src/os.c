@@ -5,7 +5,7 @@
  */
 bool os_init() {
   db = mysql_init(NULL);
-  if (!mysql_real_connect(db, "localhost", "root", "", "oursignal", 0, NULL, 0)) {
+  if (!mysql_real_connect(db, "127.0.0.1", "root", "", "oursignal", 3306, NULL, 0)) {
     fprintf(stderr, "mysql connection error: %s\n", mysql_error(db));
     return FALSE;
   }
