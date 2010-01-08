@@ -1,9 +1,6 @@
 module Oursignal
   def self.merb_env(options = {})
-    require 'rubygems'
-    if (local_gem_dir = File.join(root, 'gems')) && $BUNDLE.nil?
-      $BUNDLE = true; Gem.clear_paths; Gem.path.unshift(local_gem_dir)
-    end
+    require File.join(root, 'gems', 'environment')
 
     Dir.chdir(root)
     require 'merb-core'

@@ -11,11 +11,18 @@ require 'capistrano/ext/basic-authentication'
 require 'capistrano/ext/memcached'
 require 'capistrano/ext/monit'
 require 'capistrano/ext/varnish'
-require 'capistrano/ext/multistage'
 
 role :web, '72.47.219.75'
 role :app, '72.47.219.75'
 role :db, '72.47.219.75', :primary => true
+
+set :deploy_to, '/srv/www.oursignal.com'
+set :apache_server_name, 'oursignal.com'
+set :apache_config_extra, <<END
+  ServerAlias www.oursignal.com
+  RewriteEngine On
+  RewriteRule ^/.*\.php / [R]
+END
 
 set :application, 'oursignal'
 set :repository,  'git@github.com:stateless-systems/oursignal.git'
@@ -26,6 +33,10 @@ set :gems, fetch(:gems, []).push('jeweler')
 
 # Change the apache port because we run a caching service (varnish) on port 80
 set :apache_port, '8080'
+
+set(:default_environment) do
+  {'MERB_ENV' => 'production'}
+end
 
 set :apache_monit_test_urls, ['http://www.oursignal.com:8080/static/monit']
 set :varnish_monit_test_urls, ['http://www.oursignal.com/static/monit']
@@ -40,10 +51,6 @@ set :'merb_use_automigrate?', false
 set :'merb_use_autoupgrade?', false
 set :'use_migrations?', false
 
-set(:default_environment) do
-  { 'MERB_ENV' => stage }
-end
-
 namespace :deploy do
   desc 'Score tasks'
   task :scores do
@@ -51,14 +58,20 @@ namespace :deploy do
     run "cd #{current_path}/src && make install"
   end
 
-  desc 'Restart scheduler'
-  task :scheduler do
-    run "#{thor} os:scheduler:stop"
-    run "#{thor} os:scheduler:start"
+  namespace :scheduler do
+    desc 'Stop scheduler'
+    task :stop do
+      run "#{thor} os:scheduler:stop"
+    end
+
+    desc 'Start scheduler'
+    task :start do
+      run "#{thor} os:scheduler:start"
+    end
   end
 end
 
-after 'deploy:restart', 'deploy:scores'
-after 'deploy:restart', 'deploy:scheduler'
-after 'deploy:start', 'deploy:scores'
-after 'deploy:start', 'deploy:scheduler'
+before 'deploy', 'deploy:scheduler:stop'
+after  'deploy', 'deploy:scores'
+after  'deploy', 'deploy:scheduler:start'
+
