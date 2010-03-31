@@ -50,7 +50,7 @@ module Oursignal
 
             ema              = Math::Average::ExponentialMoving.new(0.5, (link.velocity_average || 0))
             velocity_average = ema.update(score - (link.score || 0))
-            velocity         = Velocity.normalized(velocity_average)
+            velocity         = ::Velocity.normalized(velocity_average)
 
             repository.adapter.execute(
               %q{
