@@ -72,7 +72,7 @@ module Oursignal
               velocity.to_f.round(5),
               link.id
             )
-
+=begin DEBUGGING
             puts %Q{%s, %s
               \r  age: %.5f
               \r  old:
@@ -102,6 +102,7 @@ module Oursignal
               velocity_average,
               velocity
             ]
+=end
           end
         end
       end
