@@ -107,9 +107,10 @@ html, body {
   margin: 1px 5px 0 4px;
 }
 
-#meta .screenshot img {
-  width: 120px;
-  height: 90px;
+#meta .screenshot {
+  width:    120px;
+  height:   90px;
+  overflow: hidden;
 }
 
 #meta .source {
