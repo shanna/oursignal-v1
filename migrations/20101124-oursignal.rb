@@ -22,8 +22,8 @@ cat <<SQL
       velocity          float default '0',
       score_at          timestamp default null,
       referred_at       timestamp default now(),
-      created_at        timestamp default now(),
       updated_at        timestamp default now(),
+      created_at        timestamp default now(),
       unique(url),
       primary key(id)
     );
@@ -37,8 +37,8 @@ cat <<SQL
       last_modified timestamp default null,
       total_links   integer default '0',
       daily_links   float default '0',
-      created_at    timestamp default now(),
       updated_at    timestamp default now(),
+      created_at    timestamp default now(),
       unique(url),
       primary key(id)
     );
