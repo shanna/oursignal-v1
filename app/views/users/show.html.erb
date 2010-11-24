@@ -1,9 +1,0 @@
-<% throw_content :for_head do %>
-  <%= self_closing_tag('link',
-    :rel   => 'alternate',
-    :type  => 'application/rss+xml',
-    :title => h(user.title),
-    :href  => absolute_url(:links, user.username, :format => :rss)
-  ) %>
-<% end %>
-<%= partial 'layout/links' %>

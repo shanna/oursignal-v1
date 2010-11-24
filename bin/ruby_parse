@@ -1,3 +1,0 @@
-#!/usr/bin/ruby1.8 -s
-require File.expand_path(File.join(File.dirname(__FILE__), "../gems/environment"))
-load File.expand_path(File.join(File.dirname(__FILE__), "../gems/gems/ruby_parser-2.0.4/bin/ruby_parse"))

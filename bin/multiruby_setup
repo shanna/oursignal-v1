@@ -1,3 +1,0 @@
-#!/usr/bin/ruby1.8 -w
-require File.expand_path(File.join(File.dirname(__FILE__), "../gems/environment"))
-load File.expand_path(File.join(File.dirname(__FILE__), "../gems/gems/ZenTest-4.2.1/bin/multiruby_setup"))

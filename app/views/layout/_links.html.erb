@@ -1,8 +1,0 @@
-<script type="text/javascript">
-  //<![CDATA[
-    $.os.links = <%= (@links || user.links).to_json %>;
-  //]]>
-</script>
-<%= tag :link, :type => 'text/css', :charset => 'utf-8', :href => user.theme.css, :rel => 'stylesheet' %>
-<%= tag :script, :type => 'text/javascript', :src => user.theme.js %>
-<div id="links"></div>
