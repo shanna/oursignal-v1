@@ -13,6 +13,9 @@ gem 'sinatra', '1.1.1' # http://github.com/shanna/sinatra/tree/named_capture_rou
 # gem 'sinatra-auth'
 # gem 'rack-flash'
 
+# Business.
+gem 'swift'
+
 only :development do
   gem 'unicorn'
 end
