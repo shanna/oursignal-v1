@@ -9,7 +9,7 @@ Encoding.default_internal = Encoding.default_external = "UTF-8"
 
 module Oursignal
   class Web < Sinatra::Base
-    set :root, Fundry.root
+    set :root, Oursignal.root
     set :haml, escape_html: true
 
     disable :raise_errors, :show_exceptions, :dump_errors
