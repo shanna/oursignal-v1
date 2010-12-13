@@ -29,6 +29,16 @@ div#logo, div.navigation {
   margin: 0;
 }
 
+#head #fundry {
+  margin: 6px 0 0 20px;
+  padding: 0;
+  float: left;
+}
+
+#head #fundry img {
+  margin: 0; padding: 0;
+}
+
 a.logo {
   display: block;
   background: url(/i/logo.png) no-repeat;
