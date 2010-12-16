@@ -1,7 +1,3 @@
-// Unminified zoomer doesn't seem to be available.
-// http://addyosmani.com/blog/zoomer-gallery-a-jquery-plugin-for-displaying-images-with-flash-like-zooming-effects/
-(function($){$.fn.Zoomer=function(b){var c=$.extend({speedView:200,speedRemove:400,altAnim:false,speedTitle:400,debug:false},b);var d=$.extend(c,b);function e(s){if(typeof console!="undefined"&&typeof console.debug!="undefined"){console.log(s)}else{alert(s)}}if(d.speedView==undefined||d.speedRemove==undefined||d.altAnim==undefined||d.speedTitle==undefined){e('speedView: '+d.speedView);e('speedRemove: '+d.speedRemove);e('altAnim: '+d.altAnim);e('speedTitle: '+d.speedTitle);return false}if(d.debug==undefined){e('speedView: '+d.speedView);e('speedRemove: '+d.speedRemove);e('altAnim: '+d.altAnim);e('speedTitle: '+d.speedTitle);return false}if(typeof d.speedView!="undefined"||typeof d.speedRemove!="undefined"||typeof d.altAnim!="undefined"||typeof d.speedTitle!="undefined"){if(d.debug==true){e('speedView: '+d.speedView);e('speedRemove: '+d.speedRemove);e('altAnim: '+d.altAnim);e('speedTitle: '+d.speedTitle)}$(this).hover(function(){$(this).css({'z-index':'10'});$(this).find('img').addClass("hover").stop().animate({marginTop:'-110px',marginLeft:'-110px',top:'50%',left:'50%',width:'175px',height:'181px',padding:'20px'},d.speedView);if(d.altAnim==true){var a=$(this).find("img").attr("alt");if(a.length!=0){$(this).prepend('<span class="title">'+a+'</span>');$('.title').animate({marginLeft:'-42px',marginTop:'90px'},d.speedTitle).css({'z-index':'10','position':'absolute','float':'left'})}}},function(){$(this).css({'z-index':'0'});$(this).find('img').removeClass("hover").stop().animate({marginTop:'0',marginLeft:'0',top:'0',left:'0',width:'100px',height:'100px',padding:'5px'},d.speedRemove);$(this).find('.title').remove()})}}})(jQuery);
-
 /*
  * Embedly JQuery
  * ==============
@@ -211,6 +207,36 @@
 
 (function ($) {
   $.extend($.fn, {
+    zoomer: function () {
+      return this.each(function () {
+        var entry = $(this);
+        $(this).hover(
+          function () { // over
+            entry.css({'z-index': '10'}).addClass('hover').stop().animate({
+              width:      '190px',
+              height:     '190px',
+              marginLeft: '-32px',
+              marginTop:  '-32px'
+            }, 200);
+            entry.children('.meta').show();
+          },
+          function () { // out
+            entry.css({'z-index': '0'}).removeClass('hover').stop().animate({
+              width:      '128px',
+              height:     '96px',
+              marginLeft: '0',
+              marginTop:  '0',
+            }, 200);
+            entry.children('.meta').hide();
+          }
+        );
+      });
+    },
+
+    outer: function () {
+      return $('<div>').append(this.eq(0).clone()).html();
+    },
+
     visualize: function (options) {
       var defaults = {cache: true};
       options = $.extend(defaults, options);
@@ -223,28 +249,31 @@
 
         var data = $.links(options);
         $.each(data, function (i, link) {
-          var image = $('<img />').hide();
+          var image = $('<img />');
           $.embedly(link.url, {maxWidth: 190, maxHeight: 190}, function (oe) {
             if (oe && oe.thumbnail_url) image.attr({src: oe.thumbnail_url});
-            else image.attr({src: 'http://open.thumbshots.org/image.aspx?url=' + escape(link.url)});
-            image.show();
+            // else image.attr({src: 'http://open.thumbshots.org/image.aspx?url=' + escape(link.url)});
+            else image.attr({src: 'http://metauri.com/shot/small/' + escape(link.url)});
           });
 
-          var score    = $('<div class="score" />').append(link.score);
-          var velocity = $('<div class="velocity" />').append('velocity: ' + link.velocity);
-          // var domains  = $('<div class="source" />').append('source: ' + sources.join(', '));
-          var meta     = $('<div class="meta" />').append(score, velocity); // , domains);
+          var sources = [];
+          $.each(link.referrers, function (k, v) {
+            sources.push($('<a />').attr({href: v}).append(k).outer());
+          });
+
+          var domains  = $('<div class="source" />').append('via: ' + sources.join(', '));
+          var title    = $('<div class="title" />').append(link.title);
+          var meta     = $('<div class="meta" />').append(title, domains).hide();
           var anchor   = $('<a />').attr({href: link.url, target: $.target()}).append(image);
-          ul.append($('<li />').append(anchor, meta));
+          var entry    = $('<div class="entry" />').append(anchor, meta).zoomer();
+          var li       = $('<li />').append(entry);
+          ul.append(li);
         });
       });
     }
   });
 
   $(document).ready(function () {
-    $('#links').visualize();
-
-    // TODO: debug: false should be the default.
-    $('#links li').Zoomer({speedView: 200, speedRemove: 400, altAnim: true, speedTitle: 400, debug: false});
+    $('#links').visualize().append('<div style="clear: both;"></div>');
   });
 })(jQuery);
