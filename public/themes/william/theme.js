@@ -209,25 +209,30 @@
   $.extend($.fn, {
     zoomer: function () {
       return this.each(function () {
-        var entry = $(this);
+        var entry     = $(this);
+        var thumbnail = entry.children('.thumbnail');
+        var meta      = entry.children('.meta');
+
         $(this).hover(
           function () { // over
+            meta.css({width: '190px'}).show();
+            thumbnail.css({width: '190px', height: '144px'});
             entry.css({'z-index': '10'}).addClass('hover').stop().animate({
               width:      '190px',
-              height:     '190px',
+              height:     (144 + meta.height()) + 'px',
               marginLeft: '-32px',
               marginTop:  '-32px'
             }, 200);
-            entry.children('.meta').show();
           },
           function () { // out
+            thumbnail.css({width: '128px', height: '96px'});
+            meta.hide();
             entry.css({'z-index': '0'}).removeClass('hover').stop().animate({
               width:      '128px',
               height:     '96px',
               marginLeft: '0',
               marginTop:  '0',
             }, 200);
-            entry.children('.meta').hide();
           }
         );
       });
@@ -252,8 +257,7 @@
           var image = $('<img />');
           $.embedly(link.url, {maxWidth: 190, maxHeight: 190}, function (oe) {
             if (oe && oe.thumbnail_url) image.attr({src: oe.thumbnail_url});
-            // else image.attr({src: 'http://open.thumbshots.org/image.aspx?url=' + escape(link.url)});
-            else image.attr({src: 'http://metauri.com/shot/small/' + escape(link.url)});
+            else image.attr({src: 'http://open.thumbshots.org/image.aspx?url=' + escape(link.url)});
           });
 
           var sources = [];
@@ -261,12 +265,13 @@
             sources.push($('<a />').attr({href: v}).append(k).outer());
           });
 
-          var domains  = $('<div class="source" />').append('via: ' + sources.join(', '));
-          var title    = $('<div class="title" />').append(link.title);
-          var meta     = $('<div class="meta" />').append(title, domains).hide();
-          var anchor   = $('<a />').attr({href: link.url, target: $.target()}).append(image);
-          var entry    = $('<div class="entry" />').append(anchor, meta).zoomer();
-          var li       = $('<li />').append(entry);
+          var anchor = $('<a />').attr({href: link.url, target: $.target()}).append(image);
+          var domains   = $('<div class="source" />').append('via: ' + sources.join(', '));
+          var title     = $('<div class="title" />').append(link.title);
+          var meta      = $('<div class="meta" />').append(title, domains).hide();
+          var thumbnail = $('<div class="thumbnail" />').append(anchor);
+          var entry     = $('<div class="entry" />').append(thumbnail, meta).zoomer();
+          var li        = $('<li />').append(entry);
           ul.append(li);
         });
       });
@@ -274,6 +279,9 @@
   });
 
   $(document).ready(function () {
-    $('#links').visualize().append('<div style="clear: both;"></div>');
+    $('#links').visualize().append('<div style="clear: both;" />');
+    $(window).resize(function () {
+      $('#footer').css({position: 'absolute', top: ($(document).height() - $('#footer').outerHeight() - 1) + 'px'});
+    }).resize();
   });
 })(jQuery);
