@@ -274,14 +274,17 @@
           var li        = $('<li />').append(entry);
           ul.append(li);
         });
+
+        $(this).append('<div style="clear: both;" />');
       });
     }
   });
 
   $(document).ready(function () {
-    $('#links').visualize().append('<div style="clear: both;" />');
+    $('#links').visualize();
     $(window).resize(function () {
-      $('#footer').css({position: 'absolute', top: ($(document).height() - $('#footer').outerHeight() - 1) + 'px'});
+      if ($(window).height() >= $(document).height())
+        $('#footer').css({position: 'absolute', top: ($(document).height() - $('#footer').outerHeight() - 1) + 'px'});
     }).resize();
   });
 })(jQuery);
