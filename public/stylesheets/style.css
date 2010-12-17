@@ -30,13 +30,18 @@ div#logo, div.navigation {
 }
 
 #head #fundry {
-  margin: 6px 0 0 20px;
-  padding: 0;
+  margin: 10px 0 0 20px;
   float: left;
+}
+
+#head #fundry span {
+  float: left;
+  padding: 3px 4px 0px 4px; margin: 0px;
 }
 
 #head #fundry img {
   margin: 0; padding: 0;
+  vertical-align: middle;
 }
 
 a.logo {
