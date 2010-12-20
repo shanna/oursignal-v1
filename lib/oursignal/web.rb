@@ -1,6 +1,8 @@
 require File.join(File.dirname(__FILE__), '..', 'oursignal')
 require 'haml'
 require 'sinatra/base'
+require 'sinatra/content'
+require 'sinatra/page'
 require 'sinatra/url'
 
 # TODO: I'm not sure how you are supposed to set the external encoding.
