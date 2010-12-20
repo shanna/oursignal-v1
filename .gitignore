@@ -23,6 +23,8 @@ tc/*
 *\.dbshell
 gems/gems
 gems/specifications
+gems/ruby/*/gems
+gems/ruby/*/specifications
 .original_gems/
 bin/freshness
 bin/frequency
