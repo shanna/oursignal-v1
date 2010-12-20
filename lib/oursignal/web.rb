@@ -13,6 +13,7 @@ module Oursignal
   class Web < Sinatra::Base
     set :root, Oursignal.root
     set :haml, escape_html: true, format: :html5
+    set :scss, style: :compact
 
     disable :raise_errors, :show_exceptions, :dump_errors
     enable  :sessions, :methodoverride
@@ -25,6 +26,12 @@ module Oursignal
     get %r{^/ (?<username>[a-zA-Z]\w+) (?<format>\.(?:html|rss|json|jsonp))? /? $}x do |username, format|
       # TODO: Internal redirect?
       redirect url(:users, username)
+    end
+
+    #--
+    # TODO: Multiple stylesheets or just @import?
+    get '/css/screen.css' do
+      scss :screen
     end
 
     error Sinatra::NotFound do
