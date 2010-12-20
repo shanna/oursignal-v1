@@ -3,7 +3,6 @@ disable_rubygems
 source "http://gemcutter.org"
 bundle_path 'gems'
 
-gem 'bundler', '0.7.2'
 gem 'merb-pre'
 
 merb_gems_version = '1.1.0.pre'

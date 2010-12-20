@@ -4,7 +4,7 @@
 # This file provides support for Phusion Passenger
 # More info: http://wiki.merbivore.com/deployment/passenger
 
-require ::File.expand_path(::File.join(::File.dirname(__FILE__), 'gems')) + '/environment'
+require  ::File.dirname(__FILE__) + '/gems/environment'
 require 'merb-core'
 
 Merb::Config.setup(

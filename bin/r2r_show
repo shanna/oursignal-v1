@@ -1,3 +1,0 @@
-#!/usr/bin/ruby1.8 -ws
-require File.expand_path(File.join(File.dirname(__FILE__), "../gems/environment"))
-load File.expand_path(File.join(File.dirname(__FILE__), "../gems/gems/ruby2ruby-1.2.4/bin/r2r_show"))
