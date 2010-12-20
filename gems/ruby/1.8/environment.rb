@@ -23,7 +23,7 @@ module Bundler
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json-1.2.0/ext")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json-1.2.0/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/system_timer-1.0/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/stateless-systems-capistrano-ext-0.18.1/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/stateless-systems-capistrano-ext-0.19.0/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/shoulda-2.10.2/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/shoulda-2.10.2/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/eventmachine-0.12.10/lib")
