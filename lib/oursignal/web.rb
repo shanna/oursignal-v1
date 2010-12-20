@@ -31,7 +31,7 @@ module Oursignal
     #--
     # TODO: Multiple stylesheets or just @import?
     get '/css/screen.css' do
-      scss :screen
+      scss :'css/screen'
     end
 
     error Sinatra::NotFound do
