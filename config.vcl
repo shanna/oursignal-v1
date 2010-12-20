@@ -37,25 +37,25 @@ sub vcl_recv {
 
 sub vcl_fetch {
   # Explicitly cache.
-  if (obj.http.Cache-Control ~ "max-age") {
-    unset obj.http.Set-Cookie;
+  if (beresp.http.Cache-Control ~ "max-age") {
+    unset beresp.http.Set-Cookie;
   }
 
   # Force caching regardless of headers.
   if (req.url ~ "^/(stylesheets|javascripts|themes|i|static)/") {
     # Try to encourage browsers by setting Cache-Control headers as well.
-    set obj.http.Cache-Control = "public,max-age=3600";
-    set obj.ttl = 1h;
-    deliver;
+    set beresp.http.Cache-Control = "public,max-age=3600";
+    set beresp.ttl = 1h;
+    return(deliver);
   }
 
   # Cache links for 5 minutes.
   if (req.http.host !~ "^staging." && req.url !~ "^/(signup|login|users)") {
     # Don't encourage browsers to cache for now. I don't have a message explaining that'll have to force refresh to
     # see feed changes after you make them.
-    # set obj.http.Cache-Control = "public,max-age=300";
-    set obj.ttl = 5m;
-    deliver;
+    # set beresp.http.Cache-Control = "public,max-age=300";
+    set beresp.ttl = 5m;
+    return(deliver);
   }
 
   # The default vcl is used from here.
