@@ -42,6 +42,9 @@ set :apache_monit_test_urls, ['http://www.oursignal.com:8080/static/monit']
 set :varnish_monit_test_urls, ['http://www.oursignal.com/static/monit']
 set :monit_cpu_user, '80% for 2 cycles'
 set :monit_memory_usage, '90%'
+set :monit_cpu_wait, '50% for 2 cycles'
+set :monit_load_1min, '10'
+set :monit_load_5min, '5'
 
 # Use bundler instead of thor for gems
 set :'use_bundler?', true
