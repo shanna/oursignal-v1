@@ -12,11 +12,8 @@ sub vcl_recv {
   if (req.http.host ~ ".local$") {
     set req.backend = backend_merb;
   }
-  elsif (req.http.host ~ ".com$") {
-    set req.backend = backend_apache;
-  }
   else {
-    error 404 "Unknown virtual host.";
+    set req.backend = backend_apache;
   }
 
   # Browsers send this shit way too often.
