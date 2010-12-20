@@ -19,6 +19,7 @@ gem 'swift'
 # Jobs.
 gem 'yajl-ruby'
 gem 'resque'
+gem 'resque-lock'
 
 only :development do
   gem 'unicorn'
