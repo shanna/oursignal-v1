@@ -6,6 +6,7 @@ disable_system_gems
 # Web.
 gem 'rack'
 gem 'haml'
+gem 'rdiscount'
 
 # Branch has improved 1.9 named capture routing.
 gem 'sinatra', '1.1.1' # http://github.com/shanna/sinatra/tree/named_capture_routing
