@@ -31,3 +31,10 @@ bin/frequency
 src/frequency
 src/freshness
 *.o
+gems/*
+!gems/ruby/1.8/cache
+log
+public/javascripts/bundle.js
+public/stylesheets/bundle.css
+public/system
+bin/*
