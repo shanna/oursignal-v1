@@ -3,7 +3,7 @@ disable_rubygems
 source "http://gemcutter.org"
 bundle_path 'gems'
 
-gem 'bundler', '0.7.2'
+gem 'bundler08', '0.8.5'
 gem 'merb-pre'
 
 merb_gems_version = '1.1.0.pre'
@@ -65,5 +65,5 @@ end
 only :deploy do
   gem 'capistrano'
   gem 'capistrano-ext'
-  gem 'stateless-systems-capistrano-ext', '0.12.3'
+  gem 'stateless-systems-capistrano-ext', '0.18.1'
 end
