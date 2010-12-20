@@ -16,11 +16,13 @@ gem 'sinatra', '1.1.1' # http://github.com/shanna/sinatra/tree/named_capture_rou
 # Business.
 gem 'swift'
 
+# Jobs.
+gem 'resque'
+
 only :development do
   gem 'unicorn'
 end
 
 only :test do
   gem 'ansi'
-  gem 'mechanize', '1.0.0'
 end
