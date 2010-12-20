@@ -17,6 +17,7 @@ gem 'sinatra', '1.1.1' # http://github.com/shanna/sinatra/tree/named_capture_rou
 gem 'swift'
 
 # Jobs.
+gem 'yajl-ruby'
 gem 'resque'
 
 only :development do
