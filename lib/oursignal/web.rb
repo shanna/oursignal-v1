@@ -16,11 +16,11 @@ module Oursignal
     enable  :sessions, :methodoverride
     enable  :static, :logging, :dump_errors if development?
 
-    get %r{^/?$}x do
+    get %r{^/? $}x do
       redirect url(:users, :oursignal)
     end
 
-    get %r{^ (?<username>[a-zA-Z]\w+) (?<format>\.(?:html|rss|json|jsonp))? /? $}x do |username|
+    get %r{^/ (?<username>[a-zA-Z]\w+) (?<format>\.(?:html|rss|json|jsonp))? /? $}x do |username, format|
       # TODO: Internal redirect?
       redirect url(:users, username)
     end
