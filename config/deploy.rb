@@ -49,10 +49,8 @@ set :monit_load_5min, '5'
 # Use bundler instead of thor for gems
 set :'use_bundler?', true
 
-# We don't have any migrations yet
-set :'merb_use_automigrate?', false
-set :'merb_use_autoupgrade?', false
-set :'use_migrations?', false
+# Use autoupgrade instead of automigrate
+set :'merb_use_autoupgrade?', true
 
 namespace :deploy do
   desc 'Score tasks'
