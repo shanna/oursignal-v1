@@ -1,5 +1,626 @@
 @import 'reset';
+@import '960';
+@import 'text';
 
 body {
   background: #1b1b1b;
+  background: #1b1b1b -webkit-gradient(radial, 50% 300, 0, 50% 370, 400, from(rgba(255,255,255,.15)), to(rgba(255,255,255,0))) 0 -300px no-repeat;
+  color: #cccccc;
+  font-family: Helvetica, Arial, sans-serif;
+  text-shadow: rgba(0,0,0,.6) 0 -1px 1px;
+  -webkit-text-stroke:1px transparent;
 }
+
+a {
+  color: #ccc;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-shadow: rgba(150,210,255,.8) 0 0px 10px;
+  color: #dddddd;
+}
+
+#logo_oursignal, #navigation {
+  display: inline;
+}
+
+#head {
+  background: url(/art/navBar.png) repeat-x;
+  height: 41px;
+  padding: 0 15px;
+  margin: 0;
+}
+
+#head #fundry {
+  margin: 10px 0 0 20px;
+  float: left;
+}
+
+#head #fundry span {
+  float: left;
+  padding: 3px 4px 0px 4px; margin: 0px;
+}
+
+#head #fundry #logo_fundry {
+  float: left;
+}
+
+#head #fundry #logo_fundry img {
+  margin: 0; padding: 0;
+  vertical-align: middle;
+}
+
+#logo_oursignal a {
+  display: block;
+  background: url(/art/logo_oursignal.png) no-repeat;
+  text-indent: -999px;
+  height: 20px;
+  width: 102px;
+  float: left;
+  margin-top: 12px;
+}
+
+ul.options {
+  float: right;
+  margin-top: 11px;
+}
+
+ul.options li {
+  float: left;
+  list-style: none;
+  margin-left: 10px;
+}
+
+ul.options li a {
+  color: #efefef;
+  text-decoration: none;
+  font-weight: bold;
+  padding-left: 20px;
+  display: nb;
+}
+
+ul.options li a:hover {
+  text-shadow: rgba(150,210,255,.8) 0 0px 10px;
+  color: #dddddd;
+}
+
+ul.options li.current a.customize {
+  text-shadow: #95d1fc 0 0 10px;
+  color: #aedafd;
+  background: url(/art/customizeIcon.png) no-repeat 0 -15px;
+}
+
+ul.options li.current a.developers {
+  text-shadow: #95d1fc 0 0 10px;
+  color: #aedafd;
+  background: url(/art/developersIcon.png) no-repeat 0 -15px;
+}
+
+ul.options li.current a.about {
+  text-shadow: #95d1fc 0 0 10px;
+  color: #aedafd;
+  background: url(/art/aboutIcon.png) no-repeat 0 -15px;
+}
+
+span.username {
+  color: #FFFFFF;
+}
+
+ul.options li.logout { float: right; }
+
+ul.options .user a {
+  background: url(/art/yourSignal.png) no-repeat 0 0;
+}
+
+ul.options .logout a {
+  background: url(/art/logoutIcon.png) no-repeat 0 0;
+}
+
+.customize a {
+  background: url(/art/customizeIcon.png) no-repeat 0 0;
+}
+
+.developers a {
+  background: url(/art/developersIcon.png) no-repeat 0 -1px;
+}
+
+.about a {
+  background: url(/art/aboutIcon.png) no-repeat 0 -1px;
+}
+
+.grid_5 {
+  width: 340px !important;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  padding: 15px 20px 15px 20px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-top: 1px solid rgba(255,255,255,.2);
+  border-bottom: 1px solid rgba(0,0,0,.3);
+  background: #222222 url(/art/bg1.png) repeat-x; /* Gecko */
+  background: rgba(255,255,255,.05) -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,.1)), color-stop(.2, rgba(255,255,255,0)),  to(rgba(255,255,255,0))) top center no-repeat;
+  -webkit-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
+  -moz-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
+  opacity: 1;
+  -webkit-transition-property: opacity;
+  -webkit-transition-duration: .25s;
+  -webkit-transition-function: ease-in;
+}
+
+.grid_6 {
+  width: 420px !important;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 15px 20px 15px 20px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-top: 1px solid rgba(255,255,255,.2);
+  border-bottom: 1px solid rgba(0,0,0,.3);
+  background: #222222 url(/art/bg1.png) repeat-x; /* Gecko */
+  background: rgba(255,255,255,.05) -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,.1)), color-stop(.2, rgba(255,255,255,0)),  to(rgba(255,255,255,0))) top center no-repeat;
+  -webkit-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
+  -moz-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
+  opacity: 1;
+  -webkit-transition-property: opacity;
+  -webkit-transition-duration: .25s;
+  -webkit-transition-function: ease-in;
+}
+
+.grid_8 {
+  width: 580px !important;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  padding: 15px 20px 15px 20px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-top: 1px solid rgba(255,255,255,.2);
+  border-bottom: 1px solid rgba(0,0,0,.3);
+  background: #222222 url(/art/bg1.png) repeat-x; /* Gecko */
+  background: rgba(255,255,255,.05) -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,.1)), color-stop(.2, rgba(255,255,255,0)),  to(rgba(255,255,255,0))) top center no-repeat;
+  -webkit-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
+  -moz-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
+  opacity: 1;
+  -webkit-transition-property: opacity;
+  -webkit-transition-duration: .25s;
+  -webkit-transition-function: ease-in;
+}
+
+.grid_11 {
+  width: 900px !important;
+  margin-bottom: 20px;
+  padding: 15px 20px 15px 20px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-top: 1px solid rgba(255,255,255,.2);
+  border-bottom: 1px solid rgba(0,0,0,.3);
+  background: #222222 url(/art/bg1.png) repeat-x; /* Gecko */
+  background: rgba(255,255,255,.05) -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,.1)), color-stop(.2, rgba(255,255,255,0)),  to(rgba(255,255,255,0))) top center no-repeat;
+  -webkit-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
+  -moz-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
+  opacity: 1;
+  -webkit-transition-property: opacity;
+  -webkit-transition-duration: .25s;
+  -webkit-transition-function: ease-in;
+}
+
+ul.aboutList li {
+  font-weight: bold;
+}
+
+li.rss {
+    background: url;
+}
+
+#disclaimer {
+  float: left;
+  clear: both;
+  width: 460px;
+  margin-top: 5px;
+  padding: 15px 20px 20px 20px;
+  color: #666666;
+  font-size: 12px;
+  opacity: 1;
+  -webkit-transition: opacity .25s linear;
+}
+
+/* #foot {
+  float: left;
+  clear: both;
+  width: 460px;
+  margin-top: 5px;
+  padding: 40px 20px 25px 20px;
+  color: #666666;
+  font-size: 12px;
+  text-align: center;
+}
+#foot img {
+  margin-bottom: 10px;
+}
+
+*/
+
+#foot {
+  margin: 0;
+  padding: 0;
+  height: 35px;
+  background: url(/art/footBg.png);
+  width: 100%;
+  color: #FFFFFF;
+}
+
+body.static #foot, body.users_login #foot,
+body.users_new #foot, body.passwords #foot,
+body.users_create #foot {
+  position: fixed;
+  bottom: 0; left: 0;
+}
+
+#logo_stateless {
+  float: left;
+  padding: 3px 0 0 8px;
+}
+
+#logo_stateless, #network_sites, #network_sites ul, #network_sites li {
+  display: inline;
+}
+
+#logo_stateless span {
+  text-indent: -999px;
+}
+
+#network_sites {
+  float: right;
+  padding: 7px 10px 0 0;
+}
+
+#network_sites ul {
+  list-style-type: none;
+}
+
+#network_sites a {
+  color: #FFFFFF;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+#network_sites a:hover {
+  color: #EFEFEF;
+  text-decoration: none;
+}
+
+#network_sites li {
+  background: url(/art/arrow.png);
+  background-repeat: no-repeat;
+  background-position: 0 3px;
+  padding-left: 15px;
+  margin-left: 10px;
+}
+
+h1 {
+  font: 55px "HelveticaNeue-Light", "HelveticaNeue", Helvetica, Arial, sans-serif;
+  letter-spacing: -1px;
+  text-shadow: rgba(150,210,255,.8) 0 0px 10px;
+  color: #dddddd;
+  margin: 0 0 25px 0;
+}
+
+h2 {
+  font: 21px "HelveticaNeue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  color: #efefef;
+}
+
+h2.about {
+  padding-left: 25px;
+  background: url(/art/about.png) no-repeat left center;
+  line-height: 1.6;
+  display: block;
+}
+
+h2.developers {
+  padding-left: 25px;
+  background: url(/art/developers.png) no-repeat  left center;
+  line-height: 1.6;
+  display: block;
+}
+
+h2.formats {
+  letter-spacing: -1px;
+}
+
+h3 {
+  font: "HelveticaNeue-Light", "HelveticaNeue", Helvetica, Arial, sans-serif;
+  letter-spacing: -1px;
+  text-shadow: rgba(150,210,255,.8) 0 0px 10px;
+  color: #dddddd;
+  font-weight: 300;
+  text-align: center;
+}
+
+/* Form */
+
+table {
+  margin-bottom: 5px;
+}
+
+input, textarea {
+  width: 230px;
+  background: rgba(0,0,0, .3);
+  border: 0;
+  border-top: 1px solid rgba(0,0,0,1);
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  color: #cccccc;
+  font-weight: bold;
+}
+
+.ie input, .ie textarea {
+  color: #666666;
+}
+
+select {
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+input {
+  padding: 3px 3px;
+}
+
+textarea {
+  resize: none;
+}
+
+input, textarea {
+      font-family: Helvetica;
+      font-size: 12px;
+}
+
+input#form_submit {
+  width: 82px;
+  height: 26px;
+  cursor: pointer;
+  background: transparent url(/art/buttonSprite.png) no-repeat; /* Gecko */
+  text-shadow: rgba(0,0,0,.6) 0 1px 1px;
+  font-size: 13px;
+  font-weight: bold;
+  vertical-align: middle;
+  border: 0px;
+}
+
+input#submit:active {
+  background-position: 0 -26px;
+}
+
+.ie input#submit {
+  color: #cecece;
+}
+
+td.label {
+  padding-right: 10px;
+}
+
+td.captcha {
+  padding: 3px 2px 2px 0;
+}
+
+form {
+  font-weight: bold;
+}
+
+.addFeed, input.delete {
+  display: inline-block;
+  font-size: 11px;
+  width: 82px;
+  height: 26px;
+  cursor: pointer;
+  background: transparent url(/art/buttonSprite.png) no-repeat; /* Gecko */
+  text-shadow: rgba(0,0,0,.6) 0 1px 1px;
+  font-weight: bold;
+  vertical-align: middle;
+  border: 0px;
+  margin-left: 20px;
+}
+
+.ie .addFeed, .ie input.delete {
+  color: #cecece;
+}
+
+/* == FEEDS STYLES == */
+
+div.control div.score { float: left; }
+div.control div.ratio {
+  width: 40px;
+  margin-left: 20px;
+  margin-top: 5px;
+  float: left;
+  text-align: right;
+}
+
+ul#scores { margin-top: 10px; }
+
+ul#scores input, input#feed_url { width: 300px; }
+
+#feeds h2 {
+  display: inline;
+}
+
+h2.padLeft {
+  padding-left: 215px;
+}
+
+div.customLink {
+  margin-bottom: 10px;
+  padding-bottom: 0;
+  height: 217px;
+}
+
+.ie div.customLink {
+  height: 209px;
+}
+
+#feeds ul {
+  list-style-type: none;
+}
+
+#feeds li {
+  margin: 0 0 10px 0;
+}
+
+input.checkbox {
+  width: 13px;
+  margin: 5px 0 0 0;
+  padding: 0;
+}
+
+div.control, input.delete, div.control input {
+  display: inline;
+}
+
+ul#scores input.delete {
+  display: inline;
+  width: 82px;
+  float: right;
+  margin-top: -1px;
+  margin-right: -10px;
+}
+
+#feeds .control {
+  margin-left: 20px;
+  float: right;
+}
+
+#feeds .control .ui-slider {
+  background: transparent url(/art/slider.png) no-repeat;
+  width: 175px;
+  height: 5px;
+  position: relative;
+  padding-right: 6px;
+  top: 8px;
+}
+
+#feeds .control .ui-slider-handle {
+  position: absolute;
+  background-color: #DDD;
+  background: transparent url(/art/slideButton.png) no-repeat;
+  width: 15px;
+  height: 15px;
+  margin: -4px 0 0 -8px;
+}
+
+/* == EXTRAS == */
+
+div.padTop {
+  margin-top: 10px;
+}
+
+body.static div.push_2 {
+  margin-top: 20px;
+}
+
+body.users {
+  overflow-x: hidden;
+}
+
+body.static #navigation, body.users_edit #navigation,
+body.passwords #navigation, body.users_new #navigation,
+body.users_login #navigation {
+  height: 47px;
+}
+
+div.load {
+  float: right;
+  padding-top: 4px;
+  width: 188px;
+  text-align: left;
+  margin-right: 145px;
+}
+
+div#feeds div.error {
+  float: right;
+  width: 255px;
+  text-align: left;
+  padding-left: 19px;
+  background: url(/art/error.png);
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  margin-top: 4px;
+  font-weight: bold;
+}
+
+div.vcard div.error ul {
+  list-style-type: none;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+div.vcard div.error li {
+  background: url(/art/error.png);
+  background-repeat: no-repeat;
+  background-position: 0 1px;
+  margin: 0 0 10px 0;
+  padding-left: 18px;
+}
+
+div#strategies div.error {
+  background: url(/art/error.png);
+  background-repeat: no-repeat;
+  background-position: 0 1px;
+  text-align: left;
+  margin: -8px 0 5px 0;
+  text-indent: -10px;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+div#strategies div.error ul,
+body.passwords_update div.error ul,
+body.passwords_create div.error ul {
+  list-style-type: none;
+}
+
+body.passwords_update div.error,
+body.passwords_create div.error {
+  background: url(/art/error.png);
+  background-repeat: no-repeat;
+  background-position: 0 1px;
+  text-align: left;
+  margin: -8px 0 5px 0;
+  text-indent: -10px;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+body.passwords_create div.error {
+  text-indent: 0;
+  padding-left: 19px;
+}
+
+.centered {
+  margin: 20px 0;
+  text-align: center;
+}
+
+h2.errorMessage {
+  font-size: 30px;
+}
+
+.errorImage {
+  -webkit-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
+  -moz-box-shadow: rgba(0,0,0,.15) 0px 5px 15px;
+}
+
+ul.devList {
+  list-style-type: none;
+  text-align: center;
+  margin: 40px 0 20px 0;
+  padding: 0;
+}
+
+ul.devList li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+

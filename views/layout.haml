@@ -1,8 +1,11 @@
 !!! 5
 %html
   %head
+    != haml :'_meta'
     %title!= page_title 'oursignal'
     %link{type: 'text/css', media: 'all', charset: 'utf-8', href: '/css/screen.css', rel: 'stylesheet'}
+    %link{rel: 'icon', href: '/favicon.ico'}
+    %link{rel: 'apple-touch-icon-precomposed', href: 'apple-touch-icon.png'}
   %body{id: page_id, class: page_classes}
     #head
       #logo_oursignal
@@ -12,6 +15,7 @@
       != haml :'_navigation'
     #body
       != yield
+      %div{style: 'clear: both;'}
     #foot
       #logo_stateless
         %a{href: 'http://statelesssystems.com'}
