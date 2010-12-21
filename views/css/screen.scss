@@ -34,8 +34,8 @@ a:hover {
 }
 
 #head #fundry {
-  margin: 10px 0 0 20px;
   float: left;
+  margin: 10px 0 0 20px;
 }
 
 #head #fundry span {
@@ -43,11 +43,8 @@ a:hover {
   padding: 3px 4px 0px 4px; margin: 0px;
 }
 
-#head #fundry #logo_fundry {
-  float: left;
-}
-
 #head #fundry #logo_fundry img {
+  float: right;
   margin: 0; padding: 0;
   vertical-align: middle;
 }
