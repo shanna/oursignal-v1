@@ -19,17 +19,21 @@ module Oursignal
     enable  :sessions, :methodoverride
     enable  :static, :logging, :dump_errors if development?
 
+    # Odds and ends.
+    get('/about'){ haml :about }
+    get('/developers'){ haml :developers }
+
+    # Default username. Yes it's a dupe, suck it up google.
     get %r{^/? $}x do
       redirect url(:users, :oursignal)
     end
 
+    # Friendly username.
     get %r{^/ (?<username>[a-zA-Z]\w+) (?<format>\.(?:html|rss|json|jsonp))? /? $}x do |username, format|
       # TODO: Internal redirect?
-      redirect url(:users, username)
+      redirect url(:users, username, format)
     end
 
-    #--
-    # TODO: Multiple stylesheets or just @import?
     get '/css/screen.css' do
       scss :'css/screen'
     end
