@@ -1,11 +1,14 @@
-*DS_Store
-*.swp
+# Junk
 ._*
-.sass*
+*.swp
+*DS_Store
+
+# App.
 bin/*
 !bin/oursignal*
-gems/*
 tmp/*
-!gems/ruby
-gems/ruby/*/*
-!gems/ruby/*/cache
+.sass*
+
+# Bundler.
+.bundle
+gems/*

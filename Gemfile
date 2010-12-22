@@ -1,17 +1,12 @@
 # vim: syntax=ruby
-bundle_path 'gems'
-disable_rubygems
-disable_system_gems
+source 'http://rubygems.org'
 
 # Web.
 gem 'rack'
 gem 'haml'
 gem 'rdiscount'
-
-# Branch has improved 1.9 named capture routing.
-gem 'sinatra', '1.1.1' # http://github.com/shanna/sinatra/tree/named_capture_routing
-
-# gem 'sinatra-auth'
+gem 'sinatra',      '1.1.1', git: 'git://github.com/shanna/sinatra.git', branch: 'named_capture_routing'
+gem 'sinatra-auth', '0.1.0', git: 'git@github.com:stateless-systems/sinatra-auth.git'
 # gem 'rack-flash'
 
 # Business.
@@ -22,10 +17,10 @@ gem 'yajl-ruby'
 gem 'resque'
 gem 'resque-lock'
 
-only :development do
+group :development do
   gem 'unicorn'
 end
 
-only :test do
+group :test do
   gem 'ansi'
 end
