@@ -1,9 +1,10 @@
 # encoding: utf-8
 root = File.join(File.dirname(__FILE__), '..')
+$:.unshift File.join(root, 'lib')
 
 # Bundler.
-require File.join(root, 'gems', 'environment')
-$:.unshift File.join(root, 'lib')
+require 'bundler'
+Bundler.setup(:default)
 
 # Persistence.
 require 'swift'
