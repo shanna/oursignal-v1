@@ -4,6 +4,7 @@ require 'sinatra/base'
 require 'sinatra/content'
 require 'sinatra/page'
 require 'sinatra/url'
+require 'sinatra-auth'
 
 # TODO: I'm not sure how you are supposed to set the external encoding.
 # It's UTF-8 already on OSX.
@@ -18,6 +19,10 @@ module Oursignal
     disable :raise_errors, :show_exceptions, :dump_errors
     enable  :sessions, :methodoverride
     enable  :static, :logging, :dump_errors if development?
+
+    authenticate do
+      Oursignal::Profile.authenticate(*params.only(:identifier, :password))
+    end
 
     # Odds and ends.
     get('/about'){ haml :about }
@@ -36,6 +41,14 @@ module Oursignal
 
     get '/css/screen.css' do
       scss :'css/screen'
+    end
+
+    error Sinatra::NotAuthenticated do
+      haml :not_authenticated
+    end
+
+    error Sinatra::NotAuthorized do
+      haml :not_authorized
     end
 
     error Sinatra::NotFound do
