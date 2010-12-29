@@ -12,6 +12,8 @@ Encoding.default_internal = Encoding.default_external = "UTF-8"
 
 module Oursignal
   class Web < Sinatra::Base
+    register Sinatra::Authentication
+
     set :root, Oursignal.root
     set :haml, escape_html: true, format: :html5
     set :scss, style: :compact
