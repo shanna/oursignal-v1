@@ -21,7 +21,7 @@ module Oursignal
       'http://news.ycombinator.com/rss'           => 0.3,
     }.freeze
 
-    self << class
+    class << self
       #--
       # TODO: Create new User.
       # TODO: Add default feeds.

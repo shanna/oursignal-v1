@@ -10,6 +10,6 @@ module Oursignal
     attribute :total_links,   Swift::Type::Integer, default: 0
     attribute :daily_links,   Swift::Type::Float,   default: 0
     attribute :updated_at,    Swift::Type::Time,    default: proc{ Time.now }
-    attribtue :created_at,    Swift::Type::Time,    default: proc{ Time.now }
+    attribute :created_at,    Swift::Type::Time,    default: proc{ Time.now }
   end # Feed
 end # Oursignal
