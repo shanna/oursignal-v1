@@ -23,7 +23,7 @@ module Oursignal
     enable  :static, :logging, :dump_errors if development?
 
     authenticate do
-      Oursignal::Profile.authenticate(*params.only(:identifier, :password))
+      Oursignal::Profile.authenticate(*params.values_at(:identifier, :password))
     end
 
     # Odds and ends.
