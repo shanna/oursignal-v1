@@ -1,0 +1,17 @@
+%form{method: 'post', action: url(:login)}
+  %fieldset
+    %legend Login
+    %ul
+      %li
+        %label{for: 'identifier'} Username or Email:
+        %input#identifier{type: 'text', name: 'identifier', value: params[:identifier]}
+      %li
+        %label{for: 'password'} Password:
+        %input#password{type: 'password', name: 'password', value: ''}
+    %button{type: 'submit'} Login
+
+%p
+  %a{href: url(:profiles, :new)} Sign up
+  |
+  %a{href: url(:recover, :new)} Forgot password?
+
