@@ -1,3 +1,5 @@
+require 'oursignal/scheme'
+
 module Oursignal
   class Scheme
     class Link < Scheme

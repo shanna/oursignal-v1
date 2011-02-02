@@ -1,3 +1,4 @@
+require 'oursignal/scheme'
 require 'oursignal/scheme/user'
 require 'oursignal/scheme/feed'
 

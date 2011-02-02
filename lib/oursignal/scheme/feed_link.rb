@@ -1,3 +1,4 @@
+require 'oursignal/scheme'
 require 'oursignal/scheme/feed'
 require 'oursignal/scheme/link'
 

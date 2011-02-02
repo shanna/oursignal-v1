@@ -1,7 +1,9 @@
 require 'digest/sha1'
 
+# Business.
+require 'oursignal/feed'
+
 # Schema.
-require 'oursignal/scheme/feed'
 require 'oursignal/scheme/user'
 
 module Oursignal
@@ -23,13 +25,17 @@ module Oursignal
 
     class << self
       #--
-      # TODO: Create new User.
-      # TODO: Add default feeds.
+      # TODO: Reserved usernames.
       def create options = {}
-        user = Oursignal::Scheme::User.create options
-        # TODO: Queue feed discovery for default feeds.
-        # TODO: Add user_feeds.
-        user
+        options[:password] = digest_password options[:password] # TODO: Fugly.
+        Oursignal.db.transaction :profile_create do
+          user = Scheme::User.create(options).first
+          DEFAULT_FEEDS.each do |url, score|
+            feed = Oursignal::Feed.discover url
+            Scheme::UserFeed.create(user_id: user.id, feed_id: feed.id)
+          end
+          user
+        end
       end
 
       def authenticate identifier, password

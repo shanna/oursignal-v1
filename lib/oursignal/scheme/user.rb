@@ -1,9 +1,13 @@
+require 'oursignal/scheme'
+require 'oursignal/scheme/theme'
+require 'oursignal/scheme/user_feed'
+
 module Oursignal
   class Scheme
     class User < Scheme
       store :users
       attribute :id,              Swift::Type::Integer, serial: true, key: true
-      attribute :theme_id,        Swift::Type::Integer, default: proc{ Oursignal::Theme.first('name = ?', 'treemap') }
+      attribute :theme_id,        Swift::Type::Integer, default: proc{ Oursignal::Scheme::Theme.first('name = ?', 'treemap').id }
       attribute :email,           Swift::Type::String
       attribute :username,        Swift::Type::String
       attribute :password,        Swift::Type::String

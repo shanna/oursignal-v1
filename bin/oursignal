@@ -8,6 +8,7 @@ usage: #{bin} [-h|--help] command args
 
 Commands are:
   config  Environment and paths.
+  devel   Development tools.
 
 See '#{bin} command --help' for more information on specific commands.
 }.strip

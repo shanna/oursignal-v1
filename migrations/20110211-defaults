@@ -1,0 +1,24 @@
+#!/bin/bash
+
+commands() {
+cat <<SQL
+  begin;
+
+  insert into themes (name) values
+    ('list'),
+    ('original'),
+    ('treemap'),
+    ('william')
+  ;
+
+  insert into users (email, username, password, theme_id)
+    values ('enquiries@oursignal.com', 'oursignal', 'not possible', (select id from themes where name = 'treemap'));
+
+  commit;
+SQL
+}
+
+commands | psql --set ON_ERROR_STOP= oursignal
+exit $?
+
+
