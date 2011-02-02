@@ -6,7 +6,7 @@ require 'zlib'
 # Business.
 require 'oursignal/feed'
 
-module Ev
+module Oursignal
   module Job
     class RssGet
       USER_AGENT = 'oursignal-rss/0.2 +oursignal.com'
@@ -63,5 +63,5 @@ module Ev
       end
     end # CalendarGet
   end # Job
-end # Ev
+end # Oursignal
 
