@@ -1,0 +1,21 @@
+#!/bin/bash
+
+commands() {
+cat <<SQL
+  begin;
+    alter table links
+      add column native_score_delicious   float default '0',
+      add column native_score_digg        float default '0',
+      add column native_score_reddit      float default '0',
+      add column native_score_swarm       float default '0',
+      add column native_score_twitter     float default '0',
+      add column native_score_ycombinator float default '0'
+    ;
+
+  commit;
+SQL
+}
+
+commands | psql --set ON_ERROR_STOP= oursignal
+exit $?
+
