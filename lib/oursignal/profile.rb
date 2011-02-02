@@ -1,8 +1,8 @@
 require 'digest/sha1'
 
 # Schema.
-require 'oursignal/feed'
-require 'oursignal/user'
+require 'oursignal/schema/feed'
+require 'oursignal/schema/user'
 
 module Oursignal
   module Profile
@@ -26,14 +26,14 @@ module Oursignal
       # TODO: Create new User.
       # TODO: Add default feeds.
       def create options = {}
-        user = Oursignal::User.create options
+        user = Oursignal::Schema::User.create options
         # TODO: Queue feed discovery for default feeds.
         # TODO: Add user_feeds.
         user
       end
 
       def authenticate identifier, password
-        Oursignal::User.first 'password = ? and (username = ? or email = ?)', digest_password(password), identifier, identifier
+        Oursignal::Schema::User.first 'password = ? and (username = ? or email = ?)', digest_password(password), identifier, identifier
       end
 
       def update options = {}
@@ -48,7 +48,7 @@ module Oursignal
       end
 
       def search identifier
-        Oursignal::User.first 'username = ? or email = ?', identifier, identifier
+        Oursignal::Schema::User.first 'username = ? or email = ?', identifier, identifier
       end
 
       private
