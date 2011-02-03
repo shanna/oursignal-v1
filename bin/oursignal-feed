@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+require_relative '../lib/oursignal/cli'
+require 'oursignal/feed'
+
+bin     = Oursignal::Cli.bin
+option  = (ARGV.shift || 'help').strip
+usage   = %Q{
+  usage: #{bin} [-h|--help]
+
+  Commands are:
+    -h, --help  This help message.
+    update      Schedule RSS feed updates.
+}.strip
+
+case option
+  when /^\-{0,2}h(?:elp)?$/, nil then puts usage
+  when 'update'                  then Oursignal::Feed.rss_update
+  else warn("#{bin}: '#{option}' is not an #{bin} option. See '#{bin} --help'.") && exit(-1)
+end
+
