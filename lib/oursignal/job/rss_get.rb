@@ -37,6 +37,9 @@ module Oursignal
               easy.headers['Accept-encoding']   = 'gzip'
               easy.headers['If-Modified-Since'] = feed.last_modified if feed && feed.last_modified
               easy.headers['If-None-Match']     = feed.etag          if feed && feed.etag
+
+              # XXX:
+              easy.verbose = true
             end
           end
 
@@ -56,8 +59,10 @@ module Oursignal
           end
 
           def force_encoding raw
-            raw.valid_encoding? ? raw.encode('utf-8') : raw.force_encoding('utf-8').encode('utf-8')
-          rescue
+            options = {invalid: :replace, undef: :replace}
+            raw.valid_encoding? ? raw.encode('utf-8', options) : raw.force_encoding('utf-8').encode('utf-8', options)
+          rescue => error
+            warn error.message
             ''
           end
       end
