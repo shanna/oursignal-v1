@@ -13,7 +13,12 @@ module Oursignal
       class << self
         def perform url, path
           feed = Oursignal::Feed.search(url) or return
-          fm   = FeedMe.parse(File.open(path))
+          begin
+            fm = FeedMe.parse(File.open(path))
+          rescue FeedMe::InvalidFeedFormat
+            warn 'Not an RSS/Atom feed'
+            return
+          end
 
           feed.update(title: fm.title, site: URI.sanitize(fm.url).to_s)
           fm.entries.each do |entry|
