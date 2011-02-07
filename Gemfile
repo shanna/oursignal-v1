@@ -13,9 +13,12 @@ gem 'sinatra-auth', '0.1.0', git: 'git@github.com:stateless-systems/sinatra-auth
 gem 'swift'
 
 # Jobs.
-gem 'yajl-ruby'
+gem 'curb'
+gem 'nokogiri'
 gem 'resque'
 gem 'resque-lock'
+gem 'xml-sax-machines'
+gem 'yajl-ruby'
 
 group :development do
   gem 'unicorn'
