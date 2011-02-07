@@ -27,7 +27,7 @@ module Oursignal
 
       def rss_update *feeds
         feeds = Scheme::Feed.all(%q{updated_at < now() - interval '15 minutes'}) if feeds.empty?
-        feeds.each{|feed| Resque::Job.create :rss_get, 'Ev::Job::RssGet', feed.url}
+        feeds.each{|feed| Resque::Job.create :rss_get, 'Oursignal::Job::RssGet', feed.url}
       end
     end
   end # Feed

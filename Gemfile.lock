@@ -18,9 +18,12 @@ GEM
   specs:
     ansi (1.2.2)
     curb (0.7.10)
+    feed_me (0.7.0)
+      nokogiri
     haml (3.0.25)
     json (1.4.6)
     kgio (2.1.1)
+    moneta (0.6.0)
     nokogiri (1.4.4)
     rack (1.2.1)
     rdiscount (1.6.8)
@@ -38,10 +41,11 @@ GEM
     unicorn (3.3.1)
       kgio (~> 2.1)
       rack
+    uri-meta (0.9.4)
+      curb (>= 0.5.4)
+      moneta (>= 0.6.0)
     vegas (0.1.8)
       rack (>= 1.0.0)
-    xml-sax-machines (0.4.2)
-      nokogiri (>= 1.4)
     yajl-ruby (0.8.0)
 
 PLATFORMS
@@ -50,6 +54,7 @@ PLATFORMS
 DEPENDENCIES
   ansi
   curb
+  feed_me
   haml
   nokogiri
   rack
@@ -60,5 +65,5 @@ DEPENDENCIES
   sinatra-auth (= 0.1.0)!
   swift
   unicorn
-  xml-sax-machines
+  uri-meta
   yajl-ruby

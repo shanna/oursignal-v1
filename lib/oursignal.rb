@@ -4,7 +4,7 @@ $:.unshift File.join(root, 'lib')
 
 # Bundler.
 require 'bundler'
-Bundler.setup(:default)
+Bundler.setup # (:default)
 
 # Persistence.
 require 'swift'

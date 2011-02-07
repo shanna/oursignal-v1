@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+require File.join(File.dirname(__FILE__), '..', 'lib', 'oursignal')
+require 'oursignal/cli'
+require 'oursignal/job'
+
+command = (ARGV.shift || 'help').strip
+usage   = %Q{
+usage: #{Oursignal::Cli.bin} [-h|--help] command
+
+Commands are:
+  start Fire up resque workers.
+  stop  Stop resque workers.
+}.strip
+
+case command
+  when /^\-{0,2}h(?:elp)?$/, nil then puts usage
+  when 'start'                   then Oursignal::Job.start
+  when 'stop'                    then Oursignal::Job.stop
+  else puts usage
+end

@@ -19,13 +19,13 @@ module Oursignal
         # TODO: Error handling.
         def perform original_url
           url  = URI.sanitize(original_url).to_s
-          dir  = File.join Ev.root, 'tmp', 'rss'
+          dir  = File.join Oursignal.root, 'tmp', 'rss'
           path = File.join dir, Digest::MD5.hexdigest(url)
           curl = http_get url, Oursignal::Feed.search(url)
 
-          FileUtils.mkdirs(dir)
+          FileUtils.mkdir_p(dir)
           File.open(path, 'w+'){|fh| fh.write force_encoding(decompress(curl))}
-          Resque.enqueue(Ev::Job::RssUpdate, url, path)
+          Resque::Job.create :rss_update, 'Oursignal::Job::RssUpdate', url, path
         end
 
         protected

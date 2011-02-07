@@ -14,10 +14,11 @@ gem 'swift'
 
 # Jobs.
 gem 'curb'
+gem 'feed_me'
 gem 'nokogiri'
 gem 'resque'
 gem 'resque-lock'
-gem 'xml-sax-machines'
+gem 'uri-meta'
 gem 'yajl-ruby'
 
 group :development do
