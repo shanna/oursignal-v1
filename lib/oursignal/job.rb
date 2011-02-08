@@ -3,9 +3,9 @@ require 'resque'
 require 'resque/plugins/lock'
 
 # Jobs.
-require 'oursignal/job/rss_get'
-require 'oursignal/job/rss_update'
-require 'oursignal/job/rss_entry_update'
+require 'oursignal/job/feed'
+require 'oursignal/job/feed_get'
+require 'oursignal/job/feed_link'
 
 module Oursignal
   module Job

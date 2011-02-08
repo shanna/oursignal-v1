@@ -1,0 +1,2 @@
+# Queue feed updates.
+2 * * * * cd /var/www/oursignal && ./bin/oursignal-feed update

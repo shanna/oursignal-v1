@@ -8,11 +8,11 @@ require 'oursignal/feed'
 
 module Oursignal
   module Job
-    class RssGet
+    class FeedGet
       USER_AGENT = 'oursignal-rss/0.2 +oursignal.com'
 
       extend Resque::Plugins::Lock
-      @queue = :rss_get # Yick, really?
+      @queue = :feed_get
 
       class << self
         def perform original_url
@@ -36,7 +36,7 @@ module Oursignal
               path = File.join dir, Digest::MD5.hexdigest(url)
               FileUtils.mkdir_p(dir)
               File.open(path, 'w+'){|fh| fh.write force_encoding(decompress(curl))}
-              Resque::Job.create :rss_update, 'Oursignal::Job::RssUpdate', url, path
+              Resque::Job.create :feed, 'Oursignal::Job::Feed', url, path
           end
         end
 

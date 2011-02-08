@@ -1,5 +1,5 @@
-require 'fileutils'
 require 'feed_me'
+require 'fileutils'
 require 'oursignal/job'
 require 'oursignal/feed'
 
@@ -7,9 +7,9 @@ module Oursignal
   module Job
     #--
     # TODO: Stream the feed file in.
-    class RssUpdate
+    class Feed
       extend Resque::Plugins::Lock
-      @queue = :rss_update
+      @queue = :feed
 
       class << self
         def perform url, path
@@ -20,7 +20,7 @@ module Oursignal
             feed.update(title: fm.title, site: URI.sanitize(fm.url).to_s)
             fm.entries.each do |entry|
               attributes = {title: entry.title, url: entry.url, content: entry.content}
-              Resque::Job.create :rss_entry_update, 'Oursignal::Job::RssEntryUpdate', url, attributes
+              Resque::Job.create :feed_link, 'Oursignal::Job::FeedLink', url, attributes
             end
             FileUtils.rm(path)
           rescue FeedMe::InvalidFeedFormat
@@ -29,6 +29,6 @@ module Oursignal
           end
         end
       end
-    end # RssUpdate
+    end # Feed
   end # Job
 end # Oursignal

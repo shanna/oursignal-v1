@@ -19,15 +19,15 @@ module Oursignal
         # Pop in placeholder and schedule get.
         unless feed
           feed = Scheme::Feed.create(url: url).first
-          rss_update feed
+          http_update feed
         end
 
         feed
       end
 
-      def rss_update *feeds
+      def http_update *feeds
         feeds = Scheme::Feed.all(%q{updated_at < now() - interval '15 minutes'}) if feeds.empty?
-        feeds.each{|feed| Resque::Job.create :rss_get, 'Oursignal::Job::RssGet', feed.url}
+        feeds.each{|feed| Resque::Job.create :feed_get, 'Oursignal::Job::FeedGet', feed.url}
       end
     end
   end # Feed
