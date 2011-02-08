@@ -1,3 +1,4 @@
+require 'fileutils'
 require 'feed_me'
 require 'oursignal/job'
 require 'oursignal/feed'
