@@ -2,6 +2,7 @@ require 'digest/sha1'
 
 # Business.
 require 'oursignal/feed'
+require 'oursignal/feed/discover'
 
 # Schema.
 require 'oursignal/scheme/user'

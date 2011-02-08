@@ -14,7 +14,7 @@ usage   = %Q{
 
 case option
   when /^\-{0,2}h(?:elp)?$/, nil then puts usage
-  when 'update'                  then Oursignal::Feed.http_update
+  when 'update'                  then Oursignal::Feed.read
   else warn("#{bin}: '#{option}' is not an #{bin} option. See '#{bin} --help'.") && exit(-1)
 end
 

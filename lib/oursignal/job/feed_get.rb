@@ -1,10 +1,15 @@
 require 'curb'
 require 'digest/md5'
 require 'fileutils'
+require 'uri/meta'
+require 'uri/sanitize'
 require 'zlib'
 
 # Business.
 require 'oursignal/feed'
+
+# TODO: Use Moneta::Memcache?
+URI::Meta::Cache.cache = nil
 
 module Oursignal
   module Job
@@ -15,9 +20,8 @@ module Oursignal
       @queue = :feed_get
 
       class << self
-        def perform original_url
-          url  = URI.sanitize(original_url).to_s
-          feed = Oursignal::Feed.search(url) or return
+        def perform url
+          feed = Oursignal::Feed.search(url)
 
           curl = http_get url, feed
           case curl.response_code.to_s
@@ -44,6 +48,7 @@ module Oursignal
           def http_get uri, feed = nil
             Curl::Easy.perform(uri) do |easy|
               easy.follow_location = true
+              easy.timeout         = 10
 
               easy.headers['User-Agent']        = USER_AGENT
               easy.headers['Accept-encoding']   = 'gzip'
@@ -67,7 +72,7 @@ module Oursignal
             end
           end
 
-          def force_encoding raw
+          def force_encoding raw, encoding = 'utf-8'
             options = {invalid: :replace, undef: :replace}
             raw.valid_encoding? ? raw.encode('utf-8', options) : raw.force_encoding('utf-8').encode('utf-8', options)
           rescue => error

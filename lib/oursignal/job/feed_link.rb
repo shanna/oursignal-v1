@@ -33,7 +33,7 @@ module Oursignal
             link.update(referred_at: Time.now)
           else
             link = Oursignal::Scheme::Link.create(title: entry['title'], url: last_effective_uri, referred_at: Time.now).first
-            Oursignal::Scheme::FeedLink.create(feed_id: feed.id, link_id: link.id, url: uri)
+            Oursignal::Scheme::FeedLink.create(feed_id: feed.id, link_id: link.id, url: feed_url)
           end
         end
       end
