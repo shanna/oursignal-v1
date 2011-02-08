@@ -9,11 +9,11 @@ module Oursignal
   module Feed
     class << self
       def search identifier
-        Scheme::Feed.first 'url = ?', identifier
+        Scheme::Feed.first 'url = ?', URI.sanitize(identifier.to_s).to_s
       end
 
       def discover original_url
-        url  = URI.sanitize(original_url).to_s
+        url  = URI.sanitize(original_url.to_s).to_s
         feed = search url
 
         # Pop in placeholder and schedule get.

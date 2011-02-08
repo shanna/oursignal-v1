@@ -15,17 +15,29 @@ module Oursignal
       @queue = :rss_get # Yick, really?
 
       class << self
-        #--
-        # TODO: Error handling.
         def perform original_url
           url  = URI.sanitize(original_url).to_s
-          dir  = File.join Oursignal.root, 'tmp', 'rss'
-          path = File.join dir, Digest::MD5.hexdigest(url)
-          curl = http_get url, Oursignal::Feed.search(url)
+          feed = Oursignal::Feed.search(url) or return
 
-          FileUtils.mkdir_p(dir)
-          File.open(path, 'w+'){|fh| fh.write force_encoding(decompress(curl))}
-          Resque::Job.create :rss_update, 'Oursignal::Job::RssUpdate', url, path
+          curl = http_get url, feed
+          case curl.response_code.to_s
+            when /^5/
+              # TODO: Delay retrying.
+            when /^4/
+              # TODO: Delete feed?
+            when /^3/
+              # Nothing, it's up to date.
+            when /^2/
+              etag          = etag_from_header(curl.header_str)
+              last_modified = last_modified_from_header(curl.header_str)
+              feed.update(last_modified: last_modified, etag: etag)
+
+              dir  = File.join Oursignal.root, 'tmp', 'rss'
+              path = File.join dir, Digest::MD5.hexdigest(url)
+              FileUtils.mkdir_p(dir)
+              File.open(path, 'w+'){|fh| fh.write force_encoding(decompress(curl))}
+              Resque::Job.create :rss_update, 'Oursignal::Job::RssUpdate', url, path
+          end
         end
 
         protected
@@ -37,9 +49,6 @@ module Oursignal
               easy.headers['Accept-encoding']   = 'gzip'
               easy.headers['If-Modified-Since'] = feed.last_modified if feed && feed.last_modified
               easy.headers['If-None-Match']     = feed.etag          if feed && feed.etag
-
-              # XXX:
-              easy.verbose = true
             end
           end
 
@@ -64,6 +73,16 @@ module Oursignal
           rescue => error
             warn error.message
             ''
+          end
+
+          def etag_from_header(header)
+            header =~ /.*ETag:\s(.*)\r/
+            $1
+          end
+
+          def last_modified_from_header(header)
+            header =~ /.*Last-Modified:\s(.*)\r/
+            Time.parse($1) if $1
           end
       end
     end # CalendarGet
