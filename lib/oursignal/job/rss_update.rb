@@ -12,18 +12,19 @@ module Oursignal
 
       class << self
         def perform url, path
-          feed = Oursignal::Feed.search(url) or return
           begin
-            fm = FeedMe.parse(File.open(path))
-          rescue FeedMe::InvalidFeedFormat
-            warn 'Not an RSS/Atom feed'
-            return
-          end
+            feed = Oursignal::Feed.search(url) or return
+            fm   = FeedMe.parse(File.open(path))
 
-          feed.update(title: fm.title, site: URI.sanitize(fm.url).to_s)
-          fm.entries.each do |entry|
-            attributes = {title: entry.title, url: entry.url, content: entry.content}
-            Resque::Job.create :rss_entry_update, 'Oursignal::Job::RssEntryUpdate', url, attributes
+            feed.update(title: fm.title, site: URI.sanitize(fm.url).to_s)
+            fm.entries.each do |entry|
+              attributes = {title: entry.title, url: entry.url, content: entry.content}
+              Resque::Job.create :rss_entry_update, 'Oursignal::Job::RssEntryUpdate', url, attributes
+            end
+            FileUtils.rm(path)
+          rescue FeedMe::InvalidFeedFormat
+            warn 'Not an RSS/Atom feed.'
+            FileUtils.rm(path) # TODO: Later pop this in an ensure?
           end
         end
       end
