@@ -1,0 +1,13 @@
+#!/bin/bash
+
+commands() {
+cat <<SQL
+  begin;
+  create index feeds_links_url_idx on feed_links(url);
+  commit;
+SQL
+}
+
+commands | psql --set ON_ERROR_STOP= oursignal
+exit $?
+
