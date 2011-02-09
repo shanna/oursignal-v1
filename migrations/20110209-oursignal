@@ -6,7 +6,7 @@ cat <<SQL
     create table links(
       id                       bigserial,
       url                      text,
-      title                    text,
+      title                    varchar(255),
       native_score_delicious   float default '0',
       native_score_digg        float default '0',
       native_score_reddit      float default '0',
