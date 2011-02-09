@@ -18,8 +18,6 @@ GEM
   specs:
     ansi (1.2.2)
     curb (0.7.10)
-    feed_me (0.7.0)
-      nokogiri
     haml (3.0.25)
     json (1.4.6)
     kgio (2.1.1)
@@ -54,7 +52,6 @@ PLATFORMS
 DEPENDENCIES
   ansi
   curb
-  feed_me
   haml
   nokogiri
   rack

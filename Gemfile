@@ -14,7 +14,6 @@ gem 'swift'
 
 # Jobs.
 gem 'curb'
-gem 'feed_me'
 gem 'nokogiri'
 gem 'resque'
 gem 'resque-lock'

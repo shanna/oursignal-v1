@@ -1,15 +1,11 @@
 require 'curb'
 require 'digest/md5'
 require 'fileutils'
-require 'uri/meta'
 require 'uri/sanitize'
 require 'zlib'
 
 # Business.
 require 'oursignal/feed'
-
-# TODO: Use Moneta::Memcache?
-URI::Meta::Cache.cache = nil
 
 module Oursignal
   module Job
