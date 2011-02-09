@@ -32,6 +32,7 @@ cat <<SQL
       primary key(id)
     );
     create index links_updated_at_idx on links(updated_at);
+    create index links_score_at_idx on links(score_at);
 
     create table feeds(
       id            bigserial,
