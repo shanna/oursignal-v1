@@ -53,7 +53,7 @@ module Oursignal
             urls = []
 
             begin
-              content = entry_el.at('./atom:summary | ./atom:content | ./description').text rescue ''
+              content = entry_el.at('./atom:content | ./atom:summary | ./description').text rescue ''
               Nokogiri::XML.parse("<r>#{content}</r>").xpath('//a').each do |anchor|
                 url   = URI.sanitize(anchor.attribute('href').text) rescue next
                 title = anchor.text.strip
