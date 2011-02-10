@@ -8,13 +8,12 @@ module URI
   class IO < StringIO
     extend Forwardable
 
-    #def self.open uri, headers = {}
-    #  new uri, headers
-    #end
+    def self.open uri, headers = {}, &block
+      new uri, headers, &block
+    end
 
     def initialize uri, headers = {}, &block
       @uri  = URI.sanitize(uri)
-      $stdout.puts @uri.to_s
       @curl = Curl::Easy.perform(@uri.to_s) do |easy|
         headers.merge('Accept-encoding' => 'gzip').each{|k, v| easy.headers[k] = v}
         block.call(easy) if block_given?
