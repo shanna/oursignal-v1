@@ -12,3 +12,4 @@ tmp/*
 # Bundler.
 .bundle
 gems/*
+vendor/*
