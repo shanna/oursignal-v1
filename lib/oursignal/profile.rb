@@ -30,7 +30,7 @@ module Oursignal
       def create options = {}
         options[:password] = digest_password options[:password] # TODO: Fugly.
         Oursignal.db.transaction :profile_create do
-          user = Scheme::User.create(options).first
+          user = Scheme::User.create(options)
           DEFAULT_FEEDS.each do |url, score|
             feed = Oursignal::Feed.discover url
             Scheme::UserFeed.create(user_id: user.id, feed_id: feed.id)

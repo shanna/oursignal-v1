@@ -11,7 +11,7 @@ module Oursignal
       feed = Oursignal::Feed.search(url)
 
       unless feed
-        feed = Scheme::Feed.create(url: url).first
+        feed = Scheme::Feed.create(url: url)
         Feed.read feed
       end
 
