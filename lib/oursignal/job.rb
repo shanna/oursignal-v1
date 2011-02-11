@@ -7,6 +7,7 @@ require 'oursignal/job/entry'
 require 'oursignal/job/feed'
 require 'oursignal/job/feed_get'
 require 'oursignal/job/native_score_ycombinator'
+require 'oursignal/job/native_score_delicious'
 
 module Oursignal
   module Job
