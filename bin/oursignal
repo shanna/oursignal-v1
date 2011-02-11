@@ -11,6 +11,7 @@ Commands are:
   devel   Development tools.
   feed    Do stuff with feeds.
   job     Job queue, workers etc.
+  score   Scoring related stuff.
 
 See '#{bin} command --help' for more information on specific commands.
 }.strip
