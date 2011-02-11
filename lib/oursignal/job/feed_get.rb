@@ -1,5 +1,6 @@
 require 'digest/md5'
 require 'fileutils'
+require 'oursignal/job'
 require 'uri/io'
 
 # Business.
