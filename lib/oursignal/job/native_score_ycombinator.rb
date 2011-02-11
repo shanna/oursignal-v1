@@ -6,7 +6,7 @@ require 'oursignal/scheme/link'
 
 module Oursignal
   module Job
-    class ScoreYcombinator
+    class NativeScoreYcombinator
       USER_AGENT = 'oursignal/0.2 +oursignal.com'
 
       extend Resque::Plugins::Lock
@@ -47,6 +47,6 @@ module Oursignal
           end
         end
       end
-    end # ScoreYcombinator
+    end # NativeScoreYcombinator
   end # Job
 end # Oursignal
