@@ -10,7 +10,7 @@ module Oursignal
       USER_AGENT = 'oursignal/0.2 +oursignal.com'
 
       extend Resque::Plugins::Lock
-      @queue = :score_ycombinator
+      @queue = :native_score_ycombinator
 
       def self.perform
         uri = URI::IO.open('http://news.ycombinator.com/') do |io|
@@ -32,15 +32,15 @@ module Oursignal
 
         Nokogiri::HTML.parse(uri).css('td.title a').each do |entry|
           begin
-            points = entry.xpath('../../following-sibling::tr[1]/td/span').text.to_i
-            title  = entry.text
-            url    = entry.attribute('href').text
-            url    = 'http://news.ycombinator.com/' + url unless url =~ %r{://}
-            url    = URI.sanitize(url).meta.last_effective_uri
+            score = entry.xpath('../../following-sibling::tr[1]/td/span').text.to_i
+            title = entry.text
+            url   = entry.attribute('href').text
+            url   = 'http://news.ycombinator.com/' + url unless url =~ %r{://}
+            url   = URI.sanitize(url).meta.last_effective_uri
 
-            next unless points > 0
-            unless update.execute(points, url, url).rows > 0
-              Scheme::Link.create(title: title, url: url, native_score_ycombinator: points)
+            next unless score > 0
+            unless update.execute(score, url, url).rows > 0
+              Scheme::Link.create(title: title, url: url, native_score_ycombinator: score)
             end
           rescue => error
             warn error.message
