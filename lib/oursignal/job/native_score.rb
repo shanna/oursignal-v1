@@ -13,6 +13,9 @@ module Oursignal
       @queue = :native_score
 
       def self.perform source, url, score, title
+        url = URI.sanitize(url).meta
+        url = url.last_effective_uri unless url.errors?
+
         update = Oursignal.db.prepare(%Q{
           update links
           set #{source} = ?
