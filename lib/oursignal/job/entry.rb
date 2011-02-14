@@ -32,10 +32,9 @@ module Oursignal
           entry_url = entry_url.meta.last_effective_uri if entry_url.is_a?(URI::HTTP) # TODO: No HTTPS support in metauri yet?
           entry     = Scheme::Entry.first('url = ?', entry_url) || Scheme::Entry.create(feed_id: feed.id, url: entry_url)
 
-          # Native scores if we can.
-          # TODO: Reddit comment count is in the content?
+          # Native score since we can.
           score_digg = 0
-          if score_digg_el = entry_el.at('./digg:diggCount', {'digg' => 'http://digg.com/docs/diggrss/'})
+          if score_digg_el = entry_el.at_xpath('./digg:diggCount', {'digg' => 'http://digg.com/docs/diggrss/'})
             score_digg = score_digg_el.text.to_f rescue 0
           end
 
