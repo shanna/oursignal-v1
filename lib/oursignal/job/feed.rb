@@ -28,7 +28,8 @@ module Oursignal
             )
 
             feed_el.xpath('//atom:entry | //item').each do |entry_el|
-              ns.each{|prefix, uri| entry_el.add_namespace_definition(prefix, uri)}
+              # Derp. Force printing of namespaces for this element. add_namespace_definition doesn't work.
+              ns.each{|prefix, uri| entry_el.set_attribute(prefix, uri)}
               Resque::Job.create :entry, 'Oursignal::Job::Entry', url, entry_el.to_xml
             end
           end
