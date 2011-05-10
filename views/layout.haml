@@ -2,17 +2,17 @@
 %html
   %head
     %title!= page_title 'oursignal'
-    %link{rel: 'icon', href: '/favicon.ico'}
+    %link{rel: 'icon', href: '/art/favicon.gif'}
     %link{rel: 'stylesheet', href: '/css/screen.css', type: 'text/css'}
     != haml :'_meta'
     != haml :'_javascript'
     - yield_content :head
   %body{id: page_id, class: page_classes}
     #head
-      != haml :'_logo'
+      != haml :'_logo_oursignal'
       != haml :'_navigation'
     #body
       != yield
     #foot
       != haml :'_logo_stateless'
-      != haml :'_network_sites'
+      != haml :'_navigation_network_sites'
