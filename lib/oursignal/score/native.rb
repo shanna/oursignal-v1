@@ -37,4 +37,3 @@ require 'oursignal/score/native/delicious'
 require 'oursignal/score/native/reddit'
 require 'oursignal/score/native/ycombinator'
 
-

@@ -1,18 +1,15 @@
 # Schema.
 require 'oursignal/scheme/feed'
-require 'oursignal/scheme/user_feed'
 
 module Oursignal
-  module Feed
-    class << self
-      def search identifier
-        Scheme::Feed.first 'url = ?', URI.sanitize(identifier)
-      end
+  class Feed < Scheme::Feed
 
-      def read *feeds
-        feeds = Scheme::Feed.all(%q{updated_at < now() - interval '15 minutes'}) if feeds.empty?
-        feeds.each{|feed| Resque::Job.create :feed_get, 'Oursignal::Job::FeedGet', feed.url}
-      end
+    def self.read *feeds
+      feeds = Scheme::Feed.execute(%q{
+        select * from feeds
+        where updated_at < now() - interval '10 minutes'
+      }) if feeds.empty?
+      feeds.each{|feed| Resque::Job.create :feed_get, 'Oursignal::Job::FeedGet', feed.url}
     end
   end # Feed
 end # Oursignal

@@ -5,7 +5,7 @@ require 'oursignal/score/native'
 module Oursignal
   module Job
     class NativeScoreGet
-      USER_AGENT = 'oursignal/0.2 +oursignal.com'
+      USER_AGENT = 'oursignal/0.3 +oursignal.com'
 
       extend Resque::Plugins::Lock
       @queue = :native_score_get
