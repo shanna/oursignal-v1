@@ -2,15 +2,19 @@
 source 'http://rubygems.org'
 
 # Web.
-gem 'rack'
+gem 'compass'
 gem 'haml'
+gem 'rack'
 gem 'rdiscount'
-gem 'sinatra',      '1.1.1', git: 'git://github.com/shanna/sinatra.git', branch: 'named_capture_routing'
-gem 'sinatra-auth', '0.1.0', git: 'git@github.com:stateless-systems/sinatra-auth.git'
-# gem 'rack-flash'
+gem 'sass'
+gem 'sinatra', git: 'git://github.com/shanna/sinatra.git', branch: 'named_capture_routing'
 
 # Business.
-gem 'swift'
+gem 'swift', git: 'http://github.com/shanna/swift.git', branch: 'next'
+
+# Auth.
+gem 'oa-oauth'
+gem 'oa-openid'
 
 # Jobs.
 gem 'curb'
@@ -19,6 +23,9 @@ gem 'resque'
 gem 'resque-lock'
 gem 'uri-meta'
 gem 'yajl-ruby'
+
+# Scoring.
+gem 'flock'
 
 group :development do
   gem 'unicorn'
