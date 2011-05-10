@@ -1,9 +1,5 @@
 require 'oursignal/web'
 
-# Applications.
-require 'oursignal/profiles'
-require 'oursignal/signal'
-
 module Oursignal
   class Web
     class Server < Web
@@ -14,12 +10,9 @@ module Oursignal
         scss :screen
       end
 
-      get %r{^/? $}x do
-        redirect url(:signal), 301 # TODO: Internal redirect.
+      get '/' do
+        haml :signal
       end
-
-      map '/profiles', Profiles
-      map '/signal',   Signal
     end # Server
   end # Web
 end # Oursignal

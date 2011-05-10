@@ -6,7 +6,6 @@ require 'sinatra/base'
 
 # Helpers.
 require 'sinatra/content'
-require 'sinatra/map'
 require 'sinatra/page'
 require 'sinatra/url'
 
@@ -26,14 +25,6 @@ module Oursignal
     disable :raise_errors, :show_exceptions, :dump_errors
     enable  :sessions, :methodoverride
     enable  :static, :logging, :dump_errors if development?
-
-    error Sinatra::NotAuthenticated do
-      haml :not_authenticated
-    end
-
-    error Sinatra::NotAuthorized do
-      haml :not_authorized
-    end
 
     error Sinatra::NotFound do
       haml :not_found
