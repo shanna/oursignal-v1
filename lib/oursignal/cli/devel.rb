@@ -5,9 +5,7 @@ module Oursignal
     module Devel
       module Data
         def self.create
-          warn 'creating users...'
-          Profile.create(email: 'test@oursignal.local', username: 'test', password: 'test')
-          Profile.create(email: 'shane@oursignal.local', username: 'shane', password: 'test')
+          warn 'TODO: Devel data...'
         end
       end # Data
     end # Devel
