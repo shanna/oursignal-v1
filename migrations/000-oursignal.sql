@@ -15,7 +15,6 @@ create table links(
   primary key(id)
 );
 create index links_updated_at_idx on links(updated_at);
-create index links_score_at_idx on links(score_at);
 
 create table score_kmeans_centroids(
   score_delicious   float,
@@ -39,10 +38,11 @@ create table score_timeseries(
   score_ycombinator float,
   score             float,
   velocity          float,
-  created_at        timestamp default not null,
+  created_at        timestamp not null,
   foreign key(link_id) references links(id) on delete cascade
 );
-create index score_samples_created_at_idx on score_timeseries(created_at);
+create index score_timeseries_score_idx      on score_timeseries(score);
+create index score_timeseries_created_at_idx on score_timeseries(created_at);
 
 create table feeds(
   id            bigserial,
