@@ -15,7 +15,7 @@ module Oursignal
       @queue = :feed_get
 
       def self.perform url
-        feed = Oursignal::Feed.search(url)
+        feed = Oursignal::Feed.find(url)
         uri  = URI::IO.open(url) do |io|
           io.follow_location = true
           io.timeout         = 10

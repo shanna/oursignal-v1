@@ -21,7 +21,6 @@ create table score_kmeans_centroids(
   score_digg        float,
   score_frequency   float,
   score_reddit      float,
-  score_swarm       float,
   score_twitter     float,
   score_ycombinator float,
   score             float not null
@@ -33,7 +32,6 @@ create table score_timeseries(
   score_digg        float,
   score_frequency   float,
   score_reddit      float,
-  score_swarm       float,
   score_twitter     float,
   score_ycombinator float,
   score             float,
@@ -58,6 +56,7 @@ create table feeds(
   unique(url),
   primary key(id)
 );
+create index feeds_url_idx        on feeds(url);
 create index feeds_updated_at_idx on feeds(updated_at);
 
 create table feed_links(
@@ -70,4 +69,3 @@ create table feed_links(
   foreign key(link_id) references links(id) on delete cascade
 );
 create index feed_links_url_idx on feed_links(url);
-
