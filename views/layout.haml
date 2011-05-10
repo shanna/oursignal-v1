@@ -1,22 +1,18 @@
 !!! 5
 %html
   %head
-    != haml :'_meta'
     %title!= page_title 'oursignal'
-    %link{type: 'text/css', media: 'all', charset: 'utf-8', href: '/css/screen.css', rel: 'stylesheet'}
     %link{rel: 'icon', href: '/favicon.ico'}
+    %link{rel: 'stylesheet', href: '/css/screen.css', type: 'text/css'}
+    != haml :'_meta'
+    != haml :'_javascript'
+    - yield_content :head
   %body{id: page_id, class: page_classes}
     #head
-      #logo_oursignal
-        %a{href: '/', title: 'oursignal - home'}
-          %img{src: '/art/logo_oursignal.png', alt: 'oursignal logo'}
-      != haml :'_fundry'
+      != haml :'_logo'
       != haml :'_navigation'
     #body
       != yield
-      %div{style: 'clear: both;'}
     #foot
-      #logo_stateless
-        %a{href: 'http://statelesssystems.com'}
-          %img{src: '/art/logo_stateless.png', alt: 'stateless systems logo'}
+      != haml :'_logo_stateless'
       != haml :'_network_sites'

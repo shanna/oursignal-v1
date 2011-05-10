@@ -1,25 +1,7 @@
 - content :title do
   oursignal &raquo; about
 
-.container_12
-  .push_2.grid_8
-    %h2.about About OurSignal
-    %p OurSignal.com looks at currently popular items on the social news sites of your choosing and mashes them all together. The idea is to allow users (you especially) to get a rapid overview of the latest breaking headlines that match specific interests.
-    %ul.aboutList
-      %li Create your very own customized oursignal and share it with others
-      %li Add/remove news sources e.g. Mashable, ReadWriteWeb, TechCrunch
-      %li Use sliders to assign relative importance to each news source
-      %li Pick from a range of 'visualizations' to suit your reading style (bigger links are more important, hotter colors are items on the rise)
-      %li>
-        If multiple sources mention the same url (e.g.
-        %a{href: 'http://trendsmap.com'}>< http://trendsmap.com
-        ) then those items are combined and considered more important
-      %li Access to RSS/XML/JSON output for developer mashups
-    %br
-    %p
-      Please let us know if you discover any
-      :javascript
-        eval(decodeURIComponent('#{URI.escape(%q{document.write('<a class="email" href="mailto:enquiries@oursignal.com">bugs</a>');}, /./)}'));
-      or have any
-      %a{href: 'http://oursignal.uservoice.com'} suggestions
-      \.
+:mardown
+  == About OurSignal
+
+  OurSignal.com looks at currently popular items on the social news sites of your choosing and mashes them all together. The idea is to allow users (you especially) to get a rapid overview of the latest breaking headlines that match specific interests.
