@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/shanna/sinatra.git
+  remote: http://github.com/shanna/sinatra.git
   revision: cffcd77704b30a9d0fed161ecdac14ce5b7104a1
   branch: named_capture_routing
   specs:

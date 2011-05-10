@@ -7,7 +7,7 @@ gem 'haml'
 gem 'rack'
 gem 'rdiscount'
 gem 'sass'
-gem 'sinatra', git: 'git://github.com/shanna/sinatra.git', branch: 'named_capture_routing'
+gem 'sinatra', git: 'http://github.com/shanna/sinatra.git', branch: 'named_capture_routing'
 
 # Business.
 gem 'swift', git: 'http://github.com/shanna/swift.git', branch: 'next'
