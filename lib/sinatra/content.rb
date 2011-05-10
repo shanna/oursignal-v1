@@ -1,3 +1,5 @@
+require 'sinatra/base'
+
 module Sinatra
   class Base
     module Content
@@ -16,7 +18,11 @@ module Sinatra
       def get_content name, *args
         capture_haml{ yield_content(name, *args) }
       end
-    end # Content
+
+      def has_content? name
+        @content && @content.key?(name)
+      end
+    end
 
     helpers Content
   end # Base

@@ -1,3 +1,6 @@
+require 'sinatra/base'
+require 'sinatra/content'
+
 module Sinatra
   class Base
     module Page
@@ -7,12 +10,12 @@ module Sinatra
       end
 
       def page_id default = nil
-        route = request.path.gsub(%r{^/|/$}, '').split('/').reject{|c| c =~ /^\d+/}.join('_')
+        route = (env['FORWARDED_REQUEST_PATH'] || env['REQUEST_PATH']).gsub(%r{^/|/$}, '').split('/').reject{|c| c =~ /^\d+/}.join('_')
         route.empty? ? default : 'page_' + route
       end
 
       def page_classes *defaults
-        classes = request.path.gsub(%r{^/|/$}, '').split('/').reject{|c| c =~ /^\d+/}
+        classes = (env['FORWARDED_REQUEST_PATH'] || env['REQUEST_PATH']).gsub(%r{^/|/$}, '').split('/').reject{|c| c =~ /^\d+/}
         [*defaults, classes].join(' ')
       end
     end # Page

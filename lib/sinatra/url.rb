@@ -1,3 +1,4 @@
+require 'uri/domain'
 module Sinatra
   class Base
 
@@ -12,7 +13,14 @@ module Sinatra
       end
 
       def absolute_url *path
-        request.scheme + '://' + request.host + url(*path)
+        port = request.port == 80 ? '' : ":#{request.port}"
+        request.scheme + '://' + request.host + port + url(*path)
+      end
+
+      # TODO better way to handle shit urls.
+      def domain url
+        domain = URI.parse(url.sub(%r{[?#].*$}, '').gsub(/\s/, '+')).domain rescue nil
+        domain || url.scan(%r{https?://([^/]+)}).first
       end
     end # Url
 
