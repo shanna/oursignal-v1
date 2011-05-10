@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+require File.join(File.dirname(__FILE__), '..', 'lib', 'oursignal', 'cli')
+require 'readline'
+
+bin      = Oursignal::Cli.bin
+command  = ARGV.shift
+usage    = %Q{
+usage: #{bin} [-h|--help]
+}.strip
+
+if command and command =~ /^\-{0,2}h(?:elp)?$/
+  puts usage
+  exit
+end
+
+warn 'WARNING: Resetting database is a bad idea in production!'
+reset = Readline.readline('reset [yes/no] (no): ') until reset =~ /^(?:yes|no)$/i
+if reset.downcase != 'yes'
+  puts 'cancelled'
+  exit -1
+end
+
+system(%q{psql oursignal -c 'drop schema public cascade; create schema public;'})
+exec File.join(Oursignal::Cli.root, 'oursignal-db-migrate')
+

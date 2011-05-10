@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+require File.join(File.dirname(__FILE__), '..', 'lib', 'oursignal', 'cli')
+require 'tempfile'
+
+bin      = Oursignal::Cli.bin
+command  = ARGV.shift
+usage    = %Q{
+usage: #{bin} [-h|--help]
+}.strip
+
+if command and command =~ /^\-{0,2}h(?:elp)?$/
+  puts usage
+  exit
+end
+
+path ||= File.join(Oursignal.root, 'migrations')
+migrations = Dir.chdir(path){ Dir.glob('*').sort }.map{|x| x.sub(/\.\w{,4}$/, '')}
+
+# Just create the table every time, faster than checking if it exists or not
+system(%q{psql -qc 'create table schema_migrations ( migration varchar(100) not null primary key )' oursignal 2>/dev/null})
+completed = `psql -Atc 'select migration from schema_migrations' oursignal`.split.map{|x| x.sub(/\.\w{,4}$/, '')} rescue []
+
+file = Tempfile.new(%w(oursignal-migration .sql), encoding: 'utf-8')
+file.write "set client_min_messages=WARNING;\n"
+(migrations - completed).each do |migration|
+  migration_file = File.join(path, Dir.chdir(path){ Dir.glob("#{migration}*") }.first)
+  file.write File.executable?(migration_file) ? `#{migration_file}` : File.read(migration_file)
+  file.write "insert into schema_migrations values ('#{migration}');\n"
+end
+file.close
+
+print 'migrating up ... '
+system("psql -q1Atf #{file.path} --set ON_ERROR_STOP= oursignal > /dev/null")
+puts 'done'
+exit $?.exitstatus
+

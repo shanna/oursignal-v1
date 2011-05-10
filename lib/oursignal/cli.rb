@@ -7,7 +7,7 @@ module Oursignal
     end
 
     def self.root
-      Oursignal.root
+      File.expand_path(File.join(Oursignal.root, 'bin'))
     end
   end # Cli
 end # Oursignal
