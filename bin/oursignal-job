@@ -1,20 +1,39 @@
 #!/usr/bin/env ruby
-require File.join(File.dirname(__FILE__), '..', 'lib', 'oursignal')
-require 'oursignal/cli'
+require_relative '../lib/oursignal/cli'
+require 'optparse'
 require 'oursignal/job'
+require 'oursignal/cli'
+
+daemonize, logfile, help, num_workers = false, $stdout, false, 1
+
+OptionParser.new do |op|
+  op.on('-h', '--h', '--help')   {help = true}
+  op.on('-n', '--num-workers n') {|n| num_workers = n.to_i}
+  op.on('-D', '--daemonize')     {|d| daemonize = d}
+  op.on('--log FILE', String)    {|l| logfile  = l}
+end.parse!
+
+puts(usage) && exit if help
 
 command = (ARGV.shift || 'help').strip
 usage   = %Q{
-usage: #{Oursignal::Cli.bin} [-h|--help] command
+  usage: #{Oursignal::Cli.bin} [-h|--help] [-n workers] [-D] [--log FILE] command
 
-Commands are:
-  start Fire up resque workers.
-  stop  Stop resque workers.
+  Commands are:
+    start      Fire up resque workers.
+    stop       Stop resque workers.
+    more  [n]  Fire up n additional workers
+    less  [n]  Stop n workers
+    cull  [n]  Kills forked workers running for more than n secs.
+    mopup [n]  Cleanup obvious failures older than n secs that will be retried.
 }.strip
 
 case command
-  when /^\-{0,2}h(?:elp)?$/, nil then puts usage
-  when 'start'                   then Oursignal::Job.start
-  when 'stop'                    then Oursignal::Job.stop
+  when 'start' then Oursignal::Job.start(daemonize, logfile, num_workers)
+  when 'stop'  then Oursignal::Job.stop
+  when 'more'  then Oursignal::Job.more(ARGV.shift.to_i)
+  when 'less'  then Oursignal::Job.less(ARGV.shift.to_i)
+  when 'cull'  then Oursignal::Job.cull(ARGV.shift.to_i)
+  when 'mopup' then Oursignal::Job.mopup(ARGV.shift.to_i)
   else puts usage
 end

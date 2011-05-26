@@ -1,4 +1,6 @@
 require File.join(File.dirname(__FILE__), '..', 'oursignal')
+require 'file/pid'
+require 'logger'
 require 'resque'
 require 'resque/plugins/lock'
 
@@ -9,39 +11,106 @@ require 'oursignal/job/feed_get'
 require 'oursignal/job/native_score'
 require 'oursignal/job/native_score_get'
 
+# Master.
+# TODO: This is a bit backwards.
+require 'oursignal/job/master'
+
+Resque.after_fork{ Swift.db.reconnect}
+#Resque.after_fork do |job|
+#  Swift.setup(:default, Swift::DB::Postgres, db: 'oursignal')
+#end
+
 module Oursignal
+  #--
+  # TODO: Submit all this worker running as a bin/lib patch for resque?
   module Job
+    @pidfile = File.join(Oursignal.root, 'run', 'oursignal-job.pid')
+    @logger  = Logger.new($stdout)
 
-    # Run job workers.
-    #--
-    # TODO: Env stuff to OO and Env handling to bin/ev-job.
-    # TODO: Pid files for this stuff so monit can be happy?
-    def self.start
-      # Process.daemon do # Don't deamonize while we have no stop, log or pid.
-        # TODO: Process.daemon. Master -> Slaves type deal. Master should watch the workers for that queue and restart
-        # when required.
-        queues = (ENV['QUEUES'] || ENV['QUEUE'] || '*').to_s.split(',')
+    class << self
+      attr_reader :logger, :pidfile
 
-        begin
-          worker              = Resque::Worker.new(*queues)
-          worker.verbose      = ENV['LOGGING'] || ENV['VERBOSE']
-          worker.very_verbose = ENV['VVERBOSE']
-        rescue Resque::NoQueueError
-          abort "set QUEUE env var, e.g. $ QUEUE=critical,high rake resque:work"
+      # Run job workers.
+      #--
+      def start daemonize = false, logfile = $stdout, n = 1
+
+        @logger = Logger.new(logfile)
+        if daemonize
+          pid = Process.fork do
+            Process.detach(Process.pid)
+            Master.new(pidfile, logfile)
+          end
+
+          # if we want more workers, wait a bit and fire the TTIN signals.
+          sleep(2) && (n - 1).times { sleep(0.5); Process.kill('TTIN', pid) } if n > 1
+        else
+          Master.new(pidfile, logfile)
+        end
+      end
+
+      def stop
+        pids = Resque.workers.map {|worker| worker.worker_pids}.flatten.map(&:to_i)
+        Process.kill('QUIT', *pids) unless pids.empty?
+      end
+
+      # https://github.com/defunkt/resque/issues/180
+      def cull n
+        raise "Invalid secs #{n}, must be >= 600" if n < 600
+        Resque.workers.select(&:working?).each do |worker|
+          job     = worker.job
+          pid     = worker.worker_pids.last
+          elapsed = Time.now - DateTime.parse(job['run_at']).to_time
+          if elapsed > n
+            Resque::Failure.create(
+              worker:     worker,
+              queue:      job['queue'],
+              payload:    job['payload'],
+              exception:  Exception.new("Timeout and cull due to elapsed #{elapsed} secs"),
+            )
+            logger.info "Killing worker #{pid} running #{job}"
+            Process.kill('KILL', pid.to_i) rescue nil
+          end
+        end
+      end
+
+      def mopup interval = 900
+        mopped = 0
+        cutoff = Time.now - interval
+        Resque::Failure.all(0, Resque::Failure.count).each_with_index do |failure, idx|
+          klass  = failure['payload']['class']
+          failed = DateTime.parse(failure['failed_at']).to_time
+
+          next if failed >= cutoff
+          if re = RETRIED[klass] and re.match(failure['error'])
+            Resque.redis.lrem(:failed, 0, Yajl.dump(failure))
+            mopped += 1
+          end
         end
 
-        puts "Starting worker #{worker}"
-        worker.log "Starting worker #{worker}"
-        worker.work(ENV['INTERVAL'] || 5) # interval, will block
-      # end
-    end
+        Job.info "mopped up #{mopped} failures" if mopped > 0
+      end
 
-    # Stop job workers.
-    #--
-    # TODO: Env stuff to OO and Env handling to bin/ev-job.
-    # TODO: Find the master, have it send QUIT to all it's workers.
-    def self.stop
-      raise NotImplementedError
+      def more n
+        abort "Master not running ?" unless File.exists?(pidfile)
+        pid = File.read(PIDFILE).to_i
+        n   = 1 if n < 1
+        n.times { Process.kill('TTIN', pid) }
+      end
+
+      def less n
+        abort "Master not running ?" unless File.exists?(pidfile)
+        pid = File.read(PIDFILE).to_i
+        n   = 1 if n < 1
+        n.times { Process.kill('TTOU', pid) }
+      end
+
+      def format_message obj
+        obj.kind_of?(Exception) ? "#{obj.message} - #{obj.backtrace[0..4].join("\n")}" : obj.to_s
+      end
+
+      def info  message; logger.info  format_message(message) end
+      def warn  message; logger.warn  format_message(message) end
+      def error message; logger.error format_message(message) end
     end
   end # Job
 end # Oursignal

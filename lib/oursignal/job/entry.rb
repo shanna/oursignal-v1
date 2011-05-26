@@ -4,12 +4,9 @@ require 'uri/meta'
 require 'uri/sanitize'
 
 require 'oursignal/job'
-require 'oursignal/feed'
 
-# TODO: Business.
-require 'oursignal/scheme/entry'
-require 'oursignal/scheme/entry_link'
-require 'oursignal/scheme/link'
+# Business.
+require 'oursignal/entry'
 
 module Oursignal
   module Job
@@ -22,15 +19,14 @@ module Oursignal
 
       class << self
         def perform feed_url, xml
-          feed = Oursignal::Feed.search(feed_url) || return
-          doc  = Nokogiri::XML.parse(xml)         || return
+          feed = Oursignal::Feed.find(feed_url) || return
+          doc  = Nokogiri::XML.parse(xml)       || return
           entry_el = doc.root
           entry_el.add_namespace_definition('atom', 'http://www.w3.org/2005/Atom')
 
           # Entry.
           entry_url = URI.sanitize(entry_el.at(%q{./atom:link[@rel='alternate'] | ./link}).text.strip)
           entry_url = entry_url.meta.last_effective_uri if entry_url.is_a?(URI::HTTP) # TODO: No HTTPS support in metauri yet?
-          entry     = Scheme::Entry.first('url = ?', entry_url) || Scheme::Entry.create(feed_id: feed.id, url: entry_url)
 
           # Native score since we can.
           score_digg = 0
@@ -41,18 +37,18 @@ module Oursignal
           # Links.
           URI::Meta.multi(parse(feed, entry_el)) do |meta|
             link_url = URI.sanitize(meta.last_effective_uri)
-            if link = Scheme::Link.first('url = ?', link_url)
-              link.update(native_score_digg: score_digg, updated_at: Time.now) if score_digg > 0
+            if link = Oursignal::Link.find(link_url)
+              link.update(score_digg: score_digg, updated_at: Time.now) if score_digg > 0
             else
-              link = Scheme::Link.create(
-                title:             entry_el.at('./atom:title | ./title').text.strip,
-                url:               link_url,
-                native_score_digg: score_digg
+              link = Oursignal::Link.create(
+                title:      entry_el.at('./atom:title | ./title').text.strip,
+                url:        link_url,
+                score_digg: score_digg
               )
             end
 
-            Scheme::EntryLink.get(entry_id: entry.id, link_id: link.id) ||
-              Scheme::EntryLink.create(entry_id: entry.id, link_id: link.id)
+            Oursignal::Entry.get(feed_id: feed.id, link_id: link.id) ||
+              Oursignal::Entry.create(feed_id: feed.id, link_id: link.id, url: entry_url)
           end
         end
 

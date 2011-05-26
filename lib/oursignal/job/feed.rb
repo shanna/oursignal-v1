@@ -14,7 +14,7 @@ module Oursignal
         #--
         # TODO: First or create the feed?
         def perform url, path
-          feed = Oursignal::Feed.search(url)          || return
+          feed = Oursignal::Feed.find(url)            || return
           doc  = Nokogiri::XML.parse(File.open(path)) || return
           root = doc.root
           root.add_namespace_definition('atom', 'http://www.w3.org/2005/Atom')
