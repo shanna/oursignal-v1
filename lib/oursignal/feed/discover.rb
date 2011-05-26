@@ -5,10 +5,10 @@ require 'uri/sanitize'
 require 'oursignal/feed'
 
 module Oursignal
-  module Feed
+  class Feed
     def self.discover original_url
       url  = URI.sanitize(original_url)
-      feed = Oursignal::Feed.search(url)
+      feed = Oursignal::Feed.find(url)
 
       unless feed
         feed = Scheme::Feed.create(url: url)
