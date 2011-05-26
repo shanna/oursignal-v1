@@ -59,7 +59,7 @@ create table feeds(
 create index feeds_url_idx        on feeds(url);
 create index feeds_updated_at_idx on feeds(updated_at);
 
-create table feed_links(
+create table entries(
   feed_id bigint not null,
   link_id bigint not null,
   url     text,
@@ -68,4 +68,4 @@ create table feed_links(
   foreign key(feed_id) references feeds(id) on delete cascade,
   foreign key(link_id) references links(id) on delete cascade
 );
-create index feed_links_url_idx on feed_links(url);
+create index entries_url_idx on entries(url);
