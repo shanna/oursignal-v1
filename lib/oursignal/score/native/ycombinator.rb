@@ -19,7 +19,7 @@ module Oursignal
               url   = entry.attribute('href').text
               url   = 'http://news.ycombinator.com/' + url unless url =~ %r{://}
 
-              Resque::Job.create :native_score, 'Oursignal::Job::NativeScore', 'native_score_ycombinator', url, score, title
+              Resque::Job.create :native_score, 'Oursignal::Job::NativeScore', 'score_ycombinator', url, score, title
             rescue => error
               warn error.message
             end
@@ -29,5 +29,4 @@ module Oursignal
     end # Native
   end # Score
 end # Oursignal
-
 

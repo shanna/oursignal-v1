@@ -35,5 +35,6 @@ end # Oursignal
 # TODO: Fugly factory is fugly.
 require 'oursignal/score/native/delicious'
 require 'oursignal/score/native/reddit'
+require 'oursignal/score/native/twitter'
 require 'oursignal/score/native/ycombinator'
 

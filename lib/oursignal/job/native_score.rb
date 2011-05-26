@@ -1,7 +1,7 @@
 require 'uri/sanitize'
 require 'uri/meta'
 
-require 'oursignal/scheme/link'
+require 'oursignal/link'
 
 # TODO: Use memcache?
 URI::Meta::Cache.cache = nil
@@ -12,7 +12,7 @@ module Oursignal
       extend Resque::Plugins::Lock
       @queue = :native_score
 
-      def self.perform source, url, score, title
+      def self.perform source, url, score, title = nil
         url = URI.sanitize(url).meta
         url = url.last_effective_uri unless url.errors?
 
@@ -22,14 +22,13 @@ module Oursignal
           where url in (
             select l.url
             from links l
-            left join entry_links el on (el.link_id = l.id)
-            left join entries e on (e.id = el.entry_id)
+            left join entries e on (e.link_id = l.id)
             where l.url = ? or e.url = ?
           )
         })
 
-        unless update.execute(score, url, url).rows > 0
-          Scheme::Link.create(title: title, url: url, :"#{source}" => score)
+        if update.execute(score, url, url).rows == 0 && title
+          Oursignal::Link.create(title: title, url: url, :"#{source}" => score)
         end
       end
     end # NativeScore

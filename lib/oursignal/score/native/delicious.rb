@@ -19,7 +19,7 @@ module Oursignal
               title  = link.text.strip
               url    = link.attribute('href')
 
-              Resque::Job.create :native_score, 'Oursignal::Job::NativeScore', 'native_score_delicious', url, score, title
+              Resque::Job.create :native_score, 'Oursignal::Job::NativeScore', 'score_delicious', url, score, title
             rescue => error
               warn error.message
             end
