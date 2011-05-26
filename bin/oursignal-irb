@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+require_relative '../lib/oursignal/cli'
+require 'irb'
+
+bin     = Oursignal::Cli.bin
+command = (ARGV.shift || '').strip
+usage   = %Q{
+  usage: #{bin} [-h|--help]
+}.strip
+
+case command
+  when /^\-{0,2}h(?:elp)?$/ then puts usage
+  when ''                   then IRB.start(__FILE__)
+  else                           puts usage
+end
