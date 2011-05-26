@@ -10,11 +10,7 @@ gem 'sass'
 gem 'sinatra', git: 'http://github.com/shanna/sinatra.git', branch: 'named_capture_routing'
 
 # Business.
-gem 'swift', git: 'http://github.com/shanna/swift.git', branch: 'next'
-
-# Auth.
-gem 'oa-oauth'
-gem 'oa-openid'
+gem 'swift', git: 'http://github.com/shanna/swift.git'
 
 # Jobs.
 gem 'curb'
