@@ -5,7 +5,7 @@ module Oursignal
   class Feed < Scheme::Feed
     class << self
       def find id
-        Scheme::Feed.execute %q{select * from feeds where id = ? or url = ?}, id.to_i, id
+        Scheme::Feed.execute(%q{select * from feeds where id = ? or url = ?}, id.to_s.to_i, id).first
       end
 
       def read *feeds
