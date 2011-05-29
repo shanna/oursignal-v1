@@ -16,6 +16,7 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
+    addressable (2.2.6)
     ansi (1.2.5)
     chunky_png (1.2.0)
     compass (0.11.1)
@@ -23,6 +24,8 @@ GEM
       fssm (>= 0.2.7)
       sass (~> 3.1)
     curb (0.7.15)
+    domainatrix (0.0.10)
+      addressable
     flock (0.4.1)
     fssm (0.2.7)
     haml (3.1.1)
@@ -30,6 +33,10 @@ GEM
     kgio (2.4.1)
     moneta (0.6.0)
     nokogiri (1.4.4)
+    postrank-uri (1.0.15)
+      addressable (>= 2.2.3)
+      domainatrix
+      nokogiri
     rack (1.3.0)
     rdiscount (1.6.8)
     redis (2.2.0)
@@ -57,12 +64,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  addressable
   ansi
   compass
   curb
   flock
   haml
   nokogiri
+  postrank-uri
   rack
   rdiscount
   resque

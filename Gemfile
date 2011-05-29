@@ -23,6 +23,10 @@ gem 'yajl-ruby'
 # Scoring.
 gem 'flock'
 
+# Sanitizing.
+gem 'addressable' # TODO: Gah.
+gem 'postrank-uri'
+
 group :development do
   gem 'unicorn'
 end
