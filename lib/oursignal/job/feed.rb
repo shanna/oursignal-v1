@@ -12,12 +12,11 @@ module Oursignal
       class << self
         # TODO: Error handling.
         def perform feed_id, path
-          feed   = Oursignal::Feed.get(id: feed_id) || return
-          parser = Oursignal::Feed::Parser.find(feed)    || return
+          feed   = Oursignal::Feed.get(id: feed_id)   || return
+          parser = Oursignal::Feed::Parser.find(feed) || return
           parser.new(feed).parse(File.open(path))
-
-          # XXX: Don't unlink feeds for now.
-          # File.unlink(path)
+          feed.update(updated_at: Time.now)
+          File.unlink(path)
         end
       end
     end # Feed

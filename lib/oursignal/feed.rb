@@ -13,7 +13,7 @@ module Oursignal
       def read *feeds
         feeds = execute(%q{
           select * from feeds
-          where updated_at < now() - interval '10 minutes'
+          where updated_at < now() - interval '5 minutes'
         }) if feeds.empty?
         feeds.each{|feed| Resque::Job.create :feed_get, 'Oursignal::Job::FeedGet', feed.id}
       end
