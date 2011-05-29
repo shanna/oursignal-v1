@@ -36,6 +36,7 @@ module Oursignal
 
           # Links.
           URI::Meta.multi(parse(feed, entry_el)) do |meta|
+            puts meta
             link_url = URI.sanitize(meta.last_effective_uri)
             if link = Oursignal::Link.find(link_url)
               link.update(score_digg: score_digg, updated_at: Time.now) if score_digg > 0
@@ -70,9 +71,8 @@ module Oursignal
             rescue Nokogiri::XML::SyntaxError
               warn(%Q{#{$!.message}:\n#{$!.backtrace.join("\n")}})
             end
-
             urls << URI.sanitize(entry_el.at(%q{./atom:link[@rel='alternate'] | ./link}).text.strip) if urls.empty?
-            urls.select{|url| url.is_a?(URI::HTTP)}
+            urls
           end
       end
     end # Entry
