@@ -1,6 +1,7 @@
 require 'curb'
 require 'forwardable'
 require 'stringio'
+require 'time'
 require 'uri/sanitize'
 require 'zlib'
 
