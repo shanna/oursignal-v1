@@ -8,17 +8,12 @@ require 'resque/plugins/lock'
 require 'oursignal/job/entry'
 require 'oursignal/job/feed'
 require 'oursignal/job/feed_get'
-require 'oursignal/job/native_score'
-require 'oursignal/job/native_score_get'
 
 # Master.
 # TODO: This is a bit backwards.
 require 'oursignal/job/master'
 
 Resque.after_fork{ Swift.db.reconnect}
-#Resque.after_fork do |job|
-#  Swift.setup(:default, Swift::DB::Postgres, db: 'oursignal')
-#end
 
 module Oursignal
   #--

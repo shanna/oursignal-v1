@@ -1,5 +1,5 @@
 insert into feeds (url, created_at, updated_at) values
-  ('http://digg.com/news.rss', now(), now()),
-  ('http://www.reddit.com/.rss', now(), now()),
-  ('http://feeds.delicious.com/v2/rss/popular', now(), now()),
-  ('http://news.ycombinator.com/rss', now(), now());
+  ('http://services.digg.com/2.0/story.getTopNews?type=json', now(), now()),
+  ('http://www.reddit.com/.json', now(), now()),
+  ('http://delicious.com/popular/', now(), now()),
+  ('http://news.ycombinator.com', now(), now());

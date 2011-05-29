@@ -15,7 +15,7 @@ module Oursignal
           select * from feeds
           where updated_at < now() - interval '10 minutes'
         }) if feeds.empty?
-        feeds.each{|feed| Resque::Job.create :feed_get, 'Oursignal::Job::FeedGet', feed.url}
+        feeds.each{|feed| Resque::Job.create :feed_get, 'Oursignal::Job::FeedGet', feed.id}
       end
     end
   end # Feed
