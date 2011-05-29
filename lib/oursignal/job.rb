@@ -92,14 +92,14 @@ module Oursignal
 
       def more n
         abort "Master not running ?" unless File.exists?(pidfile)
-        pid = File.read(PIDFILE).to_i
+        pid = File.read(pidfile).to_i
         n   = 1 if n < 1
         n.times { Process.kill('TTIN', pid) }
       end
 
       def less n
         abort "Master not running ?" unless File.exists?(pidfile)
-        pid = File.read(PIDFILE).to_i
+        pid = File.read(pidfile).to_i
         n   = 1 if n < 1
         n.times { Process.kill('TTOU', pid) }
       end
