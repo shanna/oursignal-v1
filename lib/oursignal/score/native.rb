@@ -1,6 +1,8 @@
 require 'resque'
 require 'yajl'
 
+require 'oursignal/link'
+
 module Oursignal
   module Score
     class Native
@@ -32,13 +34,13 @@ module Oursignal
         end
 
         def read *links
-          links = execute(%q{
+          links = Link.execute(%q{
             select * from links
             where updated_at < now() - interval '5 minutes'
           }) if links.empty?
           links.each do |link|
             all.each do |source|
-              Resque::Job.create :native_score_get 'Oursignal::Job::NativeScoreGet', source, link.id
+              Resque::Job.create :score_native_get, 'Oursignal::Job::ScoreNativeGet', source, link.id
             end
           end
         end
@@ -49,7 +51,7 @@ end # Oursignal
 
 # TODO: Fugly factory is fugly.
 require 'oursignal/score/native/delicious'
-require 'orusignal/score/native/digg'
+require 'oursignal/score/native/digg'
 require 'oursignal/score/native/facebook'
 require 'oursignal/score/native/googlebuzz'
 # require 'oursignal/score/native/reddit'
