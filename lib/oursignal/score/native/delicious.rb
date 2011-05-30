@@ -11,8 +11,8 @@ module Oursignal
         end
 
         def parse source
-          data  = Yajl::Parser.new(symbolize_keys: true).parse(source)
-          score = data.first[:total_posts] || return
+          data  = Yajl::Parser.new(symbolize_keys: true).parse(source).first || return
+          score = data[:total_posts] || return
           Link.execute("update links set score_delicious = ?, updated_at = now() where id = ?", score.to_i, link.id)
         end
       end # Delicious
