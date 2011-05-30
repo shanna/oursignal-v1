@@ -16,7 +16,7 @@ module Oursignal
 
         Oursignal.db.transaction :entry do
           if link = Oursignal::Link.find(url)
-            link.update("#{source}" => score, updated_at: Time.now)
+            link.update("#{source}" => score, updated_at: Time.now, referred_at: Time.now)
           else
             link = Oursignal::Link.create(title: title, url: url, :"#{source}" => score)
           end
