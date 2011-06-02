@@ -14,6 +14,9 @@ require 'swift'
 Swift.setup :default, Swift::DB::Postgres, db: 'oursignal'
 
 module Oursignal
+  VERSION    = '0.3.0'
+  USER_AGENT = "oursignal/#{VERSION} +oursignal.com"
+
   def self.root
     File.expand_path(File.join(File.dirname(__FILE__), '..'))
   end

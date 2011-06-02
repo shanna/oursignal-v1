@@ -1,6 +1,5 @@
-require 'nokogiri'
 require 'oursignal/feed'
-require 'oursignal/feed/parser'
+require 'oursignal/feed/reader'
 require 'oursignal/job'
 
 module Oursignal
@@ -9,16 +8,10 @@ module Oursignal
       extend Resque::Plugins::Lock
       @queue = :feed
 
-      class << self
-        # TODO: Error handling.
-        def perform feed_id, path
-          feed   = Oursignal::Feed.get(id: feed_id)   || return
-          parser = Oursignal::Feed::Parser.find(feed) || return
-          parser.new(feed).parse(File.open(path))
-          feed.update(updated_at: Time.now)
-          File.unlink(path)
-        end
+      def self.perform
+        Oursignal::Feed::Reader.perform
       end
     end # Feed
   end # Job
 end # Oursignal
+

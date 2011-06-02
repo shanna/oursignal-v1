@@ -33,16 +33,8 @@ module Oursignal
           self.all << klass
         end
 
-        def read *links
-          links = Link.execute(%q{
-            select * from links
-            where updated_at < now() - interval '5 minutes'
-          }) if links.empty?
-          links.each do |link|
-            all.each do |source|
-              Resque::Job.create :score_native_get, 'Oursignal::Job::ScoreNativeGet', source, link.id
-            end
-          end
+        def read
+          Resque::Job.create :score_native, 'Oursignal::ScoreNative'
         end
       end
     end # Native
