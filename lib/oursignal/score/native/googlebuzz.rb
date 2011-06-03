@@ -12,6 +12,7 @@ module Oursignal
           json  = source.gsub(/^(.*);+\n*$/, "\\1").gsub(/^google_buzz_set_count\((.*)\)$/, "\\1")
           data  = Yajl::Parser.new(symbolize_keys: true).parse(json)
           score = data.values.first || return
+          puts "googlebuzz:link(#{link.id}, #{link.url}):#{score}"
           Link.execute("update links set score_googlebuzz = ?, updated_at = now() where id = ?", score.to_i, link.id)
         end
       end # Googlebuzz

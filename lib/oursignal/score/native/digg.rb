@@ -12,6 +12,7 @@ module Oursignal
           json  = source.gsub(/^(.*);+\n*$/, "\\1").gsub(/^__DBW\.collectDiggs\((.*)\)$/, "\\1")
           data  = Yajl::Parser.new(symbolize_keys: true).parse(json)
           score = data[:diggs] || return
+          puts "digg:link(#{link.id}, #{link.url}):#{score}"
           Link.execute("update links set score_digg = ?, updated_at = now() where id = ?", score.to_i, link.id)
         end
       end # Digg

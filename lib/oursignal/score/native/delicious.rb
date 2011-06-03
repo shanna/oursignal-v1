@@ -13,6 +13,7 @@ module Oursignal
         def parse source
           data  = Yajl::Parser.new(symbolize_keys: true).parse(source).first || return
           score = data[:total_posts] || return
+          puts "delicious:link(#{link.id}, #{link.url}):#{score}"
           Link.execute("update links set score_delicious = ?, updated_at = now() where id = ?", score.to_i, link.id)
         end
       end # Delicious
