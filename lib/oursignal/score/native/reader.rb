@@ -14,8 +14,7 @@ module Oursignal
           sources = Oursignal::Score::Native.all
           links   = Link.execute(%q{
             select * from links
-            -- where updated_at < now() - interval '5 minutes'
-            limit 1
+            where updated_at < now() - interval '5 minutes'
           })
 
           # TODO: Safe distance from (ulimit -n) - (lsof | wc -l)
