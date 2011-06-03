@@ -9,7 +9,7 @@ module Oursignal
         end
 
         def parse source
-          json  = source.read.gsub(/^(.*);+\n*$/, "\\1").gsub(/^fb_sharepro_render\((.*)\)$/, "\\1")
+          json  = source.gsub(/^(.*);+\n*$/, "\\1").gsub(/^fb_sharepro_render\((.*)\)$/, "\\1")
           data  = Yajl::Parser.new(symbolize_keys: true).parse(json)
           score = data.first[:share_count] || return # Also like_count, comment_count, click_count and total_count if we need it.
           Link.execute("update links set score_facebook = ?, updated_at = now() where id = ?", score.to_i, link.id)

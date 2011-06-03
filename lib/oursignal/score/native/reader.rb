@@ -14,7 +14,8 @@ module Oursignal
           sources = Oursignal::Score::Native.all
           links   = Link.execute(%q{
             select * from links
-            where updated_at < now() - interval '5 minutes'
+            -- where updated_at < now() - interval '5 minutes'
+            limit 1
           })
 
           # TODO: Safe distance from (ulimit -n) - (lsof | wc -l)
@@ -23,15 +24,15 @@ module Oursignal
           sources.each do |source|
             links.each do |link|
               score = source.new(link)
-              easy  = Curl::Easy.new(link.url) do |e|
+              easy  = Curl::Easy.new(score.url) do |e|
                 e.follow_location       = true
                 e.timeout               = 5
                 e.headers['User-Agent'] = Oursignal::USER_AGENT
                 e.on_complete do |response|
                   begin
-                    score.parse(body(response)) if response.response_code.to_s =~ /^2/
-                  resuce => error
-                    warn error
+                    score.parse(force_utf8(body(response))) if response.response_code.to_s =~ /^2/
+                  rescue => error
+                    warn [error.message, *error.backtrace].join("\n")
                   end
                 end
               end
@@ -55,6 +56,16 @@ module Oursignal
             else
               curl.body_str
             end
+          end
+
+          #--
+          # TODO: Steal code from https://github.com/stateless-systems/metauri/blob/master/lib/metauri/location/resolve.rb
+          def self.force_utf8 raw
+            options = {invalid: :replace, undef: :replace}
+            raw.valid_encoding? ? raw.encode('utf-8', options) : raw.force_encoding('utf-8').encode('utf-8', options)
+          rescue => error
+            warn error.message
+            ''
           end
 
       end # Reader
