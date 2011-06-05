@@ -46,7 +46,7 @@ require 'oursignal/score/native/delicious'
 require 'oursignal/score/native/digg'
 require 'oursignal/score/native/facebook'
 require 'oursignal/score/native/googlebuzz'
-# require 'oursignal/score/native/reddit'
+require 'oursignal/score/native/reddit'
 require 'oursignal/score/native/twitter'
 # require 'oursignal/score/native/ycombinator'
 
