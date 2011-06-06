@@ -4,11 +4,21 @@ require 'oursignal/link'
 
 module Oursignal
   module Score
-    FIELDS = %w{score_delicious score_digg score_facebook score_googlebuzz score_reddit score_twitter score_ycombinator}
+    FIELDS = [
+      :score_delicious,
+      :score_digg,
+      :score_facebook,
+      :score_googlebuzz,
+      :score_reddit,
+      :score_twitter,
+      :score_ycombinator
+    ]
 
     #--
     # TODO: Golf.
-    def self.create
+    # TODO: Move to Score::Reader.perform
+    # TODO: Centroids don't really need to be calculated every run. Perhaps once an hour?
+    def self.read
       links     = Oursignal.db.execute(%Q{select #{FIELDS.join(', ')} from links}) # Oh boy.
       clusters  = Flock.kmeans(100, links.map(&:values)) # TODO: Mask zeros?
       centroids = clusters[:centroid].sort_by{|c| Flock.euclidian_distance(c, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])}
@@ -22,8 +32,24 @@ module Oursignal
         centroids.each_with_index{|centroid, index| insert.execute(*centroid, (0.001 * (index + 1)))}
       end
 
-      Oursignal.db.execute(%Q{select id, #{FIELDS.join(', ')} from links}) do |link|
-        # TODO: Find closest centroid (0.001 * (index + 1)) is your score.
+      # TODO: Redundant code here.
+      # TODO: Very loopy. Speed this shit up. C?
+      # TODO: Velocity.
+      # TODO: Decay?
+      Oursignal.db.execute(%Q{select id, url, #{FIELDS.join(', ')} from links}) do |link|
+        link_distance = Flock.euclidian_distance(link.values_at(*FIELDS), [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+        # TODO: Clearly calculating and recalculating the distance from zeros is dumb. I'll get to optimizin' later since
+        # it's still fast as fuck already.
+        score = 0.0
+        centroids.each_with_index do |centroid, index|
+          break if link_distance <= Flock.euclidian_distance(centroid, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+          score = (0.01 * (index + 1))
+        end
+
+        # TODO: Insert current native scores, calculated score, velocity and decay into score_timeseries for the
+        # current series tick. Use a series table with an auto_incrementing primary key for ticks or use a time
+        # scheme in 5 minute chunks?
+        puts "link: #{score} - #{link_distance} - #{link[:url]}"
       end
     end
   end # Score
