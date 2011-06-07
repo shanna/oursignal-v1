@@ -12,18 +12,19 @@ module Oursignal
           entry     = Yajl::Parser.new(symbolize_keys: true).parse(source)[:data][:children].first || return
           data      = entry[:data]      || return
           score     = data[:score].to_i || return
-          # title     = data[:title]
-          # entry_url = 'http://www.reddit.com/' + data[:permalink]
+          title     = data[:title]
+          entry_url = 'http://www.reddit.com/' + data[:permalink]
 
           puts "reddit:link(#{link.id}, #{link.url}):#{score}"
-          Link.execute("update links set score_reddit = ?, updated_at = now() where id = ?", score, link.id)
+          @feed ||= Feed.find('http://www.reddit.com/.json') # TODO: Yuck.
+          Resque::Job.create :entry, 'Oursignal::Job::Entry', @feed.id, entry_url, link.url, 'score_reddit', score, title
         end
       end # Reddit
     end # Native
   end # Score
 end # Oursignal
 
-__DATA__
+__END__
 {
   "kind": "Listing",
   "data": {

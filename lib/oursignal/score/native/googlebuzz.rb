@@ -20,3 +20,5 @@ module Oursignal
   end # Score
 end # Oursignal
 
+__END__
+google_buzz_set_count({"http://teamliquid.net":600});
