@@ -37,19 +37,15 @@ module Oursignal
       # TODO: Velocity.
       # TODO: Decay?
       Oursignal.db.execute(%Q{select id, url, #{FIELDS.join(', ')} from links}) do |link|
-        link_distance = Flock.euclidian_distance(link.values_at(*FIELDS), [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
-        # TODO: Clearly calculating and recalculating the distance from zeros is dumb. I'll get to optimizin' later since
-        # it's still fast as fuck already.
-        score = 0.0
-        centroids.each_with_index do |centroid, index|
-          break if link_distance <= Flock.euclidian_distance(centroid, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
-          score = (0.01 * (index + 1))
-        end
+        vector  = link.values_at(*FIELDS)
+        closest = centroids.sort_by{|c| Flock.euclidian_distance(vector, c)}.first
+        score   = (0.01 * (centroids.index(closest) + 1))
 
         # TODO: Insert current native scores, calculated score, velocity and decay into score_timeseries for the
         # current series tick. Use a series table with an auto_incrementing primary key for ticks or use a time
         # scheme in 5 minute chunks?
-        puts "link: #{score} - #{link_distance} - #{link[:url]}"
+        distance = Flock.euclidian_distance(vector, closest)
+        puts "link: #{score} - #{distance} - #{link[:url]}"
       end
     end
   end # Score
