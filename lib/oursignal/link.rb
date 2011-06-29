@@ -6,7 +6,7 @@ require 'oursignal/scheme/link'
 module Oursignal
   class Link < Scheme::Link
     def match? match_url
-      url == URI.sanitize(match_url)
+      url == URI.sanitize(match_url).to_s
     end
 
     def self.find id
