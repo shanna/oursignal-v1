@@ -21,9 +21,14 @@ module Oursignal
       # TODO: Move to Score::Reader.perform
       # TODO: Centroids don't really need to be calculated every run. Perhaps once an hour?
       def self.perform
-        links     = Oursignal.db.execute(%Q{select #{FIELDS.join(', ')} from links}) # Oh boy.
+        links = Oursignal.db.execute(%Q{select #{FIELDS.join(', ')} from links}) # Oh boy.
+        raise 'Timestep requires a minimum of 100 links in the DB.' unless links.count >= 100
+
         clusters  = Flock.kmeans(100, links.map(&:values)) # TODO: Mask zeros?
-        centroids = clusters[:centroid].sort_by{|c| Flock.euclidian_distance(c, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])}
+        centroids = clusters[:centroid].sort_by{|c|
+          $stderr.puts c.inspect
+          Flock.euclidian_distance(c, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+        }
 
         Oursignal.db.transaction :centroid_update do
           Oursignal.db.execute('delete from score_kmeans_centroids')
