@@ -10,7 +10,7 @@ module Oursignal
         def urls
           urls = []
           links.each_slice(25) do |slice|
-            urls << 'http://api.ak.facebook.com/restserver.php?v=1.0&method=links.getStats&format=json&urls=' + slice.map{|link| URI.escape(link.url)}.join(',')
+            urls << 'http://api.ak.facebook.com/restserver.php?v=1.0&method=links.getStats&format=json&urls=' + slice.map{|link| CGI.escape(link.url)}.join(',')
           end
           urls
         end

@@ -1,17 +1,18 @@
 require 'resque'
 
-require 'oursignal/score/reader'
+require 'oursignal/score/timestep'
 
 module Oursignal
   module Job
-    class Score
+    class Timestep
       extend Resque::Plugins::Lock
-      @queue = :score
+      @queue = :timestep
 
       def self.perform
-        Oursignal::Score::Reader.perform
+        Oursignal::Score::Timestep.perform
       end
-    end # Score
+    end # Step
   end # Job
 end # Oursignal
+
 

@@ -11,7 +11,7 @@ module Oursignal
       class Twitter < Parser
         def urls
           links.map do |link|
-            "http://urls.api.twitter.com/1/urls/count.json?url=#{URI.escape(link.url)}"
+            "http://urls.api.twitter.com/1/urls/count.json?url=#{CGI.escape(link.url)}"
           end
         end
 

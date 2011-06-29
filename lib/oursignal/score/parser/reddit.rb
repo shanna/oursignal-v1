@@ -9,7 +9,7 @@ module Oursignal
       class Reddit < Parser
         def urls
           links.map do |link|
-            "http://buttons.reddit.com/button_info.json?url=#{URI.escape(link.url)}"
+            "http://buttons.reddit.com/button_info.json?url=#{CGI.escape(link.url)}"
           end
         end
 

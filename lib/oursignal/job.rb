@@ -8,6 +8,7 @@ require 'resque/plugins/lock'
 require 'oursignal/job/entry'
 require 'oursignal/job/feed'
 require 'oursignal/job/score'
+require 'oursignal/job/timestep'
 
 # Master.
 # TODO: This is a bit backwards.

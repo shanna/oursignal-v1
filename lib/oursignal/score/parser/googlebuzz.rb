@@ -7,7 +7,7 @@ module Oursignal
         def urls
           urls = []
           links.each_slice(25) do |slice|
-            urls << 'http://www.google.com/buzz/api/buzzThis/buzzCounter?' + slice.map{|link| 'url=' + URI.escape(link.url)}.join('&')
+            urls << 'http://www.google.com/buzz/api/buzzThis/buzzCounter?' + slice.map{|link| 'url=' + CGI.escape(link.url)}.join('&')
           end
           urls
         end

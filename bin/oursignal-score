@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require_relative '../lib/oursignal/cli'
-require 'oursignal/score/native'
+require 'resque'
 
 bin     = Oursignal::Cli.bin
 option  = (ARGV.shift || 'help').strip
@@ -9,12 +9,14 @@ usage   = %Q{
 
   Commands are:
     -h, --help  This help message.
-    native      Schedule native feed score updates.
+    read        Schedule native feed score updates.
+    timestep    Do a timestep.
 }.strip
 
 case option
   when /^\-{0,2}h(?:elp)?$/, nil then puts usage
-  when 'native'                  then Oursignal::Score::Native.read
+  when 'timestep'                then Resque::Job.create :timestep, 'Oursignal::Job::Timestep'
+  when 'read'                    then Resque::Job.create :score, 'Oursignal::Job::Score'
   else warn("#{bin}: '#{option}' is not an #{bin} option. See '#{bin} --help'.") && exit(-1)
 end
 

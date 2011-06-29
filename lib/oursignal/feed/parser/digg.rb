@@ -16,7 +16,8 @@ module Oursignal
         end
 
         def parse source
-          Yajl::Parser.new(symbolize_keys: true).parse(source)[:stories].each do |entry|
+          data = Yajl::Parser.new(symbolize_keys: true).parse(source) || return
+          data[:stories].each do |entry|
             begin
               score     = entry[:diggs].to_i || next
               url       = entry[:url]        || next

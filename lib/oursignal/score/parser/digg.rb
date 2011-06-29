@@ -10,7 +10,7 @@ module Oursignal
         def urls
           urls = []
           links.each_slice(25) do |slice|
-            urls << 'http://services.digg.com/2.0/story.getInfo?links=' + slice.map{|link| URI.escape(link.url)}.join(',')
+            urls << 'http://services.digg.com/2.0/story.getInfo?links=' + slice.map{|link| CGI.escape(link.url)}.join(',')
           end
           urls
         end
@@ -18,9 +18,9 @@ module Oursignal
         def parse source
           feed = Feed.find('http://digg.com') || return
           data = Yajl::Parser.new(symbolize_keys: true).parse(source) || return
-          data[:stories].each do |entry|
+          (data[:stories] || []).each do |entry|
             link      = links.detect{|link| link.match?(entry[:url])} || next
-            score     = entry[:diggs] || next
+            score     = entry[:diggs].to_i || next
             title     = entry[:title]
             entry_url = entry[:permalink]
 
