@@ -1,4 +1,4 @@
-r equire 'oursignal/score/parser'
+require 'oursignal/score/parser'
 
 module Oursignal
   module Score
