@@ -26,7 +26,7 @@ module Oursignal
 
               Resque::Job.create :entry, 'Oursignal::Job::Entry', feed.id, entry_url, url, 'score_delicious', score, title
             rescue => error
-              warn error.message
+              warn [error.message, *error.backtrace].join("\n")
             end
           end
         end

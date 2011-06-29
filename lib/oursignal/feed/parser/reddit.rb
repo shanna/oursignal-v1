@@ -16,6 +16,7 @@ module Oursignal
         end
 
         def parse source
+          feed = Feed.find('http://reddit.com') || return
           Yajl::Parser.new(symbolize_keys: true).parse(source)[:data][:children].each do |entry|
             begin
               score     = entry[:data][:score].to_i || next
@@ -25,7 +26,7 @@ module Oursignal
 
               Resque::Job.create :entry, 'Oursignal::Job::Entry', feed.id, entry_url, url, 'score_reddit', score, title
             rescue => error
-              warn error.message
+              warn [error.message, *error.backtrace].join("\n")
             end
           end
         end

@@ -34,11 +34,11 @@ module Oursignal
 end # Oursignal
 
 # TODO: Fugly factory is fugly.
-require 'oursignal/score/native/delicious'
-require 'oursignal/score/native/digg'
-require 'oursignal/score/native/facebook'
-require 'oursignal/score/native/googlebuzz'
-require 'oursignal/score/native/reddit'
-require 'oursignal/score/native/twitter'
+require 'oursignal/score/parser/delicious'
+require 'oursignal/score/parser/digg'
+require 'oursignal/score/parser/facebook'
+require 'oursignal/score/parser/googlebuzz'
+require 'oursignal/score/parser/reddit'
+require 'oursignal/score/parser/twitter'
 # require 'oursignal/score/native/ycombinator'
 
