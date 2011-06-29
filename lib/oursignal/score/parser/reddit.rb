@@ -18,12 +18,12 @@ module Oursignal
           entry     = Yajl::Parser.new(symbolize_keys: true).parse(source)[:data][:children].first || return
           data      = entry[:data] || return
           link      = links.detect{|link| link.match?(data[:url])} || return
-          score     = data[:score].to_i || return
+          score     = data[:score] || return
           title     = data[:title]
           entry_url = 'http://www.reddit.com/' + data[:permalink]
 
           puts "reddit:link(#{link.id}, #{link.url}):#{score}"
-          Resque::Job.create :entry, 'Oursignal::Job::Entry', @feed.id, entry_url, link.url, 'score_reddit', score, title
+          Resque::Job.create :entry, 'Oursignal::Job::Entry', feed.id, entry_url, link.url, 'score_reddit', score, title
         end
       end # Reddit
     end # Parser
