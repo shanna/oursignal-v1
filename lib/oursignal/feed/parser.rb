@@ -13,19 +13,15 @@ module Oursignal
         @feed = feed
       end
 
-      def parse io
+      def parse source
+        raise NotImplementedError
+      end
+
+      def urls
         raise NotImplementedError
       end
 
       class << self
-        def parse? url
-          raise NotImplementedError
-        end
-
-        def find feed
-          all.find{|parser| parser.parse?(feed.url)}
-        end
-
         def all
           @@all ||= Set.new
         end

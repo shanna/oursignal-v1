@@ -3,29 +3,32 @@ require 'time'
 require 'zlib'
 
 # Business.
-require 'oursignal/feed'
-require 'oursignal/feed/parser'
+require 'oursignal/link'
+require 'oursignal/score/parser'
 
 module Oursignal
-  class Feed
+  module Score
 
     #--
-    # TODO: Reader is almost identical to lib/oursignal/score/reader.rb
+    # TODO: Reader is almost identical to lib/oursignal/feed/reader.rb
     module Reader
       def self.perform
-        sources = Oursignal::Feed::Parser.all
+        sources = Oursignal::Score::Parser.all
+        links   = Link.execute(%q{
+          select * from links
+          where updated_at < now() - interval '5 minutes'
+        })
 
         # TODO: Safe distance from (ulimit -n) - (lsof | wc -l)
         multi = Curl::Multi.new
         multi.max_connects = 250
-        souces.each do |source|
-          parser = source.new
+        sources.each do |source|
+          parser = source.new(links)
           parser.urls.each do |url|
             easy = Curl::Easy.new(url) do |e|
               e.follow_location       = true
               e.timeout               = 5
               e.headers['User-Agent'] = Oursignal::USER_AGENT
-
               e.on_complete do |response|
                 begin
                   parser.parse(force_utf8(body(response))) if response.response_code.to_s =~ /^2/
@@ -67,5 +70,6 @@ module Oursignal
         end
 
     end # Reader
-  end # Feed
+  end # Score
 end # Oursignal
+

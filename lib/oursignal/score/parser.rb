@@ -5,36 +5,28 @@ require 'oursignal/link'
 
 module Oursignal
   module Score
-    class Native
-      attr_reader :link
+    class Parser
+      attr_reader :links
 
-      def initialize link
-        @link = link
+      def initialize links
+        @links = links
       end
 
       def parse source
         raise NotImplementedError
       end
 
-      def url
+      def urls
         raise NotImplementedError
       end
 
       class << self
-        def find klass
-          all.find{|s| s.to_s.downcase == klass.to_s.downcase}
-        end
-
         def all
           @@all ||= Set.new
         end
 
         def inherited klass
           self.all << klass
-        end
-
-        def read
-          Resque::Job.create :score_native, 'Oursignal::ScoreNative'
         end
       end
     end # Native

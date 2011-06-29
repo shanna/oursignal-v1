@@ -7,7 +7,7 @@ require 'resque/plugins/lock'
 # Jobs.
 require 'oursignal/job/entry'
 require 'oursignal/job/feed'
-require 'oursignal/job/score_native'
+require 'oursignal/job/score'
 
 # Master.
 # TODO: This is a bit backwards.

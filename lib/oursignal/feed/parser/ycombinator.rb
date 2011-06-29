@@ -7,8 +7,12 @@ module Oursignal
   class Feed
     class Parser
       class Ycombinator < Parser
-        def self.parse? url
-          URI.domain(url) == 'ycombinator.com'
+        def initialize
+          super Oursignal::Feed.find('http://news.ycombinator.com')
+        end
+
+        def urls
+          %w{http://news.ycombinator.com}
         end
 
         def parse source

@@ -1,17 +1,17 @@
 require 'resque'
 
-require 'oursignal/score/native'
+require 'oursignal/score/reader'
 
 module Oursignal
   module Job
-    class ScoreNative
+    class Score
       extend Resque::Plugins::Lock
-      @queue = :score_native
+      @queue = :score
 
       def self.perform source_klass, link_id
-        Oursignal::Score::Native.read
+        Oursignal::Score::Reader.perform
       end
-    end # ScoreNative
+    end # Score
   end # Job
 end # Oursignal
 

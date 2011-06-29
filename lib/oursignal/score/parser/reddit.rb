@@ -1,26 +1,32 @@
-require 'oursignal/score/native'
+require 'oursignal/score/parser'
 
 module Oursignal
   module Score
-    class Native
-      class Reddit < Native
-        def url
-          "http://buttons.reddit.com/button_info.json?url=#{URI.escape(link.url)}"
+    class Parser
+      #--
+      # TODO: Can probably do multiple links at once but reddit has been returning 502s half the night.
+      # I think it may be getting DDOS'ed.
+      class Reddit < Parser
+        def urls
+          links.map do |link|
+            "http://buttons.reddit.com/button_info.json?url=#{URI.escape(link.url)}"
+          end
         end
 
         def parse source
+          feed      = Feed.find('http://www.reddit.com') || return
           entry     = Yajl::Parser.new(symbolize_keys: true).parse(source)[:data][:children].first || return
-          data      = entry[:data]      || return
+          data      = entry[:data] || return
+          link      = links.detect{|link| link.match?(data[:url])} || return
           score     = data[:score].to_i || return
           title     = data[:title]
           entry_url = 'http://www.reddit.com/' + data[:permalink]
 
           puts "reddit:link(#{link.id}, #{link.url}):#{score}"
-          @feed ||= Feed.find('http://www.reddit.com/.json') # TODO: Yuck.
           Resque::Job.create :entry, 'Oursignal::Job::Entry', @feed.id, entry_url, link.url, 'score_reddit', score, title
         end
       end # Reddit
-    end # Native
+    end # Parser
   end # Score
 end # Oursignal
 

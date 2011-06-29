@@ -7,8 +7,12 @@ module Oursignal
   class Feed
     class Parser
       class Reddit < Parser
-        def self.parse? url
-          URI.domain(url) == 'reddit.com'
+        def initialize
+          super Oursignal::Feed.find('http://reddit.com')
+        end
+
+        def urls
+          %w{http://www.reddit.com/.json}
         end
 
         def parse source

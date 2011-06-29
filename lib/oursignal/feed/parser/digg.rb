@@ -7,8 +7,12 @@ module Oursignal
   class Feed
     class Parser
       class Digg < Parser
-        def self.parse? url
-          URI.domain(url) == 'digg.com'
+        def initialize
+          super Oursignal::Feed.find('http://digg.com')
+        end
+
+        def urls
+          %w{http://services.digg.com/2.0/story.getTopNews?type=json}
         end
 
         def parse source

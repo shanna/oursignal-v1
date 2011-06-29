@@ -1,25 +1,33 @@
-require 'oursignal/score/native'
+require 'oursignal/score/parser'
 
 module Oursignal
   module Score
-    class Native
+    class Parser
       #--
       # TODO: Facebook actually accepts a comma separated list of URLs without an API key.
       # Make less requests by chunking URLs if we can find an upper limit.
-      class Facebook < Native
-        def url
-          "http://api.ak.facebook.com/restserver.php?v=1.0&method=links.getStats&urls=#{URI.escape(link.url)}&format=json&callback=fb_sharepro_render"
+      class Facebook < Parser
+        def urls
+          urls = []
+          links.each_slice(25) do |slice|
+            urls << 'http://api.ak.facebook.com/restserver.php?v=1.0&method=links.getStats&urls=' + slice.map{|link| URI.escape(link.url)}.join(',')
+          end
+          urls
         end
 
         def parse source
           json  = source.gsub(/^(.*);+\n*$/, "\\1").gsub(/^fb_sharepro_render\((.*)\)$/, "\\1")
           data  = Yajl::Parser.new(symbolize_keys: true).parse(json)
-          score = data.first[:share_count] || return # Also like_count, comment_count, click_count and total_count if we need it.
-          puts "facebook:link(#{link.id}, #{link.url}):#{score}"
-          Link.execute("update links set score_facebook = ?, updated_at = now() where id = ?", score.to_i, link.id)
+          data.each do |entry|
+            link  = links.detect{|link| link.match?(entry[:url])} || next
+            score = entry[:share_count] || next # Also like_count, comment_count, click_count and total_count if we need it.
+
+            puts "facebook:link(#{link.id}, #{link.url}):#{score}"
+            Link.execute("update links set score_facebook = ?, updated_at = now() where id = ?", score.to_i, link.id)
+          end
         end
       end # Facebook
-    end # Native
+    end # Parser
   end # Score
 end # Oursignal
 
