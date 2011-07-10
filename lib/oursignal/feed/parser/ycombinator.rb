@@ -25,7 +25,7 @@ module Oursignal
               url       = entry.attribute('href').text
               url       = 'http://news.ycombinator.com/' + url unless url =~ %r{://}
 
-              Resque::Job.create :entry, 'Oursignal::Job::Entry', feed.id, entry_url, url, 'score_ycombinator', score, title
+              Entry.upsert url: entry_url, feed_id: feed.id, link: {url: url, score_ycombinator: score, title: title}
             rescue => error
               warn [error.message, *error.backtrace].join("\n")
             end

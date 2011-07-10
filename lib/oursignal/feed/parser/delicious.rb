@@ -24,7 +24,7 @@ module Oursignal
               title     = link.text.strip
               url       = link.attribute('href')
 
-              Resque::Job.create :entry, 'Oursignal::Job::Entry', feed.id, entry_url, url, 'score_delicious', score, title
+              Entry.upsert url: entry_url, feed_id: feed.id, link: {url: url, score_delicious: score, title: title}
             rescue => error
               warn [error.message, *error.backtrace].join("\n")
             end

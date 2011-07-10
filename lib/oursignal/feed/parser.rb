@@ -2,7 +2,9 @@ require 'resque'
 require 'uri/domain'
 
 # Business.
+require 'oursignal/entry'
 require 'oursignal/feed'
+require 'oursignal/link'
 
 module Oursignal
   class Feed

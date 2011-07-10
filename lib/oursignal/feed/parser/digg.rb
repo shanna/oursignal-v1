@@ -24,7 +24,7 @@ module Oursignal
               title     = entry[:title]
               entry_url = entry[:permalink]
 
-              Resque::Job.create :entry, 'Oursignal::Job::Entry', feed.id, entry_url, url, 'score_digg', score, title
+              Entry.upsert url: entry_url, feed_id: feed.id, link: {url: url, score_digg: score, title: title}
             rescue => error
               warn [error.message, *error.backtrace].join("\n")
             end
