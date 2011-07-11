@@ -13,6 +13,7 @@ module Oursignal
     # TODO: Reader is almost identical to lib/oursignal/feed/reader.rb
     module Reader
       def self.perform
+        log     = File.open(File.join(Oursignal.root, 'tmp', 'score_reader.log'), 'w')
         sources = Oursignal::Score::Parser.all
         links   = Link.execute(%q{
           select * from links
@@ -31,6 +32,14 @@ module Oursignal
               e.headers['User-Agent'] = Oursignal::USER_AGENT
               e.on_complete do |response|
                 begin
+                  # XXX: Debugging for now.
+                  log.puts(
+                    '----',
+                    response.response_code,
+                    response.last_effective_url,
+                    force_utf8(body(response)),
+                    "\n\n"
+                  )
                   parser.parse(force_utf8(body(response))) if response.response_code.to_s =~ /^2/
                 rescue => error
                   warn [error.message, *error.backtrace].join("\n")
@@ -41,6 +50,7 @@ module Oursignal
           end
         end
         multi.perform
+        log.close
       end
 
       protected
