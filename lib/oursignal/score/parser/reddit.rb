@@ -23,7 +23,7 @@ module Oursignal
           entry_url = 'http://www.reddit.com/' + data[:permalink]
 
           puts "reddit:link(#{link.id}, #{link.url}):#{score}"
-          Resque::Job.create :entry, 'Oursignal::Job::Entry', feed.id, entry_url, link.url, 'score_reddit', score, title
+          Entry.upsert url: entry_url, feed_id: feed.id, link: {url: url, score_reddit: score, title: title}
         end
       end # Reddit
     end # Parser

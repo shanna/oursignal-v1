@@ -25,7 +25,7 @@ module Oursignal
             entry_url = entry[:permalink]
 
             puts "digg:link(#{link.id}, #{link.url}): #{score}"
-            Resque::Job.create :entry, 'Oursignal::Job::Entry', feed.id, entry_url, link.url, 'score_digg', score, title
+            Entry.upsert url: entry_url, feed_id: feed.id, link: {url: link.url, score_digg: score, title: title}
           end
         end
       end # Digg

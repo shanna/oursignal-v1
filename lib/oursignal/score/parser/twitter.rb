@@ -19,8 +19,9 @@ module Oursignal
           data  = Yajl::Parser.new(symbolize_keys: true).parse(source) || return
           link  = links.detect{|link| link.match?(data[:url])} || return
           score = data[:count] || return
+
           puts "twitter:link(#{link.id}, #{link.url}):#{score}"
-          Link.execute("update links set score_twitter = ?, updated_at = now() where id = ?", score.to_i, link.id)
+          Link.execute('update links set score_twitter = ?, updated_at = now() where id = ?', score.to_i, link.id)
         end
       end # Twitter
     end # Parser

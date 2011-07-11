@@ -19,7 +19,7 @@ module Oursignal
             link = links.detect{|link| link.match?(url)} || next
 
             puts "googlebuzz:link(#{link.id}, #{link.url}): #{score}"
-            Link.execute("update links set score_googlebuzz = ?, updated_at = now() where id = ?", score.to_i, link.id)
+            Link.execute('update links set score_googlebuzz = ?, updated_at = now() where id = ?', score.to_i, link.id)
           end
         end
       end # Googlebuzz

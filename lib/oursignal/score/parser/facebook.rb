@@ -22,7 +22,7 @@ module Oursignal
             score = entry[:share_count] || next # Also like_count, comment_count, click_count and total_count if we need it.
 
             puts "facebook:link(#{link.id}, #{link.url}):#{score}"
-            Link.execute("update links set score_facebook = ?, updated_at = now() where id = ?", score.to_i, link.id)
+            Link.execute('update links set score_facebook = ?, updated_at = now() where id = ?', score.to_i, link.id)
           end
         end
       end # Facebook
