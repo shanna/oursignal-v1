@@ -1,7 +1,7 @@
 create table links(
   id                bigserial,
   url               text,
-  title             varchar(255),
+  title             text,
   score_delicious   float default '0',
   score_digg        float default '0',
   score_facebook    float default '0',

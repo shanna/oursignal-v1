@@ -18,7 +18,7 @@ module Oursignal
       # TODO: Golf.
       # TODO: Dirty updating?
       def upsert attributes
-        if link = find(attributes.values_at(:id, :url).first)
+        if link = find(attributes[:id] || attributes[:url])
           link.update({updated_at: Time.now, referred_at: Time.now}.merge(attributes))
         else
           link = create(attributes)

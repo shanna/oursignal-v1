@@ -14,7 +14,7 @@ module Oursignal
       # TODO: Golf.
       # TODO: Dirty updating?
       def upsert attributes
-        find(attributes.values_at(:id, :url).first)
+        find(attributes[:id] || attributes[:url])
       end
     end
   end # Feed

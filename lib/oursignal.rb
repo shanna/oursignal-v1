@@ -12,6 +12,7 @@ Bundler.setup :default
 # Persistence.
 require 'swift'
 Swift.setup :default, Swift::DB::Postgres, db: 'oursignal'
+Swift.trace true
 
 module Oursignal
   VERSION    = '0.3.0'

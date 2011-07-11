@@ -20,6 +20,7 @@ module Oursignal
             begin
               score     = entry.xpath('../../following-sibling::tr[1]/td/span').text.to_i || next
               entry_a   = entry.xpath('../../following-sibling::tr[1]/td/a[2]') || next
+              next if entry_a.empty?
               entry_url = 'http://news.ycombinator.com/' + entry_a.attribute('href').text
               title     = entry.text
               url       = entry.attribute('href').text

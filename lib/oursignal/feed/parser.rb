@@ -12,6 +12,7 @@ module Oursignal
       attr_reader :feed
 
       def initialize feed
+        raise %Q{Expected Oursignal::Feed but got '#{feed.class}'.} unless feed && feed.kind_of?(Feed)
         @feed = feed
       end
 

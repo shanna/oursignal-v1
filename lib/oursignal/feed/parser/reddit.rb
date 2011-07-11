@@ -16,7 +16,6 @@ module Oursignal
         end
 
         def parse source
-          feed = Feed.find('http://reddit.com') || return
           Yajl::Parser.new(symbolize_keys: true).parse(source)[:data][:children].each do |entry|
             begin
               score     = entry[:data][:score].to_i || next

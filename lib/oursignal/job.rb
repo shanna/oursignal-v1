@@ -5,7 +5,6 @@ require 'resque'
 require 'resque/plugins/lock'
 
 # Jobs.
-require 'oursignal/job/entry'
 require 'oursignal/job/feed'
 require 'oursignal/job/score'
 require 'oursignal/job/timestep'
