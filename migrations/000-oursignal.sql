@@ -19,8 +19,15 @@ create table links(
 );
 create index links_updated_at_idx on links(updated_at);
 
-create table score_timeseries(
-  link_id bigint not null,
+create table timesteps(
+  id          serial,
+  created_at  timestamp default now()
+);
+create index timesteps_created_at_idx on timesteps(created_at);
+
+create table scores(
+  timestep_id       integer not null,
+  link_id           bigint not null,
   score_delicious   float,
   score_digg        float,
   score_facebook    float,
@@ -32,11 +39,10 @@ create table score_timeseries(
   score_ycombinator float,
   score             float,
   velocity          float,
-  created_at        timestamp not null,
-  foreign key(link_id) references links(id) on delete cascade
+  foreign key(timestep_id) references timesteps(id) on delete cascade,
+  foreign key(link_id)     references links(id)     on delete cascade
 );
-create index score_timeseries_score_idx      on score_timeseries(score);
-create index score_timeseries_created_at_idx on score_timeseries(created_at);
+create index scores_score_idx on scores(score);
 
 create table feeds(
   id            bigserial,
