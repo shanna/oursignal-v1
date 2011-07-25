@@ -9,7 +9,9 @@ module Oursignal
       class Digg < Parser
         def urls
           urls = []
-          links.each_slice(25) do |slice|
+          # Digg API is fucked if I slice at 25 it returns 0 statuses and shit.
+          # TODO: Try some numbers up to 25 and see what is reliable.
+          links.each_slice(1) do |slice|
             urls << 'http://services.digg.com/2.0/story.getInfo?links=' + slice.map{|link| CGI.escape(link.url)}.join(',')
           end
           urls
