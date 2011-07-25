@@ -1,9 +1,8 @@
-require 'flock'
-
-require 'oursignal/link'
+# Schema.
+require 'oursignal/scheme/score'
 
 module Oursignal
-  module Score
+  class Score < Scheme::Score
   end # Score
 end # Oursignal
 

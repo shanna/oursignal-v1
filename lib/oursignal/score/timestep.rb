@@ -5,7 +5,7 @@ require 'oursignal/score'
 require 'oursignal/timestep'
 
 module Oursignal
-  module Score
+  class Score
     module Timestep
       FIELDS = [
         :score_delicious,
@@ -20,15 +20,9 @@ module Oursignal
       #--
       # TODO: Golf.
       def self.perform
-        # TODO: Score class and scheme.
-        insert_score = Oursignal.db.prepare(%Q{
-          insert into scores (timestep_id, link_id, #{FIELDS.join(', ')}, score, velocity)
-          values (?, ?, #{FIELDS.map{|f| '?'}.join(', ')}, ?, ?)
-        })
-
         Oursignal.db.transaction do
           step  = Timestep.create
-          links = Oursignal.db.execute(%Q{select id, url, #{FIELDS.join(', ')} from links}) # Oh boy.
+          links = Oursignal.db.execute(%Q{select id as link_id, #{FIELDS.join(', ')} from links}) # Oh boy.
           raise 'Timestep requires a minimum of 100 links in the DB.' unless links.count >= 100
 
           clusters  = Flock.kmeans(100, links.map{|l| l.values_at(*FIELDS)}) # TODO: Mask zeros?
@@ -42,11 +36,11 @@ module Oursignal
             score   = (0.01 * (centroids.index(closest) + 1))
 
             # TODO: Velocity.
-            insert_score.execute(step.id, link[:id], *vector, score, nil)
-            puts "link: #{score} - #{link[:url]}"
+            Score.create({timestep_id: step.id, score: score}.merge(link))
           end
         end
       end
     end # Timestep
   end # Score
 end # Oursignal
+

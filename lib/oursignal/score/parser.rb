@@ -5,7 +5,7 @@ require 'yajl'
 require 'oursignal/link'
 
 module Oursignal
-  module Score
+  class Score
     class Parser
       attr_reader :links
 

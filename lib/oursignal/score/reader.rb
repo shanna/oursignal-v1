@@ -7,7 +7,7 @@ require 'oursignal/link'
 require 'oursignal/score/parser'
 
 module Oursignal
-  module Score
+  class Score
 
     #--
     # TODO: Reader is almost identical to lib/oursignal/feed/reader.rb

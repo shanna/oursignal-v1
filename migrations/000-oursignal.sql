@@ -39,6 +39,7 @@ create table scores(
   score_ycombinator float,
   score             float,
   velocity          float,
+  primary key(timestep_id, link_id),
   foreign key(timestep_id) references timesteps(id) on delete cascade,
   foreign key(link_id)     references links(id)     on delete cascade
 );
