@@ -6,8 +6,13 @@ module Oursignal
       class Googlebuzz < Parser
         def urls
           urls = []
-          links.each_slice(25) do |slice|
-            urls << 'http://www.google.com/buzz/api/buzzThis/buzzCounter?' + slice.map{|link| 'url=' + CGI.escape(link.url)}.join('&')
+          links.each do |link|
+            escaped = 'url=' + CGI.escape(link.url)
+            if urls[-1] && (urls[-1] + '&' + escaped).length < 2000
+              urls[-1] ||= '&' + escaped
+            else
+              urls << 'http://www.google.com/buzz/api/buzzThis/buzzCounter?' + escaped
+            end
           end
           urls
         end
