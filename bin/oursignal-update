@@ -9,7 +9,7 @@ usage   = %Q{
 
   Commands are:
     -h, --help  This help message.
-    start      Schedule an update (feed read, score create, score timestep).
+    start       Schedule an update (feed, score & timestep).
 }.strip
 
 case option
