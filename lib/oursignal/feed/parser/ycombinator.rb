@@ -15,6 +15,8 @@ module Oursignal
           %w{http://news.ycombinator.com}
         end
 
+        #--
+        # TODO: Ycombinators HTML really is fucking shit so this isn't as robust as it could be.
         def parse source
           Nokogiri::HTML.parse(source).css('td.title a').each do |entry|
             begin
