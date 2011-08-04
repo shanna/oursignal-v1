@@ -4,10 +4,14 @@ require 'logger'
 require 'resque'
 require 'resque/plugins/lock'
 
+# TODO: Weird loading order causes superclass mismatch in oursignal/score without this.
+require 'oursignal/score'
+
 # Jobs.
 require 'oursignal/job/feed'
 require 'oursignal/job/score'
 require 'oursignal/job/timestep'
+require 'oursignal/job/update'
 
 # Master.
 # TODO: This is a bit backwards.

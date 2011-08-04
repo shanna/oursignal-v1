@@ -3,7 +3,7 @@ require 'digest/md5'
 require 'oursignal/score/parser'
 
 module Oursignal
-  module Score
+  class Score
     class Parser
       class Delicious < Parser
         def urls

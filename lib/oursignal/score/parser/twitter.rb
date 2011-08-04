@@ -1,7 +1,7 @@
 require 'oursignal/score/parser'
 
 module Oursignal
-  module Score
+  class Score
     class Parser
       #--
       # Note: The 'API' below has no rate limiting or it'd have headers for it ;)

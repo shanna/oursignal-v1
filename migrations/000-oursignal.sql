@@ -21,7 +21,8 @@ create index links_updated_at_idx on links(updated_at);
 
 create table timesteps(
   id          serial,
-  created_at  timestamp default now()
+  created_at  timestamp default now(),
+  primary key(id)
 );
 create index timesteps_created_at_idx on timesteps(created_at);
 

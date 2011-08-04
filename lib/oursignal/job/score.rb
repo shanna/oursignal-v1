@@ -1,4 +1,5 @@
 require 'resque'
+require 'resque/plugins/lock'
 
 require 'oursignal/score/reader'
 

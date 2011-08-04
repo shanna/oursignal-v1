@@ -1,7 +1,7 @@
 require 'oursignal/score/parser'
 
 module Oursignal
-  module Score
+  class Score
     class Parser
       class Googlebuzz < Parser
         def urls

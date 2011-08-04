@@ -1,7 +1,7 @@
 require 'oursignal/score/parser'
 
 module Oursignal
-  module Score
+  class Score
     class Parser
       #--
       # TODO: Facebook actually accepts a comma separated list of URLs without an API key.

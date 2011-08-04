@@ -1,7 +1,7 @@
 require 'oursignal/score/parser'
 
 module Oursignal
-  module Score
+  class Score
     class Parser
       #--
       # NOTE: While digging around the rate limit appears to be 5000 requests every 30 minutes according to the

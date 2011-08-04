@@ -1,7 +1,7 @@
 require 'oursignal/score/parser'
 
 module Oursignal
-  module Score
+  class Score
     class Parser
       #--
       # TODO: Can probably do multiple links at once but reddit has been returning 502s half the night.

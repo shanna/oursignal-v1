@@ -1,4 +1,5 @@
 require 'resque'
+require 'resque/plugins/lock'
 
 require 'oursignal/score/timestep'
 
@@ -14,5 +15,4 @@ module Oursignal
     end # Step
   end # Job
 end # Oursignal
-
 

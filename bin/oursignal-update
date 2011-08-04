@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+require_relative '../lib/oursignal/cli'
+require 'resque'
+
+bin     = Oursignal::Cli.bin
+option  = (ARGV.shift || 'help').strip
+usage   = %Q{
+  usage: #{bin} [-h|--help]
+
+  Commands are:
+    -h, --help  This help message.
+    start      Schedule an update (feed read, score create, score timestep).
+}.strip
+
+case option
+  when /^\-{0,2}h(?:elp)?$/, nil then puts usage
+  when 'start'                   then Resque::Job.create :update, 'Oursignal::Job::Update'
+  else warn("#{bin}: '#{option}' is not an #{bin} option. See '#{bin} --help'.") && exit(-1)
+end
+
