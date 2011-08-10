@@ -11,9 +11,9 @@ create table links(
   score_reddit      float default '0',
   score_twitter     float default '0',
   score_ycombinator float default '0',
-  updated_at        timestamp default now(),
-  created_at        timestamp default now(),
-  referred_at       timestamp default now(),
+  updated_at        timestamp with time zone default now(),
+  created_at        timestamp with time zone default now(),
+  referred_at       timestamp with time zone default now(),
   unique(url),
   primary key(id)
 );
@@ -21,7 +21,7 @@ create index links_updated_at_idx on links(updated_at);
 
 create table timesteps(
   id          serial,
-  created_at  timestamp default now(),
+  created_at  timestamp with time zone default now(),
   primary key(id)
 );
 create index timesteps_created_at_idx on timesteps(created_at);
@@ -52,8 +52,8 @@ create table feeds(
   url           text not null,
   total_links   integer default '0',
   daily_links   float default '0',
-  updated_at    timestamp default now(),
-  created_at    timestamp default now(),
+  updated_at    timestamp with time zone default now(),
+  created_at    timestamp with time zone default now(),
   unique(url),
   primary key(id)
 );
