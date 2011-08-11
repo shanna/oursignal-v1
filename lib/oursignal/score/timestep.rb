@@ -1,4 +1,5 @@
 require 'flock'
+require 'math/ema'
 
 require 'oursignal/link'
 require 'oursignal/score'
@@ -35,8 +36,14 @@ module Oursignal
             closest = centroids.sort_by{|c| Flock.euclidian_distance(vector, c)}.first
             score   = (0.01 * (centroids.index(closest) + 1))
 
+            # TODO: Can be golfed if you select just the most recent score plus a count.
+            # Might not reduce the DB load but will reduce the number of loops in Math::Ema by the count.
+            # For now use this just in case the smoothing factor needs to be changed to a fixed number.
+            scores = Score.execute('select score from scores where link_id = ? order by timestep_id desc').first
+            ema    = Math::Ema.new((2.0 / scores.size + 1), 0).update(scores << score) # Smoothing factor 2/(N+1)
+
             # TODO: Velocity.
-            Score.create({timestep_id: step.id, score: score}.merge(link))
+            Score.create({timestep_id: step.id, score: score, ema: ema}.merge(link))
           end
         end
       end
