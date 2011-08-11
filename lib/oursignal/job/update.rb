@@ -12,8 +12,11 @@ module Oursignal
       @queue = :update
 
       def self.perform
+        Job.info 'Perform Oursignal::Feed::Reader...'
         Oursignal::Feed::Reader.perform
+        Job.info 'Perform Oursignal::Score::Reader...'
         Oursignal::Score::Reader.perform
+        Job.info 'Perform Oursignal::Score::Timestep...'
         Oursignal::Score::Timestep.perform
       end
     end # Update
