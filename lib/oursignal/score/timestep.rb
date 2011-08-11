@@ -39,8 +39,8 @@ module Oursignal
             # TODO: Can be golfed if you select just the most recent score plus a count.
             # Might not reduce the DB load but will reduce the number of loops in Math::Ema by the count.
             # For now use this just in case the smoothing factor needs to be changed to a fixed number.
-            scores = Score.execute('select score from scores where link_id = ? order by timestep_id desc', link[:id]).to_a
-            ema    = Math::Ema.new((2.0 / (scores.count + 1)), 0).update(scores << score) # Smoothing factor 2/(N+1)
+            scores = Score.execute('select score from scores where link_id = ? order by timestep_id desc', link[:id]).to_a << score
+            ema    = Math::Ema.new((2.0 / (scores.count + 1)), scores.shift).update(scores) # Smoothing factor 2/(N+1)
 
             # Vanilla difference between ema and score.
             velocity = score - ema
