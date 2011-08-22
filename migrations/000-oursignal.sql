@@ -38,9 +38,10 @@ create table scores(
   score_reddit      float,
   score_twitter     float,
   score_ycombinator float,
-  score             float,
+  kmeans            float,
   ema               float,
   velocity          float,
+  score             float,
   primary key(timestep_id, link_id),
   foreign key(timestep_id) references timesteps(id) on delete cascade,
   foreign key(link_id)     references links(id)     on delete cascade
