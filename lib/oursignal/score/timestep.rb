@@ -41,16 +41,22 @@ module Oursignal
 
           links.each_with_index do |link, index|
             kmeans  = 0.01 * (kscores[cluster[index]] + 1)
-
             # TODO: Can be golfed if you select just the most recent score plus a count.
             # Might not reduce the DB load but will reduce the number of loops in Math::Ema by the count.
             # For now use this just in case the smoothing factor needs to be changed to a fixed number.
-            sql     = 'select kmeans from scores where link_id = ? order by timestep_id desc'
-            scores  = Score.execute(sql, link[:id]).to_a << kmeans
-            ema     = Math::Ema.new((2.0 / (scores.count + 1)), scores.shift).update(scores) # Smoothing factor 2/(N+1)
+            sql     = 'select * from scores where link_id = ? order by timestep_id desc'
+            scores  = Score.execute(sql, link[:id])
 
-            # Vanilla difference between ema and kmeans.
-            velocity = kmeans - ema
+            # TODO not perfect and slowish due to extra db query.
+            # displacement rate
+            displacement = Flock.euclidian_distance(link.values_at(*FIELDS), scores.first.values_at(*FIELDS))
+            # time elapsed since last update.
+            interval     = step.created_at - Oursignal::Timestep.get(id: scores.first[:timestep_id]).created_at
+            velocity     = displacement / (interval + 0.1)
+
+            # ema with smoothing factor 2/(N+1)
+            ema     = Math::Ema.new((2.0 / (scores.count + 1)), scores.shift[:kmeans])
+                               .update(scores.map{|row| row[:kmeans]})
 
             # Decay.
             # TODO: Decay by mean lifetime a link exists in feeds perhaps? I can't actually calculate that yet.
