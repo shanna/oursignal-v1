@@ -21,7 +21,7 @@ gem 'uri-meta'
 gem 'yajl-ruby'
 
 # Scoring.
-gem 'flock'
+gem 'flock', '>= 0.5.0'
 
 # Sanitizing.
 gem 'addressable' # TODO: Gah.
