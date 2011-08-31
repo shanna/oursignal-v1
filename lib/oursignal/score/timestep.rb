@@ -28,15 +28,17 @@ module Oursignal
           links = Oursignal.db.execute(%Q{select id as link_id, referred_at, #{FIELDS.join(', ')} from links}) # Oh boy.
           raise 'Timestep requires a minimum of 100 links in the DB.' unless links.count >= 100
 
-          result  = Flock.kcluster(100, links.map{|l| l.values_at(*FIELDS)}, seed:  Flock::SEED_SPREADOUT)
+          result  = Flock.kcluster(100, links.map{|l| l.values_at(*FIELDS)}, seed: Flock::SEED_SPREADOUT)
           cluster = result[:cluster]
 
-          # creates a map of cluster number to index in sorted centroids array.
-          kscores = result[:centroid].map
-                                     .with_index{|c, pos| [c, pos]}
-                                     .sort_by{|el| Flock.euclidian_distance(el[0], ORIGIN)}
-                                     .map
-                                     .with_index{|c, pos, idx| [pos, idx]}
+          # TODO: Enumerable#inject avoids awkward kscores = Hash[kscores]
+          # Creates a map of cluster number to index in sorted centroids array.
+          kscores = result[:centroid] \
+            .map
+            .with_index{|c, pos| [c, pos]}
+            .sort_by{|el| Flock.euclidian_distance(el[0], ORIGIN)}
+            .map
+            .with_index{|c, pos, idx| [pos, idx]}
           kscores = Hash[kscores]
 
           links.each_with_index do |link, index|
@@ -47,16 +49,13 @@ module Oursignal
             sql     = 'select * from scores where link_id = ? order by timestep_id desc'
             scores  = Score.execute(sql, link[:id])
 
-            # TODO not perfect and slowish due to extra db query.
-            # displacement rate
+            # TODO: Not perfect.
             displacement = Flock.euclidian_distance(link.values_at(*FIELDS), scores.first.values_at(*FIELDS))
-            # time elapsed since last update.
             interval     = step.created_at - Oursignal::Timestep.get(id: scores.first[:timestep_id]).created_at
             velocity     = displacement / (interval + 0.1)
 
             # ema with smoothing factor 2/(N+1)
-            ema     = Math::Ema.new((2.0 / (scores.count + 1)), scores.shift[:kmeans])
-                               .update(scores.map{|row| row[:kmeans]})
+            ema = Math::Ema.new((2.0 / (scores.count + 1)), scores.shift[:kmeans]).update(scores.map{|row| row[:kmeans]})
 
             # Decay.
             # TODO: Decay by mean lifetime a link exists in feeds perhaps? I can't actually calculate that yet.
