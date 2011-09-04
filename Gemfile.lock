@@ -26,7 +26,7 @@ GEM
     curb (0.7.15)
     domainatrix (0.0.10)
       addressable
-    flock (0.4.1)
+    flock (0.5.0)
     fssm (0.2.7)
     haml (3.1.2)
     json (1.5.3)
@@ -70,7 +70,7 @@ DEPENDENCIES
   ansi
   compass
   curb
-  flock
+  flock (>= 0.5.0)
   haml
   nokogiri
   postrank-uri
