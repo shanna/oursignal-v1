@@ -71,6 +71,7 @@ var oursignal = (function ($, oursignal) {
         y = rect.y,
         v = u ? round(row.area / u) : 0,
         o;
+
     if (u == rect.dx) { // horizontal subdivision
       if (flush || v > rect.dy) v = v ? rect.dy : 0; // over+underflow
       while (++i < n) {
@@ -102,11 +103,12 @@ var oursignal = (function ($, oursignal) {
 
   // TODO: Animation. Do it intersection style so existing ID's remain and morph?
   function layout() {
-    var link, $link;
+    var link,
+        $link;
+
     $timestep.children().remove();
-    console.warn(links);
-    for (var i = 0; i < links_length; i++) {
-      link  = links[i];
+    for (var i = links_length; i > 0; i--) {
+      link  = links[i - 1];
       $link = $('<li/>', {'data-link_id': link.id, 'data-link_score': link.score})
         .css({left: link.x, top: link.y, width: link.dx, height: link.dy})
         .append($('<a/>', {href: link.url, text: link.title}));
@@ -115,8 +117,7 @@ var oursignal = (function ($, oursignal) {
   }
 
   function scale() {
-    var child,
-        area,
+    var area,
         timestep_offset = $timestep.offset();
 
     // Root.
@@ -127,13 +128,13 @@ var oursignal = (function ($, oursignal) {
 
     // Children.
     for (var i = 0; i < links_length; i++) {
-      area = (child = links[i].score * (links.dx * links.dy / links.score));
+      area = (links[i].score * (links.dx * links.dy / links.score));
       links[i].area = isNaN(area) || area <= 0 ? 0 : area;
     }
   }
 
   function treemap(data) {
-    links        = data;
+    links        = data.reverse(); // Is already sorted.
     links_length = data.length;
     links.score  = 0;
 
