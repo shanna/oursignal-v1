@@ -15,7 +15,7 @@ module Oursignal
         content_type :json
         @timestep = Timestep.find(params[:time] || Time.now) or raise Sinatra::NotFound
         @links    = ScoredLink.find @timestep.id
-        Yajl::Encoder.encode @links.to_a
+        Yajl::Encoder.encode @links.to_a.reverse
       end
 
       get('/about'){ haml :about}
