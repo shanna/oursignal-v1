@@ -20,7 +20,6 @@ gem 'yajl-ruby'
 # Jobs.
 gem 'resque'
 gem 'resque-lock'
-gem 'resque-pool'
 
 # Scoring.
 gem 'flock', '>= 0.5.0'
