@@ -5,15 +5,12 @@ require 'oursignal/job'
 require 'oursignal/cli'
 require 'resque/workers'
 
-daemonize, logfile, help, workers = false, $stdout, false, 1
+help, workers = false, 1
 
 OptionParser.new do |op|
   op.on('-h', '--h', '--help')  { help = true}
   op.on('-n', '--num-workers n'){|n| workers = n.to_i}
-  op.on('--log FILE', String)   {|l| logfile  = l}
 end.parse!
-
-# puts(usage) && exit if help
 
 command = (ARGV.shift || 'help').strip
 usage   = %Q{
