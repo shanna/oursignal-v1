@@ -12,13 +12,15 @@ gem 'sinatra', git: 'http://github.com/shanna/sinatra.git', branch: 'named_captu
 # Business.
 gem 'swift', '>= 0.11'
 
-# Jobs.
+# Scraping.
 gem 'curb'
 gem 'nokogiri'
+gem 'yajl-ruby'
+
+# Jobs.
 gem 'resque'
 gem 'resque-lock'
-gem 'uri-meta'
-gem 'yajl-ruby'
+gem 'resque-pool'
 
 # Scoring.
 gem 'flock', '>= 0.5.0'
@@ -26,6 +28,7 @@ gem 'flock', '>= 0.5.0'
 # Sanitizing.
 gem 'addressable' # TODO: Gah.
 gem 'postrank-uri'
+gem 'uri-meta'
 
 group :development do
   gem 'unicorn'

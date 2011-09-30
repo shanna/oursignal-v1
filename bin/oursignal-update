@@ -9,12 +9,18 @@ usage   = %Q{
 
   Commands are:
     -h, --help  This help message.
-    start       Schedule an update (feed, score & timestep).
+    all         Schedule an update (feed, score & timestep).
+    feed        Schedule updating feed entries/links.
+    score       Schedule a native score update.
+    timestep    Schedule a timestep update.
 }.strip
 
 case option
   when /^\-{0,2}h(?:elp)?$/, nil then puts usage
-  when 'start'                   then Resque::Job.create :update, 'Oursignal::Job::Update'
+  when 'all'                     then Resque::Job.create :update,   'Oursignal::Job::Update'
+  when 'feed'                    then Resque::Job.create :feed,     'Oursignal::Job::Feed'
+  when 'score'                   then Resque::Job.create :score,    'Oursignal::Job::Score',
+  when 'timestep'                then Resque::Job.create :timestep, 'Oursignal::Job::Timestep'
   else warn("#{bin}: '#{option}' is not an #{bin} option. See '#{bin} --help'.") && exit(-1)
 end
 
