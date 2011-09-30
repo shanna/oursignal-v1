@@ -10,7 +10,7 @@ gem 'sass'
 gem 'sinatra', git: 'http://github.com/shanna/sinatra.git', branch: 'named_capture_routing'
 
 # Business.
-gem 'swift', git: 'http://github.com/shanna/swift.git'
+gem 'swift', '>= 0.11'
 
 # Jobs.
 gem 'curb'
@@ -34,3 +34,4 @@ end
 group :test do
   gem 'ansi'
 end
+

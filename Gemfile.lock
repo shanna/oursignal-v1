@@ -7,12 +7,6 @@ GIT
       rack (~> 1.2)
       tilt (~> 1.3)
 
-GIT
-  remote: http://github.com/shanna/swift.git
-  revision: 4cd1e54b4c8a38c919b845294af1d8b26b798084
-  specs:
-    swift (0.11.0)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -50,6 +44,7 @@ GEM
       vegas (~> 0.1.2)
     resque-lock (0.1.1)
     sass (3.1.4)
+    swift (0.11.0)
     tilt (1.3.2)
     unicorn (4.0.1)
       kgio (~> 2.4)
@@ -80,7 +75,7 @@ DEPENDENCIES
   resque-lock
   sass
   sinatra!
-  swift!
+  swift (>= 0.11)
   unicorn
   uri-meta
   yajl-ruby
