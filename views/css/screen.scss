@@ -3,27 +3,56 @@
 @import 'compass/reset';
 @import 'compass/utilities/general/clearfix';
 
-// Temporary.
-ol#timestep {
-  width: 800px; height: 600px;
+body { color: #ccc; background-color: #000; font-family: Helvetica, Arial, sans-serif; font-size: 12px; }
+a, a:visited { color: #ddd; text-decoration: none; }
 
-  > li {
-    display: block; position: absolute;
-    background-color: #ccc; border: 1px solid #ddd;
-  }
+// Layout.
+#head {
+  height: 30px;
+  margin-bottom: 1px;
+  background-color: #1b1b1b;
+  > * { margin: 8px 20px }
 }
-
-ol#timeline {
-  overflow: hidden;
-  width: 100%; height: 20px;
-  background-color: #ddd;
-
-  ol, li { display: block; float: left; height: 20px; }
-  li.day { width: 1728px; }
-  li.minute {
-    height: 5px; width: 5px;
-    border-left: 1px solid #bbb;
+  #logo_oursignal { float: left; }
+  #navigation {
+    float: right;
+    ul.options {
+      li {
+        float: left;
+        padding-left: 16px; margin-left: 10px;
+      }
+      li.customize { background: url(/art/navigation_customize.png) no-repeat; }
+      li.about { background: url(/art/navigation_about.png) no-repeat; }
+    }
   }
-  li.minute[data-minute="0"] { height: 10px; }
-  li.minute[data-minute="30"] { height: 7px; }
+
+#foot {
+  height: 30px;
+  margin-top: 1px;
+  background-color: #1b1b1b;
 }
+  #logo_stateless { float: left; }
+
+// Content.
+#body {}
+  ol#timestep {
+    width: 800px; height: 600px;
+    > li {
+      display: block; position: absolute;
+      background-color: #ccc; border: 1px solid #ddd;
+    }
+  }
+
+  ol#timeline {
+    overflow: hidden;
+    width: 100%; height: 20px;
+    background-color: #ddd;
+    ol, li { display: block; float: left; height: 20px; }
+    li.day { width: 1728px; }
+    li.minute {
+      height: 5px; width: 5px;
+      border-left: 1px solid #bbb;
+    }
+    li.minute[data-minute="0"] { height: 10px; }
+    li.minute[data-minute="30"] { height: 7px; }
+  }
