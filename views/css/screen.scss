@@ -4,14 +4,29 @@
 @import 'compass/utilities/general/clearfix';
 
 // Temporary.
+ol#timestep, ol#timestep li { margin: 0; padding: 0; }
 ol#timestep {
-  margin: 0; padding: 0;
   width: 800px; height: 600px;
   background-color: red; // Shouldn't be visible.
 
   > li {
-    margin: 0; padding: 0;
     display: block; position: absolute;
     background-color: #ccc; border: 1px solid #ddd;
   }
+}
+
+ol#timeline, ol#timeline ol, ol#timeline li { margin: 0; padding: 0; height: 20px; }
+ol#timeline {
+  overflow: hidden;
+  width: 100%;
+  background-color: #ddd;
+
+  ol, li { display: block; float: left; }
+  li.day { width: 1728px; }
+  li.minute {
+    height: 5px; width: 5px;
+    border-left: 1px solid #bbb;
+  }
+  li.minute[data-minute="0"] { height: 10px; }
+  li.minute[data-minute="30"] { height: 7px; }
 }
