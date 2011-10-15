@@ -9,7 +9,6 @@ a, a:visited { color: #ddd; text-decoration: none; }
 // Layout.
 #head {
   height: 30px;
-  margin-bottom: 1px;
   background-color: #111;
   > * { margin: 8px 20px }
 }
@@ -30,6 +29,7 @@ a, a:visited { color: #ddd; text-decoration: none; }
   height: 30px;
   margin-top: 1px;
   background-color: #111;
+  > * { margin: 2px 20px }
 }
   #logo_stateless { float: left; }
 
@@ -56,4 +56,9 @@ a, a:visited { color: #ddd; text-decoration: none; }
     }
     li.minute[data-minute="0"] { height: 10px; }
     li.minute[data-minute="30"] { height: 7px; }
+  }
+
+  ul#meta {
+    height: 96px;
+    background: url(/art/meta_background.png) repeat-x top left;
   }
