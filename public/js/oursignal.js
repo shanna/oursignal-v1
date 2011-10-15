@@ -2,6 +2,7 @@
   Oursignal
 */
 var oursignal = (function($, oursignal) {
+  var $timestep, $timeline, $meta;
 
   /*
     Timestep
@@ -9,7 +10,8 @@ var oursignal = (function($, oursignal) {
       http://mbostock.github.com/d3/
   */
   oursignal.timestep = (function(timestep) {
-    var $timestep,
+    var timestep_offset,
+        other_controls_height,
         links,
         links_length,
         round = Math.round,
@@ -120,14 +122,17 @@ var oursignal = (function($, oursignal) {
     }
 
     function scale() {
-      var area,
-          timestep_offset = $timestep.offset();
+      var area;
+
+      if (!timestep_offset)       timestep_offset = $timestep.offset();
+      if (!other_controls_height) other_controls_height = $timeline.height() + $meta.height();
 
       // Root.
       links.x  = timestep_offset.left;
       links.y  = timestep_offset.top;
-      links.dx = $timestep.width();
-      links.dy = $timestep.height();
+      links.dx = Math.min($(window).width(), $(document).width());
+      links.dy = Math.min($(window).height(), $(document).height()) - timestep_offset.top - other_controls_height;
+      $timestep.width(links.dx).height(links.dy);
 
       // Children.
       for (var i = 0; i < links_length; i++) {
@@ -143,7 +148,7 @@ var oursignal = (function($, oursignal) {
 
       for (var i = 0; i < links_length; i++) links.score += links[i].score;
 
-      $(document).resize(function() {
+      $(window).resize(function() {
         scale();
         squarify();
         layout();
@@ -152,10 +157,7 @@ var oursignal = (function($, oursignal) {
 
     timestep.update = function(time) {
       $.getJSON('/timestep.json', {time: time}, function(links) {
-        $(function() {
-          if (!$timestep) $timestep = $('#timestep');
-          treemap(links);
-        });
+        $(function() { treemap(links); });
       });
     };
 
@@ -166,8 +168,6 @@ var oursignal = (function($, oursignal) {
     Timeline
   */
   oursignal.timeline = (function(timeline) {
-    var $timeline;
-
     // TODO: Golf, document fragment, minimise appends etc.
     function generate(time) {
       var $day = $('<li/>', {class: 'day'}); // TODO: 'data-time': at midnight.
@@ -183,10 +183,7 @@ var oursignal = (function($, oursignal) {
     }
 
     timeline.update = function(time) {
-      $(function() {
-        if (!$timeline) $timeline = $('#timeline');
-        generate(time || new Date());
-      });
+      $(function() { generate(time || new Date()); });
     };
 
     return timeline;
@@ -197,6 +194,12 @@ var oursignal = (function($, oursignal) {
     oursignal.timestep.update();
     oursignal.timeline.update();
   };
+
+  $(function() {
+    $timestep = $('#timestep');
+    $timeline = $('#timeline');
+    $meta     = $('#meta');
+  });
 
   return oursignal;
 })(jQuery, oursignal || {});

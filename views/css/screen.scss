@@ -10,7 +10,7 @@ a, a:visited { color: #ddd; text-decoration: none; }
 #head {
   height: 30px;
   margin-bottom: 1px;
-  background-color: #1b1b1b;
+  background-color: #111;
   > * { margin: 8px 20px }
 }
   #logo_oursignal { float: left; }
@@ -29,17 +29,18 @@ a, a:visited { color: #ddd; text-decoration: none; }
 #foot {
   height: 30px;
   margin-top: 1px;
-  background-color: #1b1b1b;
+  background-color: #111;
 }
   #logo_stateless { float: left; }
 
 // Content.
 #body {}
   ol#timestep {
-    width: 800px; height: 600px;
+    width: 100%; height: 100%;
+    background-color: red;
     > li {
       display: block; position: absolute;
-      background-color: #ccc; border: 1px solid #ddd;
+      background-color: #1b1b1b; border: 1px solid #000;
     }
   }
 
