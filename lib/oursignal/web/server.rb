@@ -22,7 +22,7 @@ module Oursignal
 
       get '/css/screen.css' do
         content_type 'text/css', charset: 'utf-8'
-        scss :'css/screen'
+        scss :'css/screen', style: :compact, line_comments: false
       end
     end # Server
   end # Web

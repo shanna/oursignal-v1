@@ -4,10 +4,8 @@
 @import 'compass/utilities/general/clearfix';
 
 // Temporary.
-ol#timestep, ol#timestep li { margin: 0; padding: 0; }
 ol#timestep {
   width: 800px; height: 600px;
-  background-color: red; // Shouldn't be visible.
 
   > li {
     display: block; position: absolute;
@@ -15,13 +13,12 @@ ol#timestep {
   }
 }
 
-ol#timeline, ol#timeline ol, ol#timeline li { margin: 0; padding: 0; height: 20px; }
 ol#timeline {
   overflow: hidden;
-  width: 100%;
+  width: 100%; height: 20px;
   background-color: #ddd;
 
-  ol, li { display: block; float: left; }
+  ol, li { display: block; float: left; height: 20px; }
   li.day { width: 1728px; }
   li.minute {
     height: 5px; width: 5px;
