@@ -38,11 +38,12 @@ module Oursignal
             .with_index{|c, pos| [c, pos]}
             .sort_by{|el| Flock.euclidian_distance(el[0], ORIGIN)}
             .map
-            .with_index{|c, pos, idx| [pos, idx]}
+            .with_index{|(c, pos), idx| [pos, idx]}
           kscores = Hash[kscores]
 
           links.each_with_index do |link, index|
             kmeans  = 0.01 * (kscores[cluster[index]] + 1)
+
             # TODO: Can be golfed if you select just the most recent score plus a count.
             # Might not reduce the DB load but will reduce the number of loops in Math::Ema by the count.
             # For now use this just in case the smoothing factor needs to be changed to a fixed number.
