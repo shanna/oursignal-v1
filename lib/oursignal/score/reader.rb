@@ -4,6 +4,7 @@ require 'zlib'
 
 # Business.
 require 'oursignal/link'
+require 'oursignal/score'
 require 'oursignal/score/parser'
 
 module Oursignal

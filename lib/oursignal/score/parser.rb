@@ -3,6 +3,7 @@ require 'resque'
 require 'yajl'
 
 require 'oursignal/link'
+require 'oursignal/score'
 
 module Oursignal
   class Score
