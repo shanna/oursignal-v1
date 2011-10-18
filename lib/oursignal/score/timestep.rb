@@ -25,7 +25,7 @@ module Oursignal
       def self.perform
         Oursignal.db.transaction do
           step  = Oursignal::Timestep.create
-          links = Oursignal.db.execute(%Q{select id as link_id, referred_at, #{FIELDS.join(', ')} from links}) # Oh boy.
+          links = Oursignal.db.execute(%Q{select id as link_id, #{FIELDS.join(', ')} from links}) # Oh boy.
           raise 'Timestep requires a minimum of 100 links in the DB.' unless links.count >= 100
 
           result  = Flock.kcluster(100, links.map{|l| l.values_at(*FIELDS)}, seed: Flock::SEED_SPREADOUT)
@@ -48,7 +48,7 @@ module Oursignal
             # Might not reduce the DB load but will reduce the number of loops in Math::Ema by the count.
             # For now use this just in case the smoothing factor needs to be changed to a fixed number.
             sql     = 'select * from scores where link_id = ? order by timestep_id desc'
-            scores  = Score.execute(sql, link[:id])
+            scores  = Score.execute(sql, link[:id]).to_a.unshift({timestep_id: step.id, kmeans: kmeans}.merge(Hash[FIELDS.zip(ORIGIN)]))
 
             # TODO: Not perfect.
             displacement = Flock.euclidian_distance(link.values_at(*FIELDS), scores.first.values_at(*FIELDS))
