@@ -17,6 +17,7 @@ module Oursignal
       attribute :score_reddit,      Swift::Type::Float,   default: 0
       attribute :score_twitter,     Swift::Type::Float,   default: 0
       attribute :score_ycombinator, Swift::Type::Float,   default: 0
+      attribute :kmeans,            Swift::Type::Float,   default: 0
       attribute :score,             Swift::Type::Float,   default: 0
       attribute :ema,               Swift::Type::Float,   default: 0
       attribute :velocity,          Swift::Type::Float,   default: 0
