@@ -109,15 +109,23 @@ var oursignal = (function ($, oursignal) {
     // TODO: Animation. Do it intersection style so existing ID's remain and morph?
     function layout() {
       var link,
-          $link;
+          $link,
+          $entry;
 
       $timestep.children().remove();
       for (var i = links_length; i > 0; i--) {
-        link  = links[i - 1];
-        $link = $('<li/>', {'data-link_id': link.id, 'data-link_score': link.score})
+        link   = links[i - 1];
+        $entry = $('<div/>', {'class': 'entry'}).append($('<a/>', {href: link.url, text: link.title}));
+        $link  = $('<li/>', {'data-link_id': link.id, 'data-link_score': link.score})
           .css({left: link.x, top: link.y, width: link.dx, height: link.dy})
-          .append($('<a/>', {href: link.url, text: link.title}));
+          .append($entry);
         $timestep.append($link);
+
+        // TODO: Issues:
+        // * You can't textfill till the element is added to the DOM.
+        // * Experiment with document fragment to avoid flash of unstyled text.
+        // * You need the 'entry' div container inside the li to get the current implementation of textfill to work.
+        $entry.textfill({max: 50});
       }
     }
 
