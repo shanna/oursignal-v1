@@ -1,7 +1,7 @@
 /*
   Oursignal
 */
-var oursignal = (function($, oursignal) {
+var oursignal = (function ($, oursignal) {
   var $timestep, $timeline, $meta;
 
   /*
@@ -9,45 +9,13 @@ var oursignal = (function($, oursignal) {
       Most of squarify(), worst() and position() nicked from the d3 library.
       http://mbostock.github.com/d3/
   */
-  oursignal.timestep = (function(timestep) {
+  oursignal.timestep = (function (timestep) {
     var timestep_offset,
         other_controls_height,
         links,
         links_length,
         round = Math.round,
         ratio = 0.5 * (1 + Math.sqrt(5)); // Golden ratio.
-
-    function squarify() {
-      var rect     = {x: links.x, y: links.y, dx: links.dx, dy: links.dy},
-          row      = [],
-          children = links.slice(), // Copy.
-          child,
-          best     = Infinity,
-          score,
-          u        = Math.min(rect.dx, rect.dy),
-          n;
-
-      row.area = 0;
-      while ((n = children.length) > 0) {
-        row.push(child = children[n - 1]);
-        row.area += child.area;
-        if ((score = worst(row, u)) <= best) {
-          children.pop();
-          best = score;
-        }
-        else {
-          row.area   -= row.pop().area;
-          position(row, u, rect, false);
-          u          = Math.min(rect.dx, rect.dy);
-          row.length = row.area = 0;
-          best       = Infinity;
-        }
-      }
-      if (row.length) {
-        position(row, u, rect, true);
-        row.length = row.area = 0;
-      }
-    }
 
     function worst(row, u) {
       var s    = row.area,
@@ -106,6 +74,38 @@ var oursignal = (function($, oursignal) {
       }
     }
 
+    function squarify() {
+      var rect     = {x: links.x, y: links.y, dx: links.dx, dy: links.dy},
+          row      = [],
+          children = links.slice(), // Copy.
+          child,
+          best     = Infinity,
+          score,
+          u        = Math.min(rect.dx, rect.dy),
+          n;
+
+      row.area = 0;
+      while ((n = children.length) > 0) {
+        row.push(child = children[n - 1]);
+        row.area += child.area;
+        if ((score = worst(row, u)) <= best) {
+          children.pop();
+          best = score;
+        }
+        else {
+          row.area   -= row.pop().area;
+          position(row, u, rect, false);
+          u          = Math.min(rect.dx, rect.dy);
+          row.length = row.area = 0;
+          best       = Infinity;
+        }
+      }
+      if (row.length) {
+        position(row, u, rect, true);
+        row.length = row.area = 0;
+      }
+    }
+
     // TODO: Animation. Do it intersection style so existing ID's remain and morph?
     function layout() {
       var link,
@@ -148,16 +148,16 @@ var oursignal = (function($, oursignal) {
 
       for (var i = 0; i < links_length; i++) links.score += links[i].score;
 
-      $(window).resize(function() {
+      $(window).resize(function () {
         scale();
         squarify();
         layout();
       }).resize();
     }
 
-    timestep.update = function(time) {
-      $.getJSON('/timestep.json', {time: time}, function(links) {
-        $(function() { treemap(links); });
+    timestep.update = function (time) {
+      $.getJSON('/timestep.json', {time: time}, function (links) {
+        $(function () { treemap(links); });
       });
     };
 
@@ -167,7 +167,7 @@ var oursignal = (function($, oursignal) {
   /*
     Timeline
   */
-  oursignal.timeline = (function(timeline) {
+  oursignal.timeline = (function (timeline) {
     // TODO: Golf, document fragment, minimise appends etc.
     function generate(time) {
       var $day = $('<li/>', {class: 'day'}); // TODO: 'data-time': at midnight.
@@ -182,20 +182,20 @@ var oursignal = (function($, oursignal) {
       $timeline.append($day);
     }
 
-    timeline.update = function(time) {
-      $(function() { generate(time || new Date()); });
+    timeline.update = function (time) {
+      $(function () { generate(time || new Date()); });
     };
 
     return timeline;
   })(oursignal.timeline || {});
 
   // Display current timestep and timeline.
-  oursignal.now = function() {
+  oursignal.now = function () {
     oursignal.timestep.update();
     oursignal.timeline.update();
   };
 
-  $(function() {
+  $(function () {
     $timestep = $('#timestep');
     $timeline = $('#timeline');
     $meta     = $('#meta');
