@@ -1,4 +1,4 @@
-require 'uri/meta'
+require 'curb'
 require 'uri/sanitize'
 
 # Schema.
@@ -22,11 +22,28 @@ module Oursignal
         if link = find(attributes[:id] || attributes[:url])
           link.update({updated_at: Time.now, referred_at: Time.now}.merge(attributes))
         else
-          content_type = URI.parse(attributes.fetch(:url)).meta.content_type rescue 'text/html'
-          link         = create(attributes.update(content_type: content_type))
+          link = create(attributes.merge(content_type: content_type(attributes[:url])))
         end
         link
       end
+
+      private
+        #--
+        # TODO: Metauri is struggling under the load of TM lets not hit it just for a content_type.
+        def content_type url
+          begin
+            curl = Curl::Easy.perform(url.to_s) do |e|
+              e.follow_location       = true
+              e.timeout               = 5
+              e.headers['User-Agent'] = Oursignal::USER_AGENT
+            end
+            curl.content_type.to_s.match(%r{(?:application|audio|image|text|video)/[^;]+}) || 'text/html'
+          rescue => error
+            warn error
+            'text/html'
+          end
+        end
     end
   end # Link
 end # Oursignal
+

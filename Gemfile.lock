@@ -25,7 +25,6 @@ GEM
     haml (3.1.2)
     json (1.5.3)
     kgio (2.6.0)
-    moneta (0.6.0)
     nokogiri (1.5.0)
     postrank-uri (1.0.15)
       addressable (>= 2.2.3)
@@ -50,9 +49,6 @@ GEM
       kgio (~> 2.4)
       rack
       raindrops (~> 0.6)
-    uri-meta (0.11.0)
-      curb (>= 0.5.4)
-      moneta (>= 0.6.0)
     vegas (0.1.8)
       rack (>= 1.0.0)
     yajl-ruby (0.8.2)
@@ -77,5 +73,4 @@ DEPENDENCIES
   sinatra!
   swift (>= 0.11)
   unicorn
-  uri-meta
   yajl-ruby

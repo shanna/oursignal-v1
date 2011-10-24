@@ -27,7 +27,6 @@ gem 'flock', '>= 0.5.0'
 # Sanitizing.
 gem 'addressable' # TODO: Gah.
 gem 'postrank-uri'
-gem 'uri-meta'
 
 group :development do
   gem 'unicorn'
