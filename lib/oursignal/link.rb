@@ -1,3 +1,4 @@
+require 'uri/meta'
 require 'uri/sanitize'
 
 # Schema.
@@ -21,7 +22,8 @@ module Oursignal
         if link = find(attributes[:id] || attributes[:url])
           link.update({updated_at: Time.now, referred_at: Time.now}.merge(attributes))
         else
-          link = create(attributes)
+          content_type = URI.parse(attributes.fetch(:url)).meta.content_type rescue 'text/html'
+          link         = create(attributes.update(content_type: content_type))
         end
         link
       end

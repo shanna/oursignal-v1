@@ -2,6 +2,7 @@ create table links(
   id                bigserial,
   url               text,
   title             text,
+  content_type      text,
   score_delicious   float default '0',
   score_digg        float default '0',
   score_facebook    float default '0',
