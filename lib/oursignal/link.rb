@@ -15,6 +15,14 @@ module Oursignal
         execute(%q{select * from links where id = ? or url = ?}, id.to_s.to_i, id).first
       end
 
+      def create attributes
+        if attributes[:content_type].nil? and !attributes[:url].nil?
+          super attributes.merge(content_type: content_type(attributes[:url]))
+        else
+          super attributes
+        end
+      end
+
       #--
       # TODO: Golf.
       # TODO: Dirty updating?
@@ -22,7 +30,7 @@ module Oursignal
         if link = find(attributes[:id] || attributes[:url])
           link.update({updated_at: Time.now, referred_at: Time.now}.merge(attributes))
         else
-          link = create(attributes.merge(content_type: content_type(attributes[:url])))
+          link = create(attributes)
         end
         link
       end
