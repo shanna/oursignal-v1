@@ -1,2 +1,2 @@
 # Schedule an update every 5 minutes.
-*/5 * * * * cd /var/www/oursignal && ./bin/oursignal-update start
+*/5 * * * * cd /var/www/oursignal && ./bin/oursignal-update all
