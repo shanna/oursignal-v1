@@ -1,5 +1,4 @@
 require 'nokogiri'
-require 'resque'
 
 require 'oursignal/feed/parser'
 

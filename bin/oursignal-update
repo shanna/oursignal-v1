@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 require_relative '../lib/oursignal/cli'
-require 'resque'
+require 'oursignal/feed/reader'
+require 'oursignal/score/reader'
+require 'oursignal/score/timestep'
+
 
 bin     = Oursignal::Cli.bin
 option  = (ARGV.shift || 'help').strip
@@ -17,10 +20,13 @@ usage   = %Q{
 
 case option
   when /^\-{0,2}h(?:elp)?$/, nil then puts usage
-  when 'all'                     then Resque::Job.create :update,   'Oursignal::Job::Update'
-  when 'feed'                    then Resque::Job.create :feed,     'Oursignal::Job::Feed'
-  when 'score'                   then Resque::Job.create :score,    'Oursignal::Job::Score',
-  when 'timestep'                then Resque::Job.create :timestep, 'Oursignal::Job::Timestep'
+  when 'all'
+    Oursignal::Feed::Reader.perform
+    Oursignal::Score::Reader.perform
+    Oursignal::Score::Timestep.perform
+  when 'feed'     then Oursignal::Feed::Reader.perform
+  when 'score'    then Oursignal::Score::Reader.perform
+  when 'timestep' then Oursignal::Score::Timestep.perform
   else warn("#{bin}: '#{option}' is not an #{bin} option. See '#{bin} --help'.") && exit(-1)
 end
 

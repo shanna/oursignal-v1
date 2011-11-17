@@ -1,4 +1,3 @@
-require 'resque'
 require 'uri/domain'
 
 # Business.

@@ -1,4 +1,3 @@
-require 'resque'
 require 'yajl'
 
 require 'oursignal/feed/parser'

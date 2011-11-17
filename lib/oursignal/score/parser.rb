@@ -1,5 +1,4 @@
 require 'cgi'
-require 'resque'
 require 'yajl'
 
 require 'oursignal/link'

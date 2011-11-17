@@ -9,7 +9,6 @@ usage: #{bin} [-h|--help] command args
 Commands are:
   config  Environment and paths.
   devel   Development tools.
-  job     Job queue, workers etc.
   update  Schedule update (feed, score & timestep).
   web     The website.
 

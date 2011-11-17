@@ -1,5 +1,3 @@
-require 'resque'
-
 # Schema.
 require 'oursignal/scheme/feed'
 

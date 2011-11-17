@@ -17,10 +17,6 @@ gem 'curb'
 gem 'nokogiri'
 gem 'yajl-ruby'
 
-# Jobs.
-gem 'resque'
-gem 'resque-lock'
-
 # Scoring.
 gem 'flock', '>= 0.5.0'
 
