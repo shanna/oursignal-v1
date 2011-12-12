@@ -178,16 +178,47 @@ var oursignal = (function ($, oursignal) {
   oursignal.timeline = (function (timeline) {
     // TODO: Golf, document fragment, minimise appends etc.
     function generate(time) {
-      var $day = $('<li/>', {class: 'day'}); // TODO: 'data-time': at midnight.
+      var now  = new Date(),
+          date = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0),
+          $day = $('<li/>', {class: 'day'}); // TODO: 'data-time': at midnight.
       for (var hour = 0; hour < 24; hour++) {
+        date.setHours(hour);
         var $hour = $('<ol/>', {class: 'hour', 'data-hour': hour}); // TODO: 'data-time' at the hour.
         for (var minute = 0; minute < 60; minute += 5) {
           var $minute = $('<li/>', {class: 'minute', 'data-minute': minute}); // TODO: 'data-time' at the minute.
+          if (minute == 0) {
+            var $time = $('<abbr/>', {
+              class: 'datetime',
+              title: date.toString(),
+              text:  (hour > 11 ? (hour > 12 ? hour - 12 : hour) + 'pm' : (hour == 0 ? 12 : hour) + 'am')
+            });
+            $minute.append($time);
+          }
           $hour.append($minute);
         }
         $day.append($hour);
       }
       $timeline.append($day);
+
+      $timeline.mousedown(function (event) {
+        $(this)
+          .data('down', true)
+          .data('x', event.clientX)
+          .data('scrollLeft', this.scrollLeft);
+
+        return false;
+      }).mouseup(function (event) {
+        $(this).data('down', false);
+      }).mousemove(function (event) {
+        if ($(this).data('down') == true) {
+          this.scrollLeft = $(this).data('scrollLeft') + $(this).data('x') - event.clientX;
+        }
+      })
+      // .mousewheel(function (event, delta) { this.scrollLeft -= (delta * 30); })
+      .css({
+        'overflow' : 'hidden',
+        'cursor' : '-moz-grab'
+      });
     }
 
     timeline.update = function (time) {

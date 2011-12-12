@@ -56,6 +56,12 @@ a, a:visited { color: #ddd; text-decoration: none; }
     }
     li.minute[data-minute="0"] { height: 10px; }
     li.minute[data-minute="30"] { height: 7px; }
+
+    abbr.datetime {
+      display: block;
+      margin-top: 10px; margin-left: -4px;
+      color: #555; font-size: 10px;
+    }
   }
 
   ul#meta {
