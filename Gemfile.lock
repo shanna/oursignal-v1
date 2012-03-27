@@ -1,45 +1,42 @@
-GIT
-  remote: http://github.com/shanna/sinatra.git
-  revision: 2fa06bb6773da3a2e02b4e2af4de0bbd7bda1c18
-  branch: named_capture_routing
-  specs:
-    sinatra (1.3.0)
-      rack (~> 1.2)
-      tilt (~> 1.3)
-
 GEM
   remote: http://rubygems.org/
   specs:
-    addressable (2.2.6)
-    ansi (1.3.0)
-    chunky_png (1.2.0)
-    compass (0.11.5)
+    addressable (2.2.7)
+    ansi (1.4.2)
+    chunky_png (1.2.5)
+    compass (0.12.1)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
       sass (~> 3.1)
-    curb (0.7.15)
+    curb (0.8.0)
     domainatrix (0.0.10)
       addressable
     flock (0.5.0)
-    fssm (0.2.7)
-    haml (3.1.2)
-    kgio (2.6.0)
-    nokogiri (1.5.0)
+    fssm (0.2.8.1)
+    haml (3.1.4)
+    kgio (2.7.4)
+    nokogiri (1.5.2)
     postrank-uri (1.0.15)
       addressable (>= 2.2.3)
       domainatrix
       nokogiri
-    rack (1.3.1)
-    raindrops (0.7.0)
-    rdiscount (1.6.8)
-    sass (3.1.4)
-    swift (0.11.0)
-    tilt (1.3.2)
-    unicorn (4.0.1)
-      kgio (~> 2.4)
+    rack (1.4.1)
+    rack-protection (1.2.0)
       rack
-      raindrops (~> 0.6)
-    yajl-ruby (0.8.2)
+    raindrops (0.8.0)
+    rdiscount (1.6.8)
+    sass (3.1.15)
+    sinatra (1.3.2)
+      rack (~> 1.3, >= 1.3.6)
+      rack-protection (~> 1.2)
+      tilt (~> 1.3, >= 1.3.3)
+    swift (0.14.0)
+    tilt (1.3.3)
+    unicorn (4.2.1)
+      kgio (~> 2.6)
+      rack
+      raindrops (~> 0.7)
+    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
@@ -56,7 +53,7 @@ DEPENDENCIES
   rack
   rdiscount
   sass
-  sinatra!
-  swift (>= 0.11)
+  sinatra
+  swift
   unicorn
   yajl-ruby

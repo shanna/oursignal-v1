@@ -7,10 +7,10 @@ gem 'haml'
 gem 'rack'
 gem 'rdiscount'
 gem 'sass'
-gem 'sinatra', git: 'http://github.com/shanna/sinatra.git', branch: 'named_capture_routing'
+gem 'sinatra'
 
 # Business.
-gem 'swift', '>= 0.11'
+gem 'swift'
 
 # Scraping.
 gem 'curb'
