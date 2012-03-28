@@ -16,7 +16,7 @@ module Oursignal
         end
 
         def parse source
-          data  = Yajl::Parser.new(symbolize_keys: true).parse(source) || return
+          data  = Oj.load(source, symbol_keys: true) || return
           link  = links.detect{|link| link.match?(data[:url])} || return
           score = data[:count] || return
 

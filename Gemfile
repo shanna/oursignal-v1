@@ -15,7 +15,7 @@ gem 'swift'
 # Scraping.
 gem 'curb'
 gem 'nokogiri'
-gem 'yajl-ruby'
+gem 'oj'
 
 # Scoring.
 gem 'flock', '>= 0.5.0'

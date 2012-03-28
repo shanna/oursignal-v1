@@ -19,7 +19,7 @@ module Oursignal
 
         def parse source
           json = source.gsub(/^(.*);+\n*$/, "\\1").gsub(/^google_buzz_set_count\((.*)\)$/, "\\1")
-          data = Yajl::Parser.new(symbolize_keys: true).parse(json) || return
+          data = Oj.load(json, symbol_keys: true) || return
           data.each do |url, score|
             link = links.detect{|link| link.match?(url)} || next
 

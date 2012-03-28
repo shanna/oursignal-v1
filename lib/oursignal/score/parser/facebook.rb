@@ -16,7 +16,7 @@ module Oursignal
         end
 
         def parse source
-          data = Yajl::Parser.new(symbolize_keys: true).parse(source) || return
+          data = Oj.load(source, symbol_keys: true) || return
           data.each do |entry|
             link  = links.detect{|link| link.match?(entry[:url])} || next
             score = entry[:share_count] || next # Also like_count, comment_count, click_count and total_count if we need it.

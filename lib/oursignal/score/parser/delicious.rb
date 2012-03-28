@@ -16,7 +16,7 @@ module Oursignal
 
         def parse source
           feed = Feed.find('http://delicious.com') || return
-          data = Yajl::Parser.new(symbolize_keys: true).parse(source) || return
+          data = Oj.load(source, symbol_keys: true) || return
           data.each do |entry|
             link      = links.detect{|link| link.match?(entry[:url])} || next
             score     = entry[:total_posts] || next

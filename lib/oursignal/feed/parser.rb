@@ -37,8 +37,8 @@ module Oursignal
 end # Oursignal
 
 # TODO: Fugly factory is fugly.
-require 'oursignal/feed/parser/digg'
-require 'oursignal/feed/parser/delicious'
+#require 'oursignal/feed/parser/digg'
+#require 'oursignal/feed/parser/delicious'
 require 'oursignal/feed/parser/reddit'
-require 'oursignal/feed/parser/ycombinator'
+#require 'oursignal/feed/parser/ycombinator'
 

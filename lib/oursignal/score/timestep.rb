@@ -52,7 +52,7 @@ module Oursignal
 
             # TODO: Not perfect.
             displacement = Flock.euclidian_distance(link.values_at(*FIELDS), scores.first.values_at(*FIELDS))
-            interval     = step.created_at - Oursignal::Timestep.get(id: scores.first[:timestep_id]).created_at
+            interval     = step.created_at.to_time - Oursignal::Timestep.get(id: scores.first[:timestep_id]).created_at.to_time
             velocity     = displacement / (interval + 0.1)
 
             # ema with smoothing factor 2/(N+1)
