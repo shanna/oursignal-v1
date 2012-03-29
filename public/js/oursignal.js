@@ -106,6 +106,14 @@ var oursignal = (function ($, oursignal) {
       }
     }
 
+    function meta(event) {
+      var $event = $(event.target.cible[0]).parent();
+console.warn($event);
+console.warn($event.data());
+      // TODO: Replace with template.
+
+    }
+
     // TODO: Animation. Do it intersection style so existing ID's remain and morph?
     function layout() {
       var link,
@@ -117,6 +125,7 @@ var oursignal = (function ($, oursignal) {
         link   = links[i - 1];
         $entry = $('<div/>', {'class': 'entry'}).append($('<a/>', {href: link.url, text: link.title}));
         $link  = $('<li/>', {'data-link_id': link.id, 'data-link_score': link.score})
+          .data(link)
           .css({left: link.x, top: link.y, width: link.dx, height: link.dy})
           .append($entry);
         $timestep.append($link);
@@ -126,6 +135,8 @@ var oursignal = (function ($, oursignal) {
         // * Experiment with document fragment to avoid flash of unstyled text.
         // * You need the 'entry' div container inside the li to get the current implementation of textfill to work.
         $entry.textfill({max: 50});
+
+        $entry.hoverintent(meta, function () {}, {group: true});
       }
     }
 
