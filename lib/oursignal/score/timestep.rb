@@ -26,7 +26,7 @@ module Oursignal
         Oursignal.db.transaction do
           step  = Oursignal::Timestep.create
           links = Oursignal.db.execute(%Q{select id as link_id, #{FIELDS.join(', ')} from links}) # Oh boy.
-          raise 'Timestep requires a minimum of 100 links in the DB.' unless links.count >= 100
+          raise "Timestep requires a minimum of 100 links in the DB but only #{links.count} exist." unless links.count >= 100
 
           result  = Flock.kcluster(100, links.map{|l| l.values_at(*FIELDS)}, seed: Flock::SEED_SPREADOUT)
           cluster = result[:cluster]
