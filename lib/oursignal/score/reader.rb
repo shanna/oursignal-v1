@@ -43,7 +43,7 @@ module Oursignal
                   )
                   parser.parse(force_utf8(body(response))) if response.response_code.to_s =~ /^2/
                 rescue => error
-                  warn [error.message, *error.backtrace].join("\n")
+                  warn ['Score Reader GET Error:', error.message, *error.backtrace].join("\n")
                 end
               end
             end
@@ -76,7 +76,7 @@ module Oursignal
           options = {invalid: :replace, undef: :replace}
           raw.valid_encoding? ? raw.encode('utf-8', options) : raw.force_encoding('utf-8').encode('utf-8', options)
         rescue => error
-          warn [error.message, *error.backtrace].join("\n")
+          warn ['Score Reader UTF-8 Error:', error.message, *error.backtrace].join("\n")
           ''
         end
 
