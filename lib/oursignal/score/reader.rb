@@ -33,7 +33,13 @@ module Oursignal
               e.headers['User-Agent'] = Oursignal::USER_AGENT
               e.on_complete do |response|
                 begin
-                  # XXX: Debugging for now.
+                  puts 'score:(%s) %d %4.2fkb %4.2fkb/s' % [
+                    response.url,
+                    response.response_code,
+                    response.downloaded_bytes / 1024,
+                    response.download_speed / 1024
+                  ]
+                  # XXX Debugging for now.
                   log.puts(
                     '----',
                     response.response_code,

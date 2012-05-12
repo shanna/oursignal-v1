@@ -28,9 +28,15 @@ module Oursignal
 
               e.on_complete do |response|
                 begin
+                  puts 'feed:(%s) %d %4.2fkb %4.2fkb/s' % [
+                    response.url,
+                    response.response_code,
+                    response.downloaded_bytes / 1024,
+                    response.download_speed / 1024
+                  ]
                   parser.parse(force_utf8(body(response))) if response.response_code.to_s =~ /^2/
                 rescue => error
-                  warn [error.message, *error.backtrace].join("\n")
+                  warn ['Feed Reader GET Error:', error.message, *error.backtrace].join("\n")
                 end
               end
             end
@@ -62,7 +68,7 @@ module Oursignal
           options = {invalid: :replace, undef: :replace}
           raw.valid_encoding? ? raw.encode('utf-8', options) : raw.force_encoding('utf-8').encode('utf-8', options)
         rescue => error
-          warn [error.message, *error.backtrace].join("\n")
+          warn ['Feed Reader UTF-8 Error:', error.message, *error.backtrace].join("\n")
           ''
         end
 
