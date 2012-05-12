@@ -2,7 +2,7 @@
   Oursignal
 */
 var oursignal = (function ($, oursignal) {
-  var $timestep, $timeline, $meta;
+  var $timestep, $timeline;
 
   /*
     Timestep
@@ -106,14 +106,6 @@ var oursignal = (function ($, oursignal) {
       }
     }
 
-    function meta(event) {
-      var $event = $(event.target.cible[0]).parent();
-console.warn($event);
-console.warn($event.data());
-      // TODO: Replace with template.
-
-    }
-
     // TODO: Animation. Do it intersection style so existing ID's remain and morph?
     function layout() {
       var link,
@@ -135,8 +127,6 @@ console.warn($event.data());
         // * Experiment with document fragment to avoid flash of unstyled text.
         // * You need the 'entry' div container inside the li to get the current implementation of textfill to work.
         $entry.textfill({max: 50});
-
-        $entry.hoverintent(meta, function () {}, {group: true});
       }
     }
 
@@ -144,7 +134,7 @@ console.warn($event.data());
       var area;
 
       if (!timestep_offset)       timestep_offset = $timestep.offset();
-      if (!other_controls_height) other_controls_height = $timeline.height() + $meta.height();
+      if (!other_controls_height) other_controls_height = 0; // other_controls_height = $timeline.height();
 
       // Root.
       links.x  = timestep_offset.left;
@@ -242,13 +232,12 @@ console.warn($event.data());
   // Display current timestep and timeline.
   oursignal.now = function () {
     oursignal.timestep.update();
-    oursignal.timeline.update();
+    // oursignal.timeline.update();
   };
 
   $(function () {
+    // $timeline = $('#timeline');
     $timestep = $('#timestep');
-    $timeline = $('#timeline');
-    $meta     = $('#meta');
   });
 
   return oursignal;

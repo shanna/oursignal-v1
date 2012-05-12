@@ -25,14 +25,6 @@ a, a:visited { color: #ddd; text-decoration: none; }
     }
   }
 
-#foot {
-  height: 30px;
-  margin-top: 1px;
-  background-color: #111;
-  > * { margin: 2px 20px }
-}
-  #logo_stateless { float: left; }
-
 // Content.
 #body {}
   ol#timestep {
@@ -41,6 +33,7 @@ a, a:visited { color: #ddd; text-decoration: none; }
     > li {
       display: block; position: absolute;
       background-color: #1b1b1b; border: 1px solid #000;
+      > div { overflow: hidden; }
     }
   }
 
@@ -64,8 +57,3 @@ a, a:visited { color: #ddd; text-decoration: none; }
     }
   }
 
-  ul#meta {
-    height: 96px;
-    margin-top: 1px;
-    background: url(/art/meta_background.png) repeat-x top left;
-  }
