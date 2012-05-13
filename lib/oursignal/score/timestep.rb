@@ -25,7 +25,13 @@ module Oursignal
       def self.perform
         Oursignal.db.transaction do
           step  = Oursignal::Timestep.create
-          links = Oursignal.db.execute(%Q{select id as link_id, #{FIELDS.join(', ')} from links}) # Oh boy.
+          links = Oursignal.db.execute(%Q{
+            select
+              id as link_id,
+              extract(epoch from now() - referred_at)::int/60 as minutes,
+              #{FIELDS.join(', ')}
+            from links
+          }) # Oh boy.
           raise "Timestep requires a minimum of 100 links in the DB but only #{links.count} exist." unless links.count >= 100
 
           result  = Flock.kcluster(100, links.map{|l| l.values_at(*FIELDS)}, seed: Flock::SEED_SPREADOUT)
@@ -60,8 +66,12 @@ module Oursignal
 
             # Decay.
             # TODO: Decay by mean lifetime a link exists in feeds perhaps? I can't actually calculate that yet.
-            score = kmeans
+            # Straight linear decay over 12 hours to get started. Barney help!
+            # score = kmeans
+            decay = ema.to_f / 1_440
+            score = [ema - (link.delete(:minutes).to_i * decay), 0].max
 
+            # TODO: Remove sneaky .delete() hacks and explicitly name fields to be saved.
             Score.create({timestep_id: step.id, score: score, kmeans: kmeans, ema: ema, velocity: velocity}.merge(link))
           end
         end
