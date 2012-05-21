@@ -5,6 +5,11 @@ require 'oursignal/link'
 require 'oursignal/score'
 require 'oursignal/timestep'
 
+
+# TODO:
+# 1. i'm still not convinced about the clustering given scores are so sparse and varied.
+# 2. tweak decay rates, i suspect it might be a bit too pessimistic as is.
+
 module Oursignal
   class Score
     module Timestep
@@ -19,6 +24,7 @@ module Oursignal
         :score_ycombinator
       ]
 
+      # the actual decay rate is DECAY_RATE.abs so, tweak it in the right direction.
       DECAY_RATE = -0.25
 
       #--
