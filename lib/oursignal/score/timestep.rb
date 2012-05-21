@@ -19,6 +19,8 @@ module Oursignal
         :score_ycombinator
       ]
 
+      DECAY_RATE = -0.25
+
       #--
       # TODO: Golf.
       # TODO: Decay.
@@ -28,10 +30,11 @@ module Oursignal
           links = Oursignal.db.execute(%Q{
             select
               id as link_id,
-              extract(epoch from now() - referred_at)::int/60 as minutes,
+              extract(epoch from now() - referred_at) / 86400 as days,
               #{FIELDS.join(', ')}
             from links
           }) # Oh boy.
+
           raise "Timestep requires a minimum of 100 links in the DB but only #{links.count} exist." unless links.count >= 100
 
           result  = Flock.kcluster(100, links.map{|l| l.values_at(*FIELDS)}, seed: Flock::SEED_SPREADOUT)
@@ -54,7 +57,12 @@ module Oursignal
             # Might not reduce the DB load but will reduce the number of loops in Math::Ema by the count.
             # For now use this just in case the smoothing factor needs to be changed to a fixed number.
             sql     = 'select * from scores where link_id = ? order by timestep_id desc'
-            scores  = Score.execute(sql, link[:id]).to_a.unshift({timestep_id: step.id, kmeans: kmeans}.merge(Hash[FIELDS.zip(ORIGIN)]))
+            scores  = Oursignal.db.execute(sql, link[:link_id]).entries
+
+            # we got a single score just add a dummy score as first one
+            # and assume this single score is the most recent one.
+            scores.unshift({timestep_id: step.id, kmeans: kmeans}.merge(Hash[FIELDS.zip(ORIGIN)])) if scores.size < 2
+
 
             # TODO: Not perfect.
             displacement = Flock.euclidian_distance(link.values_at(*FIELDS), scores.first.values_at(*FIELDS))
@@ -64,13 +72,8 @@ module Oursignal
             # ema with smoothing factor 2/(N+1)
             ema = Math::Ema.new((2.0 / (scores.count + 1)), scores.shift[:kmeans]).update(scores.map{|row| row[:kmeans]})
 
-            # Decay.
-            # TODO: Decay by mean lifetime a link exists in feeds perhaps? I can't actually calculate that yet.
-            # Straight linear decay over 12 hours to get started. Barney help!
-            # score = kmeans
-            decay = ema.to_f / 1_440
-            score = [ema - (link.delete(:minutes).to_i * decay), 0].max
-
+            # decay - exponential cooling.
+            score = [ema * Math.exp(DECAY_RATE * link.delete(:days)), 0].max
             # TODO: Remove sneaky .delete() hacks and explicitly name fields to be saved.
             Score.create({timestep_id: step.id, score: score, kmeans: kmeans, ema: ema, velocity: velocity}.merge(link))
           end
