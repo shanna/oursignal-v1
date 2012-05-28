@@ -16,12 +16,15 @@ module Oursignal
         sources = Oursignal::Feed::Parser.all
 
         # TODO: Safe distance from (ulimit -n) - (lsof | wc -l)
-        multi = Curl::Multi.new
-        multi.max_connects = 250
+        # multi = Curl::Multi.new
+        # multi.max_connects = 250
         sources.each do |source|
           parser = source.new
           parser.urls.each do |url|
+            puts '---', url.to_s
             easy = Curl::Easy.new(url) do |e|
+              e.resolve_mode          = :ipv4 # IPv6 has issues on some sites!?
+              e.verbose               = true # XXX: Debug.
               e.follow_location       = true
               e.timeout               = 5
               e.headers['User-Agent'] = Oursignal::USER_AGENT
@@ -39,11 +42,16 @@ module Oursignal
                   warn ['Feed Reader GET Error:', error.message, *error.backtrace].join("\n")
                 end
               end
+
+              e.on_failure do |response, code|
+                warn ['Feed Reader GET Error:', code].join("\n")
+              end
             end
-            multi.add easy
+            easy.perform
+            # multi.add easy
           end
         end
-        multi.perform
+        # multi.perform
       end
 
       protected

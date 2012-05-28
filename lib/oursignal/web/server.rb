@@ -1,9 +1,6 @@
-require 'oj'
-
 require 'oursignal/scored_link'
 require 'oursignal/timestep'
 require 'oursignal/web'
-require 'json' # Monkey patches DateTime and company for mode: :compat in Oj.
 
 module Oursignal
   class Web
@@ -16,7 +13,7 @@ module Oursignal
         content_type :json
         @timestep = Timestep.find(params[:time] || Time.now) or raise Sinatra::NotFound
         @links    = ScoredLink.find @timestep.id
-        Oj.dump @links.to_a, mode: :compat
+        Yajl.dump @links.to_a
       end
 
       get('/about'){ haml :about}

@@ -1,4 +1,4 @@
-require 'oj'
+require 'yajl'
 
 require 'oursignal/feed/parser'
 
@@ -16,7 +16,7 @@ module Oursignal
 
         def parse source
           begin
-            data = Oj.load(source, symbol_keys: true) || return
+            data = Yajl.load(source, symbolize_keys: true) || return
             data[:stories].each do |entry|
               begin
                 score     = entry[:diggs].to_i || next

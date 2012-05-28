@@ -3,6 +3,7 @@ require 'compass'
 require 'haml'
 require 'sass'
 require 'sinatra/base'
+require 'yajl'
 
 # Helpers.
 require 'sinatra/content'

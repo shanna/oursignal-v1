@@ -1,5 +1,5 @@
 require 'cgi'
-require 'oj'
+require 'yajl'
 
 require 'oursignal/link'
 require 'oursignal/score'
