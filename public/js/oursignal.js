@@ -114,19 +114,19 @@ var oursignal = (function ($, oursignal) {
 
       $timestep.children().remove();
       for (var i = links_length; i > 0; i--) {
-        link   = links[i - 1];
-        $entry = $('<div/>', {'class': 'entry'}).append($('<a/>', {href: link.url, text: link.title}));
-        $link  = $('<li/>', {'data-link_id': link.id, 'data-link_score': link.score})
+        link       = links[i - 1];
+        $entry     = $('<a/>', {href: link.url, text: link.title});
+        $container = $('<div/>').css({margin: 2, width: link.dx - 4, height: link.dy - 4}).append($entry);
+        $link      = $('<li/>', {'data-link_id': link.id, 'data-link_score': link.score})
           .data(link)
           .css({left: link.x, top: link.y, width: link.dx, height: link.dy})
-          .append($entry);
+          .append($container);
         $timestep.append($link);
 
-        // TODO: Issues:
         // * You can't textfill till the element is added to the DOM.
         // * Experiment with document fragment to avoid flash of unstyled text.
-        // * You need the 'entry' div container inside the li to get the current implementation of textfill to work.
-        $entry.textfill({max: 50});
+        // * You need the 'entry' div container inside the li to get a margin to work.
+        $entry.textfill();
       }
     }
 
