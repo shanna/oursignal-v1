@@ -24,9 +24,9 @@ module Oursignal
             puts '---', url.to_s
             easy = Curl::Easy.new(url) do |e|
               e.resolve_mode          = :ipv4 # IPv6 has issues on some sites!?
-              e.verbose               = true # XXX: Debug.
+              e.verbose               = true  # XXX: Debug.
               e.follow_location       = true
-              e.timeout               = 5
+              e.timeout               = 60    # reddit and ycombinator can be slow as fuck.
               e.headers['User-Agent'] = Oursignal::USER_AGENT
 
               e.on_complete do |response|
