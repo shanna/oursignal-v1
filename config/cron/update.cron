@@ -1,2 +1,6 @@
+# Required environment stuff. How does Barney do this?
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
 # Schedule an update every 5 minutes.
 */5 * * * * cd /home/oursignal/oursignal && ./bin/oursignal-update all
