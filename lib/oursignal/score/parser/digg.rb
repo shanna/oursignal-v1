@@ -19,7 +19,7 @@ module Oursignal
 
         def parse source
           feed = Feed.find('http://digg.com') || return
-          data = Oj.load(source, symbol_keys: true) || return
+          data = Yajl.load(source, symbolize_keys: true) || return
           (data[:stories] || []).each do |entry|
             link      = links.detect{|link| link.match?(entry[:url])} || next
             score     = entry[:diggs].to_i || next

@@ -15,7 +15,7 @@ module Oursignal
 
         def parse source
           feed      = Feed.find('http://www.reddit.com') || return
-          entry     = Oj.load(source, symbol_keys: true)[:data][:children].first || return
+          entry     = Yajl.load(source, symbolize_keys: true)[:data][:children].first || return
           data      = entry[:data] || return
           link      = links.detect{|link| link.match?(data[:url])} || return
           score     = data[:score] || return
