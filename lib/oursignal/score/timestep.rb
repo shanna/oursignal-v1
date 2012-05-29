@@ -5,7 +5,6 @@ require 'oursignal/link'
 require 'oursignal/score'
 require 'oursignal/timestep'
 
-
 # TODO:
 # 1. i'm still not convinced about the clustering given scores are so sparse and varied.
 # 2. tweak decay rates, i suspect it might be a bit too pessimistic as is.
@@ -13,9 +12,7 @@ require 'oursignal/timestep'
 module Oursignal
   class Score
     module Timestep
-      ORIGIN = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
       FIELDS = [
-        :score_delicious,
         :score_digg,
         :score_facebook,
         :score_googlebuzz,
@@ -23,6 +20,7 @@ module Oursignal
         :score_twitter,
         :score_ycombinator
       ]
+      ORIGIN = Array.new(FIELDS.size, 0.0)
 
       # the actual decay rate is DECAY_RATE.abs so, tweak it in the right direction.
       DECAY_RATE = -0.25

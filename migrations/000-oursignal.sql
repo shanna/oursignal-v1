@@ -3,7 +3,6 @@ create table links(
   url               text,
   title             text,
   content_type      text,
-  score_delicious   float default '0',
   score_digg        float default '0',
   score_facebook    float default '0',
   score_frequency   float default '0',
@@ -30,7 +29,6 @@ create index timesteps_created_at_idx on timesteps(created_at);
 create table scores(
   timestep_id       integer not null,
   link_id           bigint not null,
-  score_delicious   float,
   score_digg        float,
   score_facebook    float,
   score_frequency   float,

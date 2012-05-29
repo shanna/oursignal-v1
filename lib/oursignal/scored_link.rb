@@ -10,7 +10,6 @@ module Oursignal
           l.title,
           l.created_at,
           l.referred_at,
-          s.score_delicious,
           s.score_digg,
           s.score_facebook,
           s.score_freshness,

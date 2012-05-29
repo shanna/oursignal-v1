@@ -35,7 +35,6 @@ module Oursignal
 end # Oursignal
 
 # TODO: Fugly factory is fugly.
-require 'oursignal/score/parser/delicious'
 require 'oursignal/score/parser/digg'
 require 'oursignal/score/parser/facebook'
 require 'oursignal/score/parser/googlebuzz'

@@ -8,7 +8,6 @@ module Oursignal
       attribute :url,               Swift::Type::String
       attribute :title,             Swift::Type::String
       attribute :content_type,      Swift::Type::String
-      attribute :score_delicious,   Swift::Type::Float,    default: 0
       attribute :score_digg,        Swift::Type::Float,    default: 0
       attribute :score_facebook,    Swift::Type::Float,    default: 0
       attribute :score_frequency,   Swift::Type::Float,    default: 0

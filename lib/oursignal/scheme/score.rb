@@ -8,7 +8,6 @@ module Oursignal
       store :scores
       attribute :timestep_id,       Swift::Type::Integer, key: true
       attribute :link_id,           Swift::Type::Integer, key: true
-      attribute :score_delicious,   Swift::Type::Float,   default: 0
       attribute :score_digg,        Swift::Type::Float,   default: 0
       attribute :score_facebook,    Swift::Type::Float,   default: 0
       attribute :score_frequency,   Swift::Type::Float,   default: 0
