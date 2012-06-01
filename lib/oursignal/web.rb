@@ -19,10 +19,12 @@ module Oursignal
       end
     end
 
+
     set :root, Oursignal.root
     set :haml, escape_html: true, format: :html5
     set :scss, Compass.sass_engine_options
 
+    disable :protection # fu rack-protection, you hate being run through an nginx proxy.
     disable :raise_errors, :show_exceptions, :dump_errors
     enable  :sessions, :methodoverride
     enable  :static, :logging, :dump_errors if development?
