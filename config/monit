@@ -32,10 +32,10 @@ check process nginx with pidfile /var/run/nginx.pid
   if 5 restarts within 5 cycles then timeout
 
 # web
-check process web with pidfile /var/run/unicorn-oursignal.pid
+check process web with pidfile /tmp/oursignal-unicorn.pid
   group server
   start program = "/bin/su oursignal -c 'cd /home/oursignal/oursignal && /home/oursignal/oursignal/bin/oursignal-web start -E production'"
   stop  program = "/bin/su oursignal -c 'cd /home/oursignal/oursignal && /home/oursignal/oursignal/bin/oursignal-web stop'"
-  if failed unix /var/run/unicorn-oursignal.sock then restart
+  if failed unix /tmp/oursignal-unicorn.sock then restart
   if 5 restarts within 5 cycles then timeout
 
