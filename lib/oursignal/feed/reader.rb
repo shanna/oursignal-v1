@@ -21,7 +21,7 @@ module Oursignal
         sources.each do |source|
           parser = source.new
           parser.urls.each do |url|
-            puts '---', url.to_s
+            # puts '---', url.to_s
             easy = Curl::Easy.new(url) do |e|
               e.resolve_mode          = :ipv4 # IPv6 has issues on some sites!?
               e.verbose               = true  # XXX: Debug.
@@ -31,20 +31,20 @@ module Oursignal
 
               e.on_complete do |response|
                 begin
-                  puts 'feed:(%s) %d %4.2fkb %4.2fkb/s' % [
-                    response.url,
-                    response.response_code,
-                    response.downloaded_bytes / 1024,
-                    response.download_speed / 1024
-                  ]
+                  #puts 'feed:(%s) %d %4.2fkb %4.2fkb/s' % [
+                  #  response.url,
+                  #  response.response_code,
+                  #  response.downloaded_bytes / 1024,
+                  #  response.download_speed / 1024
+                  #]
                   parser.parse(force_utf8(body(response))) if response.response_code.to_s =~ /^2/
                 rescue => error
-                  warn ['Feed Reader GET Error:', error.message, *error.backtrace].join("\n")
+                  warn ['Feed Reader GET Error:', url.to_s, error.message, *error.backtrace].join("\n")
                 end
               end
 
               e.on_failure do |response, code|
-                warn ['Feed Reader GET Error:', code].join("\n")
+                warn ['Feed Reader GET Error:', url.to_s, code].join("\n")
               end
             end
             easy.perform
