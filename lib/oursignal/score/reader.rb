@@ -14,7 +14,7 @@ module Oursignal
     # TODO: Reader is almost identical to lib/oursignal/feed/reader.rb
     module Reader
       def self.perform
-        log     = File.open(File.join(Oursignal.root, 'tmp', 'score_reader.log'), 'w')
+        # log     = File.open(File.join(Oursignal.root, 'tmp', 'score_reader.log'), 'w')
         sources = Oursignal::Score::Parser.all
         links   = Link.execute(%q{
           select * from links
@@ -33,20 +33,20 @@ module Oursignal
               e.headers['User-Agent'] = Oursignal::USER_AGENT
               e.on_complete do |response|
                 begin
-                  puts 'score:(%s) %d %4.2fkb %4.2fkb/s' % [
-                    response.url,
-                    response.response_code,
-                    response.downloaded_bytes / 1024,
-                    response.download_speed / 1024
-                  ]
+                  #puts 'score:(%s) %d %4.2fkb %4.2fkb/s' % [
+                  #  response.url,
+                  #  response.response_code,
+                  #  response.downloaded_bytes / 1024,
+                  #  response.download_speed / 1024
+                  #]
                   # XXX Debugging for now.
-                  log.puts(
-                    '----',
-                    response.response_code,
-                    response.last_effective_url,
-                    force_utf8(body(response)),
-                    "\n\n"
-                  )
+                  #log.puts(
+                  #  '----',
+                  #  response.response_code,
+                  #  response.last_effective_url,
+                  #  force_utf8(body(response)),
+                  #  "\n\n"
+                  #)
                   parser.parse(force_utf8(body(response))) if response.response_code.to_s =~ /^2/
                 rescue => error
                   warn ['Score Reader GET Error:', error.message, *error.backtrace].join("\n")
@@ -57,7 +57,7 @@ module Oursignal
           end
         end
         multi.perform
-        log.close
+        # log.close
       end
 
       protected
