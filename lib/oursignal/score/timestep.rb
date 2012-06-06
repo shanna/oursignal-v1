@@ -101,8 +101,8 @@ module Oursignal
 
           # Not enough links in timestep? Ditch it.
           if scores_ts < 100
-            warn "Only %d scores, deleting timestep." % scores_ts
-            Oursignal.db.execute('delete from timesteps where id = ?', step.id)
+            warn "Only %d scores, ditching transaction." % scores_ts
+            Swift.db.rollback
           end
         end # .transaction
       end # .perform
