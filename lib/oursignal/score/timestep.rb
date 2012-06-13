@@ -12,14 +12,7 @@ require 'oursignal/timestep'
 module Oursignal
   class Score
     module Timestep
-      FIELDS = [
-        :score_digg,
-        :score_facebook,
-        :score_googlebuzz,
-        :score_reddit,
-        :score_twitter,
-        :score_ycombinator
-      ]
+      FIELDS = Score.sources
       ORIGIN = Array.new(FIELDS.size, 0.0)
 
       # Link lifetime from referred_at.

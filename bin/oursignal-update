@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 require_relative '../lib/oursignal/cli'
 require 'oursignal/feed/reader'
+require 'oursignal/score/buckets'
 require 'oursignal/score/reader'
 require 'oursignal/score/timestep'
-
 
 bin     = Oursignal::Cli.bin
 option  = (ARGV.shift || 'help').strip
@@ -27,6 +27,7 @@ case option
   when 'feed'     then Oursignal::Feed::Reader.perform
   when 'score'    then Oursignal::Score::Reader.perform
   when 'timestep' then Oursignal::Score::Timestep.perform
+  when 'buckets'  then Oursignal::Score::Buckets.perform
   else warn("#{bin}: '#{option}' is not an #{bin} option. See '#{bin} --help'.") && exit(-1)
 end
 

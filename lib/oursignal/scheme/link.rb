@@ -1,4 +1,5 @@
 require 'oursignal/scheme'
+require 'oursignal/scheme/score'
 
 module Oursignal
   class Scheme
@@ -8,17 +9,10 @@ module Oursignal
       attribute :url,               Swift::Type::String
       attribute :title,             Swift::Type::String
       attribute :content_type,      Swift::Type::String
-      attribute :score_digg,        Swift::Type::Float,    default: 0
-      attribute :score_facebook,    Swift::Type::Float,    default: 0
-      attribute :score_frequency,   Swift::Type::Float,    default: 0
-      attribute :score_freshness,   Swift::Type::Float,    default: 0
-      attribute :score_googlebuzz,  Swift::Type::Float,    default: 0
-      attribute :score_reddit,      Swift::Type::Float,    default: 0
-      attribute :score_twitter,     Swift::Type::Float,    default: 0
-      attribute :score_ycombinator, Swift::Type::Float,    default: 0
       attribute :updated_at,        Swift::Type::DateTime, default: proc{ Time.now }
       attribute :created_at,        Swift::Type::DateTime, default: proc{ Time.now }
       attribute :referred_at,       Swift::Type::DateTime, default: proc{ Time.now }
+      Score.sources.each{|source| attribute source, Swift::Type::Float, default: 0 }
     end # Link
   end # Scheme
 end # Oursignal
