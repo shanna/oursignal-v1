@@ -5,7 +5,7 @@ create table score_buckets(
 );
 
 alter table scores
-  add column bucket float
+  add column bucket float,
   drop column kmeans
 ;
 
