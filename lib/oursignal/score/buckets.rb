@@ -1,6 +1,6 @@
 require 'oursignal/score'
 require 'oursignal/score_bucket'
-require 'pp'
+
 module Oursignal
   class Score
     module Buckets

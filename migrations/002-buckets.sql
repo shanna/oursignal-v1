@@ -6,6 +6,7 @@ create table score_buckets(
 
 alter table scores
   add column bucket float
+  drop column kmeans
 ;
 
 alter table links

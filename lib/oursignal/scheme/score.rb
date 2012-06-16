@@ -20,7 +20,7 @@ module Oursignal
       store :scores
       attribute :timestep_id,       Swift::Type::Integer, key: true
       attribute :link_id,           Swift::Type::Integer, key: true
-      attribute :kmeans,            Swift::Type::Float,   default: 0
+      attribute :bucket,            Swift::Type::Float,   default: 0
       attribute :score,             Swift::Type::Float,   default: 0
       attribute :ema,               Swift::Type::Float,   default: 0
       attribute :velocity,          Swift::Type::Float,   default: 0
