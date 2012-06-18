@@ -106,20 +106,38 @@ var oursignal = (function ($, oursignal) {
       }
     }
 
+    // TODO: Hack job.
+    function link_colour(link) {
+      var count = 0;
+      $.each(link, function(k, v) {
+        if (k.match(/^score_/) && v > 0) {
+          count += 1;
+        }
+      });
+
+      switch (count) {
+        case 4: return '#cc3732';
+        case 3: return '#cc7674';
+        default: return '#1b1b1b';
+      };
+    }
+
     // TODO: Animation. Do it intersection style so existing ID's remain and morph?
     function layout() {
       var link,
           $link,
-          $entry;
+          $entry,
+          spread;
 
       $timestep.children().remove();
       for (var i = links_length; i > 0; i--) {
         link       = links[i - 1];
+        spread     = link_colour(link);
         $entry     = $('<a/>', {href: link.url, text: link.title});
         $container = $('<div/>').css({margin: 2, width: link.dx - 4, height: link.dy - 4}).append($entry);
         $link      = $('<li/>', {'data-link_id': link.id, 'data-link_score': link.score})
           .data(link)
-          .css({left: link.x, top: link.y, width: link.dx, height: link.dy})
+          .css({left: link.x, top: link.y, width: link.dx, height: link.dy, 'background-color': link_colour(link)})
           .append($container);
         $timestep.append($link);
 
