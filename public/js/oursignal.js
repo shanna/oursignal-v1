@@ -115,11 +115,15 @@ var oursignal = (function ($, oursignal) {
         }
       });
 
-      switch (count) {
-        case 4: return '#cc3732';
-        case 3: return '#cc7674';
-        default: return '#1b1b1b';
-      };
+      if (link.score > 0.2) {
+        if (count == 4) return '#cc3732';
+        if (count == 3) return '#cc7674';
+      }
+      if (link.score < 0.2) {
+        if (count == 2) return '#8fabcc';
+        if (count == 1) return '#3278cc';
+      }
+      return '#1b1b1b';
     }
 
     // TODO: Animation. Do it intersection style so existing ID's remain and morph?
