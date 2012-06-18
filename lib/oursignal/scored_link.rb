@@ -3,7 +3,7 @@ module Oursignal
     def self.find timestep_id, options = {}
       #--
       # TODO: View or stored procedure for this monster?
-      Oursignal.db.execute(%q{
+      links = Oursignal.db.execute(%q{
         select
           l.id,
           l.url,
@@ -25,6 +25,18 @@ module Oursignal
         order by s.score desc
         limit 50
       }, timestep_id)
+
+=begin
+      # Moved to JS for now.
+
+      # Log scale.
+      min = links.min{|a, b| a[:score] <=> b[:score]}[:score]
+      max = links.max{|a, b| a[:score] <=> b[:score]}[:score]
+      links.map do |link|
+        link[:score] = (Math.log(link[:score]) - Math.log(min)) / (Math.log(max) - Math.log(min))
+        link
+      end
+=end
     end
   end # ScoredLink
 end # Oursignal

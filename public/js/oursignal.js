@@ -155,7 +155,18 @@ var oursignal = (function ($, oursignal) {
       links_length = data.length;
       links.score  = 0;
 
-      for (var i = 0; i < links_length; i++) links.score += links[i].score;
+      // Log scale.
+      var scores = [];
+      for (i = 0; i < links_length; i++) { scores.push(links[i].score); }
+
+      var max     = Math.max.apply(Math, scores),
+          min     = Math.min.apply(Math, scores),
+          log_min = Math.log(min),
+          log_div = Math.log(max) - log_min;
+      for (i = 0; i < links_length; i++) {
+        links[i].score = (Math.log(links[i].score) - log_min) / log_div;
+        links.score += links[i].score;
+      }
 
       $(window).resize(function () {
         scale();
