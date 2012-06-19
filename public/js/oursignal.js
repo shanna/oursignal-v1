@@ -1,13 +1,17 @@
 /*
   Oursignal
+
+  TODO: Swipe code. Swipe up to close modal etc. Swipe to go forwards/back in time.
+  TODO: Timeline is only half complete so hidden for now. Click pagination in the meantime?
 */
 var oursignal = (function ($, oursignal) {
   var $timestep, $timeline;
 
   /*
-    Timestep
-      Most of squarify(), worst() and position() nicked from the d3 library.
-      http://mbostock.github.com/d3/
+    Timestep.
+
+    Most of squarify(), worst() and position() nicked from the d3 library.
+    http://mbostock.github.com/d3/
   */
   oursignal.timestep = (function (timestep) {
     var timestep_offset,
@@ -106,7 +110,10 @@ var oursignal = (function ($, oursignal) {
       }
     }
 
-    // TODO: Hack job.
+    // TODO: Hack job. Velocity colour was always faked and not the best indicator of 'hotness'.
+    // I have ideas but not the time, for now the number of sources will do.
+    // TODO: Colours. The blue draws attention to poor links, this isn't the best UX but the treemap looks shit without
+    // a bit of colour.
     function link_colour(link) {
       var count = 0;
       $.each(link, function(k, v) {
@@ -208,7 +215,17 @@ var oursignal = (function ($, oursignal) {
   })(oursignal.timestep || {});
 
   /*
-    Timeline
+    Meta modal.
+
+    I had Zurbs MIT licensed reveal plugin open when I wrote this. It's pretty much the same structure all modals use
+    though. https://github.com/zurb/reveal
+  */
+  oursignal.meta = (function (meta) {
+
+  })(oursignal.meta || {});
+
+  /*
+    Timeline.
   */
   oursignal.timeline = (function (timeline) {
     // TODO: Golf, document fragment, minimise appends etc.
