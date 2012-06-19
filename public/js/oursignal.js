@@ -142,7 +142,8 @@ var oursignal = (function ($, oursignal) {
         $link      = $('<li/>', {'data-link_id': link.id, 'data-link_score': link.score})
           .data(link)
           .css({left: link.x, top: link.y, width: link.dx, height: link.dy, 'background-color': link_colour(link)})
-          .append($container);
+          .append($container)
+          .click(function() { location.href = $entry.attr('href') });
         $timestep.append($link);
 
         // * You can't textfill till the element is added to the DOM.
