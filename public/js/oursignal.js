@@ -150,7 +150,7 @@ var oursignal = (function ($, oursignal) {
           .data(link)
           .css({left: link.x, top: link.y, width: link.dx, height: link.dy, 'background-color': link_colour(link)})
           .append($container)
-          .click(function() { location.href = $entry.attr('href') });
+          .click(oursignal.meta.open);
         $timestep.append($link);
 
         // * You can't textfill till the element is added to the DOM.
@@ -215,13 +215,35 @@ var oursignal = (function ($, oursignal) {
   })(oursignal.timestep || {});
 
   /*
-    Meta modal.
-
-    I had Zurbs MIT licensed reveal plugin open when I wrote this. It's pretty much the same structure all modals use
-    though. https://github.com/zurb/reveal
+    Meta data modal.
   */
   oursignal.meta = (function (meta) {
+    var $meta_background,
+        $meta_body,
+        $meta,
+        $body,
+        $link;
 
+    meta.open = function (event) {
+      $link = $(event.delegateTarget);
+      // link  = $link.data();
+
+      if (!$body)            $body            = $('#body');
+      if (!$meta)            $meta            = $('#meta');
+      if (!$meta_body)       $meta_body       = $('#meta > .body');
+      if (!$meta_background) $meta_background = $('#meta > .background');
+
+      $meta.show();
+      $meta_background.fadeTo(250, 0.5);
+      $meta_body.slideDown(500);
+    };
+
+    meta.close = function () {
+      $meta_background.fadeTo(250, 0);
+      $meta_body.slideUp(500);
+    };
+
+    return meta;
   })(oursignal.meta || {});
 
   /*
