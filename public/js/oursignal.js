@@ -116,11 +116,7 @@ var oursignal = (function ($, oursignal) {
     // a bit of colour.
     function link_colour(link) {
       var count = 0;
-      $.each(link, function(k, v) {
-        if (k.match(/^score_/) && v > 0) {
-          count += 1;
-        }
-      });
+      $.each(link['scores'], function(k, v) { if ( v > 0) count += 1; });
 
       if (link.score > 0.2) {
         if (count == 4) return '#cc3732';
