@@ -1,6 +1,7 @@
 require 'curb'
 require 'time'
 require 'zlib'
+require 'iconv'
 
 # Business.
 require 'oursignal/feed'
@@ -74,7 +75,8 @@ module Oursignal
         # TODO: Steal code from https://github.com/stateless-systems/metauri/blob/master/lib/metauri/location/resolve.rb
         def self.force_utf8 raw
           options = {invalid: :replace, undef: :replace}
-          raw.valid_encoding? ? raw.encode('utf-8', options) : raw.force_encoding('utf-8').encode('utf-8', options)
+          output  = raw.valid_encoding? ? raw.encode('utf-8', options) : raw.force_encoding('utf-8').encode('utf-8', options)
+          Iconv.new('UTF-8//TRANSLIT', 'UTF-8').conv(output)
         rescue => error
           warn ['Feed Reader UTF-8 Error:', error.message, *error.backtrace].join("\n")
           ''
