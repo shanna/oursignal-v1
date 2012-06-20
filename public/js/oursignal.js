@@ -240,7 +240,10 @@ var oursignal = (function ($, oursignal) {
 
       if (!$body)            $body            = $('#body');
       if (!$meta)            $meta            = $('#meta');
-      if (!$meta_body)       $meta_body       = $('#meta > .body');
+      if (!$meta_body) {
+        $meta_body = $('#meta > .body');
+        $meta_body.swipe({swipeUp: meta.close}).swipe('disable');
+      }
       if (!$meta_background) $meta_background = $('#meta > .background');
 
       // TODO: Animation chaining.
@@ -248,6 +251,7 @@ var oursignal = (function ($, oursignal) {
         $meta_background.fadeTo(100, 0.5, function () {
           $meta_body.slideDown(400, function () {
             layout(link);
+            $meta_body.swipe('enable');
           });
         });
       });
@@ -255,7 +259,7 @@ var oursignal = (function ($, oursignal) {
 
     meta.close = function () {
       // TODO: Cleaner animation chaining.
-      $meta_body.slideUp(400, function () {
+      $meta_body.swipe('disable').slideUp(400, function () {
         $meta_background.fadeTo(100, 0, function () {
           $meta.hide();
         });
