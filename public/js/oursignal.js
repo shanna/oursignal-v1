@@ -140,7 +140,7 @@ var oursignal = (function ($, oursignal) {
       for (var i = links_length; i > 0; i--) {
         link       = links[i - 1];
         spread     = link_colour(link);
-        $entry     = $('<a/>', {href: link.url, text: link.title});
+        $entry     = $('<a/>', {href: link.url, text: link.title}).click(oursignal.meta.open);
         $container = $('<div/>').css({margin: 2, width: link.dx - 4, height: link.dy - 4}).append($entry);
         $link      = $('<li/>', {'data-link_id': link.id, 'data-link_score': link.score})
           .data(link)
@@ -234,6 +234,7 @@ var oursignal = (function ($, oursignal) {
     }
 
     meta.open = function (event) {
+      event.preventDefault();
       $link  = $(event.delegateTarget);
       link   = $link.data();
 
