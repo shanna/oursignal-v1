@@ -212,31 +212,53 @@ var oursignal = (function ($, oursignal) {
 
   /*
     Meta data modal.
+
+    TODO: Locking.
+    TODO: JS template this shit.
   */
   oursignal.meta = (function (meta) {
     var $meta_background,
         $meta_body,
         $meta,
         $body,
-        $link;
+        $link,
+        locked = false;
+
+    function layout(link) {
+      $meta_body.html('');
+      $.embed.get(link['url'], function (preview) {
+        // TODO: Sweet we have content to embed.
+      });
+
+      $meta_body.append($('<button id="meta_close">close</button>').click(meta.close));
+    }
 
     meta.open = function (event) {
-      $link = $(event.delegateTarget);
-      // link  = $link.data();
+      $link  = $(event.delegateTarget);
+      link   = $link.data();
 
       if (!$body)            $body            = $('#body');
       if (!$meta)            $meta            = $('#meta');
       if (!$meta_body)       $meta_body       = $('#meta > .body');
       if (!$meta_background) $meta_background = $('#meta > .background');
 
-      $meta.show();
-      $meta_background.fadeTo(250, 0.5);
-      $meta_body.slideDown(500);
+      // TODO: Animation chaining.
+      $meta.show(function () {
+        $meta_background.fadeTo(100, 0.5, function () {
+          $meta_body.slideDown(400, function () {
+            layout(link);
+          });
+        });
+      });
     };
 
     meta.close = function () {
-      $meta_background.fadeTo(250, 0);
-      $meta_body.slideUp(500);
+      // TODO: Cleaner animation chaining.
+      $meta_body.slideUp(400, function () {
+        $meta_background.fadeTo(100, 0, function () {
+          $meta.hide();
+        });
+      });
     };
 
     return meta;
