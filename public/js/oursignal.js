@@ -7,6 +7,25 @@
 var oursignal = (function ($, oursignal) {
   var $timestep, $timeline;
 
+  // TODO: Hack job. Velocity colour was always faked and not the best indicator of 'hotness'.
+  // I have ideas but not the time, for now the number of sources will do.
+  // TODO: Colours. The blue draws attention to poor links, this isn't the best UX but the treemap looks shit without
+  // a bit of colour.
+  function link_colour(link) {
+    var count = 0;
+    $.each(link['scores'], function(k, v) { if ( v > 0) count += 1; });
+
+    if (link.score > 0.2) {
+      if (count == 4) return '#cc3732';
+      if (count == 3) return '#cc7674';
+    }
+    if (link.score < 0.2) {
+      if (count == 2) return '#8fabcc';
+      if (count == 1) return '#3278cc';
+    }
+    return '#1b1b1b';
+  }
+
   /*
     Timestep.
 
@@ -110,25 +129,6 @@ var oursignal = (function ($, oursignal) {
       }
     }
 
-    // TODO: Hack job. Velocity colour was always faked and not the best indicator of 'hotness'.
-    // I have ideas but not the time, for now the number of sources will do.
-    // TODO: Colours. The blue draws attention to poor links, this isn't the best UX but the treemap looks shit without
-    // a bit of colour.
-    function link_colour(link) {
-      var count = 0;
-      $.each(link['scores'], function(k, v) { if ( v > 0) count += 1; });
-
-      if (link.score > 0.2) {
-        if (count == 4) return '#cc3732';
-        if (count == 3) return '#cc7674';
-      }
-      if (link.score < 0.2) {
-        if (count == 2) return '#8fabcc';
-        if (count == 1) return '#3278cc';
-      }
-      return '#1b1b1b';
-    }
-
     // TODO: Animation. Do it intersection style so existing ID's remain and morph?
     function layout() {
       var link,
@@ -218,39 +218,66 @@ var oursignal = (function ($, oursignal) {
   */
   oursignal.meta = (function (meta) {
     var $meta_background,
+        $meta_head,
         $meta_body,
+        $meta_foot,
+        $meta_content,
         $meta,
         $body,
         $link,
         locked = false;
 
     function layout(link) {
-      $meta_body.html('');
+      $meta_content.html('');
+
+      // Sources.
+      var $sources_ul = $('<ul/>');
+      $.each(link['sources'], function (domain, url) {
+        $sources_ul.append($('<li/>').append($('<a/>', {href: url, text: domain})));
+      });
+      $meta_content.append('<h2>Sources</h2>', $sources_ul);
+
+      // Scores.
+      var $scores_ul = $('<ul/>');
+      $.each(link['scores'], function (site, score) {
+        $scores_ul.append($('<li/>').append(site, ': ', parseInt(score)));
+      });
+      $meta_content.append('<h2>Scores</h2>', $scores_ul);
+
       $.embed.get(link['url'], function (preview) {
-        // TODO: Sweet we have content to embed.
+        if (console.warn) console.warn(preview);
+        $meta_content.append($('<img/>', {'class': preview['type'], src: preview['url']}));
       });
 
-      $meta_body.append($('<button id="meta_close">close</button>').click(meta.close));
+      $meta_head.html($('<h1/>').append($('<a/>', {text: link['title'], href: link['url']})));
     }
 
+    meta.init = function () {
+      $body            = $('#body');
+      $meta            = $('#meta');
+      $meta_background = $('#meta > .background');
+      $meta_body       = $('#meta > .body');
+      $meta_head       = $('#meta .head');
+      $meta_content    = $('#meta .content');
+      $meta_foot       = $('#meta .foot');
+
+      $meta_body.swipe({swipeUp: meta.close}).swipe('disable');
+      $meta_foot.children('button').click(meta.close);
+    };
+
     meta.open = function (event) {
+      if (!$meta) meta.init();
+
       event.preventDefault();
       $link  = $(event.delegateTarget);
       link   = $link.data();
 
-      if (!$body)            $body            = $('#body');
-      if (!$meta)            $meta            = $('#meta');
-      if (!$meta_body) {
-        $meta_body = $('#meta > .body');
-        $meta_body.swipe({swipeUp: meta.close}).swipe('disable');
-      }
-      if (!$meta_background) $meta_background = $('#meta > .background');
 
       // TODO: Animation chaining.
       $meta.show(function () {
+        layout(link);
         $meta_background.fadeTo(100, 0.5, function () {
           $meta_body.slideDown(400, function () {
-            layout(link);
             $meta_body.swipe('enable');
           });
         });
