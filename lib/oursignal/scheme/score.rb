@@ -23,7 +23,6 @@ module Oursignal
       attribute :bucket,            Swift::Type::Float,   default: 0
       attribute :score,             Swift::Type::Float,   default: 0
       attribute :ema,               Swift::Type::Float,   default: 0
-      attribute :velocity,          Swift::Type::Float,   default: 0
       sources.each{|source| attribute source, Swift::Type::Float, default: 0 }
 
       def timestep; Timestep.get(id: timestep_id) end
