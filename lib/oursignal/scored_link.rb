@@ -12,6 +12,7 @@ module Oursignal
           l.referred_at,
           s.score_digg,
           s.score_facebook,
+          s.score_google,
           s.score_reddit,
           s.score_twitter,
           s.score_ycombinator,
@@ -28,6 +29,7 @@ module Oursignal
         link[:scores] = {
           digg:        link.delete(:score_digg),
           facebook:    link.delete(:score_facebook),
+          google:      link.delete(:score_google),
           reddit:      link.delete(:score_reddit),
           twitter:     link.delete(:score_twitter),
           ycombinator: link.delete(:score_ycombinator)
