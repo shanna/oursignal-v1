@@ -13,7 +13,7 @@ module Oursignal
         @links = links
       end
 
-      def parse source
+      def parse url, source
         raise NotImplementedError
       end
 
@@ -37,7 +37,7 @@ end # Oursignal
 # TODO: Fugly factory is fugly.
 require 'oursignal/score/parser/digg'
 require 'oursignal/score/parser/facebook'
-require 'oursignal/score/parser/googlebuzz'
+require 'oursignal/score/parser/google'
 require 'oursignal/score/parser/reddit'
 require 'oursignal/score/parser/twitter'
 # require 'oursignal/score/native/ycombinator'

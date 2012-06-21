@@ -17,7 +17,7 @@ module Oursignal
           urls
         end
 
-        def parse source
+        def parse url, source
           feed = Feed.find('http://digg.com') || return
           data = Yajl.load(source, symbolize_keys: true) || return
           (data[:stories] || []).each do |entry|

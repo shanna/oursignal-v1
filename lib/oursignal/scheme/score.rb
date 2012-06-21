@@ -8,7 +8,7 @@ module Oursignal
       SOURCES = [
         :score_digg,
         :score_facebook,
-        :score_googlebuzz,
+        :score_google,
         :score_reddit,
         :score_twitter,
         :score_ycombinator

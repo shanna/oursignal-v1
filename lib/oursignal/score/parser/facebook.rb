@@ -14,7 +14,7 @@ module Oursignal
           urls
         end
 
-        def parse source
+        def parse url, source
           data = Yajl.load(source, symbolize_keys: true) || return
           data.each do |entry|
             begin

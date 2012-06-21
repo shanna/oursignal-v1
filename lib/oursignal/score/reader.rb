@@ -47,7 +47,7 @@ module Oursignal
                   #  force_utf8(body(response)),
                   #  "\n\n"
                   #)
-                  parser.parse(force_utf8(body(response))) if response.response_code.to_s =~ /^2/
+                  parser.parse(response.url, force_utf8(body(response))) if response.response_code.to_s =~ /^2/
                 rescue => error
                   warn ['Score Reader GET Error:', error.message, *error.backtrace].join("\n")
                 end
