@@ -25,6 +25,11 @@ sub vcl_recv {
     unset req.http.Cache-Control;
   }
 
+  # Always cache media.
+  if (req.url ~ "\.(png|jpg|gif|css|js)$") {
+    return (lookup);
+  }
+
   return (lookup);
 }
 

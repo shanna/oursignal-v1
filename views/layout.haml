@@ -3,7 +3,7 @@
   %head
     %title!= page_title 'oursignal'
     %link{rel: 'icon', href: '/art/favicon.gif'}
-    %link{rel: 'stylesheet', href: '/css/screen.css', type: 'text/css'}
+    %link{rel: 'stylesheet', href: versioned_url('/css/screen.css'), type: 'text/css'}
     != haml :'_meta'
     != haml :'_javascript'
     - yield_content :head
