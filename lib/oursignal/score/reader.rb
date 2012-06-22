@@ -28,8 +28,9 @@ module Oursignal
           parser = source.new(links)
           parser.urls.each do |url|
             easy = Curl::Easy.new(url) do |e|
+              e.resolve_mode          = :ipv4 # IPv6 has issues on some sites!?
               e.follow_location       = true
-              e.timeout               = 5
+              e.timeout               = 60
               e.headers['User-Agent'] = Oursignal::USER_AGENT
               e.on_complete do |response|
                 begin
@@ -51,6 +52,9 @@ module Oursignal
                 rescue => error
                   warn ['Score Reader GET Error:', error.message, *error.backtrace].join("\n")
                 end
+              end
+              e.on_failure do |response, code|
+                warn ['Score Reader GET Error:', url.to_s, code].join("\n")
               end
             end
             multi.add easy
