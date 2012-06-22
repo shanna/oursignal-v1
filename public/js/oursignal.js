@@ -40,8 +40,8 @@ var oursignal = (function ($, oursignal) {
         other_controls_height,
         links,
         links_length,
-        round = Math.round,
-        ratio = 0.5 * (1 + Math.sqrt(5)); // Golden ratio.
+        round   = Math.round,
+        ratio   = 0.5 * (1 + Math.sqrt(5)); // Golden ratio.
 
     function worst(row, u) {
       var s    = row.area,
@@ -139,7 +139,8 @@ var oursignal = (function ($, oursignal) {
           $entry,
           spread;
 
-      $timestep.children().remove();
+      $timestep.html('');
+      // $timestep.children().remove();
       for (var i = links_length; i > 0; i--) {
         link       = links[i - 1];
         spread     = link_colour(link);
@@ -198,13 +199,30 @@ var oursignal = (function ($, oursignal) {
       }
 
       $(window).resize(function () {
+        $timestep.html('');
         scale();
         squarify();
         layout();
       }).resize();
     }
 
+    // Move out of timestep.
+    var $pulse_logo;
+    function pulse_logo () {
+      if (!$pulse_logo) {
+        $pulse_logo = $('<div/>', {id: 'pulse_logo'});
+        $('body').append($pulse_logo);
+      }
+
+      $pulse_logo
+        .queue('pulse_fx', function (next) { $(this).animate({opacity: 1}, 1500, 'swing', next); })
+        .queue('pulse_fx', function (next) { setTimeout(next, 1500); })
+        .queue('pulse_fx', function (next) { $(this).animate({opacity: 0}, 1500, 'swing', setTimeout(pulse_logo, 0)); })
+        .dequeue('pulse_fx');
+    }
+
     timestep.update = function (time) {
+      $(function () { pulse_logo(); });
       $.getJSON('/timestep.json', {time: time}, function (links) {
         $(function () { treemap(links); });
       });
