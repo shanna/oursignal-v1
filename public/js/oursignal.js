@@ -19,6 +19,9 @@ var oursignal = (function ($, oursignal) {
       if (count == 5) return '#cc3732';
       if (count == 4) return '#cc7674';
     }
+    if (link.score > 0.7) {
+      if (count == 3) return '#cc7674';
+    }
     if (link.score < 0.2) {
       if (count == 2) return '#8fabcc';
       if (count == 1) return '#3278cc';
