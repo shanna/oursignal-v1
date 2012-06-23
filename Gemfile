@@ -26,6 +26,7 @@ gem 'postrank-uri'
 
 group :development do
   gem 'unicorn'
+  gem 'watchr'
 end
 
 group :test do

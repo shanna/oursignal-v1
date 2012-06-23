@@ -36,6 +36,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    watchr (0.7)
     yajl-ruby (1.1.0)
 
 PLATFORMS
@@ -56,4 +57,5 @@ DEPENDENCIES
   sinatra
   swift
   unicorn
+  watchr
   yajl-ruby

@@ -1,0 +1,27 @@
+%h1
+  %a{href: @url}= @title
+
+%h2 Site
+%a{href: "http://#{@domain}"}= @domain
+
+%h2 Retrieved
+%time{datetime: @created_at}= @created_at
+
+%h2 Seen
+%time{datetime: @referred_at}= @referred_at
+
+%h2 Sources
+%ul
+  - for domain, url of @sources
+    %li
+      %a{href: url}= domain
+
+%h2 Scores
+%ul
+  - for site, score of @scores
+    %li
+      = "#{site}: #{parseInt(score)}"
+
+- if @tags.length > 0
+  Tags
+  %ul

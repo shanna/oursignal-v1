@@ -1,0 +1,6 @@
+watch('views/js/.*\.haml') do |file|
+  puts file
+  Dir.chdir('views/js') do
+    system %q{haml-coffee -i . -n this.oursignal.templates -o ../../public/js/templates.js}
+  end
+end

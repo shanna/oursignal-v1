@@ -250,28 +250,13 @@ var oursignal = (function ($, oursignal) {
         locked = false;
 
     function layout(link) {
-      $meta_content.html('');
-
-      // Sources.
-      var $sources_ul = $('<ul/>');
-      $.each(link['sources'], function (domain, url) {
-        $sources_ul.append($('<li/>').append($('<a/>', {href: url, text: domain})));
-      });
-      $meta_content.append('<h2>Sources</h2>', $sources_ul);
-
-      // Scores.
-      var $scores_ul = $('<ul/>');
-      $.each(link['scores'], function (site, score) {
-        $scores_ul.append($('<li/>').append(site, ': ', parseInt(score)));
-      });
-      $meta_content.append('<h2>Scores</h2>', $scores_ul);
-
+      $meta_content.html(oursignal.templates.meta(link));
+/*
       $.embed.get(link['url'], function (preview) {
         if (console.warn) console.warn(preview);
         $meta_content.append($('<img/>', {'class': preview['type'], src: preview['url']}));
       });
-
-      $meta_head.html($('<h1/>').append($('<a/>', {text: link['title'], href: link['url']})));
+*/
     }
 
     meta.init = function () {
