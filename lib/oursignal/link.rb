@@ -46,7 +46,7 @@ module Oursignal
               e.headers['User-Agent'] = Oursignal::USER_AGENT
             end
             doc = Yajl.load(curl.body_str, symbolize_keys: true)
-            return {summary: doc[:summary].first, tags: doc[:tags]}
+            return {summary: doc[:summary].first, tags: Yajl.dump(doc[:tags])}
           rescue => error
             warn 'ERROR: Dingus (%s): %s' % [url, error.inspect]
           end
