@@ -16,11 +16,11 @@ module Oursignal
       end
 
       def create attributes
-        if attributes[:content_type].nil? and !attributes[:url].nil?
-          super attributes.merge(content_type: content_type(attributes[:url]))
-        else
-          super attributes
+        unless attributes[:url].nil?
+          attributes.merge!(content_type: content_type(attributes[:url])) if attributes[:content_type].nil?
+          attributes.merge!(meta(attributes[:url])) if attributes[:content_type].to_s.match(/text\/html/)
         end
+        super attributes
       end
 
       #--
@@ -37,6 +37,23 @@ module Oursignal
 
       private
         #--
+        # TODO: Having this query not async is poor.
+        # Thanks for the API though Barney.
+        def meta url
+          begin
+            curl = Curl::Easy.perform('http://dingus.in/condense.js?uri=' + CGI.escape(url.to_s)) do |e|
+              e.timeout               = 30
+              e.headers['User-Agent'] = Oursignal::USER_AGENT
+            end
+            doc = Yajl.load(curl.body_str, symbolize_keys: true)
+            return {summary: doc[:summary].first, tags: doc[:tags]}
+          rescue => error
+            warn 'ERROR: Dingus (%s): %s' % [url, error.inspect]
+          end
+          {summary: '', tags: '[]'}
+        end
+
+        #--
         # TODO: Metauri is struggling under the load of TM lets not hit it just for a content_type.
         def content_type url
           begin
@@ -47,7 +64,7 @@ module Oursignal
             end
             curl.content_type.to_s.match(%r{(?:application|audio|image|text|video)/[^;]+}) || 'text/html'
           rescue => error
-            warn error
+            warn 'ERROR: Content Type (%s): %s' % [url, error.inspect]
             'text/html'
           end
         end

@@ -7,7 +7,10 @@ module Oursignal
         select
           l.id,
           l.url,
+          l.content_type,
           l.title,
+          l.summary,
+          l.tags,
           l.created_at,
           l.referred_at,
           s.score_digg,
