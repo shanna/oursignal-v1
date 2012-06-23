@@ -3,6 +3,7 @@
 @import 'compass/reset';
 @import 'compass/utilities/general/clearfix';
 @import 'compass/css3/box-shadow';
+@import 'compass/css3/transition';
 
 html, body { height: 100%; }
 
@@ -21,6 +22,15 @@ h2 { font-size: 16px; margin-bottom: 10px; }
   line-height: 30px;
   > * { margin: 1px 20px }
   @include single-box-shadow(#000, 0px, 20px, 50px);
+
+  a {
+    color: #5a5858;
+    font-weight: bold;
+    @include single-transition(color, .25s, linear);
+  }
+  a:hover {
+    color: #ccc;
+  }
 }
   #logo_oursignal {
     img { vertical-align: middle; margin-top: -3px; margin-right: 5px; }
@@ -31,7 +41,7 @@ h2 { font-size: 16px; margin-bottom: 10px; }
     ul.options {
       li {
         float: left;
-        padding-left: 16px; margin-left: 10px;
+        margin-left: 10px;
       }
     }
   }

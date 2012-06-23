@@ -222,9 +222,10 @@ var oursignal = (function ($, oursignal) {
     }
 
     timestep.update = function (time) {
-      $(function () { pulse_logo(); });
+      // TODO: Hack job loading animation. It always runs, stop it.
+      $(function () { if ($('#timestep').is('#timestep')) pulse_logo() });
       $.getJSON('/timestep.json', {time: time}, function (links) {
-        $(function () { treemap(links); });
+        $(function () { if ($('#timestep').is('#timestep')) treemap(links) });
       });
     };
 
