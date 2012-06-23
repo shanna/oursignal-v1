@@ -2,6 +2,7 @@
 @import 'compass/css3';
 @import 'compass/reset';
 @import 'compass/utilities/general/clearfix';
+@import 'compass/css3/box-shadow';
 
 html, body { height: 100%; }
 
@@ -16,10 +17,15 @@ h2 { font-size: 16px; margin-bottom: 10px; }
 // Layout.
 #head {
   height: 30px;
-  background-color: #111;
-  > * { margin: 8px 20px }
+  background-color: #1d1d1d;
+  line-height: 30px;
+  > * { margin: 1px 20px }
+  @include single-box-shadow(#000, 0px, 20px, 50px);
 }
-  #logo_oursignal { float: left; }
+  #logo_oursignal {
+    img { vertical-align: middle; margin-top: -3px; margin-right: 5px; }
+    float: left;
+  }
   #navigation {
     float: right;
     ul.options {
@@ -27,8 +33,6 @@ h2 { font-size: 16px; margin-bottom: 10px; }
         float: left;
         padding-left: 16px; margin-left: 10px;
       }
-      li.customize { background: url(/art/navigation_customize.png) no-repeat; }
-      li.about { background: url(/art/navigation_about.png) no-repeat; }
     }
   }
 
@@ -38,9 +42,7 @@ h2 { font-size: 16px; margin-bottom: 10px; }
 }
 
 // Content.
-#body {
-  z-index: 2;
-}
+#body { z-index: 2; }
 
   #page_about #body {
     margin: 20px;
