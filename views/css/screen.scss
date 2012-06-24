@@ -52,16 +52,22 @@ h2 { font-size: 16px; margin-bottom: 10px; }
 }
 
 // Content.
-#body { z-index: 2; }
+#body {}
 
-  #page_about #body {
+  #page_api #body, #page_about #body {
     margin: 20px;
-    line-height: 20px;
-    p { margin-bottom: 20px; }
+    color: #b0b0b0; line-height: 20px;
+
+    > * { margin: 10px 0; }
+    a { text-decoration: underline; }
+    h1, h2, h3, h4, h5 { color: #ddd; }
+    h2 { margin-top: 20px; }
     ul {
       padding: 0px; margin: 0 20px;
       list-style: disc;
     }
+    pre { padding: 10px; background-color: #1d1d1d; }
+    code { font-family: monospace; }
   }
 
   // This shit needs a ton of work.
