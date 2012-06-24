@@ -18,7 +18,7 @@ module Oursignal
       def create attributes
         unless attributes[:url].nil?
           attributes.merge!(content_type: content_type(attributes[:url])) if attributes[:content_type].nil?
-          attributes.merge!(meta(attributes[:url])) if attributes[:content_type].to_s.match(/text\/html/)
+          # attributes.merge!(meta(attributes[:url])) if attributes[:content_type].to_s.match(/text\/html/)
         end
         super attributes
       end
