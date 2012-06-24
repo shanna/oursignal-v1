@@ -17,6 +17,7 @@ module Oursignal
       end
 
       get('/about'){ haml :about}
+      get('/api'){ haml :api}
 
       get '/css/screen.css' do
         content_type 'text/css', charset: 'utf-8'

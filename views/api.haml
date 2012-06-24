@@ -1,0 +1,42 @@
+- content :title do
+  oursignal &raquo; api
+
+:markdown
+  # OurSignal API
+
+  You are free to use the timestep endpoint as long as you don't DOS the website I will never restrict access for competing visualizations so you can easily build and host your own.
+
+  ## Query
+  <pre>
+    <code>http://oursignal.com/timestep.json?time=[datetime]</code>
+  </pre>
+
+  ## Output
+  <pre>
+    <code>
+      [
+        {
+          "id":           9023,
+          "domain":       "slate.com",
+          "url":          "http://www.slate.com/articles/technology/technology/2011/01/space_invaders.html",
+          "content_type": "text/html",
+          "title":        "Two spaces after a period: Why you should never, ever do it.",
+          "retrieved_at": "2012-06-24T11:40:03+00:00",
+          "referred_at":  "2012-06-24T13:51:00+00:00",
+          "score":        0.869643554694637,
+          "scores":       {
+            "digg":        96.0,
+            "facebook":    13100.0,
+            "google":      499.0,
+            "reddit":      0.0,
+            "twitter":     2526.0,
+            "ycombinator": 0.0
+          },
+          "sources":      {
+            "digg.com": "http://digg.com/news/lifestyle/two_spaces_after_a_period_why_you_should_never_ever_do_it_1"
+          }
+        },
+        ...
+      ]
+    </code>
+  </pre>

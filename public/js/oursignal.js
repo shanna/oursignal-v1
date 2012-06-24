@@ -274,7 +274,7 @@ var oursignal = (function ($, oursignal) {
       $meta_foot       = $('#meta .foot');
 
       $meta_body.swipe({swipeUp: meta.close}).swipe('disable');
-      $meta_foot.children('button').click(meta.close);
+      $meta_foot.click(meta.close);
     };
 
     meta.open = function (event) {
@@ -289,7 +289,7 @@ var oursignal = (function ($, oursignal) {
       $meta.show(function () {
         layout(link);
         $meta_background.fadeTo(100, 0.5, function () {
-          $meta_body.slideDown(400, function () {
+          $meta_body.slideDown(400, 'swing', function () {
             $meta_body.swipe('enable');
           });
         });
@@ -298,7 +298,7 @@ var oursignal = (function ($, oursignal) {
 
     meta.close = function () {
       // TODO: Cleaner animation chaining.
-      $meta_body.swipe('disable').slideUp(400, function () {
+      $meta_body.swipe('disable').slideUp(400, 'swing', function () {
         $meta_background.fadeTo(100, 0, function () {
           $meta.hide();
         });

@@ -1,10 +1,11 @@
 %header
   %h1
     %a{href: @url}= @title
-%aside
-  %div.screenshot
-    %img{src: "screenshots/#{@id}.png", title: @title, width: '336', height: '216'}
 
+%div.screenshot
+  %img{src: "screenshots/#{@id}.png", title: @title, width: '336', height: '216'}
+
+%aside
   %h2
     %a{href: "http://#{@domain}"}= @domain
 
@@ -16,10 +17,8 @@
     %tbody
       - for domain, url of @sources
         %tr
-          %td.domain
-            %a{href: "http://#{domain}"}= domain
-          %td.url
-            %a{href: url}= url
+          %td
+            %a{href: url}= domain
 
   %table.scores
     %caption Scores
