@@ -35,7 +35,7 @@
       _ref2 = this.sources;
       for (domain in _ref2) {
         url = _ref2[domain];
-        $o.push("      <tr>\n        <td class='domain'>\n          <a href='http://" + domain + "'>" + ($e($c(domain))) + "</a>\n          <a href='" + ($e($c(url))) + "'>" + ($e($c(url))) + "</a>\n        </td>\n      </tr>");
+        $o.push("      <tr>\n        <td class='domain'>\n          <a href='http://" + domain + "'>" + ($e($c(domain))) + "</a>\n        </td>\n        <td class='url'>\n          <a href='" + ($e($c(url))) + "'>" + ($e($c(url))) + "</a>\n        </td>\n      </tr>");
       }
       $o.push("    </tbody>\n  </table>\n  <table class='scores'>\n    <caption>Scores</caption>\n    <tbody>");
       _ref3 = this.scores;
