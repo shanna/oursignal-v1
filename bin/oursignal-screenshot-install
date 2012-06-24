@@ -1,0 +1,35 @@
+#!/bin/bash
+
+function download() {
+  wget -c $uri
+}
+
+root=$(readlink -f $(dirname $0)/..)
+path=phantomjs-1.6.0-linux-x86_64-dynamic
+file=$path.tar.bz2
+uri=http://phantomjs.googlecode.com/files/$file
+
+mkdir -p $root/vendor
+cd $root/vendor
+
+if [ -r $file ]; then
+  want_bytes=$(curl -v -XHEAD $uri 2>&1 | grep Content-Length | sed 's/[^0-9]*//g')
+  read_bytes=$(stat --format %s $file)
+
+  if [ $want_bytes != $read_bytes ]; then
+    download
+  else
+    echo "already downloaded, extracting ..."
+  fi
+else
+  download
+fi
+
+if [ "x$?" == "x0" ]; then
+  tar xvfpj $file
+  cd $root/bin && ln -s ../vendor/$path/bin/phantomjs
+  cd $root
+  exit 0
+fi
+
+exit 1

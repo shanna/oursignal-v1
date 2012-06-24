@@ -4,6 +4,9 @@ require 'uri/sanitize'
 # Schema.
 require 'oursignal/scheme/link'
 
+# PhantomJS
+require 'oursignal/screenshot'
+
 module Oursignal
   class Link < Scheme::Link
     def match? match_url
@@ -20,7 +23,9 @@ module Oursignal
           attributes.merge!(content_type: content_type(attributes[:url])) if attributes[:content_type].nil?
           # attributes.merge!(meta(attributes[:url])) if attributes[:content_type].to_s.match(/text\/html/)
         end
-        super attributes
+        link = super attributes
+        Screenshot.generate(link) rescue warn($!)
+        link
       end
 
       #--
