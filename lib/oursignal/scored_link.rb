@@ -37,7 +37,7 @@ module Oursignal
           twitter:     link.delete(:score_twitter),
           ycombinator: link.delete(:score_ycombinator)
         }
-        link[:tags]   = Yajl.load(link[:tags]) rescue []
+        # link[:tags]   = Yajl.load(link[:tags]) rescue []
         link[:domain] = URI.domain(link[:url]) rescue nil
 
         # TODO: Cache against the link?
