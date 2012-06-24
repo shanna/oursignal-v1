@@ -1,9 +1,14 @@
-%script{src: '/js/jquery-1.7.2.js'}
-%script{src: versioned_url('/js/jquery-textfill.js')}
-%script{src: versioned_url('/js/jquery-oembed.js')}
-%script{src: versioned_url('/js/jquery-embed.js')}
-%script{src: versioned_url('/js/jquery.touchSwipe.js')}
-%script{src: versioned_url('/js/templates.js')}
-%script{src: versioned_url('/js/oursignal.js')}
+%script{src: 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'}
+- if production?
+  %script{src: versioned_url('/js/oursignal.min.js')}
+- else
+  %script{src: versioned_url('/js/jquery-textfill.js')}
+  - # %script{src: versioned_url('/js/jquery-oembed.js')}
+  - # %script{src: versioned_url('/js/jquery-embed.js')}
+  %script{src: versioned_url('/js/jquery-brokenimage.js')}
+  %script{src: versioned_url('/js/moment.js')}
+  %script{src: versioned_url('/js/jquery.touchSwipe.js')}
+  %script{src: versioned_url('/js/templates.js')}
+  %script{src: versioned_url('/js/oursignal.js')}
 /[if lt IE 9]
   %script{src: 'http://html5shiv.googlecode.com/svn/trunk/html5.js'}
