@@ -11,7 +11,7 @@
 
   this.oursignal.templates['meta'] = function(context) {
     return (function() {
-      var $c, $e, $o, domain, score, site, url, _ref2, _ref3;
+      var $c, $e, $o, $p, domain, score, site, url, _ref2, _ref3;
       $e = function(text, escape) {
         return ("" + text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&apos;').replace(/"/g, '&quot;');
       };
@@ -27,26 +27,24 @@
             return text;
         }
       };
+      $p = function(text) {
+        return text.replace(/\n/g, '&#x000A;');
+      };
       $o = [];
-      $o.push("<h1>\n  <a href='" + ($e($c(this.url))) + "'>" + ($e($c(this.title))) + "</a>\n</h1>\n<h2>Site</h2>\n<a href='http://" + this.domain + "'>" + ($e($c(this.domain))) + "</a>\n<h2>Retrieved</h2>\n<time datetime='" + ($e($c(this.created_at))) + "'>" + ($e($c(this.created_at))) + "</time>\n<h2>Seen</h2>\n<time datetime='" + ($e($c(this.referred_at))) + "'>" + ($e($c(this.referred_at))) + "</time>\n<h2>Sources</h2>\n<ul>");
+      $o.push("<header>\n  <h1>\n    <a href='" + ($e($c(this.url))) + "'>" + ($e($c(this.title))) + "</a>\n  </h1>\n</header>\n<aside>\n  <div class='screenshot'>\n    <img src='screenshots/" + this.id + ".png' title='" + ($e($c(this.title))) + "' width='336' height='216'>\n  </div>\n  <h2>\n    <a href='http://" + this.domain + "'>" + ($e($c(this.domain))) + "</a>\n  </h2>\n  <abbr class='retrieved_at' title='" + ($e($c(this.retrieved_at))) + "'>\n  <time datetime='" + ($e($c(this.retrieved_at))) + "'>" + ($p($e($c(this.retrieved_at)))) + "</time>\n  </abbr>\n  <table class='sources'>\n    <caption>Sources</caption>\n    <tbody>");
       _ref2 = this.sources;
       for (domain in _ref2) {
         url = _ref2[domain];
-        $o.push("  <li>\n    <a href='" + ($e($c(url))) + "'>" + ($e($c(domain))) + "</a>\n  </li>");
+        $o.push("      <tr>\n        <td class='domain'>\n          <a href='http://" + domain + "'>" + ($e($c(domain))) + "</a>\n          <a href='" + ($e($c(url))) + "'>" + ($e($c(url))) + "</a>\n        </td>\n      </tr>");
       }
-      $o.push("</ul>\n<h2>Scores</h2>\n<ul>");
+      $o.push("    </tbody>\n  </table>\n  <table class='scores'>\n    <caption>Scores</caption>\n    <tbody>");
       _ref3 = this.scores;
       for (site in _ref3) {
         score = _ref3[site];
-        $o.push("  <li>");
-        $o.push("    " + $e($c("" + site + ": " + (parseInt(score)))));
-        $o.push("  </li>");
+        $o.push("      <tr>\n        <td class='site'>" + ($p($e($c(site)))) + "</td>\n        <td class='score'>" + ($p($e($c(parseInt(score))))) + "</td>\n      </tr>");
       }
-      $o.push("</ul>");
-      if (this.tags.length > 0) {
-        $o.push("Tags\n<ul></ul>");
-      }
-      return $o.join("\n").replace(/\s(\w+)='true'/mg, ' $1').replace(/\s(\w+)='false'/mg, '');
+      $o.push("    </tbody>\n  </table>\n</aside>");
+      return $o.join("\n").replace(/\s(\w+)='true'/mg, ' $1').replace(/\s(\w+)='false'/mg, '').replace(/[\s\n]*\u0091/mg, '').replace(/\u0092[\s\n]*/mg, '');
     }).call(context);
   };
 

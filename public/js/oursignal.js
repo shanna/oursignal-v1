@@ -141,7 +141,8 @@ var oursignal = (function ($, oursignal) {
 
       $timestep.html('');
       // $timestep.children().remove();
-      for (var i = links_length; i > 0; i--) {
+      // TODO: There is an off by one issue in the treemap code, I end up with one box outside the viewable area.
+      for (var i = links_length; i > 1; i--) {
         link       = links[i - 1];
         spread     = link_colour(link);
         $entry     = $('<a/>', {href: link.url, text: link.title}).click(oursignal.meta.open);
@@ -236,11 +237,10 @@ var oursignal = (function ($, oursignal) {
     Meta data modal.
 
     TODO: Locking.
-    TODO: JS template this shit.
+    TODO: JS template all this shit.
   */
   oursignal.meta = (function (meta) {
     var $meta_background,
-        $meta_head,
         $meta_body,
         $meta_foot,
         $meta_content,
@@ -251,6 +251,12 @@ var oursignal = (function ($, oursignal) {
 
     function layout(link) {
       $meta_content.html(oursignal.templates.meta(link));
+      $meta_content.find('.screenshot img').brokenImage();
+      $meta_content.find('.retrieved_at time').each(function (index, time) {
+        var $time = $(time), ts = moment($time.attr('datetime'));
+        if (!ts) return;
+        $time.html('Retrieved ' + ts.fromNow() + ', ' + ts.format('LLL') + '.');
+      });
 /*
       $.embed.get(link['url'], function (preview) {
         if (console.warn) console.warn(preview);
@@ -264,7 +270,6 @@ var oursignal = (function ($, oursignal) {
       $meta            = $('#meta');
       $meta_background = $('#meta > .background');
       $meta_body       = $('#meta > .body');
-      $meta_head       = $('#meta .head');
       $meta_content    = $('#meta .content');
       $meta_foot       = $('#meta .foot');
 

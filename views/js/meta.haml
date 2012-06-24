@@ -1,27 +1,29 @@
-%h1
-  %a{href: @url}= @title
+%header
+  %h1
+    %a{href: @url}= @title
+%aside
+  %div.screenshot
+    %img{src: "screenshots/#{@id}.png", title: @title, width: '336', height: '216'}
 
-%h2 Site
-%a{href: "http://#{@domain}"}= @domain
+  %h2
+    %a{href: "http://#{@domain}"}= @domain
 
-%h2 Retrieved
-%time{datetime: @created_at}= @created_at
+  %abbr.retrieved_at{title: @retrieved_at}<
+    %time{datetime: @retrieved_at}<= @retrieved_at
 
-%h2 Seen
-%time{datetime: @referred_at}= @referred_at
+  %table.sources
+    %caption Sources
+    %tbody
+      - for domain, url of @sources
+        %tr
+          %td.domain
+            %a{href: "http://#{domain}"}= domain
+            %a{href: url}= url
 
-%h2 Sources
-%ul
-  - for domain, url of @sources
-    %li
-      %a{href: url}= domain
-
-%h2 Scores
-%ul
-  - for site, score of @scores
-    %li
-      = "#{site}: #{parseInt(score)}"
-
-- if @tags.length > 0
-  Tags
-  %ul
+  %table.scores
+    %caption Scores
+    %tbody
+      - for site, score of @scores
+        %tr
+          %td.site<= site
+          %td.score<= parseInt(score)
