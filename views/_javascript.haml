@@ -1,5 +1,5 @@
 %script{src: 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'}
-- if production?
+- if self.class.production?
   %script{src: versioned_url('/js/oursignal.min.js')}
 - else
   %script{src: versioned_url('/js/jquery-textfill.js')}
