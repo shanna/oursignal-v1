@@ -123,6 +123,11 @@ h2 { font-size: 16px; margin-bottom: 10px; }
         display: block; position: absolute; bottom: 30px;
         width: 100%; height: 50px;
         color: #ddd; background-color: #383838; border: 0; font-size: 18px; text-align: center; text-transform: lowercase;
+
+        sup {
+          vertical-align: super;
+          font-size: 10px;
+        }
       }
     }
     .background {

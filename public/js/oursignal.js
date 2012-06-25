@@ -275,6 +275,9 @@ var oursignal = (function ($, oursignal) {
 
       $meta_body.swipe({swipeUp: meta.close}).swipe('disable');
       $meta_foot.click(meta.close);
+      $(document).keydown(function (event) {
+         if (event.keyCode == 27 && $meta.is(':visible')) meta.close();
+      });
     };
 
     meta.open = function (event) {
