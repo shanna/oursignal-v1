@@ -234,6 +234,46 @@ var oursignal = (function ($, oursignal) {
   })(oursignal.timestep || {});
 
   /*
+    Options.
+  */
+  oursignal.options = (function (options) {
+    var $open_meta, $open_blank;
+    options.open_meta  = true;
+    options.open_blank = true;
+
+    function save () {
+      $.cookie('oursignal', {open_meta: options.open_meta, open_blank: options.open_blank}, {expires: 315569520000, path: '/'});
+    }
+
+    function load () {
+      if ($.cookie('oursignal')) {
+        $.each($.cookie('oursignal'), function (key, value) {
+          options[key] = value;
+        });
+      }
+    }
+
+    options.init = function () {
+      $(function () {
+        $open_meta = $('#open_meta').change(function () {
+          options.open_meta = $(this).prop('checked');
+          save();
+        });
+        $open_blank = $('#open_blank').change(function () {
+          options.open_blank = $(this).prop('checked');
+          save();
+        });
+
+        load();
+        $open_meta.prop('checked', options.open_meta);
+        $open_blank.prop('checked', options.open_blank);
+      });
+    };
+
+    return options;
+  })(oursignal.options || {});
+
+  /*
     Meta data modal.
 
     TODO: Locking.
@@ -246,8 +286,7 @@ var oursignal = (function ($, oursignal) {
         $meta_content,
         $meta,
         $body,
-        $link,
-        locked = false;
+        $link;
 
     function layout(link) {
       $meta_content.html(oursignal.templates.meta(link));
@@ -256,6 +295,10 @@ var oursignal = (function ($, oursignal) {
         var $time = $(time), ts = moment($time.attr('datetime'));
         if (!ts) return;
         $time.html('Retrieved ' + ts.fromNow() + ', ' + ts.format('LLL') + '.');
+      });
+      $meta_content.find('a[rel="external"]').click(function (event) {
+        event.preventDefault();
+        window.open(link.url, (oursignal.options.open_blank ? '_blank' : '_self'));
       });
 /*
       $.embed.get(link['url'], function (preview) {
@@ -287,6 +330,9 @@ var oursignal = (function ($, oursignal) {
       $link  = $(event.delegateTarget);
       link   = $link.data();
 
+      if (!oursignal.options.open_meta) {
+        return window.open(link.url, (oursignal.options.open_blank ? '_blank' : '_self'));
+      }
 
       // TODO: Animation chaining.
       $meta.show(function () {
@@ -369,6 +415,7 @@ var oursignal = (function ($, oursignal) {
 
   // Display current timestep and timeline.
   oursignal.now = function () {
+    oursignal.options.init();
     oursignal.timestep.update();
     // oursignal.timeline.update();
   };

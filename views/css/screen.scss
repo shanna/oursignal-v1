@@ -50,7 +50,7 @@ h2 { font-size: 16px; margin-bottom: 10px; }
 // Content.
 #body {}
 
-  #page_api #body, #page_about #body {
+  #page_api #body, #page_about #body, #page_options #body {
     margin: 20px;
     color: #b0b0b0; line-height: 20px;
 
@@ -64,6 +64,19 @@ h2 { font-size: 16px; margin-bottom: 10px; }
     }
     pre { padding: 10px; background-color: #1d1d1d; }
     code { font-family: monospace; }
+  }
+
+  #page_options #body {
+    > div { margin-top: 20px; }
+    input { float: left; margin-left: 0; margin-right: 0; }
+    label { display: block; margin-left: 30px; font-size: 14px; font-weight: bold; }
+    dl {
+      font-size: 12px;
+      margin: 8px 20px 20px 30px;
+
+      dt { font-style: italic; }
+      dd { margin-left: 10px; }
+    }
   }
 
   // This shit needs a ton of work.

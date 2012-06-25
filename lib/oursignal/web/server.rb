@@ -16,6 +16,7 @@ module Oursignal
         Yajl.dump @links.to_a
       end
 
+      get('/options'){ haml :options }
       get('/about'){ haml :about}
       get('/api'){ haml :api}
 

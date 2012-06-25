@@ -1,13 +1,14 @@
 %header
   %h1
-    %a{href: @url, target: '_blank'}= @title
+    %a{href: @url, target: '_blank', rel: 'external'}= @title
 
 %div.screenshot
-  %img{src: "screenshots/#{@id}.png", title: @title, width: '336', height: '216'}
+  %a{href: @url, target: '_blank', rel: 'external'}
+    %img{src: "screenshots/#{@id}.png", title: @title, width: '336', height: '216'}
 
 %aside
   %h2
-    %a{href: "http://#{@domain}", target: '_blank'}= @domain
+    %a{href: "http://#{@domain}", target: '_blank', rel: 'external'}= @domain
 
   %abbr.retrieved_at{title: @retrieved_at}<
     %time{datetime: @retrieved_at}<= @retrieved_at
@@ -18,7 +19,7 @@
       - for domain, url of @sources
         %tr
           %td
-            %a{href: url, target: '_blank'}= domain
+            %a{href: url, target: '_blank', rel: 'external'}= domain
 
   %table.scores
     %caption Scores

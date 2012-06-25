@@ -1,0 +1,22 @@
+- content :title do
+  oursignal &raquo; options
+
+%h1 Options
+
+%div
+  %input#open_meta{type: :checkbox, checked: :checked}
+  %label{for: :open_meta} Open meta-data.
+  %dl
+    %dt enabled:
+    %dd Show intermediate meta-info page. Useful if you want to be able to sources of the link (digg, reddit etc.) The downside is it takes one extra click to get to the content.
+    %dt disabled:
+    %dd Straight to the content for me, I don't care about the meta data.
+
+%div
+  %input#open_blank{type: :checkbox, checked: :checked}
+  %label{for: :open_blank} Open in new tab.
+  %dl
+    %dt enabled:
+    %dd Open links in new tab (_blank).
+    %dt disabled:
+    %dd Open links in the current tab.
