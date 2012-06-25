@@ -50,6 +50,11 @@ h2 { font-size: 16px; margin-bottom: 10px; }
 // Content.
 #body {}
 
+  #page_not_found, #page_exception {
+    margin: 20px;
+    text-align: center;
+  }
+
   #page_api #body, #page_about #body, #page_options #body {
     margin: 20px;
     color: #b0b0b0; line-height: 20px;

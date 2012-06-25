@@ -32,6 +32,10 @@ module Oursignal
     error Sinatra::NotFound do
       haml :not_found
     end
+
+    error do
+      haml :exception
+    end
   end # Web
 end # Oursignal
 
