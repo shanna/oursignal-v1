@@ -8,6 +8,8 @@ module Oursignal
       LAST_MODIFIED = Time.now
 
       get '/' do
+        expires 86_400
+        last_modified LAST_MODIFIED
         haml :oursignal
       end
 
