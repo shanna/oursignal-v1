@@ -5,7 +5,7 @@ require 'oursignal/web'
 module Oursignal
   class Web
     class Server < Web
-      ETAG = Time.now.to_i
+      LAST_MODIFIED = Time.now
 
       get '/' do
         haml :oursignal
@@ -22,25 +22,25 @@ module Oursignal
 
       get('/options') do
         expires 86_400
-        etag ETAG
+        last_modified LAST_MODIFIED
         haml :options
       end
 
       get('/about') do
         expires 86_400
-        etag ETAG
+        last_modified LAST_MODIFIED
         haml :about
       end
 
       get('/api') do
         expires 86_400
-        etag ETAG
+        last_modified LAST_MODIFIED
         haml :api
       end
 
       get '/css/screen.css' do
         expires 86_400
-        etag ETAG
+        last_modified LAST_MODIFIED
         content_type 'text/css', charset: 'utf-8'
         scss :'css/screen', style: :compact, line_comments: false
       end
