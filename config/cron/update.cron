@@ -3,7 +3,10 @@ SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 # Buckets!
-*/10 * * * * cd /home/oursignal/oursignal && ./bin/oursignal-update buckets
+5,15,25,35,45,55 * * * * cd /home/oursignal/oursignal && ./bin/oursignal-update buckets
 
-# Schedule an update every 15 minutes.
-*/10 * * * * cd /home/oursignal/oursignal && ./bin/oursignal-update all
+# Schedule an update every 10 minutes.
+0,10,20,30,40,50 * * * * cd /home/oursignal/oursignal && ./bin/oursignal-update all
+
+# Schedule killer every 5 minutes.
+*/5 * * * * cd /home/oursignal/oursignal && ./bin/oursignal-killer
