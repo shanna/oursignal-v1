@@ -145,13 +145,15 @@ var oursignal = (function ($, oursignal) {
       for (var i = links_length; i > 1; i--) {
         link       = links[i - 1];
         spread     = link_colour(link);
-        $entry     = $('<a/>', {href: link.url, text: link.title}).click(oursignal.meta.open);
-        $container = $('<div/>').css({margin: 2, width: link.dx - 4, height: link.dy - 4}).append($entry);
+        $entry     = $('<span/>', {text: link.title});
+        $container = $('<a/>', {href: link.url})
+          .css({display: 'block', margin: 2, width: link.dx - 4, height: link.dy - 4})
+          .append($entry)
+          .click(oursignal.meta.open);
         $link      = $('<li/>', {'data-link_id': link.id, 'data-link_score': link.score})
           .data(link)
           .css({left: link.x, top: link.y, width: link.dx, height: link.dy, 'background-color': link_colour(link)})
-          .append($container)
-          .click(oursignal.meta.open);
+          .append($container);
         $timestep.append($link);
 
         // * You can't textfill till the element is added to the DOM.
@@ -324,11 +326,13 @@ var oursignal = (function ($, oursignal) {
     };
 
     meta.open = function (event) {
+      if (event.which != 1) return; // If middle click go with default handling.
+
       if (!$meta) meta.init();
 
       event.preventDefault();
-      $link  = $(event.delegateTarget);
-      link   = $link.data();
+      $link = $(this).closest('li');
+      link  = $link.data();
 
       if (!oursignal.options.open_meta) {
         return window.open(link.url, (oursignal.options.open_blank ? '_blank' : '_self'));
