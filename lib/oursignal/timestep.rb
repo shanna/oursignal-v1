@@ -27,7 +27,7 @@ module Oursignal
         from timesteps
         order by id desc
         limit 1
-      })
+      }).first
     end
   end # Timestep
 end # oursignal
