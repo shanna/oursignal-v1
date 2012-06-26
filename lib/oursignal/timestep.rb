@@ -20,5 +20,14 @@ module Oursignal
         else find(DateTime.parse(id.to_s)) rescue find(id.to_s.to_i)
       end
     end
+
+    def self.now
+      execute(%q{
+        select *
+        from timesteps
+        order by id desc
+        limit 1
+      })
+    end
   end # Timestep
 end # oursignal
