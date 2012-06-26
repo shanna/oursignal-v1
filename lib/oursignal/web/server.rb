@@ -15,7 +15,12 @@ module Oursignal
 
       get '/timestep.json' do
         content_type :json
-        @timestep = Timestep.find(params[:time] || Time.now) or raise Sinatra::NotFound
+
+        if params[:time]
+          @timestep = Timestep.find(params[:time]) or raise Sinatra::NotFound
+        else
+          @timestep = Timestep.now or raise Sinatra::NotFound
+        end
 
         etag @timestep.id
         @links    = ScoredLink.find @timestep.id
