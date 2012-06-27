@@ -7,6 +7,7 @@
 
 body { color: #ccc; background: #0f0f0f url('/art/background.jpg') repeat; font-family: Helvetica, Arial, sans-serif; font-size: 12px; -webkit-font-smoothing: antialiased; }
 a, a:visited { color: #ddd; text-decoration: none; }
+a:visited { text-decoration: line-through; }
 
 h1 { font-size: 20px; margin-bottom: 10px; }
 h2 { font-size: 16px; margin-bottom: 10px; }
