@@ -4,19 +4,20 @@
 # ps xh --sort=start_time -o pid,etime,args
 f = IO.popen('/bin/ps h -eo pid,etime,args')
 f.readlines.each do |ps|
-  pid, etime, args = ps.split
-  next unless args.match(%r{ruby|phantomjs})             # The two bins that hang from time to time.
-  next unless args.match(%r{/oursignal/oursignal/bin/}) # Only oursignal ones though.
+  pid, etime, args = ps.match(/(\d+)\s+([^\s]+)\s+(.*?)$/)[1..3]
+  next unless args.match(%r{ruby|phantomjs})  # The two bins that hang from time to time.
+  next unless args.match(%r{bin/oursignal\-}) # Only oursignal ones though.
 
   # Unfuck etime format [[DD-]hh:]mm:ss into seconds.
   days, hours, minutes, seconds = etime.match(%r{(?:(\d+)-)?(?:(\d+):)?(\d+):(\d+)})[1..4].map(&:to_i)
   elapsed = seconds + (minutes * 60) + (hours * 3_600) + (days * 86_400)
 
   if elapsed > 1_200 # twenty minutes
-    puts 'etime:%12s! kill -9 %-6d, args:%s' % [etime, pid, args]
-    # %x{/bin/kill -9 #{pid}}
+    puts 'etime:%12s! kill -9 %-6d args: %s' % [etime, pid, args]
+    %x{/bin/kill -9 #{pid}}
   elsif elapsed > 600   # ten minutes
-    puts 'etime:%12s! kill %-6d,    args:%s' % [etime, pid, args]
-    # %x{/bin/kill #{pid}}
+    puts 'etime:%12s! kill %-6d    args: %s' % [etime, pid, args]
+    %x{/bin/kill #{pid}}
   end
 end
+
