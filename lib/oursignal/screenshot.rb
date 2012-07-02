@@ -28,7 +28,12 @@ module Oursignal
         end
       rescue Timeout::Error
         warn "Timed out screenshotting #{link.url}"
+        # Not ideal at all.
+        system('/bin/killall phantomjs')
+        system('/bin/killall convert')
+        system("/bin/rm #{tempfile}")
       end
     end
   end # Screenshot
 end # Oursignal
+
