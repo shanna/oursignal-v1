@@ -300,7 +300,7 @@ var oursignal = (function ($, oursignal) {
       });
       $meta_content.find('a[rel="external"]').click(function (event) {
         event.preventDefault();
-        window.open(link.url, (oursignal.options.open_blank ? '_blank' : '_self'));
+        window.open($(this).attr('href'), (oursignal.options.open_blank ? '_blank' : '_self'));
       });
 /*
       $.embed.get(link['url'], function (preview) {
