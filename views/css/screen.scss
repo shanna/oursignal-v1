@@ -1,0 +1,186 @@
+// Compass.
+@import 'compass/css3';
+@import 'compass/reset';
+@import 'compass/utilities/general/clearfix';
+@import 'compass/css3/box-shadow';
+@import 'compass/css3/transition';
+
+body { color: #ccc; background: #0f0f0f url('/art/background.jpg') repeat; font-family: Helvetica, Arial, sans-serif; font-size: 12px; -webkit-font-smoothing: antialiased; }
+a, a:visited { color: #ddd; text-decoration: none; }
+a:visited { text-decoration: line-through; }
+
+h1 { font-size: 20px; margin-bottom: 10px; }
+h2 { font-size: 16px; margin-bottom: 10px; }
+
+// Layout.
+#head {
+  height: 30px;
+  background-color: #1d1d1d;
+  line-height: 30px;
+  > * { margin: 1px 20px }
+  @include single-box-shadow(#000, 0px, 20px, 50px);
+
+  a {
+    color: #5a5858;
+    font-weight: bold;
+    @include single-transition(color, .25s, linear);
+  }
+  a:hover {
+    color: #ccc;
+  }
+}
+  #logo_oursignal {
+    img { vertical-align: middle; margin-top: -4px; margin-right: 5px; }
+    float: left;
+  }
+  #navigation {
+    float: right;
+    ul.options {
+      li {
+        float: left;
+        margin-left: 10px;
+      }
+    }
+  }
+
+#pulse_logo {
+  position: fixed; top: 30px; left: 0; width: 100%; height: 100%;
+  z-index: -1; opacity: 0; background: url('/art/logo.png') no-repeat center;
+}
+
+// Content.
+#body {}
+
+  #page_not_found, #page_exception {
+    margin: 20px;
+    text-align: center;
+  }
+
+  #page_api #body, #page_about #body, #page_options #body {
+    margin: 20px;
+    color: #b0b0b0; line-height: 20px;
+
+    > * { margin: 10px 0; }
+    a { text-decoration: underline; }
+    h1, h2, h3, h4, h5 { color: #ddd; }
+    h2 { margin-top: 20px; }
+    ul {
+      padding: 0px; margin: 0 20px;
+      list-style: disc;
+    }
+    pre { padding: 10px; background-color: #1d1d1d; }
+    code { font-family: monospace; }
+  }
+
+  #page_options #body {
+    > div { margin-top: 20px; }
+    input { float: left; margin-left: 0; margin-right: 0; }
+    label { display: block; margin-left: 30px; font-size: 14px; font-weight: bold; }
+    dl {
+      font-size: 12px;
+      margin: 8px 20px 20px 30px;
+
+      dt { font-style: italic; }
+      dd { margin-left: 10px; }
+    }
+  }
+
+  // This shit needs a ton of work.
+  #meta {
+    position: fixed; top: 30px; left: 0; width: 100%; height: 100%;
+    z-index: 3; display: none;
+    line-height: 20px;
+    color: #b0b0b0;
+
+    a { color: #ddd; text-decoration: underline; }
+    p { margin-bottom: 20px; }
+    ul {
+      padding: 0px; margin: 0 20px;
+      list-style: disc;
+    }
+
+    .body {
+      position: fixed; top: 30px; left: 0; width: 100%; height: 100%;
+      display: none; border-top: 1px solid #000; border-bottom: 1px solid #000;
+      background: #0f0f0f url('/art/background.jpg') repeat;
+
+      .content {
+        header {
+          margin: 0px;
+          background-color: #383838;
+          @include single-box-shadow(#000, 0px, 20px, 50px);
+          h1 {
+            margin: 0;
+            a {
+              display: block;
+              padding: 20px 20px 20px 58px;
+              background: url('/art/link_ddd.png') no-repeat 25px 19px;
+            }
+          }
+        }
+
+        .screenshot {
+          width: 336; height: 216px;
+          float: left;
+          margin-top: 20px; margin-left: 20px;
+          background: url('/art/screenshot.png') no-repeat center; background-color: #1b1b1b;
+        }
+
+        aside {
+          float: left;
+          min-width: 336px; margin-top: 20px; margin-left: 20px;
+          > * { margin-right: 20px; }
+          h2 { font-size: 20px; }
+          table {
+            margin-top: 10px;
+            td { padding-left: 10px; }
+            td:first-child { padding-left: 20px; }
+          }
+        }
+      }
+      button.foot:hover { cursor: pointer; }
+      button.foot {
+        display: block; position: absolute; bottom: 30px;
+        width: 100%; height: 50px;
+        color: #ddd; background-color: #383838; border: 0; font-size: 18px; text-align: center; text-transform: lowercase;
+
+        sup {
+          vertical-align: super;
+          font-size: 10px;
+        }
+      }
+    }
+    .background {
+      position: fixed; top: 30px; left: 0; width: 100%; height: 100%;
+      display: none; background: #000; border-top: 1px solid #000; opacity: 0;
+    }
+  }
+
+  ol#timestep {
+    width: 100%; height: 100%;
+    > li {
+      display: block; position: absolute;
+      background-color: #1b1b1b; border: 1px solid #000;
+    }
+  }
+
+  ol#timeline {
+    overflow: hidden;
+    width: 100%; height: 20px;
+    background-color: #ddd;
+    ol, li { display: block; float: left; height: 20px; }
+    li.day { width: 1728px; }
+    li.minute {
+      height: 5px; width: 5px;
+      border-left: 1px solid #bbb;
+    }
+    li.minute[data-minute="0"] { height: 10px; }
+    li.minute[data-minute="30"] { height: 7px; }
+
+    abbr.datetime {
+      display: block;
+      margin-top: 10px; margin-left: -4px;
+      color: #555; font-size: 10px;
+    }
+  }
+

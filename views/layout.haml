@@ -1,0 +1,26 @@
+!!! 5
+%html
+  %head
+    %title!= page_title 'oursignal'
+    %link{rel: 'icon', href: '/art/favicon.gif'}
+    %link{rel: 'stylesheet', href: versioned_url('/css/screen.css'), type: 'text/css'}
+    != haml :'_meta'
+    != haml :'_javascript'
+    - yield_content :head
+  %body{id: page_id, class: page_classes}
+    #head
+      != haml :'_logo_oursignal'
+      != haml :'_navigation'
+    #body
+      != yield
+
+  :javascript
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-33006642-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();

@@ -1,4 +1,5 @@
 require 'etc'
+require 'fileutils'
 
 # Pid file handling stolen mostly from Thin.
 class File

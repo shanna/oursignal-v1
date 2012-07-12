@@ -1,0 +1,189 @@
+#!/usr/bin/env ruby
+require 'etc'
+require 'fileutils'
+require 'optparse'
+require 'timeout'
+require 'logger'
+require_relative '../config/unicorn/config'
+
+ROOT    = File.absolute_path(File.dirname(__FILE__) + '/..')
+bin     = File.split(__FILE__).last
+usage   = %Q{
+  usage: #{bin} -E environment [-h|--help] command
+
+  Commands are:
+    start             Start all webservers.
+    stop              Stop all webservers.
+    restart           Restart all webservers.
+
+  Options:
+    -E environment    Runtime environment, development by default.
+}.strip
+
+def unicorn_pid env
+  pidfile = UNICORN_CONFIG[env.to_sym][:pidfile]
+  if File.exists?(pidfile)
+    File.read(pidfile).to_i
+  else
+    nil
+  end
+end
+
+def start_unicorn env
+  cmd = [ "cd #{ROOT} && bundle exec unicorn" ]
+  cmd << "-E #{env}"
+  cmd << '-c %s/config/unicorn/unicorn.rb' % ROOT
+  cmd << '-D' if env == 'production'
+  cmd << ROOT + '/config.ru'
+
+  puts 'Starting Unicorn ... '
+  if system(cmd.join(' '))
+    puts 'OK'
+  else
+    puts 'FAILED'
+    puts $?
+    exit 1
+  end
+end
+
+def stop_unicorn env
+  pid = unicorn_pid(env)
+  if pid
+    workers = %x{ps --no-headers --ppid #{pid} -o %p}.split(/\n/).map(&:to_i)
+    puts 'Stopping Unicorn ... '
+    Process.kill('QUIT', pid) rescue nil
+    begin
+      timeout(5) do
+        sleep 0.2 until Process.kill(0, pid) rescue nil
+      end
+      puts 'OK'
+    rescue Timeout::Error => e
+      puts 'FAILED'
+      puts 'Killing ... '
+      Process.kill('KILL', pid) rescue nil
+      puts 'OK'
+    end
+    workers.each do |wpid|
+      Process.kill('KILL', wpid) rescue nil
+    end
+  end
+end
+
+def restart_unicorn env
+  # Proper restarting is a more production neccessity.
+  if env == 'development'
+    stop_unicorn(env)
+    start_unicorn(env)
+    return
+  end
+
+  logger = Logger.new($stdout, 0)
+
+  pid = unicorn_pid(env)
+  if pid
+    logger.info 'Restarting Unicorn ...'
+
+    workers = %x{ps --no-headers --ppid #{pid} -o %p}.split(/\n/).map(&:to_i)
+
+    # spawn a new master.
+    logger.info 'Spawning new master ...'
+    Process.kill('USR2',  pid)
+
+    # wait for new master and check if pid has changed.
+    logger.info 'Waiting to check new master is running ...'
+    new_pid = nil
+    120.times do
+      sleep 0.25
+      new_pid = unicorn_pid(env)
+      break if new_pid && new_pid != pid
+    end
+
+    raise 'Unable to restart unicorn' unless new_pid && new_pid != pid
+
+    # remove leftover oldbin pidfile.
+    logger.info 'Removing old pid file ...'
+    FileUtils.rm_f(UNICORN_CONFIG[env.to_sym][:pidfile] + '.oldbin')
+
+    # graceful shutdown of old master and workers.
+    logger.info 'Asking old master to stop serving new requests ...'
+    Process.kill('WINCH', pid) && sleep(5)
+
+    logger.info 'Graceful shutdown of old workers ...'
+    Process.kill('QUIT',  pid) && sleep(5)
+
+    # sending workers QUIT as well, this is normally not needed but we want to make sure workers get the
+    # signal.
+    workers.each do |wpid|
+      Process.kill('QUIT', wpid) rescue nil
+    end
+
+    alive = Process.kill(0, pid) rescue false
+
+    if alive
+      # 60 secs grace period or whatever unicorn timeout is.
+      logger.info 'Old master is still running, giving it a grace 60s ttl'
+      240.times do
+        alive = Process.kill(0, pid) rescue false
+        break unless alive
+        sleep 0.25
+      end
+
+      # had enough being nice to unicorn, kill the old workers.
+      workers.each do |wpid|
+        alive = Process.kill(0, wpid) rescue false
+        if alive
+          logger.info "Nuking worker #{wpid}"
+          Process.kill('KILL', wpid) rescue nil
+        end
+      end
+
+      Process.kill('KILL',  pid) rescue nil
+    end
+
+    # had enough being nice to unicorn, kill the old workers.
+    workers.each do |wpid|
+      alive = Process.kill(0, wpid) rescue false
+      if alive
+        logger.info "Nuking worker #{wpid}"
+        Process.kill('KILL', wpid) rescue nil
+      end
+    end
+
+    logger.info 'OK'
+  else
+    start_unicorn(env)
+  end
+end
+
+env    = 'development'
+parser = OptionParser.new do |opts|
+  opts.on('-h', '--help', 'Displays help') do
+    puts usage
+    exit
+  end
+  opts.on('-E environment', String) do |value|
+    env = value
+  end
+end
+
+begin
+  parser.parse!
+rescue OptionParser::InvalidOption => e
+  $stderr.puts e.message
+  $stderr.puts usage
+  exit -1
+end
+
+command = (ARGV.shift || 'help').strip
+
+case command
+  when /help/
+    puts usage
+    exit 0
+  when /^(start|stop|restart)$/
+    send('%s_unicorn' % $1, env)
+    exit 0
+  else
+    warn "#{bin}: '#{command}' is not an #{bin} command. See '#{bin} --help'."
+    exit -1
+end

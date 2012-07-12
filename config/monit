@@ -1,0 +1,41 @@
+#
+# Monit control file
+#
+set daemon 30
+set logfile /var/log/monit.log
+set mailserver localhost
+set alert monit@localhost
+set httpd port 2812 and
+  use the address 127.0.0.1
+  allow 127.0.0.1
+
+check system oursignal.com
+  if loadavg (1min) > 5 then alert
+  if loadavg (5min) > 3 then alert
+  if memory usage > 90% then alert
+  if cpu usage (user) > 90% then alert
+  if cpu usage (system) > 40% then alert
+  if cpu usage (wait) > 30% then alert
+
+check filesystem fs with path /dev/xvda
+  group server
+  if space usage > 80 % then alert
+  if space usage > 90 % then alert
+  if inode usage > 80 % then alert
+  if inode usage > 90 % then alert
+
+# nginx
+check process nginx with pidfile /var/run/nginx.pid
+  group www
+  start program = "/etc/init.d/nginx start"
+  stop  program = "/etc/init.d/nginx stop"
+  if 5 restarts within 5 cycles then timeout
+
+# web
+check process web with pidfile /tmp/oursignal-unicorn.pid
+  group server
+  start program = "/bin/su oursignal -c 'cd /home/oursignal/oursignal && /home/oursignal/oursignal/bin/oursignal-web start -E production'"
+  stop  program = "/bin/su oursignal -c 'cd /home/oursignal/oursignal && /home/oursignal/oursignal/bin/oursignal-web stop'"
+  if failed unix /tmp/oursignal-unicorn.sock then restart
+  if 5 restarts within 5 cycles then timeout
+

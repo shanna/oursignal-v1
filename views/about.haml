@@ -1,0 +1,70 @@
+- content :title do
+  oursignal &raquo; about
+
+:markdown
+  # About
+
+  OurSignal looks at current popular social news sites and mashes them all together.
+
+:plain
+  Feel free to forward support, hate or suggestions
+  <script type="text/javascript" language="javascript">
+  <!--
+  // Email obfuscator script 2.1 by Tim Williams, University of Arizona
+  // Random encryption key feature by Andrew Moulden, Site Engineering Ltd
+  // This code is freeware provided these four comment lines remain intact
+  // A wizard to generate this code is at http://www.jottings.com/obfuscator/
+  { coded = "MSorxRxML@UrRLxaSWP.FUK"
+    key = "oSAIDGJwR905PtiN1hWmXBdUus2z4bvVc8gTyxeqnQKjOk3rL6HlECYFfa7ZpM"
+    shift=coded.length
+    link=""
+    for (i=0; i<coded.length; i++) {
+      if (key.indexOf(coded.charAt(i))==-1) {
+        ltr = coded.charAt(i)
+        link += (ltr)
+      }
+      else {
+        ltr = (key.indexOf(coded.charAt(i))-shift+key.length) % key.length
+        link += (key.charAt(ltr))
+      }
+    }
+  document.write("<a href='mailto:"+link+"'>here</a>")
+  }
+  //-->
+  </script><noscript>Sorry, you need Javascript on to email me.</noscript>
+
+:markdown
+  ## TODO
+
+  * Hover mini-meta for PC users.
+  * Front end Javascript and routing could be bettr. Backbone or Ember it.
+  * Make deep linking to link meta data possible (free with Backbone or Ember).
+  * Flashes of unstyled content in a few places.
+  * JSONP.
+  * More meta data.
+  * Timeline UI.
+
+  ## Changelog
+
+  ### 03/07/2012
+
+  * Source URLs go to the correct place now.
+
+  ### 26/06/2012
+
+  * Middle click treemap links now fall back to browser default action.
+  * Added correct E-Tags and Last-Modified.
+
+  ### 25/06/2012
+
+  #### Removed features:
+
+    * Delicious is dead and has been removed.
+    * Custom feeds will be gone for now. If I can afford the server costs to bring them back via donations or another revenue model then I will.
+    * Themes are gone, the one and only theme is a return towards the simpler original OurSignal UI for those that remember it. Instead the [JSON API](/api) will give you access to more meta data for each link. As long as you don't DOS the website I will never restrict access for competing visualizations so you can easily build and host your own visualizations.
+
+  #### Additional features:
+
+    * Twitter RT count, Google +1's and Facebook likes are now used in score calculation.
+    * History in 10 minute intervals exists via the API. The UI is a work in progress still.
+    * Access meta data without mouseover. Swipe up on tablets to close meta window.

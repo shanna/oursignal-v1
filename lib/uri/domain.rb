@@ -1,3 +1,5 @@
+require 'uri/sanitize'
+
 module URI
   module Domain
 
@@ -5,18 +7,20 @@ module URI
     #--
     # TODO: Implement this based on Mozilla's Public Suffix List.
     # http://publicsuffix.org/
-    def domain
+    def self.parse original_uri
+      uri = URI.sanitize(original_uri.to_s)
+
       # return nil unless found_tld = tld
       # /([^.]+\.#{Regexp.escape(found_tld.suffix)})/.match(host)[1]
-      return nil if host.nil? || host.empty?
+      return nil if uri.host.nil? || uri.host.empty?
       re    = %r{^(?:(?>[a-z0-9-]*\.)+?|)([a-z0-9-]+\.(?>[a-z]*(?>\.[a-z]{2})?))$}i
-      match = re.match(host)
+      match = re.match(uri.host)
       match && match[1]
     end
   end
 
-  URI::Generic.send(:include, URI::Domain)
-  URI::HTTP.send(:include, URI::Domain)
-  Addressable::URI.send(:include, URI::Domain)
+  def self.domain uri
+    URI::Domain.parse uri
+  end
 end
 

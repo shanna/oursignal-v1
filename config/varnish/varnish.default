@@ -1,0 +1,20 @@
+# Configuration file for varnish
+#
+# /etc/init.d/varnish expects the variables $DAEMON_OPTS, $NFILES and $MEMLOCK
+# to be set from this shell script fragment.
+#
+
+# Maximum number of open files (for ulimit -n)
+NFILES=65536
+
+# Maximum locked memory size (for ulimit -l)
+# Used for locking the shared memory log in memory.  If you increase log size,
+# you need to increase this number as well
+MEMLOCK=96000
+
+DAEMON_OPTS="-a :80 \
+             -T localhost:8282 \
+             -f /etc/varnish/default.vcl \
+             -s malloc,16M"
+START=y
+

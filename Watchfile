@@ -1,0 +1,13 @@
+watch('views/js/.*\.haml') do |file|
+  puts file
+  Dir.chdir('views/js') do
+    system %q{haml-coffee -i . -n this.oursignal.templates -o ../../public/js/templates.js}
+  end
+end
+
+watch('public/js/.*(?<!\.min)\.js') do |file|
+  puts file
+  Dir.chdir('public/js') do
+    system %q{cat $(ls *.js | grep -v oursignal | sort) oursignal.js | uglifyjs -nc -o oursignal.min.js}
+  end
+end

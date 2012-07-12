@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+require File.join(File.dirname(__FILE__), '..', 'lib', 'oursignal', 'cli')
+
+bin     = Oursignal::Cli.bin
+command = (ARGV.shift || 'help').strip
+usage   = %Q{
+usage: #{bin} [-h|--help] command args
+
+Commands are:
+  config  Environment and paths.
+  devel   Development tools.
+  update  Schedule update (feed, score & timestep).
+  web     The website.
+
+See '#{bin} command --help' for more information on specific commands.
+}.strip
+
+if command.nil? or command =~ /^\-{0,2}h(?:elp)?$/
+  puts usage
+  exit
+end
+
+command_bin = File.join(Oursignal::Cli.root, [bin, command].join('-'))
+unless File.executable?(command_bin)
+  warn "#{bin}: '#{command}' is not an #{bin} command. See '#{bin} --help'."
+  exit -1
+end
+
+exec command_bin, *ARGV
+

@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+require_relative '../lib/oursignal/cli'
+require 'oursignal/feed/reader'
+require 'oursignal/score/buckets'
+require 'oursignal/score/reader'
+require 'oursignal/score/timestep'
+
+bin     = Oursignal::Cli.bin
+option  = (ARGV.shift || 'help').strip
+usage   = %Q{
+  usage: #{bin} [-h|--help]
+
+  Commands are:
+    -h, --help  This help message.
+    all         Schedule an update (feed, score & timestep).
+    feed        Schedule updating feed entries/links.
+    score       Schedule a native score update.
+    timestep    Schedule a timestep update.
+}.strip
+
+case option
+  when /^\-{0,2}h(?:elp)?$/, nil then puts usage
+  when 'all'
+    Oursignal::Feed::Reader.perform
+    Oursignal::Score::Reader.perform
+    Oursignal::Score::Timestep.perform
+  when 'feed'     then Oursignal::Feed::Reader.perform
+  when 'score'    then Oursignal::Score::Reader.perform
+  when 'timestep' then Oursignal::Score::Timestep.perform
+  when 'buckets'  then Oursignal::Score::Buckets.perform
+  else warn("#{bin}: '#{option}' is not an #{bin} option. See '#{bin} --help'.") && exit(-1)
+end
+

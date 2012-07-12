@@ -1,11 +1,6 @@
-# use PathPrefix Middleware if :path_prefix is set in Merb::Config
-if prefix = ::Merb::Config[:path_prefix]
-  use Merb::Rack::PathPrefix, prefix
-end
+# vim: syntax=ruby
+# encoding: utf-8
+require ::File.join(::File.dirname(__FILE__), 'lib/oursignal')
+require 'oursignal/web/server'
 
-# comment this out if you are running merb behind a load balancer
-# that serves static files
-use Merb::Rack::Static, Merb.dir_for(:public)
-
-# this is our main merb application
-run Merb::Rack::Application.new
+map('/'){ run Oursignal::Web::Server }
